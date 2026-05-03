@@ -1,0 +1,3061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>⚡ SSC Prep | ThunderStudy</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 22'><rect width='20' height='22' rx='5' fill='%235B4EE8'/><path d='M13 1L3 13H9L4 21L17 9H11L13 1Z' fill='white'/></svg>">
+<meta name="theme-color" content="#5B4EE8">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SSC Prep">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<style>
+:root {
+  --bg:#F0EEFF;--sidebar:#ffffff;--card:#ffffff;--card2:#EBEEFF;--border:#D4CCFF;
+  --text:#1a1240;--text2:#4a4580;--text3:#8580b0;
+  --acc:#5B4EE8;--acc2:#4338CA;--acc3:#7C6FF0;
+  --lavender:#D4CCFF;--lavender2:#EBEEFF;
+  --green:#16a34a;--red:#e53e3e;--yellow:#d97706;--orange:#ea580c;--teal:#0d9488;--blue:#2563eb;
+  --fn:'Plus Jakarta Sans',sans-serif;--mono:'DM Mono',monospace;
+  --r:16px;--r2:22px;--sidebar-w:240px;
+  --sh:0 2px 16px rgba(91,78,232,.07);--sh2:0 8px 32px rgba(91,78,232,.15);
+}
+body.dark-mode {
+  --bg:#0f0d1f;--sidebar:#16132e;--card:#1c1838;--card2:#221e42;--border:#312c5a;
+  --text:#e8e4ff;--text2:#9490c0;--text3:#4a4580;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--text);font-family:var(--fn);display:flex;}
+
+/* ── BOOT SCREEN ── */
+#ssc-boot{
+  position:fixed;inset:0;z-index:99999;
+  background:linear-gradient(135deg,#EBEEFF 0%,#f0eeff 50%,#e8e4ff 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:20px;
+}
+body.dark-mode #ssc-boot{background:linear-gradient(135deg,#0f0d1f,#12103a,#0f0d1f);}
+.boot-blob{position:absolute;border-radius:50%;pointer-events:none;}
+@keyframes blobFloat1{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(30px,-20px) scale(1.05);}}
+@keyframes blobFloat2{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-20px,30px) scale(1.08);}}
+@keyframes bootShimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes bootPulse{0%,100%{transform:scale(1);opacity:.6;}50%{transform:scale(1.15);opacity:0;}}
+@keyframes bootIconIn{0%{transform:scale(0) rotate(-10deg);}60%{transform:scale(1.12) rotate(3deg);}100%{transform:scale(1) rotate(0);}}
+@keyframes bootCardIn{0%{opacity:0;transform:translateY(30px) scale(.94);}100%{opacity:1;transform:translateY(0) scale(1);}}
+@keyframes blink{0%,100%{opacity:.4;}50%{opacity:1;}}
+#ssc-boot-card{
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(91,78,232,.15);
+  border-radius:32px;
+  padding:44px 48px 40px;
+  text-align:center;
+  box-shadow:0 4px 6px rgba(91,78,232,.04),0 20px 50px rgba(91,78,232,.14),inset 0 1px 0 rgba(255,255,255,.9);
+  position:relative;overflow:hidden;
+  min-width:300px;max-width:360px;width:90vw;
+  animation:bootCardIn .8s cubic-bezier(.34,1.56,.64,1) both;
+}
+body.dark-mode #ssc-boot-card{background:rgba(26,18,64,.96);border-color:rgba(91,78,232,.3);}
+#ssc-boot-icon{
+  width:84px;height:84px;
+  background:linear-gradient(135deg,#5B4EE8,#4338CA);
+  border-radius:24px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 24px rgba(91,78,232,.4),0 20px 50px rgba(91,78,232,.2);
+  margin:0 auto 22px;
+  animation:bootIconIn .6s .3s cubic-bezier(.34,1.56,.64,1) both;
+  position:relative;
+}
+#ssc-boot-icon::before,#ssc-boot-icon::after{
+  content:'';position:absolute;inset:-10px;border-radius:34px;
+  border:2px solid rgba(91,78,232,.2);
+  animation:bootPulse 2s ease-in-out 1.2s infinite;
+}
+#ssc-boot-icon::after{inset:-20px;border-radius:44px;border-color:rgba(91,78,232,.1);animation-delay:1.5s;}
+.boot-step{
+  display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:10px;
+  opacity:.4;transition:opacity .3s;margin-bottom:4px;
+}
+.boot-step.active{opacity:1;background:rgba(91,78,232,.06);}
+#boot-pbar-track{height:3px;background:#EBEEFF;border-radius:3px;overflow:hidden;margin:10px 0 8px;}
+#boot-pbar-fill{height:100%;width:0%;background:linear-gradient(90deg,#5B4EE8,#7C6FF0);border-radius:3px;transition:width .5s ease;}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar-w);height:100vh;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;position:relative;z-index:10;box-shadow:4px 0 24px rgba(91,78,232,.06);animation:sidebarIn .45s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes sidebarIn{from{transform:translateX(-100%);opacity:0}to{transform:translateX(0);opacity:1}}
+@media(max-width:768px){.sidebar{display:none;}}
+.sb-logo{padding:22px 18px 14px;display:flex;align-items:center;gap:10px;}
+.sb-logo-icon{width:36px;height:36px;background:linear-gradient(135deg,#5B4EE8,#4338CA);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 4px 14px rgba(91,78,232,.3);flex-shrink:0;}
+.sb-logo-text{font-size:15px;font-weight:900;color:var(--text);letter-spacing:-.3px;font-family:'Outfit',sans-serif;}
+.sb-logo-text span{color:var(--acc);}
+.sb-section-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);padding:0 18px;margin:8px 0 4px;}
+.sb-nav{flex:1;overflow-y:auto;padding:0 10px 10px;}
+.sb-nav::-webkit-scrollbar{width:0;}
+.nav-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:12px;cursor:pointer;transition:all .2s;margin-bottom:2px;color:var(--text2);font-size:13px;font-weight:600;}
+.nav-item:hover{background:var(--bg);color:var(--text);transform:translateX(3px);}
+.nav-item.active{background:linear-gradient(135deg,rgba(91,78,232,.12),rgba(67,56,202,.06));color:var(--acc);}
+.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:20px;background:linear-gradient(180deg,#5B4EE8,#4338CA);border-radius:0 4px 4px 0;}
+.nav-item{position:relative;}
+.nav-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0;}
+.nav-badge{margin-left:auto;background:var(--acc);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:20px;}
+.nav-badge.green{background:var(--green);}
+.sb-profile{padding:14px 16px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .2s;}
+.sb-profile:hover{background:var(--bg);}
+.sb-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#5B4EE8,#4338CA);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;color:#fff;font-weight:700;}
+.sb-pname{font-size:13px;font-weight:700;color:var(--text);}
+.sb-prole{font-size:10px;color:var(--text3);}
+
+/* ── MAIN ── */
+.main{flex:1;height:100vh;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;}
+.main::-webkit-scrollbar{width:6px;}
+.main::-webkit-scrollbar-track{background:transparent;}
+.main::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px;}
+.page{display:none;padding:28px;animation:fadeUp .3s ease both;flex:1;}
+.page.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* ── TOPBAR ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;gap:16px;flex-wrap:wrap;}
+.page-title{font-size:22px;font-weight:900;color:var(--text);letter-spacing:-.4px;font-family:'Outfit',sans-serif;}
+.page-sub{font-size:12px;color:var(--text3);margin-top:2px;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+
+/* ── CARDS ── */
+.card{background:var(--card);border-radius:var(--r2);border:1px solid var(--border);box-shadow:var(--sh);}
+.card-p{padding:20px 22px;}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:20px;}
+.stat-card{background:var(--card);border-radius:var(--r2);border:1px solid var(--border);padding:18px;transition:transform .2s,box-shadow .2s;}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--sh2);}
+.stat-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;margin-bottom:12px;}
+.stat-val{font-size:24px;font-weight:800;font-family:var(--mono);letter-spacing:-1px;}
+.stat-lbl{font-size:10px;color:var(--text3);font-weight:600;margin-top:3px;text-transform:uppercase;letter-spacing:.5px;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+@media(max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.sec-title{font-size:14px;font-weight:800;color:var(--text);}
+.sec-link{font-size:12px;color:var(--acc);font-weight:700;cursor:pointer;}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;border:none;font-family:var(--fn);}
+.btn-prim{background:linear-gradient(135deg,#5B4EE8,#4338CA);color:#fff;box-shadow:0 4px 14px rgba(91,78,232,.3);}
+.btn-prim:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(91,78,232,.4);}
+.btn-ghost{background:var(--card2);color:var(--text2);border:1.5px solid var(--border);}
+.btn-ghost:hover{background:var(--border);color:var(--text);}
+.btn-google{display:flex;align-items:center;gap:8px;padding:9px 18px;border-radius:30px;border:1.5px solid #dadce0;background:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--fn);transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.btn-google:hover{box-shadow:0 4px 16px rgba(0,0,0,.12);transform:translateY(-1px);}
+
+/* ── HERO CARD ── */
+.ssc-hero{background:#fff;border:1px solid #D4CCFF;border-radius:22px;overflow:hidden;box-shadow:0 2px 24px rgba(91,78,232,.08);margin-bottom:16px;}
+body.dark-mode .ssc-hero{background:#1c1838;border-color:#312c5a;}
+.ssc-hero-top{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 14px;border-bottom:1px solid #ede8ff;gap:12px;flex-wrap:wrap;}
+body.dark-mode .ssc-hero-top{border-color:#312c5a;}
+.ssc-hero-av{width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,#dc2626,#b91c1c);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0;overflow:hidden;}
+.ssc-hero-av img{width:100%;height:100%;object-fit:cover;}
+.ssc-hero-name{font-size:18px;font-weight:900;color:#1a1240;font-family:'Outfit',sans-serif;}
+body.dark-mode .ssc-hero-name{color:#f0e8e0;}
+.ssc-hero-sid{font-size:11px;color:#5B4EE8;margin-top:2px;font-weight:700;font-family:var(--mono);}
+.ssc-level-pill{display:inline-flex;align-items:center;gap:5px;background:#EBEEFF;border:1px solid #D4CCFF;border-radius:30px;padding:5px 13px;font-size:12px;font-weight:800;color:#5B4EE8;}
+.ssc-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);}
+@media(max-width:500px){.ssc-stats-grid{grid-template-columns:repeat(2,1fr);}}
+.ssc-stat-cell{padding:14px 10px;text-align:center;border-right:1px solid #fff5f5;border-bottom:1px solid #ede8ff;}
+body.dark-mode .ssc-stat-cell{border-color:#312c5a;}
+.ssc-stat-cell:nth-child(4n){border-right:none;}
+.ssc-stat-v{font-size:20px;font-weight:900;font-family:var(--mono);line-height:1;}
+.ssc-stat-l{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#9a8070;margin-top:4px;}
+
+/* ── EXAM CARDS ── */
+.exam-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px;}
+.exam-card{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:18px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.exam-card:hover{transform:translateY(-3px);box-shadow:var(--sh2);border-color:rgba(91,78,232,.35);}
+.exam-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(220,38,38,.04),transparent);border-radius:inherit;opacity:0;transition:opacity .2s;}
+.exam-card:hover::before{opacity:1;}
+.exam-card-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px;}
+.exam-card-name{font-size:14px;font-weight:800;color:var(--text);margin-bottom:4px;font-family:'Outfit',sans-serif;}
+.exam-card-full{font-size:10px;color:var(--text3);line-height:1.4;margin-bottom:10px;}
+.exam-card-tag{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;}
+.exam-card-attempts{font-size:11px;font-weight:700;font-family:var(--mono);color:var(--text3);margin-top:8px;}
+.exam-card .pct-badge{position:absolute;top:14px;right:14px;font-size:13px;font-weight:900;font-family:var(--mono);}
+
+/* ── MOCK TEST LIST ── */
+.mock-list{display:flex;flex-direction:column;gap:8px;}
+.mock-item{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .2s;}
+.mock-item:hover{border-color:rgba(91,78,232,.3);transform:translateX(3px);}
+.mock-item-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.mock-item-name{font-size:13px;font-weight:700;color:var(--text);}
+.mock-item-sub{font-size:10px;color:var(--text3);margin-top:2px;}
+.mock-item-score{margin-left:auto;text-align:right;flex-shrink:0;}
+.mock-item-pct{font-size:16px;font-weight:900;font-family:var(--mono);}
+.mock-item-attempts{font-size:9px;color:var(--text3);margin-top:2px;}
+
+/* ── PROGRESS BARS ── */
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.prog-lbl{width:140px;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:0;}
+.prog-track{flex:1;height:7px;background:var(--card2);border-radius:10px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:10px;transition:width 1.2s cubic-bezier(.34,1.56,.64,1);}
+.prog-pct{width:42px;text-align:right;font-size:12px;font-weight:700;font-family:var(--mono);}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#1a1008;color:#fff;padding:11px 20px;border-radius:30px;font-size:13px;font-weight:700;z-index:99998;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.success{background:#16a34a;}
+#toast.error{background:#dc2626;}
+
+/* ── MODAL ── */
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:5000;align-items:center;justify-content:center;backdrop-filter:blur(8px);padding:16px;overflow-y:auto;}
+.modal-ov.open{display:flex;}
+.modal-box{background:var(--card);border-radius:24px;max-width:480px;width:100%;border:1px solid var(--border);box-shadow:0 24px 80px rgba(91,78,232,.15);animation:mIn .35s cubic-bezier(.34,1.56,.64,1) both;max-height:90vh;overflow-y:auto;margin:auto;}
+@keyframes mIn{from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-hdr{padding:20px 22px 14px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--card);z-index:2;border-radius:24px 24px 0 0;display:flex;align-items:center;justify-content:space-between;}
+.modal-title{font-size:16px;font-weight:900;font-family:'Outfit',sans-serif;}
+.modal-close{cursor:pointer;color:var(--text3);font-size:24px;line-height:1;}
+.modal-body{padding:18px 22px 22px;}
+
+/* ── ONBOARDING ── */
+#ob-overlay{display:none;position:fixed;inset:0;background:linear-gradient(135deg,#EBEEFF,#f0eeff);z-index:9999;align-items:center;justify-content:center;padding:20px;overflow-y:auto;}
+body.dark-mode #ob-overlay{background:linear-gradient(135deg,#0f0d1f,#12103a);}
+#ob-overlay.open{display:flex;}
+.ob-card{background:#fff;border-radius:28px;max-width:460px;width:100%;border:1px solid #D4CCFF;box-shadow:0 8px 40px rgba(220,38,38,.15);animation:mIn .4s cubic-bezier(.34,1.56,.64,1) both;padding:36px 32px 32px;text-align:center;}
+body.dark-mode .ob-card{background:#1f1410;border-color:#312c5a;}
+.ob-step{display:none;}
+.ob-step.active{display:block;}
+.ob-input{width:100%;background:var(--card2);border:1.5px solid var(--border);border-radius:14px;padding:12px 16px;font-size:16px;font-weight:600;color:var(--text);outline:none;font-family:var(--fn);transition:border-color .2s;text-align:center;margin-bottom:10px;}
+.ob-input:focus{border-color:var(--acc);}
+
+/* ── MOBILE DOCK ── */
+.mobile-dock{display:none;position:fixed;bottom:0;left:0;right:0;background:#ffffff;border-top:1.5px solid #D4CCFF;z-index:100;padding:6px 0 max(6px,env(safe-area-inset-bottom));box-shadow:0 -4px 24px rgba(91,78,232,.10);}
+body.dark-mode .mobile-dock{background:#1a100c;border-color:#312c5a;}
+@media(max-width:768px){.mobile-dock{display:flex;}.page{padding:16px;padding-bottom:80px;}}
+.dock-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;cursor:pointer;transition:all .2s;}
+.dock-icon{font-size:20px;transition:transform .2s;}
+.dock-item.active .dock-icon{transform:scale(1.18);}
+.dock-label{font-size:9px;font-weight:700;color:var(--text3);}
+.dock-item.active .dock-label{color:var(--acc);}
+
+/* ── SUBJECT TABS ── */
+.subj-tab{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;background:var(--card2);border:1.5px solid var(--border);color:var(--text2);}
+.subj-tab:hover{border-color:rgba(220,38,38,.3);color:var(--text);}
+.subj-tab.active{background:linear-gradient(135deg,#5B4EE8,#4338CA);color:#fff;border-color:transparent;}
+
+/* ── LEADERBOARD ── */
+.lb-row{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;margin-bottom:8px;transition:all .2s;}
+.lb-row:hover{border-color:rgba(220,38,38,.25);}
+.lb-row.mine{border-color:#5B4EE8;background:rgba(91,78,232,.05);}
+.lb-rank{width:28px;font-size:14px;font-weight:900;font-family:var(--mono);text-align:center;flex-shrink:0;}
+.lb-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#5B4EE8,#4338CA);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;flex-shrink:0;}
+.lb-name{font-size:13px;font-weight:700;flex:1;}
+.lb-sid{font-size:10px;color:var(--text3);font-family:var(--mono);}
+.lb-pct{font-size:16px;font-weight:900;font-family:var(--mono);}
+
+/* ── SETTINGS ── */
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);}
+.setting-row:last-child{border-bottom:none;}
+.setting-lbl{font-size:14px;font-weight:700;}
+.setting-sub{font-size:11px;color:var(--text3);margin-top:2px;}
+
+/* ── SWITCH ── */
+.switch{position:relative;width:44px;height:24px;flex-shrink:0;}
+.switch input{opacity:0;width:0;height:0;}
+.switch-track{position:absolute;inset:0;background:var(--border);border-radius:24px;cursor:pointer;transition:.3s;}
+.switch input:checked + .switch-track{background:var(--acc);}
+.switch-track::before{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;bottom:3px;left:3px;transition:.3s;}
+.switch input:checked + .switch-track::before{transform:translateX(20px);}
+
+/* ── IDENTITY FETCH BANNER ── */
+#ts-identity-banner{display:none;background:linear-gradient(135deg,rgba(220,38,38,.08),rgba(234,88,12,.06));border:1.5px solid rgba(220,38,38,.25);border-radius:16px;padding:14px 18px;margin-bottom:16px;align-items:center;gap:12px;}
+#ts-identity-banner.show{display:flex;}
+
+/* ── SCROLL ── */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px;}
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ BOOT SCREEN ═══════════════ -->
+<div id="ssc-boot">
+  <div class="boot-blob" style="width:600px;height:600px;background:radial-gradient(circle,rgba(91,78,232,.15),transparent 70%);top:-200px;left:-150px;animation:blobFloat1 8s ease-in-out infinite alternate;"></div>
+  <div class="boot-blob" style="width:500px;height:500px;background:radial-gradient(circle,rgba(124,58,237,.1),transparent 70%);bottom:-150px;right:-100px;animation:blobFloat2 10s ease-in-out infinite alternate;"></div>
+
+  <div id="ssc-boot-card">
+    <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#5B4EE8,#7C6FF0,#5B4EE8);border-radius:32px 32px 0 0;"></div>
+    <div id="ssc-boot-icon">
+      <svg width="38" height="42" viewBox="0 0 20 22" fill="none"><path d="M13 1L3 13H9L4 21L17 9H11L13 1Z" fill="white"/></svg>
+    </div>
+    <div style="font-family:'Outfit',sans-serif;font-size:28px;font-weight:900;letter-spacing:-1px;margin-bottom:4px;">
+      <span style="color:#5B4EE8;">SSC</span> <span style="color:#1a1240;">Prep</span>
+    </div>
+    <div style="font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(91,78,232,.5);margin-bottom:24px;">Staff Selection Commission</div>
+
+    <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:14px;text-align:left;">
+      <div class="boot-step" id="bs0"><span style="font-size:13px;">📋</span><span style="font-size:11px;font-weight:700;color:#3730a3;">Loading SSC exams</span></div>
+      <div class="boot-step" id="bs1"><span style="font-size:13px;">🔑</span><span style="font-size:11px;font-weight:700;color:#3730a3;">Checking your identity</span></div>
+      <div class="boot-step" id="bs2"><span style="font-size:13px;">📊</span><span style="font-size:11px;font-weight:700;color:#3730a3;">Loading your scores</span></div>
+      <div class="boot-step" id="bs3"><span style="font-size:13px;">🚀</span><span style="font-size:11px;font-weight:700;color:#3730a3;">Ready!</span></div>
+    </div>
+
+    <div id="boot-pbar-track"><div id="boot-pbar-fill"></div></div>
+    <div id="boot-label" style="font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(91,78,232,.5);animation:blink 1.8s infinite;">Initializing…</div>
+  </div>
+
+  <div style="margin-top:20px;opacity:0;transition:opacity .4s .8s ease;" id="boot-tagline">
+    <div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.7);backdrop-filter:blur(10px);border:1px solid rgba(91,78,232,.15);border-radius:30px;padding:8px 18px;">
+      <span style="font-size:11px;font-weight:600;color:rgba(91,78,232,.6);letter-spacing:.5px;">Made with ❤️ by Wondermayank</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ ONBOARDING ═══════════════ -->
+<div class="modal-ov" id="ob-overlay">
+  <div class="ob-card">
+    <!-- Step 1: Google Login + Name -->
+    <div class="ob-step active" id="ob-step-1">
+      <div style="font-size:56px;margin-bottom:14px;">🎯</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;margin-bottom:6px;">Welcome to SSC Prep</div>
+      <div style="font-size:13px;color:var(--text3);line-height:1.8;margin-bottom:24px;">Track your preparation for SSC CGL, CHSL, MTS, GD & more. Sign in to sync your data across devices.</div>
+
+      <div id="ob-google-area">
+        <button class="btn-google" id="ob-google-btn" onclick="obGoogleLogin()" style="width:100%;justify-content:center;margin-bottom:12px;">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18">
+          Continue with Google
+        </button>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div style="flex:1;height:1px;background:var(--border);"></div>
+          <span style="font-size:11px;color:var(--text3);">or enter manually</span>
+          <div style="flex:1;height:1px;background:var(--border);"></div>
+        </div>
+      </div>
+      <div id="ob-google-user" style="display:none;background:rgba(16,163,74,.06);border:1.5px solid rgba(16,163,74,.2);border-radius:14px;padding:12px 14px;align-items:center;gap:10px;margin-bottom:12px;text-align:left;">
+        <img id="ob-guser-pic" src="" width="36" height="36" style="border-radius:50%;border:2px solid rgba(16,163,74,.3);">
+        <div><div id="ob-guser-name" style="font-size:13px;font-weight:800;"></div><div id="ob-guser-email" style="font-size:10px;color:var(--text3);"></div></div>
+        <button onclick="obGoogleLogout()" style="margin-left:auto;font-size:10px;font-weight:700;background:none;border:1px solid var(--border);border-radius:8px;padding:3px 8px;cursor:pointer;color:var(--text3);font-family:var(--fn);">Sign out</button>
+      </div>
+
+      <input class="ob-input" id="ob-name" placeholder="Your full name" oninput="obValidate1()">
+      <div id="ob-name-hint" style="min-height:18px;margin-top:-6px;margin-bottom:8px;text-align:left;padding:0 4px;"></div>
+      <div id="ob-step1-err" style="font-size:11px;color:var(--acc);margin-bottom:10px;min-height:16px;"></div>
+      <button class="btn btn-prim" id="ob-next-1" onclick="obStep2()" disabled style="width:100%;justify-content:center;padding:13px;font-size:14px;opacity:.4;">Continue →</button>
+    </div>
+
+    <!-- Step 2: Exam Selection -->
+    <div class="ob-step" id="ob-step-2">
+      <div style="font-size:56px;margin-bottom:14px;">📋</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;margin-bottom:6px;">Which exam are you preparing for?</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:20px;">Select all that apply (up to 4)</div>
+      <div id="ob-exam-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;text-align:left;max-height:300px;overflow-y:auto;"></div>
+      <button class="btn btn-prim" id="ob-next-2" onclick="obStep3()" disabled style="width:100%;justify-content:center;padding:13px;font-size:14px;opacity:.4;">Continue →</button>
+    </div>
+
+    <!-- Step 3: Student ID -->
+    <div class="ob-step" id="ob-step-3">
+      <div style="font-size:56px;margin-bottom:14px;">🪪</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;margin-bottom:6px;">Your Student ID</div>
+      <div style="font-size:12px;color:var(--text3);line-height:1.7;margin-bottom:20px;">This unique ID links your scores to the leaderboard. It's generated <strong>once</strong> and stays with you.</div>
+      <input class="ob-input" id="ob-sid" readonly style="font-size:22px;color:var(--acc);font-family:var(--mono);" placeholder="Generating…">
+
+      <!-- Lock note: shown when ID came from storage/cloud -->
+      <div id="ob-sid-lock-note" style="display:none;background:linear-gradient(135deg,#EBEEFF,#f0eeff);border:1.5px solid #D4CCFF;border-radius:12px;padding:10px 14px;margin-bottom:14px;margin-top:4px;display:none;align-items:center;gap:8px;">
+        <span style="font-size:16px;">🔒</span>
+        <div>
+          <div style="font-size:12px;font-weight:800;color:var(--acc);">ID auto-loaded from your account</div>
+          <div style="font-size:10px;color:var(--text3);">This ID is already linked to your leaderboard scores</div>
+        </div>
+      </div>
+
+      <!-- Regen button: hidden if ID was from storage -->
+      <div style="display:flex;gap:8px;margin-bottom:16px;margin-top:8px;">
+        <button id="ob-regen-btn" onclick="obRegenID()" class="btn btn-ghost" style="flex:1;justify-content:center;">🎲 Generate New ID</button>
+      </div>
+
+      <button class="btn btn-prim" onclick="obFinish()" style="width:100%;justify-content:center;padding:13px;font-size:14px;">🚀 Start Preparing!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ IDENTITY FETCH MODAL ═══════════════ -->
+<div class="modal-ov" id="fetch-id-modal">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <div class="modal-title">🔗 Fetch from ThunderStudy</div>
+      <span class="modal-close" onclick="closeModal('fetch-id-modal')">×</span>
+    </div>
+    <div class="modal-body">
+      <div style="font-size:13px;color:var(--text3);line-height:1.7;margin-bottom:20px;">Your name and Student ID can be automatically fetched from your ThunderStudy dashboard. Sign in with the same Google account.</div>
+      <div id="fetch-id-status" style="font-size:12px;color:var(--text3);margin-bottom:14px;min-height:20px;"></div>
+      <button class="btn-google" onclick="fetchFromThunderStudy()" id="fetch-ts-btn" style="width:100%;justify-content:center;">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18">
+        Sign in with Google to fetch
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<nav class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon">⚡</div>
+    <div class="sb-logo-text"><span>SSC</span> Prep</div>
+  </div>
+  <div class="sb-nav">
+    <div class="sb-section-label">Main</div>
+    <div class="nav-item active" onclick="goPage('home')"><span class="nav-icon">🏠</span> Home</div>
+    <div class="nav-item" onclick="goPage('exams')"><span class="nav-icon">📋</span> My Exams</div>
+    <div class="nav-item" onclick="goPage('mocks')"><span class="nav-icon">📝</span> Mock Tests</div>
+    <div class="nav-item" onclick="goPage('analytics')"><span class="nav-icon">📈</span> Analytics<span class="nav-badge green">NEW</span></div>
+    <div class="nav-item" onclick="goPage('rank')"><span class="nav-icon">🏆</span> Leaderboard<span class="nav-badge">LIVE</span></div>
+    <div class="nav-item" onclick="openNoticesPopup()"><span class="nav-icon">🔔</span> Notices<span class="nav-badge" id="notices-nav-badge" style="display:none;background:#e53e3e;">0</span></div>
+    <div class="sb-section-label" style="margin-top:10px;">Account</div>
+    <div class="nav-item" onclick="goPage('settings')"><span class="nav-icon">⚙️</span> Settings</div>
+  </div>
+  <div class="sb-profile" onclick="openProfileModal()">
+    <div class="sb-av" id="sb-av-disp">S</div>
+    <div>
+      <div class="sb-pname" id="sb-name-disp">Student</div>
+      <div class="sb-prole" id="sb-role-disp">SSC Aspirant</div>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+<div class="main">
+
+  <!-- HOME PAGE -->
+  <div class="page active" id="page-home">
+    <div class="topbar">
+      <div>
+        <div class="page-title" id="home-greeting">👋 Hello, Aspirant!</div>
+        <div class="page-sub">SSC CGL · CHSL · MTS · GD Constable · CPO</div>
+      </div>
+      <div class="topbar-right" id="home-topbar-right">
+        <div id="home-google-area"></div>
+      </div>
+    </div>
+    <div id="home-content"></div>
+  </div>
+
+  <!-- EXAMS PAGE -->
+  <div class="page" id="page-exams">
+    <div class="topbar">
+      <div><div class="page-title">📋 My Exams</div><div class="page-sub">Track progress exam-wise</div></div>
+      <div class="topbar-right"><button class="btn btn-ghost" onclick="openAddExamModal()">+ Add Exam</button></div>
+    </div>
+    <div id="exams-content"></div>
+  </div>
+
+  <!-- MOCKS PAGE -->
+  <div class="page" id="page-mocks">
+    <div class="topbar">
+      <div><div class="page-title">📝 Mock Tests</div><div class="page-sub">Chapter-wise, full mocks, PYQs & more</div></div>
+    </div>
+    <div id="mocks-content"></div>
+  </div>
+
+  <!-- ANALYTICS PAGE -->
+  <div class="page" id="page-analytics">
+    <div class="topbar">
+      <div><div class="page-title">📈 Analytics</div><div class="page-sub">Deep-dive into your performance</div></div>
+    </div>
+    <div id="analytics-content"></div>
+  </div>
+
+  <!-- RANK PAGE -->
+  <div class="page" id="page-rank">
+    <div class="topbar">
+      <div><div class="page-title">🏆 Leaderboard</div><div class="page-sub">Live class rank</div></div>
+      <div class="topbar-right"><button class="btn btn-ghost" onclick="renderRank()">↺ Refresh</button></div>
+    </div>
+    <div id="rank-content"></div>
+  </div>
+
+  <!-- SETTINGS PAGE -->
+  <div class="page" id="page-settings">
+    <div class="topbar">
+      <div><div class="page-title">⚙️ Settings</div><div class="page-sub">Account, data & preferences</div></div>
+    </div>
+    <div id="settings-content"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ MOBILE DOCK ═══════════════ -->
+<div class="mobile-dock">
+  <div class="dock-item active" id="dock-home" onclick="goPage('home')"><span class="dock-icon">🏠</span><span class="dock-label">Home</span></div>
+  <div class="dock-item" id="dock-exams" onclick="goPage('exams')"><span class="dock-icon">📋</span><span class="dock-label">Exams</span></div>
+  <div class="dock-item" id="dock-mocks" onclick="goPage('mocks')"><span class="dock-icon">📝</span><span class="dock-label">Mocks</span></div>
+  <div class="dock-item" id="dock-rank" onclick="goPage('rank')"><span class="dock-icon">🏆</span><span class="dock-label">Rank</span></div>
+  <div class="dock-item" id="dock-settings" onclick="goPage('settings')"><span class="dock-icon">⚙️</span><span class="dock-label">Settings</span></div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ═══════════════ MAIN SCRIPT ═══════════════ -->
+<script>
+/* ── FIREBASE INIT ── */
+let fbDb, fbAuth, fbProvider;
+
+window.addEventListener('load', function() {
+const firebaseConfig = {
+  apiKey: "AIzaSyCgLKnOj3iGY4k25s9OaUvBR8bJW7oUXzk",
+  authDomain: "thunderstudy.firebaseapp.com",
+  projectId: "thunderstudy",
+  storageBucket: "thunderstudy.firebasestorage.app",
+  messagingSenderId: "83506167126",
+  appId: "1:83506167126:web:9b3e7017ba871103672af7"
+};
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+fbDb = firebase.firestore();
+fbAuth = firebase.auth();
+fbProvider = new firebase.auth.GoogleAuthProvider();
+
+fbAuth.onAuthStateChanged(user=>{
+  if(user){
+    const gu={name:user.displayName,email:user.email,picture:user.photoURL,googleId:user.uid};
+    localStorage.setItem('ts_google_user',JSON.stringify(gu));
+    localStorage.setItem('cbtUserName',user.displayName||'');
+    const p=getProfile();if(!p.name&&user.displayName){p.name=user.displayName;saveProfile(p);localStorage.setItem('ssc_name',user.displayName);}
+    if(!getStudentID()){ const id='TS'+String(Math.floor(Math.random()*100000)).padStart(5,'0');localStorage.setItem('ssc_student_id',id); }
+    renderHomeTopbar();
+  }
+});
+
+  // Fetch data in background
+  fetchNotices();
+  fetchQuote();
+
+}); // end window.load
+
+/* ═══════════════════════════════════════
+   API URLS & NOTICES/QUOTES
+═══════════════════════════════════════ */
+const NOTICES_URL = "https://script.google.com/macros/s/AKfycbz300__XPoTsb2hZ4EEMWRgA503M4v4BPAaLyVym8gRDrXQSXTNnxyTanKYgkrEqwV_Fw/exec";
+const QUOTES_URL  = "https://script.google.com/macros/s/AKfycbxXsABIhWgBn5o9SoIaMYTBVYjN47sJvf9R_h50yDpXsqIOLyoolbSdyqkorSkUiPmOyg/exec";
+let _notices=[],_quote=null;
+
+/* ─────────────────────────────────────────────────────
+   GOOGLE APPS SCRIPT CORS FIX
+   GAS redirects script.google.com → googleusercontent.com
+   Browsers block this redirect (CORS). We use 4 strategies:
+
+   1. allorigins.win  — most reliable proxy
+   2. corsproxy.io    — backup proxy  
+   3. Direct fetch    — works if GAS has proper CORS headers
+   4. JSONP           — zero-CORS <script> tag trick
+────────────────────────────────────────────────────── */
+async function _tryFetch(url, timeoutMs){
+  const ctrl = new AbortController();
+  const t = setTimeout(()=>ctrl.abort(), timeoutMs);
+  try {
+    const r = await fetch(url, { signal: ctrl.signal });
+    clearTimeout(t);
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    return await r.text();
+  } finally { clearTimeout(t); }
+}
+
+function _parseGASResponse(text){
+  /* GAS sometimes returns HTML error page — detect it */
+  if(!text || text.trim().startsWith('<!')) throw new Error('Got HTML instead of JSON');
+  const t = text.trim();
+  /* Handle allorigins wrapper: {"contents":"[...]","status":{}} */
+  try {
+    const wrapper = JSON.parse(t);
+    if(wrapper && typeof wrapper.contents === 'string'){
+      return JSON.parse(wrapper.contents);
+    }
+    return wrapper;
+  } catch(e) {
+    throw new Error('JSON parse failed: '+e.message);
+  }
+}
+
+function _jsonp(targetUrl, timeoutMs){
+  return new Promise((resolve, reject)=>{
+    const cb    = '_cb'+Date.now();
+    const el    = document.createElement('script');
+    const timer = setTimeout(()=>{ cleanup(); reject(new Error('JSONP timeout')); }, timeoutMs);
+    window[cb]  = d => { cleanup(); resolve(d); };
+    el.onerror  = ()=>{ cleanup(); reject(new Error('JSONP error')); };
+    el.src = targetUrl + (targetUrl.includes('?')?'&':'?') + 'callback='+cb;
+    document.head.appendChild(el);
+    function cleanup(){ clearTimeout(timer); delete window[cb]; el.remove(); }
+  });
+}
+
+async function gsFetch(targetUrl){
+  const enc = encodeURIComponent(targetUrl);
+
+  /* 1️⃣ allorigins — wraps response in {contents:...} */
+  try {
+    const text = await _tryFetch(
+      `https://api.allorigins.win/get?url=${enc}&t=${Date.now()}`, 9000
+    );
+    const data = _parseGASResponse(text);
+    console.log('%c[gsFetch] allorigins ✅','color:green', data);
+    return data;
+  } catch(e){ console.warn('[gsFetch] allorigins ❌', e.message); }
+
+  /* 2️⃣ corsproxy.io */
+  try {
+    const text = await _tryFetch(`https://corsproxy.io/?${enc}`, 9000);
+    const data = _parseGASResponse(text);
+    console.log('%c[gsFetch] corsproxy ✅','color:green', data);
+    return data;
+  } catch(e){ console.warn('[gsFetch] corsproxy ❌', e.message); }
+
+  /* 3️⃣ Direct fetch (works if GAS has CORS headers set) */
+  try {
+    const text = await _tryFetch(targetUrl, 8000);
+    const data = _parseGASResponse(text);
+    console.log('%c[gsFetch] direct ✅','color:green', data);
+    return data;
+  } catch(e){ console.warn('[gsFetch] direct ❌', e.message); }
+
+  /* 4️⃣ JSONP — no CORS at all */
+  try {
+    const data = await _jsonp(targetUrl, 10000);
+    console.log('%c[gsFetch] JSONP ✅','color:green', data);
+    return data;
+  } catch(e){ console.warn('[gsFetch] JSONP ❌', e.message); }
+
+  throw new Error('All 4 fetch strategies failed for: '+targetUrl);
+}
+
+function _toArray(d){
+  if(Array.isArray(d)) return d;
+  for(const k of ['data','notices','quotes','items','results']){
+    if(d && Array.isArray(d[k])) return d[k];
+  }
+  return d ? [d] : [];
+}
+
+async function fetchNotices(){
+  _renderNoticesLoading();
+  try {
+    const d = await gsFetch(NOTICES_URL + '?action=getNotices');
+    const raw = _toArray(d).filter(n => n && (n.title||n.heading||n.subject||n.message));
+    // Filter by active flag and expiry date
+    const now = new Date();
+    _notices = raw.filter(n => {
+      if(n.active === false || n.active === 'false') return false;
+      if(n.expiry && new Date(n.expiry) < now) return false;
+      return true;
+    });
+    console.log('[Notices] ✅ count:', _notices.length);
+  } catch(e) {
+    console.error('[Notices] ❌', e.message);
+    _notices = [];
+  }
+  updateNoticesBadge();
+  const nb = document.getElementById('home-notices-preview');
+  if(nb) renderNoticesPreview(nb);
+  // Signal that notices are ready (boot handler will show popup)
+  window._noticesReady = true;
+  if(window._bootDone) showNoticePopup();
+}
+
+/* ───────────────────────────────────────────
+   SEQUENTIAL NOTICE POPUP SYSTEM
+   Read it  → permanent dismiss (never shows again)
+   Got it   → session dismiss (shows next time app opens)
+─────────────────────────────────────────── */
+let _npQueue = [];
+let _npIdx   = 0;
+
+function showNoticePopup(){
+  const permRead = JSON.parse(localStorage.getItem('app_perm_read') || '[]');
+  _npQueue = _notices.filter(n =>
+    (n.popup === true || n.popup === 'true' || n.popup === 1) &&
+    !permRead.includes(String(n.id || n.title))
+  );
+  _npIdx = 0;
+  _showNP();
+}
+
+function _showNP(){
+  const ex = document.getElementById('np-overlay');
+  if(ex){ ex.style.opacity='0'; ex.style.transform='scale(.95)'; }
+  setTimeout(()=>{
+    const old = document.getElementById('np-overlay');
+    if(old) old.remove();
+    if(_npIdx >= _npQueue.length) return;
+
+    const n   = _npQueue[_npIdx];
+    const clr = {info:'#4f6ef7',alert:'#f43f5e',warning:'#f59e0b',event:'#10b981',exam:'#7c3aed'};
+    const tc  = clr[n.type] || '#5B4EE8';
+    const tot = _npQueue.length;
+    const cur = _npIdx + 1;
+
+    /* ── Extract URLs from message body ── */
+    const rawMsg   = n.message || n.description || n.body || '';
+    const linkRE   = /(https?:\/\/[^\s]+)/g;
+    const links    = rawMsg.match(linkRE) || [];
+    const textOnly = escH(rawMsg.replace(linkRE,'').trim());
+
+    const linkBtns = links.map(url=>{
+      const label = url.replace(/https?:\/\/(www\.)?/,'').split('/')[0];
+      return `<a href="${url}" target="_blank" rel="noopener noreferrer"
+        style="display:inline-flex;align-items:center;gap:6px;padding:9px 18px;
+        border-radius:30px;background:${tc}15;border:1.5px solid ${tc}40;
+        color:${tc};font-size:12px;font-weight:800;text-decoration:none;
+        margin:4px 2px;transition:background .2s;"
+        onmouseenter="this.style.background='${tc}28'"
+        onmouseleave="this.style.background='${tc}15'">
+        🔗 ${escH(label)}
+      </a>`;
+    }).join('');
+
+    const progHtml = tot > 1
+      ? `<div style="display:flex;gap:4px;justify-content:center;margin-bottom:16px;">
+          ${Array.from({length:tot},(_,i)=>`<div style="width:${i===cur-1?'20px':'6px'};height:6px;border-radius:10px;background:${i===cur-1?tc:'var(--border)'};transition:all .3s;"></div>`).join('')}
+        </div>`
+      : '';
+
+    const ov = document.createElement('div');
+    ov.id = 'np-overlay';
+    ov.style.cssText = `position:fixed;inset:0;background:rgba(0,0,0,.52);z-index:9999;
+      display:flex;align-items:center;justify-content:center;padding:20px;
+      backdrop-filter:blur(7px);transition:opacity .2s,transform .2s;`;
+
+    ov.innerHTML = `
+    <div style="background:var(--card);border-radius:24px;padding:28px 26px 24px;
+      max-width:390px;width:100%;text-align:center;
+      border:1.5px solid ${tc}35;
+      box-shadow:0 24px 70px rgba(0,0,0,.28),0 0 0 1px ${tc}10;
+      animation:mIn .38s cubic-bezier(.34,1.56,.64,1) both;">
+
+      ${progHtml}
+
+      <!-- ICON -->
+      <div style="width:56px;height:56px;border-radius:16px;background:${tc}18;
+        border:1.5px solid ${tc}30;display:flex;align-items:center;justify-content:center;
+        font-size:24px;margin:0 auto 14px;box-shadow:0 4px 16px ${tc}20;">📢</div>
+
+      <!-- TYPE LABEL -->
+      <div style="font-size:10px;font-weight:800;color:${tc};letter-spacing:.8px;
+        text-transform:uppercase;margin-bottom:7px;">
+        ${n.type ? escH(n.type) : 'Notice'}
+      </div>
+
+      <!-- TITLE -->
+      <div style="font-size:19px;font-weight:900;color:var(--text);
+        font-family:'Outfit',sans-serif;line-height:1.3;margin-bottom:10px;">
+        ${escH(n.title||n.heading||n.subject||'Notice')}
+      </div>
+
+      <!-- BODY TEXT -->
+      ${textOnly ? `<div style="font-size:13px;color:var(--text2);line-height:1.75;
+        margin-bottom:${links.length?'8px':'18px'};">${textOnly}</div>` : ''}
+
+      <!-- LINK BUTTONS (if any URL in body) -->
+      ${links.length ? `<div style="margin-bottom:18px;">${linkBtns}</div>` : ''}
+
+      <!-- EXPIRY -->
+      ${n.expiry ? `<div style="font-size:10px;color:var(--text3);margin-bottom:14px;">
+        ⏳ Expires: ${new Date(n.expiry).toLocaleDateString('en-IN')}</div>` : ''}
+
+      <!-- ACTIONS -->
+      <div style="display:flex;gap:9px;">
+        <button onclick="npReadIt()"
+          style="flex:1;padding:12px 10px;border-radius:30px;
+          border:1.5px solid var(--border);background:var(--card2);
+          color:var(--text2);font-size:12px;font-weight:800;
+          cursor:pointer;font-family:var(--fn);transition:all .15s;"
+          onmouseenter="this.style.borderColor='${tc}60';this.style.color='var(--text)'"
+          onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">
+          📖 Read it
+        </button>
+        <button onclick="npGotIt()"
+          style="flex:1;padding:12px 10px;border-radius:30px;border:none;
+          background:linear-gradient(135deg,${tc},${tc}bb);color:#fff;
+          font-size:12px;font-weight:800;cursor:pointer;font-family:var(--fn);
+          box-shadow:0 4px 14px ${tc}40;transition:all .15s;"
+          onmouseenter="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 20px ${tc}55'"
+          onmouseleave="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 14px ${tc}40'">
+          ✅ Got it
+        </button>
+      </div>
+    </div>`;
+
+    document.body.appendChild(ov);
+  }, ex ? 220 : 0);
+}
+
+/* Got it — session dismiss, no storage, will show on next open */
+function npGotIt(){
+  _npIdx++;
+  _showNP();
+}
+
+/* Read it — permanent dismiss, never shows again */
+function npReadIt(){
+  const n = _npQueue[_npIdx];
+  if(n){
+    const id = String(n.id || n.title);
+    const permRead = JSON.parse(localStorage.getItem('app_perm_read') || '[]');
+    if(!permRead.includes(id)) permRead.push(id);
+    localStorage.setItem('app_perm_read', JSON.stringify(permRead));
+  }
+  _npIdx++;
+  _showNP();
+}
+
+/* Legacy compat */
+function markNoticeRead(id){
+  const permRead = JSON.parse(localStorage.getItem('app_perm_read') || '[]');
+  if(!permRead.includes(String(id))) permRead.push(String(id));
+  localStorage.setItem('app_perm_read', JSON.stringify(permRead));
+}
+
+async function fetchQuote(){
+  try {
+    const d   = await gsFetch(QUOTES_URL);
+    const arr = _toArray(d).filter(q => q && (typeof q==='string' || q.quote||q.text||q.message));
+    _quote = arr.length ? arr[Math.floor(Math.random()*arr.length)] : null;
+    console.log('[Quote] ✅', _quote);
+  } catch(e) {
+    console.error('[Quote] ❌', e.message);
+    _quote = null;
+  }
+  if(!_quote){
+    /* Fallback quote pool */
+    const pool = [
+      {quote:'Success is not final, failure is not fatal — it is the courage to continue that counts.',author:'Winston Churchill'},
+      {quote:'The secret of getting ahead is getting started.',author:'Mark Twain'},
+      {quote:'Believe you can and you are halfway there.',author:'Theodore Roosevelt'},
+      {quote:'Hardships often prepare ordinary people for an extraordinary destiny.',author:'C.S. Lewis'},
+      {quote:'Don\'t watch the clock; do what it does. Keep going.',author:'Sam Levenson'},
+    ];
+    _quote = pool[Math.floor(Math.random()*pool.length)];
+  }
+  const qEl = document.getElementById('home-quote-area');
+  if(qEl) renderQuoteCard(qEl);
+}
+
+function _renderNoticesLoading(){
+  const nb = document.getElementById('home-notices-preview');
+  if(!nb) return;
+  nb.innerHTML = `<div style="background:linear-gradient(135deg,#EBEEFF,#f4f2ff);border:1.5px solid #D4CCFF;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;">
+    <div style="width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#5B4EE8,#4338CA);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;opacity:.6;">🔔</div>
+    <div>
+      <div style="font-size:12px;font-weight:800;color:var(--text);">Loading notices…</div>
+      <div style="font-size:10px;color:var(--text3);margin-top:2px;">Fetching latest updates</div>
+    </div>
+    <div style="margin-left:auto;width:18px;height:18px;border:2.5px solid #D4CCFF;border-top-color:#5B4EE8;border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0;"></div>
+  </div>`;
+}
+
+function updateNoticesBadge(){
+  const b=document.getElementById('notices-nav-badge');
+  if(b){b.textContent=_notices.length;b.style.display=_notices.length>0?'inline-flex':'none';}
+  const b2=document.getElementById('home-notices-badge');
+  if(b2){b2.textContent=_notices.length+' new';b2.style.display=_notices.length>0?'inline-flex':'none';}
+}
+
+function openNoticesPopup(){
+  const ex=document.getElementById('notices-popup-overlay');
+  if(ex){ex.remove();return;}
+  const overlay=document.createElement('div');
+  overlay.id='notices-popup-overlay';
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(20,16,60,.45);z-index:9000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);padding:16px;';
+
+  const noHTML=_notices.length===0
+    ?`<div style="text-align:center;padding:40px 20px;">
+        <div style="width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,#EBEEFF,#D4CCFF);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 14px;">📭</div>
+        <div style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px;">No notices right now</div>
+        <div style="font-size:12px;color:var(--text3);">Check back later for updates & announcements</div>
+      </div>`
+    :_notices.map((n,idx)=>{
+      const tag=n.type||n.category||'General';
+      const isUrgent=tag.toLowerCase().includes('urgent')||tag.toLowerCase().includes('important');
+      const isExam=tag.toLowerCase().includes('exam');
+      const tc=isUrgent?'#e53e3e':isExam?'#5B4EE8':'#16a34a';
+      const tbg=isUrgent?'rgba(229,62,62,.1)':isExam?'rgba(91,78,232,.1)':'rgba(22,163,74,.1)';
+      const icon=isExam?'📋':isUrgent?'🚨':'📌';
+      return `<div style="background:#fff;border:1.5px solid #D4CCFF;border-radius:16px;padding:16px 18px;margin-bottom:10px;position:relative;overflow:hidden;transition:box-shadow .2s;" onmouseenter="this.style.boxShadow='0 4px 20px rgba(91,78,232,.1)'" onmouseleave="this.style.boxShadow='none'">
+        ${isUrgent?`<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#e53e3e,#f97316);border-radius:16px 16px 0 0;"></div>`:''}
+        <div style="display:flex;align-items:flex-start;gap:12px;${isUrgent?'padding-top:4px;':''}">
+          <div style="width:40px;height:40px;border-radius:12px;background:${tbg};border:1.5px solid ${tc}30;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">${icon}</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:13px;font-weight:800;color:var(--text);line-height:1.4;margin-bottom:5px;">${escH(n.title||n.heading||n.subject||'Notice')}</div>
+            ${n.description||n.body||n.message?`<div style="font-size:12px;color:var(--text2);line-height:1.65;margin-bottom:8px;">${escH(n.description||n.body||n.message)}</div>`:''}
+            <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+              <span style="font-size:9px;font-weight:800;padding:3px 9px;border-radius:20px;background:${tbg};color:${tc};letter-spacing:.3px;text-transform:uppercase;">${escH(tag)}</span>
+              ${n.date||n.createdAt?`<span style="font-size:10px;color:var(--text3);">📅 ${escH(n.date||n.createdAt)}</span>`:''}
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+
+  overlay.innerHTML=`<div style="background:var(--card);border-radius:24px;width:100%;max-width:500px;max-height:88vh;display:flex;flex-direction:column;animation:mIn .35s cubic-bezier(.34,1.56,.64,1) both;box-shadow:0 20px 80px rgba(91,78,232,.25);border:1.5px solid #D4CCFF;">
+    <!-- Header -->
+    <div style="padding:20px 22px 16px;border-bottom:1.5px solid #EBEEFF;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:linear-gradient(135deg,#EBEEFF,#f4f2ff);border-radius:22px 22px 0 0;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#5B4EE8,#4338CA);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 14px rgba(91,78,232,.3);">🔔</div>
+        <div>
+          <div style="font-size:17px;font-weight:900;font-family:'Outfit',sans-serif;color:var(--text);display:flex;align-items:center;gap:8px;">Notices ${_notices.length>0?`<span style="background:linear-gradient(135deg,#5B4EE8,#4338CA);color:#fff;font-size:10px;font-weight:800;padding:2px 9px;border-radius:20px;">${_notices.length}</span>`:''}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:1px;">Latest updates & announcements</div>
+        </div>
+      </div>
+      <button onclick="document.getElementById('notices-popup-overlay').remove()" style="background:#fff;border:1.5px solid #D4CCFF;border-radius:50%;width:34px;height:34px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);transition:all .2s;box-shadow:0 2px 8px rgba(91,78,232,.08);" onmouseenter="this.style.background='#EBEEFF'" onmouseleave="this.style.background='#fff'">×</button>
+    </div>
+    <!-- Body -->
+    <div style="overflow-y:auto;padding:16px 20px 24px;flex:1;">${noHTML}</div>
+  </div>`;
+
+  overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.remove();});
+  document.body.appendChild(overlay);
+}
+
+function renderNoticesPreview(el){
+  if(!el) return;
+  if(_notices.length===0){
+    el.innerHTML=`<div onclick="openNoticesPopup()" style="display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#EBEEFF,#f0eeff);border:1.5px solid #D4CCFF;border-radius:16px;padding:14px 16px;cursor:pointer;transition:all .2s;" onmouseenter="this.style.boxShadow='0 4px 16px rgba(91,78,232,.12)'" onmouseleave="this.style.boxShadow='none'">
+      <div style="width:38px;height:38px;border-radius:11px;background:#fff;border:1.5px solid #D4CCFF;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🔔</div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--text);">Notices</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:1px;">No notices right now · tap to refresh</div>
+      </div>
+    </div>`;
+    return;
+  }
+  const n=_notices[0];
+  const tag=n.type||n.category||'General';
+  const tc=tag.toLowerCase().includes('urgent')||tag.toLowerCase().includes('important')?'#e53e3e':tag.toLowerCase().includes('exam')?'#5B4EE8':'#16a34a';
+  el.innerHTML=`<div onclick="openNoticesPopup()" style="cursor:pointer;background:linear-gradient(135deg,#EBEEFF 0%,#f4f2ff 100%);border:1.5px solid #D4CCFF;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;transition:all .2s;box-shadow:0 2px 8px rgba(91,78,232,.06);" onmouseenter="this.style.boxShadow='0 6px 20px rgba(91,78,232,.15)';this.style.borderColor='rgba(91,78,232,.4)'" onmouseleave="this.style.boxShadow='0 2px 8px rgba(91,78,232,.06)';this.style.borderColor='#D4CCFF'">
+    <div style="width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#5B4EE8,#4338CA);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 4px 12px rgba(91,78,232,.3);">🔔</div>
+    <div style="flex:1;min-width:0;">
+      <div style="font-size:12px;font-weight:800;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escH(n.title||n.heading||n.subject||'New Notice')}</div>
+      <div style="font-size:10px;color:var(--text3);margin-top:2px;">${_notices.length} notice${_notices.length!==1?'s':''} · tap to view all</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;">
+      <span style="font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;background:${tc}20;color:${tc};white-space:nowrap;">${escH(tag)}</span>
+      <span style="font-size:9px;color:var(--text3);">›</span>
+    </div>
+  </div>`;
+}
+
+function renderQuoteCard(el){
+  if(!el) return;
+  if(!_quote){el.innerHTML='';return;}
+  const raw=typeof _quote==='string'?_quote:(_quote.quote||_quote.text||_quote.message||_quote.content||'');
+  const author=typeof _quote==='object'?(_quote.author||_quote.by||_quote.source||_quote.name||''):'';
+  if(!raw){el.innerHTML='';return;}
+  el.innerHTML=`<div style="background:linear-gradient(135deg,#EBEEFF 0%,#f0eeff 60%,#e8e4ff 100%);border:1.5px solid #D4CCFF;border-radius:18px;padding:18px 20px;margin-bottom:16px;position:relative;overflow:hidden;box-shadow:0 2px 12px rgba(91,78,232,.07);">
+    <div style="position:absolute;top:-12px;left:12px;font-size:80px;opacity:.08;font-family:Georgia,serif;line-height:1;pointer-events:none;color:#5B4EE8;font-weight:900;">"</div>
+    <div style="position:absolute;top:10px;right:14px;font-size:11px;font-weight:700;color:#5B4EE8;opacity:.5;letter-spacing:.5px;text-transform:uppercase;">Quote of the Day</div>
+    <div style="position:relative;z-index:1;padding-top:6px;">
+      <div style="font-size:13px;font-weight:600;color:var(--text);line-height:1.8;font-style:italic;margin-bottom:10px;padding-right:8px;">"${escH(raw)}"</div>
+      ${author?`<div style="display:flex;align-items:center;gap:6px;">
+        <div style="width:20px;height:2px;background:linear-gradient(90deg,#5B4EE8,#7C6FF0);border-radius:2px;"></div>
+        <div style="font-size:11px;font-weight:800;color:#5B4EE8;">— ${escH(author)}</div>
+      </div>`:''}
+    </div>
+    <div style="position:absolute;bottom:10px;right:16px;font-size:22px;opacity:.15;">💜</div>
+  </div>`;
+}
+
+/* ═══════════════════════════════════════
+   SSC EXAM DATA
+═══════════════════════════════════════ */
+const SSC_EXAMS = [
+  {
+    id:'cgl', name:'SSC CGL', full:'Combined Graduate Level', icon:'🏛️',
+    color:'#5B4EE8', bg:'rgba(91,78,232,.1)',
+    posts:['Group B','Group C – Gazetted'],
+    subjects:[
+      {id:'ga',name:'General Awareness',icon:'🌍'},
+      {id:'quant',name:'Quantitative Aptitude',icon:'🔢'},
+      {id:'english',name:'English',icon:'📖'},
+      {id:'reasoning',name:'General Intelligence',icon:'🧠'}
+    ],
+    tiers:['Tier I','Tier II','Tier III'],
+    tag:'Graduate Level', tagColor:'#5B4EE8'
+  },
+  {
+    id:'chsl', name:'SSC CHSL', full:'Combined Higher Secondary Level', icon:'📚',
+    color:'#ea580c', bg:'rgba(234,88,12,.1)',
+    posts:['LDC','JSA','PA/SA','DEO'],
+    subjects:[
+      {id:'ga',name:'General Awareness',icon:'🌍'},
+      {id:'quant',name:'Quantitative Aptitude',icon:'🔢'},
+      {id:'english',name:'English',icon:'📖'},
+      {id:'reasoning',name:'General Intelligence',icon:'🧠'}
+    ],
+    tiers:['Tier I','Tier II'],
+    tag:'12th Pass', tagColor:'#ea580c'
+  },
+  {
+    id:'mts', name:'SSC MTS', full:'Multi Tasking Staff', icon:'🔧',
+    color:'#d97706', bg:'rgba(217,119,6,.1)',
+    posts:['MTS','Havaldar'],
+    subjects:[
+      {id:'ga',name:'General Awareness',icon:'🌍'},
+      {id:'quant',name:'Quantitative Aptitude',icon:'🔢'},
+      {id:'english',name:'English',icon:'📖'},
+      {id:'reasoning',name:'General Intelligence',icon:'🧠'}
+    ],
+    tiers:['Paper I','Paper II'],
+    tag:'10th Pass', tagColor:'#d97706'
+  },
+  {
+    id:'gd', name:'SSC GD', full:'GD Constable', icon:'🛡️',
+    color:'#16a34a', bg:'rgba(22,163,74,.1)',
+    posts:['Constable GD (BSF/CISF/CRPF/etc)'],
+    subjects:[
+      {id:'ga',name:'General Awareness',icon:'🌍'},
+      {id:'quant',name:'Elementary Mathematics',icon:'🔢'},
+      {id:'english',name:'English/Hindi',icon:'📖'},
+      {id:'reasoning',name:'Reasoning',icon:'🧠'}
+    ],
+    tiers:['CBE','PET/PST'],
+    tag:'10th Pass', tagColor:'#16a34a'
+  },
+  {
+    id:'cpo', name:'SSC CPO', full:'Central Police Organisations', icon:'👮',
+    color:'#2563eb', bg:'rgba(37,99,235,.1)',
+    posts:['Sub-Inspector (Delhi Police, CAPFs)'],
+    subjects:[
+      {id:'ga',name:'General Awareness',icon:'🌍'},
+      {id:'quant',name:'Quantitative Aptitude',icon:'🔢'},
+      {id:'english',name:'English',icon:'📖'},
+      {id:'reasoning',name:'General Intelligence',icon:'🧠'}
+    ],
+    tiers:['Paper I','PET/PST','Paper II','Medical'],
+    tag:'Graduate Level', tagColor:'#2563eb'
+  },
+  {
+    id:'je', name:'SSC JE', full:'Junior Engineer', icon:'⚙️',
+    color:'#7c3aed', bg:'rgba(124,58,237,.1)',
+    posts:['Junior Engineer (Civil/Electrical/Mechanical)'],
+    subjects:[
+      {id:'ga',name:'General Awareness',icon:'🌍'},
+      {id:'reasoning',name:'Reasoning & GA',icon:'🧠'},
+      {id:'technical',name:'Technical (Civil/Elec/Mech)',icon:'🔩'}
+    ],
+    tiers:['Paper I','Paper II'],
+    tag:'Diploma/Degree', tagColor:'#7c3aed'
+  },
+  {
+    id:'steno', name:'SSC Steno', full:'Stenographer Grade C & D', icon:'⌨️',
+    color:'#0d9488', bg:'rgba(13,148,136,.1)',
+    posts:['Stenographer Grade C','Stenographer Grade D'],
+    subjects:[
+      {id:'ga',name:'General Awareness',icon:'🌍'},
+      {id:'reasoning',name:'General Intelligence',icon:'🧠'},
+      {id:'english',name:'English',icon:'📖'}
+    ],
+    tiers:['CBT','Skill Test'],
+    tag:'12th Pass', tagColor:'#0d9488'
+  },
+  {
+    id:'sel', name:'SSC Selection Post', full:'Selection Post Phase (Multi-Post)', icon:'📑',
+    color:'#db2777', bg:'rgba(219,39,119,.1)',
+    posts:['Various posts across Phases'],
+    subjects:[
+      {id:'ga',name:'General Awareness',icon:'🌍'},
+      {id:'quant',name:'Quantitative Aptitude',icon:'🔢'},
+      {id:'english',name:'English',icon:'📖'},
+      {id:'reasoning',name:'General Intelligence',icon:'🧠'}
+    ],
+    tiers:['CBT'],
+    tag:'10th/12th/Graduate', tagColor:'#db2777'
+  }
+];
+
+/* ═══════════════════════════════════════════════════════════════
+   SSC MOCK DATABASE  (all mocks = 100 Q / 60 min)
+   URL: https://commercesehoga.github.io/ssc/{exam}/{mockId}
+   CBT key: thunderstudy_result_{examId}_{mockId}
+   Tier 1 full mocks: full1–full5   Tier 2 full mocks: t2full1–t2full5
+   Chapter mocks: 100Q / 60 min each
+   Image mocks: 1 per subject (image_ga, image_quant, image_eng, image_reas …)
+   Special mock: sp1 only (1 total)
+   ═══════════════════════════════════════════════════════════════ */
+const Q=100, T=60; /* standard across all mocks */
+
+const SSC_MOCK_CHAPTERS = {
+
+  /* ══════════════════════════════
+     SSC CGL  (Tier 1 + Tier 2)
+     Tier 1: 100Q 60min | Tier 2 Paper-I: 100Q 60min
+  ══════════════════════════════ */
+  cgl: {
+    chapters: {
+      ga: [
+        {id:'ga1', name:'Ancient & Medieval History',            q:Q,t:T},
+        {id:'ga2', name:'Modern Indian History',                 q:Q,t:T},
+        {id:'ga3', name:'Physical Geography',                    q:Q,t:T},
+        {id:'ga4', name:'Indian Geography',                      q:Q,t:T},
+        {id:'ga5', name:'Indian Polity & Constitution',          q:Q,t:T},
+        {id:'ga6', name:'Indian Economy',                        q:Q,t:T},
+        {id:'ga7', name:'General Science – Physics',             q:Q,t:T},
+        {id:'ga8', name:'General Science – Chemistry',           q:Q,t:T},
+        {id:'ga9', name:'General Science – Biology',             q:Q,t:T},
+        {id:'ga10',name:'Current Affairs & Static GK',           q:Q,t:T},
+      ],
+      quant: [
+        {id:'quant1', name:'Number System & HCF/LCM',            q:Q,t:T},
+        {id:'quant2', name:'Percentage & Average',               q:Q,t:T},
+        {id:'quant3', name:'Profit, Loss & Discount',            q:Q,t:T},
+        {id:'quant4', name:'Ratio, Proportion & Partnership',    q:Q,t:T},
+        {id:'quant5', name:'Simple & Compound Interest',         q:Q,t:T},
+        {id:'quant6', name:'Time, Work & Pipes',                 q:Q,t:T},
+        {id:'quant7', name:'Time, Speed & Distance',             q:Q,t:T},
+        {id:'quant8', name:'Algebra & Linear Equations',         q:Q,t:T},
+        {id:'quant9', name:'Trigonometry & Heights',             q:Q,t:T},
+        {id:'quant10',name:'Geometry & Mensuration',             q:Q,t:T},
+        {id:'quant11',name:'Data Interpretation',                q:Q,t:T},
+        {id:'quant12',name:'Mixture, Alligation & Surds',        q:Q,t:T},
+      ],
+      english: [
+        {id:'eng1', name:'Spot the Error',                       q:Q,t:T},
+        {id:'eng2', name:'Fill in the Blanks',                   q:Q,t:T},
+        {id:'eng3', name:'Synonyms & Antonyms',                  q:Q,t:T},
+        {id:'eng4', name:'Spelling Correction',                  q:Q,t:T},
+        {id:'eng5', name:'Idioms & Phrases',                     q:Q,t:T},
+        {id:'eng6', name:'One Word Substitution',                q:Q,t:T},
+        {id:'eng7', name:'Sentence Improvement',                 q:Q,t:T},
+        {id:'eng8', name:'Active / Passive Voice',               q:Q,t:T},
+        {id:'eng9', name:'Direct & Indirect Speech',             q:Q,t:T},
+        {id:'eng10',name:'Reading Comprehension & Cloze',        q:Q,t:T},
+      ],
+      reasoning: [
+        {id:'reas1', name:'Analogy',                             q:Q,t:T},
+        {id:'reas2', name:'Classification & Odd One Out',        q:Q,t:T},
+        {id:'reas3', name:'Number & Alphabetical Series',        q:Q,t:T},
+        {id:'reas4', name:'Coding & Decoding',                   q:Q,t:T},
+        {id:'reas5', name:'Blood Relations',                     q:Q,t:T},
+        {id:'reas6', name:'Direction & Distance',                q:Q,t:T},
+        {id:'reas7', name:'Syllogism',                           q:Q,t:T},
+        {id:'reas8', name:'Statement & Conclusions',             q:Q,t:T},
+        {id:'reas9', name:'Non-Verbal Reasoning & Matrix',       q:Q,t:T},
+        {id:'reas10',name:'Venn Diagram & Puzzle',               q:Q,t:T},
+      ],
+    },
+    tier1Mocks:   [
+      {id:'full1',name:'CGL Tier I Full Mock 1',q:Q,t:T},
+      {id:'full2',name:'CGL Tier I Full Mock 2',q:Q,t:T},
+      {id:'full3',name:'CGL Tier I Full Mock 3',q:Q,t:T},
+      {id:'full4',name:'CGL Tier I Full Mock 4',q:Q,t:T},
+      {id:'full5',name:'CGL Tier I Full Mock 5',q:Q,t:T},
+    ],
+    tier2Mocks:   [
+      {id:'t2full1',name:'CGL Tier II Paper-I Mock 1',q:Q,t:T},
+      {id:'t2full2',name:'CGL Tier II Paper-I Mock 2',q:Q,t:T},
+      {id:'t2full3',name:'CGL Tier II Paper-I Mock 3',q:Q,t:T},
+      {id:'t2full4',name:'CGL Tier II Paper-I Mock 4',q:Q,t:T},
+      {id:'t2full5',name:'CGL Tier II Paper-I Mock 5',q:Q,t:T},
+    ],
+    imageMocks: [
+      {id:'image_ga',    name:'GA Image Based Mock',        q:Q,t:T},
+      {id:'image_quant', name:'Quant Image Based Mock',     q:Q,t:T},
+      {id:'image_eng',   name:'English Image Based Mock',   q:Q,t:T},
+      {id:'image_reas',  name:'Reasoning Image Based Mock', q:Q,t:T},
+    ],
+    specialMocks: [{id:'sp1',name:'CGL Special Mock (SSC Pattern)',q:Q,t:T}],
+  },
+
+  /* ══════════════════════════════
+     SSC CHSL  (Tier 1 + Tier 2)
+     Tier 1: 100Q 60min | Tier 2: 100Q 60min
+  ══════════════════════════════ */
+  chsl: {
+    chapters: {
+      ga: [
+        {id:'ga1', name:'History of India',                      q:Q,t:T},
+        {id:'ga2', name:'Geography – India & World',             q:Q,t:T},
+        {id:'ga3', name:'Indian Polity & Constitution',          q:Q,t:T},
+        {id:'ga4', name:'Indian Economy',                        q:Q,t:T},
+        {id:'ga5', name:'General Science',                       q:Q,t:T},
+        {id:'ga6', name:'Current Affairs & Static GK',           q:Q,t:T},
+      ],
+      quant: [
+        {id:'quant1', name:'Number System & Simplification',     q:Q,t:T},
+        {id:'quant2', name:'Percentage, Profit & Loss',          q:Q,t:T},
+        {id:'quant3', name:'Ratio, Proportion & Average',        q:Q,t:T},
+        {id:'quant4', name:'Time, Work & Speed',                 q:Q,t:T},
+        {id:'quant5', name:'Geometry & Mensuration',             q:Q,t:T},
+        {id:'quant6', name:'Algebra & Trigonometry',             q:Q,t:T},
+        {id:'quant7', name:'Data Interpretation',                q:Q,t:T},
+      ],
+      english: [
+        {id:'eng1', name:'Spot the Error',                       q:Q,t:T},
+        {id:'eng2', name:'Fill in the Blanks & Vocabulary',      q:Q,t:T},
+        {id:'eng3', name:'Synonyms, Antonyms & Spelling',        q:Q,t:T},
+        {id:'eng4', name:'Idioms, Phrases & One-Word Sub',       q:Q,t:T},
+        {id:'eng5', name:'Comprehension & Cloze Test',           q:Q,t:T},
+        {id:'eng6', name:'Sentence Improvement & Rearrangement', q:Q,t:T},
+      ],
+      reasoning: [
+        {id:'reas1', name:'Analogy & Classification',            q:Q,t:T},
+        {id:'reas2', name:'Series – Number & Alphabet',          q:Q,t:T},
+        {id:'reas3', name:'Coding-Decoding',                     q:Q,t:T},
+        {id:'reas4', name:'Blood Relations & Directions',        q:Q,t:T},
+        {id:'reas5', name:'Syllogism & Logical Reasoning',       q:Q,t:T},
+        {id:'reas6', name:'Non-Verbal – Figures & Matrix',       q:Q,t:T},
+      ],
+    },
+    tier1Mocks: [
+      {id:'full1',name:'CHSL Tier I Full Mock 1',q:Q,t:T},
+      {id:'full2',name:'CHSL Tier I Full Mock 2',q:Q,t:T},
+      {id:'full3',name:'CHSL Tier I Full Mock 3',q:Q,t:T},
+      {id:'full4',name:'CHSL Tier I Full Mock 4',q:Q,t:T},
+      {id:'full5',name:'CHSL Tier I Full Mock 5',q:Q,t:T},
+    ],
+    tier2Mocks: [
+      {id:'t2full1',name:'CHSL Tier II Mock 1',q:Q,t:T},
+      {id:'t2full2',name:'CHSL Tier II Mock 2',q:Q,t:T},
+      {id:'t2full3',name:'CHSL Tier II Mock 3',q:Q,t:T},
+      {id:'t2full4',name:'CHSL Tier II Mock 4',q:Q,t:T},
+      {id:'t2full5',name:'CHSL Tier II Mock 5',q:Q,t:T},
+    ],
+    imageMocks: [
+      {id:'image_ga',    name:'GA Image Based Mock',        q:Q,t:T},
+      {id:'image_quant', name:'Quant Image Based Mock',     q:Q,t:T},
+      {id:'image_eng',   name:'English Image Based Mock',   q:Q,t:T},
+      {id:'image_reas',  name:'Reasoning Image Based Mock', q:Q,t:T},
+    ],
+    specialMocks: [{id:'sp1',name:'CHSL Special Mock (SSC Pattern)',q:Q,t:T}],
+  },
+
+  /* ══════════════════════════════
+     SSC MTS  (Session I + Session II)
+     Both sessions: 100Q 60min each
+  ══════════════════════════════ */
+  mts: {
+    chapters: {
+      ga: [
+        {id:'ga1', name:'History & Art & Culture',               q:Q,t:T},
+        {id:'ga2', name:'Geography – India & World',             q:Q,t:T},
+        {id:'ga3', name:'Polity, Constitution & Governance',     q:Q,t:T},
+        {id:'ga4', name:'Indian Economy & Finance',              q:Q,t:T},
+        {id:'ga5', name:'Science & Technology',                  q:Q,t:T},
+        {id:'ga6', name:'Environment & Ecology',                 q:Q,t:T},
+        {id:'ga7', name:'Current Affairs & Sports',              q:Q,t:T},
+      ],
+      quant: [
+        {id:'quant1', name:'Number System & Arithmetic',         q:Q,t:T},
+        {id:'quant2', name:'Percentage, Profit & Loss',          q:Q,t:T},
+        {id:'quant3', name:'Ratio, Proportion & Average',        q:Q,t:T},
+        {id:'quant4', name:'Time, Work & Speed',                 q:Q,t:T},
+        {id:'quant5', name:'Geometry & Mensuration',             q:Q,t:T},
+      ],
+      english: [
+        {id:'eng1', name:'Basic Grammar & Error Detection',      q:Q,t:T},
+        {id:'eng2', name:'Vocabulary & Fill in the Blanks',      q:Q,t:T},
+        {id:'eng3', name:'Reading Comprehension & Cloze',        q:Q,t:T},
+      ],
+      reasoning: [
+        {id:'reas1', name:'Analogy, Classification & Series',    q:Q,t:T},
+        {id:'reas2', name:'Coding-Decoding & Blood Relations',   q:Q,t:T},
+        {id:'reas3', name:'Non-Verbal Reasoning & Spatial',      q:Q,t:T},
+        {id:'reas4', name:'Logical Reasoning & Problem Solving', q:Q,t:T},
+      ],
+    },
+    tier1Mocks: [
+      {id:'full1',name:'MTS Session I Mock 1',q:Q,t:T},
+      {id:'full2',name:'MTS Session I Mock 2',q:Q,t:T},
+      {id:'full3',name:'MTS Session I Mock 3',q:Q,t:T},
+      {id:'full4',name:'MTS Session I Mock 4',q:Q,t:T},
+      {id:'full5',name:'MTS Session I Mock 5',q:Q,t:T},
+    ],
+    tier2Mocks: [
+      {id:'t2full1',name:'MTS Session II Mock 1',q:Q,t:T},
+      {id:'t2full2',name:'MTS Session II Mock 2',q:Q,t:T},
+      {id:'t2full3',name:'MTS Session II Mock 3',q:Q,t:T},
+      {id:'t2full4',name:'MTS Session II Mock 4',q:Q,t:T},
+      {id:'t2full5',name:'MTS Session II Mock 5',q:Q,t:T},
+    ],
+    imageMocks: [
+      {id:'image_ga',    name:'GA Image Based Mock',        q:Q,t:T},
+      {id:'image_quant', name:'Quant Image Based Mock',     q:Q,t:T},
+      {id:'image_eng',   name:'English Image Based Mock',   q:Q,t:T},
+      {id:'image_reas',  name:'Reasoning Image Based Mock', q:Q,t:T},
+    ],
+    specialMocks: [{id:'sp1',name:'MTS Special Mock (SSC Pattern)',q:Q,t:T}],
+  },
+
+  /* ══════════════════════════════
+     SSC GD Constable  (CBE Paper)
+     80Q / 60min official → standardised to 100Q 60min
+  ══════════════════════════════ */
+  gd: {
+    chapters: {
+      ga: [
+        {id:'ga1', name:'History, Culture & Freedom Struggle',   q:Q,t:T},
+        {id:'ga2', name:'Geography – India & World',             q:Q,t:T},
+        {id:'ga3', name:'Polity, Constitution & Governance',     q:Q,t:T},
+        {id:'ga4', name:'Science, Technology & Environment',     q:Q,t:T},
+        {id:'ga5', name:'Current Affairs & Sports',              q:Q,t:T},
+      ],
+      quant: [
+        {id:'quant1', name:'Elementary Maths – Number System',   q:Q,t:T},
+        {id:'quant2', name:'Percentage, Profit, Ratio & Time',   q:Q,t:T},
+        {id:'quant3', name:'Mensuration, Geometry & DI',         q:Q,t:T},
+      ],
+      english: [
+        {id:'eng1', name:'English/Hindi – Grammar Basics',       q:Q,t:T},
+        {id:'eng2', name:'Vocabulary, Synonyms & Comprehension', q:Q,t:T},
+      ],
+      reasoning: [
+        {id:'reas1', name:'Analogy, Series & Classification',    q:Q,t:T},
+        {id:'reas2', name:'Coding, Blood Relations & Directions',q:Q,t:T},
+        {id:'reas3', name:'Non-Verbal Reasoning & Spatial',      q:Q,t:T},
+      ],
+    },
+    tier1Mocks: [
+      {id:'full1',name:'GD Constable CBE Mock 1',q:Q,t:T},
+      {id:'full2',name:'GD Constable CBE Mock 2',q:Q,t:T},
+      {id:'full3',name:'GD Constable CBE Mock 3',q:Q,t:T},
+      {id:'full4',name:'GD Constable CBE Mock 4',q:Q,t:T},
+      {id:'full5',name:'GD Constable CBE Mock 5',q:Q,t:T},
+    ],
+    tier2Mocks: [
+      {id:'t2full1',name:'GD Constable Revision Mock 1',q:Q,t:T},
+      {id:'t2full2',name:'GD Constable Revision Mock 2',q:Q,t:T},
+      {id:'t2full3',name:'GD Constable Revision Mock 3',q:Q,t:T},
+      {id:'t2full4',name:'GD Constable Revision Mock 4',q:Q,t:T},
+      {id:'t2full5',name:'GD Constable Revision Mock 5',q:Q,t:T},
+    ],
+    imageMocks: [
+      {id:'image_ga',    name:'GA Image Based Mock',        q:Q,t:T},
+      {id:'image_quant', name:'Maths Image Based Mock',     q:Q,t:T},
+      {id:'image_eng',   name:'English/Hindi Image Mock',   q:Q,t:T},
+      {id:'image_reas',  name:'Reasoning Image Based Mock', q:Q,t:T},
+    ],
+    specialMocks: [{id:'sp1',name:'GD Special Mock (SSC Pattern)',q:Q,t:T}],
+  },
+
+  /* ══════════════════════════════
+     SSC CPO  (Paper I + Paper II)
+     Paper I: 200Q 120min → chapter mocks 100Q 60min
+     Paper II: English only 200Q 120min
+  ══════════════════════════════ */
+  cpo: {
+    chapters: {
+      ga: [
+        {id:'ga1', name:'History & Indian Culture',              q:Q,t:T},
+        {id:'ga2', name:'Geography & Environment',               q:Q,t:T},
+        {id:'ga3', name:'Indian Polity & Constitution',          q:Q,t:T},
+        {id:'ga4', name:'Indian Economy',                        q:Q,t:T},
+        {id:'ga5', name:'Science & Technology',                  q:Q,t:T},
+        {id:'ga6', name:'Current Affairs, Sports & Awards',      q:Q,t:T},
+      ],
+      quant: [
+        {id:'quant1', name:'Number System & Simplification',     q:Q,t:T},
+        {id:'quant2', name:'Percentage, Profit & Ratio',         q:Q,t:T},
+        {id:'quant3', name:'Time, Work & Speed',                 q:Q,t:T},
+        {id:'quant4', name:'Geometry, Mensuration & Trigonometry',q:Q,t:T},
+        {id:'quant5', name:'Data Interpretation & Statistics',   q:Q,t:T},
+      ],
+      english: [
+        {id:'eng1', name:'Grammar – Error Detection & Tenses',   q:Q,t:T},
+        {id:'eng2', name:'Vocabulary & Fill in the Blanks',      q:Q,t:T},
+        {id:'eng3', name:'Reading Comprehension & Cloze',        q:Q,t:T},
+        {id:'eng4', name:'Idioms, Phrases & One-Word Sub',       q:Q,t:T},
+        {id:'eng5', name:'Sentence Improvement & Rearrangement', q:Q,t:T},
+      ],
+      reasoning: [
+        {id:'reas1', name:'Analogy, Similarities & Differences', q:Q,t:T},
+        {id:'reas2', name:'Series & Coding-Decoding',            q:Q,t:T},
+        {id:'reas3', name:'Blood Relations & Directions',        q:Q,t:T},
+        {id:'reas4', name:'Syllogism & Decision Making',         q:Q,t:T},
+        {id:'reas5', name:'Non-Verbal & Figural Classification', q:Q,t:T},
+      ],
+    },
+    tier1Mocks: [
+      {id:'full1',name:'CPO Paper I Full Mock 1',q:Q,t:T},
+      {id:'full2',name:'CPO Paper I Full Mock 2',q:Q,t:T},
+      {id:'full3',name:'CPO Paper I Full Mock 3',q:Q,t:T},
+      {id:'full4',name:'CPO Paper I Full Mock 4',q:Q,t:T},
+      {id:'full5',name:'CPO Paper I Full Mock 5',q:Q,t:T},
+    ],
+    tier2Mocks: [
+      {id:'t2full1',name:'CPO Paper II (English) Mock 1',q:Q,t:T},
+      {id:'t2full2',name:'CPO Paper II (English) Mock 2',q:Q,t:T},
+      {id:'t2full3',name:'CPO Paper II (English) Mock 3',q:Q,t:T},
+      {id:'t2full4',name:'CPO Paper II (English) Mock 4',q:Q,t:T},
+      {id:'t2full5',name:'CPO Paper II (English) Mock 5',q:Q,t:T},
+    ],
+    imageMocks: [
+      {id:'image_ga',    name:'GA Image Based Mock',        q:Q,t:T},
+      {id:'image_quant', name:'Quant Image Based Mock',     q:Q,t:T},
+      {id:'image_eng',   name:'English Image Based Mock',   q:Q,t:T},
+      {id:'image_reas',  name:'Reasoning Image Based Mock', q:Q,t:T},
+    ],
+    specialMocks: [{id:'sp1',name:'CPO Special Mock (SSC Pattern)',q:Q,t:T}],
+  },
+
+  /* ══════════════════════════════
+     SSC JE  (Paper I + Paper II Technical)
+  ══════════════════════════════ */
+  je: {
+    chapters: {
+      ga: [
+        {id:'ga1', name:'General Awareness Part I',              q:Q,t:T},
+        {id:'ga2', name:'General Awareness Part II',             q:Q,t:T},
+      ],
+      reasoning: [
+        {id:'reas1', name:'Reasoning – Verbal',                  q:Q,t:T},
+        {id:'reas2', name:'Reasoning – Non-Verbal & Spatial',    q:Q,t:T},
+      ],
+      technical: [
+        {id:'tech1', name:'Civil – Strength of Materials',       q:Q,t:T},
+        {id:'tech2', name:'Civil – Structural Analysis',         q:Q,t:T},
+        {id:'tech3', name:'Civil – Soil & Hydraulics',           q:Q,t:T},
+        {id:'tech4', name:'Civil – Surveying & Environment',     q:Q,t:T},
+        {id:'tech5', name:'Electrical – Basic & DC Circuits',    q:Q,t:T},
+        {id:'tech6', name:'Electrical – AC, Machines & Power',   q:Q,t:T},
+        {id:'tech7', name:'Mechanical – TOM & Machine Design',   q:Q,t:T},
+        {id:'tech8', name:'Mechanical – Fluid & Thermodynamics', q:Q,t:T},
+      ],
+    },
+    tier1Mocks: [
+      {id:'full1',name:'JE Paper I Full Mock 1',q:Q,t:T},
+      {id:'full2',name:'JE Paper I Full Mock 2',q:Q,t:T},
+      {id:'full3',name:'JE Paper I Full Mock 3',q:Q,t:T},
+      {id:'full4',name:'JE Paper I Full Mock 4',q:Q,t:T},
+      {id:'full5',name:'JE Paper I Full Mock 5',q:Q,t:T},
+    ],
+    tier2Mocks: [
+      {id:'t2full1',name:'JE Paper II Technical Mock 1',q:Q,t:T},
+      {id:'t2full2',name:'JE Paper II Technical Mock 2',q:Q,t:T},
+      {id:'t2full3',name:'JE Paper II Technical Mock 3',q:Q,t:T},
+      {id:'t2full4',name:'JE Paper II Technical Mock 4',q:Q,t:T},
+      {id:'t2full5',name:'JE Paper II Technical Mock 5',q:Q,t:T},
+    ],
+    imageMocks: [
+      {id:'image_ga',    name:'GA Image Based Mock',             q:Q,t:T},
+      {id:'image_reas',  name:'Reasoning Image Based Mock',      q:Q,t:T},
+      {id:'image_tech',  name:'Technical (Civil) Image Mock',    q:Q,t:T},
+      {id:'image_tech2', name:'Technical (Elec/Mech) Image Mock',q:Q,t:T},
+    ],
+    specialMocks: [{id:'sp1',name:'JE Special Mock (SSC Pattern)',q:Q,t:T}],
+  },
+
+  /* ══════════════════════════════
+     SSC Stenographer  (Grade C & D)
+     CBT: 200Q 120min → chapter mocks 100Q 60min
+  ══════════════════════════════ */
+  steno: {
+    chapters: {
+      ga: [
+        {id:'ga1', name:'History, Culture & Art',                q:Q,t:T},
+        {id:'ga2', name:'Geography & Environment',               q:Q,t:T},
+        {id:'ga3', name:'Polity, Economy & Governance',          q:Q,t:T},
+        {id:'ga4', name:'Science, Tech & Current Affairs',       q:Q,t:T},
+      ],
+      reasoning: [
+        {id:'reas1', name:'Analogy, Classification & Series',    q:Q,t:T},
+        {id:'reas2', name:'Coding-Decoding & Blood Relations',   q:Q,t:T},
+        {id:'reas3', name:'Syllogism & Decision Making',         q:Q,t:T},
+        {id:'reas4', name:'Non-Verbal Reasoning & Matrix',       q:Q,t:T},
+      ],
+      english: [
+        {id:'eng1', name:'Vocabulary – Synonyms & Antonyms',     q:Q,t:T},
+        {id:'eng2', name:'Grammar – Tenses, Voices & Narration', q:Q,t:T},
+        {id:'eng3', name:'Spot the Error & Sentence Improvement',q:Q,t:T},
+        {id:'eng4', name:'One-Word Sub, Idioms & Phrases',       q:Q,t:T},
+        {id:'eng5', name:'Reading Comprehension & Cloze',        q:Q,t:T},
+      ],
+    },
+    tier1Mocks: [
+      {id:'full1',name:'Steno CBT Mock 1',q:Q,t:T},
+      {id:'full2',name:'Steno CBT Mock 2',q:Q,t:T},
+      {id:'full3',name:'Steno CBT Mock 3',q:Q,t:T},
+      {id:'full4',name:'Steno CBT Mock 4',q:Q,t:T},
+      {id:'full5',name:'Steno CBT Mock 5',q:Q,t:T},
+    ],
+    tier2Mocks: [
+      {id:'t2full1',name:'Steno Revision Mock 1',q:Q,t:T},
+      {id:'t2full2',name:'Steno Revision Mock 2',q:Q,t:T},
+      {id:'t2full3',name:'Steno Revision Mock 3',q:Q,t:T},
+      {id:'t2full4',name:'Steno Revision Mock 4',q:Q,t:T},
+      {id:'t2full5',name:'Steno Revision Mock 5',q:Q,t:T},
+    ],
+    imageMocks: [
+      {id:'image_ga',   name:'GA Image Based Mock',         q:Q,t:T},
+      {id:'image_reas', name:'Reasoning Image Based Mock',  q:Q,t:T},
+      {id:'image_eng',  name:'English Image Based Mock',    q:Q,t:T},
+    ],
+    specialMocks: [{id:'sp1',name:'Steno Special Mock (SSC Pattern)',q:Q,t:T}],
+  },
+
+  /* ══════════════════════════════
+     SSC Selection Post  (Phase)
+     CBT: 100Q 60min — Matriculation / Intermediate / Graduate level
+  ══════════════════════════════ */
+  sel: {
+    chapters: {
+      ga: [
+        {id:'ga1', name:'History, Culture & Heritage',           q:Q,t:T},
+        {id:'ga2', name:'Geography – India & World',             q:Q,t:T},
+        {id:'ga3', name:'Polity, Constitution & Economy',        q:Q,t:T},
+        {id:'ga4', name:'Science, Tech & Current Affairs',       q:Q,t:T},
+      ],
+      quant: [
+        {id:'quant1', name:'Arithmetic – Number System & %',     q:Q,t:T},
+        {id:'quant2', name:'Ratio, Time, Work & Speed',          q:Q,t:T},
+        {id:'quant3', name:'Algebra, Geometry & Mensuration',    q:Q,t:T},
+        {id:'quant4', name:'Data Interpretation',                q:Q,t:T},
+      ],
+      english: [
+        {id:'eng1', name:'Grammar & Error Spotting',             q:Q,t:T},
+        {id:'eng2', name:'Vocabulary & Fill in the Blanks',      q:Q,t:T},
+        {id:'eng3', name:'Reading Comprehension & Cloze',        q:Q,t:T},
+      ],
+      reasoning: [
+        {id:'reas1', name:'Analogy, Series & Classification',    q:Q,t:T},
+        {id:'reas2', name:'Coding, Blood Relations & Directions',q:Q,t:T},
+        {id:'reas3', name:'Logical Reasoning & Non-Verbal',      q:Q,t:T},
+      ],
+    },
+    tier1Mocks: [
+      {id:'full1',name:'Selection Post Phase Mock 1',q:Q,t:T},
+      {id:'full2',name:'Selection Post Phase Mock 2',q:Q,t:T},
+      {id:'full3',name:'Selection Post Phase Mock 3',q:Q,t:T},
+      {id:'full4',name:'Selection Post Phase Mock 4',q:Q,t:T},
+      {id:'full5',name:'Selection Post Phase Mock 5',q:Q,t:T},
+    ],
+    tier2Mocks: [
+      {id:'t2full1',name:'Selection Post Revision Mock 1',q:Q,t:T},
+      {id:'t2full2',name:'Selection Post Revision Mock 2',q:Q,t:T},
+      {id:'t2full3',name:'Selection Post Revision Mock 3',q:Q,t:T},
+      {id:'t2full4',name:'Selection Post Revision Mock 4',q:Q,t:T},
+      {id:'t2full5',name:'Selection Post Revision Mock 5',q:Q,t:T},
+    ],
+    imageMocks: [
+      {id:'image_ga',    name:'GA Image Based Mock',        q:Q,t:T},
+      {id:'image_quant', name:'Quant Image Based Mock',     q:Q,t:T},
+      {id:'image_eng',   name:'English Image Based Mock',   q:Q,t:T},
+      {id:'image_reas',  name:'Reasoning Image Based Mock', q:Q,t:T},
+    ],
+    specialMocks: [{id:'sp1',name:'Selection Post Special Mock (SSC Pattern)',q:Q,t:T}],
+  },
+};
+
+/* Helper — build the CBT URL */
+function mockUrl(examId, mockId){
+  return `https://commercesehoga.github.io/ssc/${examId}/${mockId}`;
+}
+
+/* Helper — read result from CBT localStorage key */
+function getCBTResult(examId, mockId){
+  /* CBT saves as: thunderstudy_result_{SUBJECT_ID}_{CHAPTER_ID}
+     We map examId → subjectId (same thing here) and mockId → chapterId */
+  try{
+    const raw = localStorage.getItem(`thunderstudy_result_${examId}_${mockId}`);
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
+}
+
+/* Legacy SSC_MOCKS kept for analytics/exams page backward-compat */
+const SSC_MOCKS = {
+  cgl:   [],chsl:[],mts:[],gd:[],cpo:[],je:[],steno:[],sel:[]
+};
+
+/* ═══════════════════════════════════════
+   LOCAL STORAGE HELPERS
+═══════════════════════════════════════ */
+function getProfile(){ try{return JSON.parse(localStorage.getItem('ssc_profile')||'{}')}catch{return {};} }
+function saveProfile(p){ localStorage.setItem('ssc_profile', JSON.stringify(p)); }
+function getStudentID(){
+  return localStorage.getItem('ts_student_id')
+    || localStorage.getItem('ssc_student_id')
+    || '';
+}
+function getUserName(){
+  const p = getProfile();
+  return p.name
+    || localStorage.getItem('ssc_name')
+    || localStorage.getItem('cbtUserName')
+    || (() => { try{ return JSON.parse(localStorage.getItem('ts_profile')||'{}').name||''; }catch{return '';} })()
+    || '';
+}
+function getSelectedExams(){ try{return JSON.parse(localStorage.getItem('ssc_exams')||'[]')}catch{return [];} }
+function saveSelectedExams(e){ localStorage.setItem('ssc_exams', JSON.stringify(e)); }
+function getGoogleUser(){ try{return JSON.parse(localStorage.getItem('ts_google_user')||'null')}catch{return null;} }
+
+function rKey(examId, mockId){ return `ssc_result_${examId}_${mockId}`; }
+function lR(examId, mockId){ try{return JSON.parse(localStorage.getItem(rKey(examId,mockId))||'null')}catch{return null;} }
+function sR(examId, mockId, data){ localStorage.setItem(rKey(examId,mockId), JSON.stringify(data)); }
+
+function getAllAttempts(){
+  const all = [];
+  Object.keys(localStorage).forEach(k => {
+    if(k.startsWith('ssc_result_')) {
+      try{ const d=JSON.parse(localStorage.getItem(k)||'null'); if(d) all.push(d); }catch{}
+    }
+  });
+  return all;
+}
+
+function rClr(p){ return p>=80?'#16a34a':p>=60?'#2563eb':p>=40?'#d97706':'#dc2626'; }
+function escH(s){ const d=document.createElement('div');d.textContent=s;return d.innerHTML; }
+
+/* ═══════════════════════════════════════
+   TOAST
+═══════════════════════════════════════ */
+let _toastTimer;
+function showToast(msg, type='', dur=2800){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='show'+(type?' '+type:'');
+  clearTimeout(_toastTimer);
+  _toastTimer=setTimeout(()=>{t.className='';},dur);
+}
+
+/* ═══════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════ */
+function goPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.dock-item').forEach(d=>d.classList.remove('active'));
+
+  const page = document.getElementById('page-'+id);
+  if(page) page.classList.add('active');
+
+  document.querySelectorAll(`.nav-item`).forEach(n=>{
+    if(n.getAttribute('onclick')===`goPage('${id}')`) n.classList.add('active');
+  });
+  const dock = document.getElementById('dock-'+id);
+  if(dock) dock.classList.add('active');
+
+  if(id==='home') renderHome();
+  else if(id==='exams') renderExams();
+  else if(id==='mocks') renderMocks();
+  else if(id==='analytics') renderAnalytics();
+  else if(id==='rank') renderRank();
+  else if(id==='settings') renderSettings();
+}
+
+/* ═══════════════════════════════════════
+   HOME RENDER
+═══════════════════════════════════════ */
+function renderHome(){
+  const name = getUserName();
+  const sid = getStudentID();
+  const gu = getGoogleUser();
+  const exams = getSelectedExams();
+  const allAtt = getAllAttempts();
+  const totalTests = allAtt.length;
+  const avgPct = totalTests>0 ? allAtt.reduce((s,d)=>s+d.percentage,0)/totalTests : 0;
+  const streak = getStreak();
+  const bestPct = allAtt.length>0 ? Math.max(...allAtt.map(d=>d.percentage)) : 0;
+
+  // Update greeting & sidebar
+  const hour = new Date().getHours();
+  const greetEmoji = hour<12?'🌅':(hour<17?'☀️':'🌙');
+  document.getElementById('home-greeting').textContent = name ? (greetEmoji+' Hello, '+name.split(' ')[0]+'!') : '👋 Hello, Aspirant!';
+  if(name){ document.getElementById('sb-name-disp').textContent=name; document.getElementById('sb-av-disp').textContent=name[0].toUpperCase(); }
+  if(exams.length>0) document.getElementById('sb-role-disp').textContent=exams.map(e=>SSC_EXAMS.find(x=>x.id===e)?.name||e).join(' · ');
+
+  renderHomeTopbar();
+
+  let H = '';
+
+  // ── ThunderStudy identity banner ──
+  if(!name){
+    H += `<div style="background:linear-gradient(135deg,rgba(91,78,232,.08),rgba(67,56,202,.04));border:1.5px solid rgba(91,78,232,.22);border-radius:18px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <div style="width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#5B4EE8,#4338CA);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 4px 12px rgba(91,78,232,.3);">🔗</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:13px;font-weight:800;color:var(--acc);">Already a ThunderStudy user?</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px;">Auto-fetch your name & Student ID from ThunderStudy.</div>
+      </div>
+      <button class="btn btn-prim" onclick="openModal('fetch-id-modal')" style="font-size:11px;padding:7px 14px;flex-shrink:0;">🔗 Fetch</button>
+    </div>`;
+  }
+
+  // ── HERO CARD ──
+  const avBg = gu&&gu.picture
+    ? `<img src="${escH(gu.picture)}" style="width:100%;height:100%;object-fit:cover;border-radius:13px;" onerror="this.parentNode.textContent='${name?name[0].toUpperCase():'S'}'"/>`
+    : (name?name[0].toUpperCase():'S');
+
+  H += `<div class="ssc-hero" style="margin-bottom:16px;">
+    <div style="background:linear-gradient(135deg,#5B4EE8 0%,#4338CA 60%,#7C6FF0 100%);padding:20px;position:relative;overflow:hidden;">
+      <div style="position:absolute;inset:0;opacity:.07;background:url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='1'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E\");"></div>
+      <div style="position:absolute;top:-20px;right:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.07);"></div>
+      <div style="position:absolute;bottom:-30px;left:60%;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05);"></div>
+      <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+        <div style="display:flex;align-items:center;gap:13px;">
+          <div style="width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff;flex-shrink:0;overflow:hidden;backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,.3);">${avBg}</div>
+          <div>
+            <div style="font-size:20px;font-weight:900;color:#fff;font-family:'Outfit',sans-serif;letter-spacing:-.3px;">${escH(name||'Aspirant')}</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.75);margin-top:2px;font-family:var(--mono);">${sid?'ID: '+sid:'Set your Student ID →'}</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;">
+          <div style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:30px;padding:5px 13px;font-size:12px;font-weight:800;color:#fff;backdrop-filter:blur(4px);">⚡ Level ${Math.floor(totalTests/5)+1}</div>
+          ${exams.length>0?`<div style="font-size:10px;color:rgba(255,255,255,.65);">${exams.map(e=>SSC_EXAMS.find(x=>x.id===e)?.name||e).join(' · ')}</div>`:''}
+        </div>
+      </div>
+    </div>
+    <div class="ssc-stats-grid">
+      <div class="ssc-stat-cell"><div class="ssc-stat-v" style="color:var(--acc);">${totalTests}</div><div class="ssc-stat-l">Tests Done</div></div>
+      <div class="ssc-stat-cell"><div class="ssc-stat-v" style="color:${rClr(avgPct)};">${avgPct.toFixed(1)}%</div><div class="ssc-stat-l">Avg Score</div></div>
+      <div class="ssc-stat-cell"><div class="ssc-stat-v" style="color:var(--orange);">${streak}<span style="font-size:14px;">🔥</span></div><div class="ssc-stat-l">Streak</div></div>
+      <div class="ssc-stat-cell"><div class="ssc-stat-v" style="color:var(--green);">${bestPct>0?bestPct.toFixed(0)+'%':'—'}</div><div class="ssc-stat-l">Best Score</div></div>
+    </div>
+  </div>`;
+
+  // ── QUICK ACTIONS ROW ──
+  H += `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;">
+    <div onclick="goPage('mocks')" style="background:#ffffff;border:1.5px solid #D4CCFF;border-radius:16px;padding:14px 12px;text-align:center;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(91,78,232,.05);" onmouseenter="this.style.borderColor='var(--acc)';this.style.boxShadow='0 4px 16px rgba(91,78,232,.12)'" onmouseleave="this.style.borderColor='#D4CCFF';this.style.boxShadow='0 2px 8px rgba(91,78,232,.05)'">
+      <div style="font-size:24px;margin-bottom:6px;">📝</div>
+      <div style="font-size:12px;font-weight:800;color:var(--text);">Mock Tests</div>
+    </div>
+    <div onclick="openNoticesPopup()" style="background:#ffffff;border:1.5px solid #D4CCFF;border-radius:16px;padding:14px 12px;text-align:center;cursor:pointer;transition:all .2s;position:relative;box-shadow:0 2px 8px rgba(91,78,232,.05);" onmouseenter="this.style.borderColor='var(--acc)';this.style.boxShadow='0 4px 16px rgba(91,78,232,.12)'" onmouseleave="this.style.borderColor='#D4CCFF';this.style.boxShadow='0 2px 8px rgba(91,78,232,.05)'">
+      <div style="font-size:24px;margin-bottom:6px;">🔔</div>
+      <div style="font-size:12px;font-weight:800;color:var(--text);">Notices</div>
+      <span id="home-notices-badge" style="display:none;position:absolute;top:8px;right:8px;background:var(--red);color:#fff;font-size:8px;font-weight:800;padding:1px 5px;border-radius:20px;"></span>
+    </div>
+    <div onclick="goPage('analytics')" style="background:#ffffff;border:1.5px solid #D4CCFF;border-radius:16px;padding:14px 12px;text-align:center;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(91,78,232,.05);" onmouseenter="this.style.borderColor='var(--acc)';this.style.boxShadow='0 4px 16px rgba(91,78,232,.12)'" onmouseleave="this.style.borderColor='#D4CCFF';this.style.boxShadow='0 2px 8px rgba(91,78,232,.05)'">
+      <div style="font-size:24px;margin-bottom:6px;">📈</div>
+      <div style="font-size:12px;font-weight:800;color:var(--text);">Analytics</div>
+    </div>
+  </div>`;
+
+  // ── NOTICES PREVIEW ──
+  H += `<div id="home-notices-preview" style="margin-bottom:16px;"></div>`;
+
+  // ── QUOTE OF THE DAY ──
+  H += `<div id="home-quote-area" style="margin-bottom:16px;"></div>`;
+
+  // ── EXAM PROGRESS ──
+  if(exams.length===0){
+    H += `<div style="background:rgba(91,78,232,.04);border:1.5px dashed rgba(91,78,232,.25);border-radius:18px;padding:28px;text-align:center;margin-bottom:16px;">
+      <div style="font-size:48px;margin-bottom:10px;">📋</div>
+      <div style="font-size:16px;font-weight:800;margin-bottom:6px;font-family:'Outfit',sans-serif;">No exams selected yet</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:16px;">Add the SSC exams you're preparing for.</div>
+      <button class="btn btn-prim" onclick="goPage('exams')">+ Add Exams</button>
+    </div>`;
+  } else {
+    H += `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <div style="font-size:14px;font-weight:800;color:var(--text);">📋 My Exam Progress</div>
+      <span style="font-size:12px;color:var(--acc);font-weight:700;cursor:pointer;" onclick="goPage('exams')">See all →</span>
+    </div>`;
+    H += `<div class="exam-grid">`;
+    exams.slice(0,4).forEach(examId=>{
+      const exam=SSC_EXAMS.find(e=>e.id===examId);if(!exam)return;
+      const mocks=SSC_MOCKS[examId]||[];
+      const attempted=mocks.filter(m=>lR(examId,m.id));
+      const avgE=attempted.length>0?attempted.reduce((s,m)=>{const r=lR(examId,m.id);return s+(r?r.percentage:0);},0)/attempted.length:0;
+      const pctBar=attempted.length>0?Math.min(100,avgE):0;
+      H += `<div class="exam-card" onclick="goPage('exams');setTimeout(()=>switchExamTab('${examId}'),120);">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;">
+          <div class="exam-card-icon" style="background:${exam.bg};margin-bottom:0;">${exam.icon}</div>
+          ${attempted.length>0?`<span style="font-size:14px;font-weight:900;font-family:var(--mono);color:${rClr(avgE)};">${avgE.toFixed(0)}%</span>`:'<span style="font-size:10px;color:var(--text3);">New</span>'}
+        </div>
+        <div class="exam-card-name">${exam.name}</div>
+        <div class="exam-card-full">${exam.full}</div>
+        <div style="height:4px;background:var(--card2);border-radius:4px;overflow:hidden;margin:8px 0 6px;">
+          <div style="height:100%;width:${pctBar.toFixed(1)}%;background:${exam.color};border-radius:4px;transition:width 1s;"></div>
+        </div>
+        <div class="exam-card-attempts">${attempted.length}/${mocks.length} tests done</div>
+      </div>`;
+    });
+    H += `</div>`;
+  }
+
+  // ── RECENT MOCKS ──
+  const allMocks=exams.flatMap(e=>(SSC_MOCKS[e]||[]).map(m=>({...m,examId:e})));
+  const recentMocks=allMocks.slice(0,4);
+  if(recentMocks.length>0){
+    H += `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;margin-top:8px;">
+      <div style="font-size:14px;font-weight:800;color:var(--text);">📝 Recent Mocks</div>
+      <span style="font-size:12px;color:var(--acc);font-weight:700;cursor:pointer;" onclick="goPage('mocks')">All →</span>
+    </div>
+    <div class="mock-list">`;
+    recentMocks.forEach(m=>{
+      const r=lR(m.examId,m.id);
+      const exam=SSC_EXAMS.find(e=>e.id===m.examId);
+      H += `<div class="mock-item" onclick="openMock('${m.examId}','${m.id}')">
+        <div class="mock-item-icon" style="background:${exam?.bg||'var(--card2)'};">${exam?.icon||'📝'}</div>
+        <div style="flex:1;min-width:0;">
+          <div class="mock-item-name">${escH(m.name)}</div>
+          <div class="mock-item-sub">${exam?.name||''} · ${m.questions}Q · ${m.time}min</div>
+        </div>
+        <div class="mock-item-score">
+          ${r?`<div class="mock-item-pct" style="color:${rClr(r.percentage)};">${r.percentage.toFixed(0)}%</div><div class="mock-item-attempts">${r.score}/${r.maxScore}</div>`:'<div style="font-size:11px;color:var(--text3);">Attempt</div>'}
+        </div>
+      </div>`;
+    });
+    H += `</div>`;
+  }
+
+  document.getElementById('home-content').innerHTML = H;
+  updateNoticesBadge();
+  renderNoticesPreview(document.getElementById('home-notices-preview'));
+  renderQuoteCard(document.getElementById('home-quote-area'));
+}
+
+/* ═══════════════════════════════════════
+   HOME TOPBAR (Google sign-in area)
+═══════════════════════════════════════ */
+function renderHomeTopbar(){
+  const gu = getGoogleUser();
+  const area = document.getElementById('home-google-area');
+  if(!area) return;
+
+  if(gu){
+    area.innerHTML = `<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <img src="${escH(gu.picture||'')}" width="30" height="30" style="border-radius:50%;border:2px solid var(--acc);flex-shrink:0;" onerror="this.style.display='none'">
+      <div style="font-size:12px;font-weight:800;">${escH(gu.name.split(' ')[0])}</div>
+      <button onclick="sscGoogleLogout()" class="btn btn-ghost" style="font-size:11px;padding:5px 10px;">Sign Out</button>
+      <button onclick="toggleDark()" style="background:var(--card2);border:1.5px solid var(--border);border-radius:50%;width:32px;height:32px;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;">${document.body.classList.contains('dark-mode')?'☀️':'🌙'}</button>
+    </div>`;
+  } else {
+    area.innerHTML = `<div style="display:flex;align-items:center;gap:8px;">
+      <button class="btn-google" onclick="topbarGoogleLogin()" style="padding:6px 14px;font-size:12px;gap:6px;">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="15"> Sign in
+      </button>
+      <button onclick="toggleDark()" style="background:var(--card2);border:1.5px solid var(--border);border-radius:50%;width:32px;height:32px;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;">${document.body.classList.contains('dark-mode')?'☀️':'🌙'}</button>
+    </div>`;
+  }
+}
+
+/* ═══════════════════════════════════════
+   EXAMS PAGE
+═══════════════════════════════════════ */
+let _examTab = '';
+function renderExams(){
+  const selected = getSelectedExams();
+  const cont = document.getElementById('exams-content');
+  if(!cont) return;
+
+  if(selected.length===0){
+    cont.innerHTML = `<div style="text-align:center;padding:60px 20px;">
+      <div style="width:80px;height:80px;border-radius:24px;background:linear-gradient(135deg,#EBEEFF,#D4CCFF);display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 18px;">📋</div>
+      <div style="font-size:20px;font-weight:900;margin-bottom:8px;font-family:'Outfit',sans-serif;">No exams added yet</div>
+      <div style="font-size:13px;color:var(--text3);margin-bottom:22px;line-height:1.6;">Select the SSC exams you're preparing for<br>to track your progress here.</div>
+      <button class="btn btn-prim" onclick="openAddExamModal()" style="padding:12px 24px;font-size:13px;">+ Select Exams</button>
+    </div>`;
+    return;
+  }
+
+  if(!_examTab || !selected.includes(_examTab)) _examTab = selected[0];
+
+  /* ── Exam selector tabs ── */
+  let H = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;">`;
+  selected.forEach(examId=>{
+    const exam = SSC_EXAMS.find(e=>e.id===examId);
+    if(!exam) return;
+    const mocks = SSC_MOCKS[examId]||[];
+    const done = mocks.filter(m=>lR(examId,m.id)).length;
+    const isActive = _examTab===examId;
+    H += `<div class="subj-tab ${isActive?'active':''}" onclick="switchExamTab('${examId}')" style="position:relative;">
+      ${exam.icon} ${exam.name}
+      ${done>0?`<span style="margin-left:5px;background:${isActive?'rgba(255,255,255,.3)':'var(--acc)'};color:${isActive?'#fff':'#fff'};font-size:9px;font-weight:800;padding:1px 6px;border-radius:20px;">${done}✓</span>`:''}
+    </div>`;
+  });
+  H += `</div><div id="exam-tab-content"></div>`;
+
+  cont.innerHTML = H;
+  renderExamTab(_examTab);
+}
+
+function switchExamTab(examId){
+  _examTab = examId;
+  document.querySelectorAll('#exams-content .subj-tab').forEach(t=>{
+    t.classList.toggle('active', t.getAttribute('onclick')===`switchExamTab('${examId}')`);
+  });
+  renderExamTab(examId);
+}
+
+function renderExamTab(examId){
+  const exam = SSC_EXAMS.find(e=>e.id===examId);
+  if(!exam) return;
+  const cont = document.getElementById('exam-tab-content');
+  if(!cont) return;
+
+  const mocks      = SSC_MOCKS[examId]||[];
+  const attempted  = mocks.filter(m=>lR(examId,m.id));
+  const totalDone  = attempted.length;
+  const totalMocks = mocks.length;
+  const avgE       = totalDone>0 ? attempted.reduce((s,m)=>{const r=lR(examId,m.id);return s+(r?r.percentage:0);},0)/totalDone : 0;
+  const overallPct = totalMocks>0 ? Math.round(totalDone/totalMocks*100) : 0;
+
+  /* ── HERO BANNER ── */
+  let H = `<div style="background:linear-gradient(135deg,${exam.color} 0%,${exam.color}cc 100%);border-radius:22px;padding:22px 22px 0;margin-bottom:16px;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-30px;right:-30px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.08);"></div>
+    <div style="position:absolute;bottom:-40px;left:30%;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.05);"></div>
+    <div style="position:relative;z-index:1;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div style="width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.2);backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;">${exam.icon}</div>
+        <div>
+          <div style="font-size:20px;font-weight:900;color:#fff;font-family:'Outfit',sans-serif;letter-spacing:-.3px;">${exam.name}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.75);margin-top:2px;">${exam.full}</div>
+          <div style="display:flex;gap:5px;margin-top:7px;flex-wrap:wrap;">
+            ${exam.tiers.map(t=>`<span style="font-size:9px;font-weight:700;padding:2px 9px;border-radius:20px;background:rgba(255,255,255,.2);color:#fff;backdrop-filter:blur(4px);">${t}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;flex-shrink:0;">
+        ${totalDone>0?`<div style="text-align:center;">
+          <div style="font-size:26px;font-weight:900;font-family:var(--mono);color:#fff;">${avgE.toFixed(0)}%</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.5px;">Avg Score</div>
+        </div>`:''}
+        <div style="text-align:center;">
+          <div style="font-size:26px;font-weight:900;font-family:var(--mono);color:#fff;">${totalDone}<span style="font-size:14px;opacity:.7;">/${totalMocks}</span></div>
+          <div style="font-size:9px;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.5px;">Mocks Done</div>
+        </div>
+      </div>
+    </div>
+    <!-- Overall progress bar -->
+    <div style="position:relative;z-index:1;margin-bottom:0;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+        <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,.75);">Overall Progress</span>
+        <span style="font-size:10px;font-weight:800;color:#fff;">${overallPct}%</span>
+      </div>
+      <div style="height:6px;background:rgba(255,255,255,.2);border-radius:10px;overflow:hidden;margin-bottom:18px;">
+        <div style="height:100%;width:${overallPct}%;background:#fff;border-radius:10px;transition:width 1s ease;"></div>
+      </div>
+    </div>
+  </div>`;
+
+  /* ── SUBJECT CARDS ── */
+  H += `<div style="margin-bottom:6px;"><div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:12px;">📚 Subjects in ${exam.name}</div>`;
+  H += `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:18px;">`;
+  exam.subjects.forEach(s=>{
+    const sMocks   = mocks.filter(m=>m.subject===s.id||m.subject==='all');
+    const sDone    = sMocks.filter(m=>lR(examId,m.id));
+    const sAvg     = sDone.length>0 ? sDone.reduce((sum,m)=>{const r=lR(examId,m.id);return sum+(r?r.percentage:0);},0)/sDone.length : 0;
+    const hasPct   = sDone.length>0;
+    const pctClr   = hasPct ? rClr(sAvg) : 'var(--text3)';
+    H += `<div style="background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px 14px;transition:all .2s;cursor:default;"
+      onmouseenter="this.style.borderColor='${exam.color}50';this.style.boxShadow='0 4px 16px rgba(0,0,0,.06)'"
+      onmouseleave="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+      <div style="font-size:24px;margin-bottom:10px;">${s.icon}</div>
+      <div style="font-size:12px;font-weight:800;color:var(--text);line-height:1.3;margin-bottom:8px;">${s.name}</div>
+      ${hasPct
+        ? `<div style="font-size:20px;font-weight:900;font-family:var(--mono);color:${pctClr};">${sAvg.toFixed(0)}%</div>
+           <div style="font-size:9px;color:var(--text3);margin-top:2px;">avg · ${sDone.length} mock${sDone.length!==1?'s':''}</div>
+           <div style="height:4px;background:var(--card2);border-radius:4px;margin-top:8px;overflow:hidden;">
+             <div style="height:100%;width:${Math.min(100,sAvg).toFixed(1)}%;background:${pctClr};border-radius:4px;transition:width 1s;"></div>
+           </div>`
+        : `<div style="font-size:11px;color:var(--text3);font-weight:600;">No attempts yet</div>`
+      }
+    </div>`;
+  });
+  H += `</div></div>`;
+
+  /* ── SUBJECT PROGRESS BARS ── */
+  H += `<div class="card card-p" style="margin-bottom:16px;">
+    <div class="sec-hdr" style="margin-bottom:16px;"><div class="sec-title">📊 Subject-wise Progress</div></div>`;
+  exam.subjects.forEach(s=>{
+    const sMocks = mocks.filter(m=>m.subject===s.id||m.subject==='all');
+    const sDone  = sMocks.filter(m=>lR(examId,m.id));
+    const sAvg   = sDone.length>0 ? sDone.reduce((sum,m)=>{const r=lR(examId,m.id);return sum+(r?r.percentage:0);},0)/sDone.length : 0;
+    const pct    = sDone.length>0 ? sAvg : 0;
+    H += `<div class="prog-row">
+      <div class="prog-lbl">${s.icon} ${s.name.split(' ')[0]}</div>
+      <div class="prog-track"><div class="prog-fill" style="width:${pct.toFixed(1)}%;background:${rClr(pct)};"></div></div>
+      <div class="prog-pct" style="color:${pct>0?rClr(pct):'var(--text3)'};">${pct>0?pct.toFixed(0)+'%':'—'}</div>
+    </div>`;
+  });
+  H += `</div>`;
+
+  /* ── MOCK TESTS SECTION ── */
+  const fullMocks    = mocks.filter(m=>m.type==='Full Mock');
+  const chapterMocks = mocks.filter(m=>m.type!=='Full Mock');
+  const fullDone     = fullMocks.filter(m=>lR(examId,m.id)).length;
+  const chapDone     = chapterMocks.filter(m=>lR(examId,m.id)).length;
+
+  H += `<div style="background:var(--card);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:16px;">
+    <!-- Header -->
+    <div style="padding:16px 18px;border-bottom:1.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,${exam.color}08,transparent);">
+      <div>
+        <div style="font-size:14px;font-weight:800;color:var(--text);">📝 Mock Tests</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px;">${totalDone} of ${totalMocks} completed</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <!-- mini doughnut-style ring -->
+        <div style="position:relative;width:44px;height:44px;flex-shrink:0;">
+          <svg width="44" height="44" style="transform:rotate(-90deg);">
+            <circle cx="22" cy="22" r="18" fill="none" stroke="var(--border)" stroke-width="4"/>
+            <circle cx="22" cy="22" r="18" fill="none" stroke="${exam.color}" stroke-width="4"
+              stroke-dasharray="${totalMocks>0?Math.round(totalDone/totalMocks*113):0} 113"
+              stroke-linecap="round" style="transition:stroke-dasharray 1s ease;"/>
+          </svg>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;font-family:var(--mono);color:var(--text);">${overallPct}%</div>
+        </div>
+        <button onclick="goPage('mocks')" class="btn btn-prim" style="font-size:11px;padding:7px 14px;white-space:nowrap;">Go to Mocks →</button>
+      </div>
+    </div>`;
+
+  /* Full Mocks */
+  if(fullMocks.length>0){
+    H += `<div style="padding:12px 18px 4px;">
+      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:10px;">
+        🎯 Full Mocks — ${fullDone}/${fullMocks.length} done
+      </div>`;
+    fullMocks.forEach((m,i)=>{
+      const r        = lR(examId, m.id);
+      const isDone   = !!r;
+      H += `<div style="display:flex;align-items:center;gap:12px;padding:11px 0;${i<fullMocks.length-1?'border-bottom:1px solid var(--border);':''}">
+        <!-- Status dot -->
+        <div style="width:32px;height:32px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;
+          background:${isDone?rClr(r.percentage)+'18':'var(--card2)'};
+          border:1.5px solid ${isDone?rClr(r.percentage)+'40':'var(--border)'};">
+          ${isDone?`<span style="font-size:14px;">✅</span>`:`<span style="font-size:14px;opacity:.4;">${i+1}</span>`}
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;font-weight:700;color:var(--text);">${escH(m.name)}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px;">${m.questions}Q · ${m.time} min · All Subjects</div>
+        </div>
+        ${isDone
+          ? `<div style="text-align:right;flex-shrink:0;">
+               <div style="font-size:16px;font-weight:900;font-family:var(--mono);color:${rClr(r.percentage)};">${r.percentage.toFixed(0)}%</div>
+               <div style="font-size:9px;color:var(--text3);">${r.score}/${r.maxScore}</div>
+             </div>`
+          : `<button onclick="openMock('${examId}','${m.id}')" class="btn btn-ghost" style="font-size:11px;padding:6px 12px;flex-shrink:0;">Attempt</button>`
+        }
+      </div>`;
+    });
+    H += `</div>`;
+  }
+
+  /* Chapter Mocks */
+  if(chapterMocks.length>0){
+    H += `<div style="padding:12px 18px 4px;${fullMocks.length>0?'border-top:1.5px solid var(--border);':''}">
+      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:10px;">
+        📖 Chapter Mocks — ${chapDone}/${chapterMocks.length} done
+      </div>`;
+    chapterMocks.forEach((m,i)=>{
+      const r      = lR(examId, m.id);
+      const isDone = !!r;
+      const subj   = exam.subjects.find(s=>s.id===m.subject);
+      H += `<div style="display:flex;align-items:center;gap:12px;padding:11px 0;${i<chapterMocks.length-1?'border-bottom:1px solid var(--border);':''}">
+        <div style="width:32px;height:32px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;
+          background:${isDone?rClr(r.percentage)+'18':'var(--card2)'};
+          border:1.5px solid ${isDone?rClr(r.percentage)+'40':'var(--border)'};">
+          ${isDone?`<span style="font-size:14px;">✅</span>`:(subj?`<span>${subj.icon}</span>`:`<span style="opacity:.4;">${i+1}</span>`)}
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;font-weight:700;color:var(--text);">${escH(m.name)}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px;">${subj?subj.name:'Chapter'} · ${m.questions}Q · ${m.time} min</div>
+        </div>
+        ${isDone
+          ? `<div style="text-align:right;flex-shrink:0;">
+               <div style="font-size:16px;font-weight:900;font-family:var(--mono);color:${rClr(r.percentage)};">${r.percentage.toFixed(0)}%</div>
+               <div style="font-size:9px;color:var(--text3);">${r.score}/${r.maxScore}</div>
+             </div>`
+          : `<button onclick="openMock('${examId}','${m.id}')" class="btn btn-ghost" style="font-size:11px;padding:6px 12px;flex-shrink:0;">Attempt</button>`
+        }
+      </div>`;
+    });
+    H += `</div>`;
+  }
+
+  if(mocks.length===0){
+    H += `<div style="padding:32px;text-align:center;color:var(--text3);">
+      <div style="font-size:32px;margin-bottom:8px;">📭</div>
+      <div style="font-size:13px;font-weight:600;">No mocks added for ${exam.name} yet</div>
+    </div>`;
+  }
+
+  H += `</div>`; /* close mock card */
+
+  /* ── POSTS INFO ── */
+  H += `<div class="card card-p" style="margin-bottom:16px;">
+    <div class="sec-hdr" style="margin-bottom:12px;"><div class="sec-title">💼 Posts Under ${exam.name}</div></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      ${exam.posts.map(p=>`<span style="font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;background:${exam.bg};color:${exam.color};border:1px solid ${exam.color}30;">${p}</span>`).join('')}
+    </div>
+  </div>`;
+
+  cont.innerHTML = H;
+}
+
+/* ═══════════════════════════════════════
+   MOCK OPEN
+═══════════════════════════════════════ */
+function openMock(examId, mockId){
+  const exam = SSC_EXAMS.find(e=>e.id===examId);
+  const mocks = SSC_MOCKS[examId]||[];
+  const mock = mocks.find(m=>m.id===mockId);
+  if(!exam||!mock) return;
+
+  const r = lR(examId, mockId);
+  const existing = document.getElementById('mock-launch-modal');
+  if(existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'mock-launch-modal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);padding:16px;overflow-y:auto;';
+
+  const name = getUserName();
+  const sid = getStudentID();
+
+  modal.innerHTML = `<div style="background:var(--card);border-radius:24px;padding:28px;max-width:440px;width:100%;border:1px solid var(--border);animation:mIn .3s cubic-bezier(.34,1.56,.64,1);margin:auto;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <div style="width:50px;height:50px;border-radius:13px;background:${exam.bg};display:flex;align-items:center;justify-content:center;font-size:22px;">${exam.icon}</div>
+      <div>
+        <div style="font-size:15px;font-weight:900;font-family:'Outfit',sans-serif;">${escH(mock.name)}</div>
+        <div style="font-size:11px;color:var(--text3);">${exam.name} · ${mock.questions}Q · ${mock.time}min</div>
+      </div>
+    </div>
+
+    ${r?`<div style="background:rgba(16,163,74,.06);border:1.5px solid rgba(16,163,74,.2);border-radius:14px;padding:14px;margin-bottom:16px;">
+      <div style="font-size:13px;font-weight:800;color:var(--green);margin-bottom:4px;">✅ Already Attempted</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <div><div style="font-size:22px;font-weight:900;font-family:var(--mono);color:${rClr(r.percentage)};">${r.percentage.toFixed(0)}%</div><div style="font-size:9px;color:var(--text3);">SCORE</div></div>
+        <div><div style="font-size:22px;font-weight:900;font-family:var(--mono);">${r.score}/${r.maxScore}</div><div style="font-size:9px;color:var(--text3);">MARKS</div></div>
+        <div><div style="font-size:22px;font-weight:900;font-family:var(--mono);">${new Date(r.date).toLocaleDateString('en-IN')}</div><div style="font-size:9px;color:var(--text3);">DATE</div></div>
+      </div>
+    </div>`:`<div style="background:var(--card2);border-radius:14px;padding:14px;margin-bottom:16px;">
+      <div style="font-size:12px;font-weight:700;margin-bottom:8px;">Enter your score after taking the test:</div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <input id="mock-score-inp" type="number" min="0" max="${mock.questions}" placeholder="Score (e.g. 72)" style="flex:1;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;font-size:16px;font-weight:700;font-family:var(--mono);color:var(--text);outline:none;">
+        <div style="font-size:13px;font-weight:700;color:var(--text3);">/ ${mock.questions}</div>
+      </div>
+    </div>`}
+
+    ${!name?`<div style="background:rgba(220,38,38,.06);border:1.5px solid rgba(220,38,38,.2);border-radius:12px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--acc);">⚠️ Set your name in Settings first to save scores properly.</div>`:''}
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      ${mock.link?`<a href="${mock.link}" target="_blank" class="btn btn-prim" style="flex:1;justify-content:center;text-decoration:none;">🚀 Start Test</a>`:''}
+      ${!r?`<button onclick="saveMockScore('${examId}','${mockId}',${mock.questions})" class="btn ${mock.link?'btn-ghost':'btn-prim'}" style="flex:1;justify-content:center;">💾 Save Score</button>`:''}
+      ${r?`<button onclick="clearMockResult('${examId}','${mockId}')" class="btn btn-ghost" style="flex:1;justify-content:center;">🗑️ Reset</button>`:''}
+      <button onclick="document.getElementById('mock-launch-modal').remove()" class="btn btn-ghost" style="padding:8px 14px;">✕</button>
+    </div>
+  </div>`;
+  modal.addEventListener('click',e=>{if(e.target===modal) modal.remove();});
+  document.body.appendChild(modal);
+}
+
+function saveMockScore(examId, mockId, maxScore){
+  const inp = document.getElementById('mock-score-inp');
+  if(!inp) return;
+  const score = parseInt(inp.value);
+  if(isNaN(score)||score<0||score>maxScore){ showToast('❌ Invalid score!','error'); return; }
+  const pct = score/maxScore*100;
+  sR(examId, mockId, { examId, mockId, score, maxScore, percentage:pct, date:new Date().toISOString() });
+  showToast(`✅ Score saved: ${score}/${maxScore} (${pct.toFixed(0)}%)`, 'success');
+  document.getElementById('mock-launch-modal').remove();
+  // Re-render current page
+  if(document.getElementById('page-home').classList.contains('active')) renderHome();
+  else if(document.getElementById('page-exams').classList.contains('active')) renderExams();
+  else if(document.getElementById('page-mocks').classList.contains('active')) renderMocks();
+}
+
+function clearMockResult(examId, mockId){
+  if(!confirm('Reset this test result?')) return;
+  localStorage.removeItem(rKey(examId, mockId));
+  showToast('🗑️ Result cleared');
+  document.getElementById('mock-launch-modal').remove();
+  renderHome();
+}
+
+/* ═══════════════════════════════════════
+   MOCKS PAGE
+═══════════════════════════════════════ */
+let _mockTab = '';
+
+function renderMocks(){
+  const selected = getSelectedExams();
+  const cont = document.getElementById('mocks-content');
+  if(!cont) return;
+
+  if(selected.length===0){
+    cont.innerHTML = `<div style="text-align:center;padding:60px 20px;">
+      <div style="width:70px;height:70px;border-radius:22px;background:linear-gradient(135deg,#EBEEFF,#D4CCFF);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 16px;">📝</div>
+      <div style="font-size:18px;font-weight:900;margin-bottom:8px;font-family:'Outfit',sans-serif;">No exams selected</div>
+      <div style="font-size:13px;color:var(--text3);margin-bottom:20px;">Go to My Exams and add the exams you're preparing for.</div>
+      <button class="btn btn-prim" onclick="goPage('exams')" style="padding:11px 22px;">+ Add Exams</button>
+    </div>`;
+    return;
+  }
+
+  if(!_mockTab || !selected.includes(_mockTab)) _mockTab = selected[0];
+
+  /* Exam selector tabs */
+  let H = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;">`;
+  selected.forEach(examId=>{
+    const exam = SSC_EXAMS.find(e=>e.id===examId);
+    if(!exam) return;
+    const data = SSC_MOCK_CHAPTERS[examId];
+    const allMocks = data ? [
+      ...Object.values(data.chapters||{}).flat(),
+      ...(data.fullMocks||[]), ...(data.imageMocks||[]), ...(data.specialMocks||[])
+    ] : [];
+    const done = allMocks.filter(m=>getCBTResult(examId,m.id)).length;
+    const isActive = _mockTab===examId;
+    H += `<div class="subj-tab ${isActive?'active':''}" onclick="switchMockTab('${examId}')">
+      ${exam.icon} ${exam.name}
+      ${done>0?`<span style="margin-left:5px;background:${isActive?'rgba(255,255,255,.3)':'var(--acc)'};color:#fff;font-size:9px;font-weight:800;padding:1px 6px;border-radius:20px;">${done}✓</span>`:''}
+    </div>`;
+  });
+  H += `</div><div id="mock-tab-content"></div>`;
+
+  cont.innerHTML = H;
+  renderMockTab(_mockTab);
+}
+
+function switchMockTab(examId){
+  _mockTab = examId;
+  document.querySelectorAll('#mocks-content .subj-tab').forEach(t=>{
+    t.classList.toggle('active', t.getAttribute('onclick')===`switchMockTab('${examId}')`);
+  });
+  renderMockTab(examId);
+}
+
+function renderMockTab(examId){
+  const exam = SSC_EXAMS.find(e=>e.id===examId);
+  const data  = SSC_MOCK_CHAPTERS[examId];
+  const cont  = document.getElementById('mock-tab-content');
+  if(!exam||!data||!cont) return;
+
+  /* colour helpers */
+  const pctClr = p => p>=70?'#16a34a':p>=40?'#d97706':'#dc2626';
+  const pctBg  = p => p>=70?'rgba(22,163,74,.1)':p>=40?'rgba(217,119,6,.1)':'rgba(220,38,38,.1)';
+  const pctBdr = p => p>=70?'rgba(22,163,74,.3)':p>=40?'rgba(217,119,6,.3)':'rgba(220,38,38,.3)';
+
+  /* renders a single mock row — original external link behaviour */
+  function mockRow(m, icon, sectionLabel){
+    const r   = getCBTResult(examId, m.id);
+    const url = mockUrl(examId, m.id);
+    const pct = r ? r.percentage : null;
+    return `<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--card);border:1.5px solid ${r?pctBdr(pct):'var(--border)'};border-radius:14px;transition:all .2s;"
+      onmouseenter="this.style.borderColor='${r?pctBdr(pct):'rgba(91,78,232,.3)'}';this.style.boxShadow='0 3px 14px rgba(0,0,0,.06)'"
+      onmouseleave="this.style.borderColor='${r?pctBdr(pct):'var(--border)'}';this.style.boxShadow='none'">
+      <!-- icon -->
+      <div style="width:38px;height:38px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;
+        background:${r?pctBg(pct):'var(--card2)'};border:1.5px solid ${r?pctBdr(pct):'var(--border)'};">
+        ${r?`<span style="font-size:15px;">${pct>=70?'✅':pct>=40?'🟡':'🔴'}</span>`:icon}
+      </div>
+      <!-- text -->
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:13px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escH(m.name)}</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:2px;">${sectionLabel} · ${m.q}Q · ${m.t} min</div>
+        ${r?`<div style="font-size:10px;color:${pctClr(pct)};font-weight:700;margin-top:2px;">
+          ${r.correct||0}✓ ${r.wrong||0}✗ ${r.skipped||0}— · ${new Date(r.date).toLocaleDateString('en-IN')}
+        </div>`:''}
+      </div>
+      <!-- score pill or start -->
+      ${r
+        ?`<div style="text-align:center;flex-shrink:0;">
+            <div style="font-size:18px;font-weight:900;font-family:var(--mono);color:${pctClr(pct)};">${pct.toFixed(0)}%</div>
+            <div style="font-size:9px;color:var(--text3);">${r.score}/${r.maxScore}</div>
+            <button onclick="window.open('${url}','_blank')" style="margin-top:5px;font-size:9px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid var(--border);background:var(--card2);color:var(--text2);cursor:pointer;">Retry</button>
+          </div>`
+        :`<a href="${url}" target="_blank" style="flex-shrink:0;padding:8px 16px;border-radius:20px;background:linear-gradient(135deg,#5B4EE8,#4338CA);color:#fff;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap;box-shadow:0 3px 10px rgba(91,78,232,.25);">
+            Start →
+          </a>`
+      }
+    </div>`;
+  }
+
+  let H = '';
+
+  /* ── 1. TIER 1 MOCKS (5 × 100Q 60min) ── */
+  const tier1     = data.tier1Mocks||[];
+  const tier1Done = tier1.filter(m=>getCBTResult(examId,m.id)).length;
+  if(tier1.length){
+    H += `<div style="margin-bottom:24px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#dc2626,#b91c1c);display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 4px 12px rgba(220,38,38,.25);">🎯</div>
+          <div>
+            <div style="font-size:15px;font-weight:900;color:var(--text);">Tier 1 Full Mocks × ${tier1.length}</div>
+            <div style="font-size:11px;color:var(--text3);">Complete Paper I simulation · ${tier1Done}/${tier1.length} done</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:72px;height:5px;background:var(--border);border-radius:10px;overflow:hidden;">
+            <div style="height:100%;width:${tier1.length?Math.round(tier1Done/tier1.length*100):0}%;background:#dc2626;border-radius:10px;transition:width .8s;"></div>
+          </div>
+          <span style="font-size:11px;font-weight:800;color:#dc2626;">${tier1.length?Math.round(tier1Done/tier1.length*100):0}%</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        ${tier1.map(m=>mockRow(m,'🎯','Tier 1 · Full Mock')).join('')}
+      </div>
+    </div>`;
+  }
+
+  /* ── 2. TIER 2 MOCKS (5 × 100Q 60min) ── */
+  const tier2     = data.tier2Mocks||[];
+  const tier2Done = tier2.filter(m=>getCBTResult(examId,m.id)).length;
+  if(tier2.length){
+    H += `<div style="margin-bottom:24px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#7c3aed,#5b21b6);display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 4px 12px rgba(124,58,237,.25);">💎</div>
+          <div>
+            <div style="font-size:15px;font-weight:900;color:var(--text);">Tier 2 Full Mocks × ${tier2.length}</div>
+            <div style="font-size:11px;color:var(--text3);">Paper II simulation · ${tier2Done}/${tier2.length} done</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:72px;height:5px;background:var(--border);border-radius:10px;overflow:hidden;">
+            <div style="height:100%;width:${tier2.length?Math.round(tier2Done/tier2.length*100):0}%;background:#7c3aed;border-radius:10px;transition:width .8s;"></div>
+          </div>
+          <span style="font-size:11px;font-weight:800;color:#7c3aed;">${tier2.length?Math.round(tier2Done/tier2.length*100):0}%</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        ${tier2.map(m=>mockRow(m,'💎','Tier 2 · Full Mock')).join('')}
+      </div>
+    </div>`;
+  }
+
+  /* ── 3. CHAPTER-WISE (1 mock per chapter per subject) ── */
+  const chapters    = data.chapters || {};
+  const allChapters = Object.values(chapters).flat();
+  const chapDone    = allChapters.filter(m=>getCBTResult(examId,m.id)).length;
+
+  if(allChapters.length){
+    H += `<div style="margin-bottom:24px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        <div style="width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#5B4EE8,#4338CA);display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 4px 12px rgba(91,78,232,.25);">📚</div>
+        <div style="flex:1;">
+          <div style="font-size:15px;font-weight:900;color:var(--text);">Chapter-wise Mocks</div>
+          <div style="font-size:11px;color:var(--text3);">1 mock per chapter · 100Q · 60 min · ${chapDone}/${allChapters.length} done</div>
+        </div>
+      </div>`;
+
+    exam.subjects.forEach(subj=>{
+      const chs = chapters[subj.id];
+      if(!chs||!chs.length) return;
+      const done = chs.filter(m=>getCBTResult(examId,m.id)).length;
+      H += `<div style="margin-bottom:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 14px;background:linear-gradient(135deg,${exam.color}10,${exam.color}04);border:1.5px solid ${exam.color}22;border-radius:11px;margin-bottom:8px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:18px;">${subj.icon}</span>
+            <div>
+              <div style="font-size:12px;font-weight:800;color:var(--text);">${subj.name}</div>
+              <div style="font-size:9px;color:var(--text3);">${chs.length} chapters · ${done}/${chs.length} done</div>
+            </div>
+          </div>
+          <div style="font-size:14px;font-weight:900;font-family:var(--mono);color:${exam.color};">${done}/${chs.length}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;">
+          ${chs.map(m=>mockRow(m, subj.icon, subj.name+' · Chapter')).join('')}
+        </div>
+      </div>`;
+    });
+    H += `</div>`;
+  }
+
+  /* ── 4. SPECIAL MOCK (1 per exam) ── */
+  const specialMocks = data.specialMocks||[];
+  if(specialMocks.length){
+    H += `<div style="margin-bottom:24px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#0d9488,#0f766e);display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 4px 12px rgba(13,148,136,.25);">⭐</div>
+        <div>
+          <div style="font-size:15px;font-weight:900;color:var(--text);">Special Mock × ${specialMocks.length}</div>
+          <div style="font-size:11px;color:var(--text3);">SSC exam pattern simulation · 100Q · 60 min</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        ${specialMocks.map(m=>mockRow(m,'⭐','Special Mock')).join('')}
+      </div>
+    </div>`;
+  }
+
+  cont.innerHTML = H;
+}
+
+/* ═══════════════════════════════════════
+   ANALYTICS PAGE
+═══════════════════════════════════════ */
+function renderAnalytics(){
+  const allAtt = getAllAttempts();
+  const cont = document.getElementById('analytics-content');
+  if(!cont) return;
+
+  if(allAtt.length===0){
+    cont.innerHTML = `<div style="text-align:center;padding:40px;color:var(--text3);font-size:13px;">No attempts yet. Start taking mock tests!</div>`;
+    return;
+  }
+
+  const avgAll = allAtt.reduce((s,d)=>s+d.percentage,0)/allAtt.length;
+  const exams = getSelectedExams();
+
+  let H = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:20px;">
+    <div class="stat-card"><div class="stat-icon" style="background:rgba(220,38,38,.1);">📝</div><div class="stat-val" style="color:var(--acc);">${allAtt.length}</div><div class="stat-lbl">Total Tests</div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:rgba(22,163,74,.1);">📊</div><div class="stat-val" style="color:${rClr(avgAll)};">${avgAll.toFixed(1)}%</div><div class="stat-lbl">Overall Avg</div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:rgba(217,119,6,.1);">🔥</div><div class="stat-val" style="color:var(--orange);">${getStreak()}</div><div class="stat-lbl">Day Streak</div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:rgba(37,99,235,.1);">🎯</div><div class="stat-val" style="color:var(--blue);">${exams.length}</div><div class="stat-lbl">Exams</div></div>
+  </div>`;
+
+  // Per-exam breakdown
+  H += `<div class="card card-p" style="margin-bottom:16px;">
+    <div class="sec-hdr"><div class="sec-title">📋 Exam-wise Performance</div></div>`;
+  exams.forEach(examId=>{
+    const exam = SSC_EXAMS.find(e=>e.id===examId);
+    if(!exam) return;
+    const mocks = SSC_MOCKS[examId]||[];
+    const done = mocks.filter(m=>lR(examId,m.id));
+    if(done.length===0) return;
+    const avg = done.reduce((s,m)=>{const r=lR(examId,m.id);return s+(r?r.percentage:0);},0)/done.length;
+    H += `<div class="prog-row">
+      <div class="prog-lbl">${exam.icon} ${exam.name}</div>
+      <div class="prog-track"><div class="prog-fill" style="width:${avg.toFixed(1)}%;background:${rClr(avg)};"></div></div>
+      <div class="prog-pct" style="color:${rClr(avg)};">${avg.toFixed(0)}%</div>
+    </div>`;
+  });
+  H += `</div>`;
+
+  // Subject breakdown across all exams
+  const subjMap = {};
+  allAtt.forEach(d=>{
+    const mock = (SSC_MOCKS[d.examId]||[]).find(m=>m.id===d.mockId);
+    if(!mock) return;
+    const subj = mock.subject==='all'?'Overall':'subj_'+mock.subject;
+    if(!subjMap[subj]) subjMap[subj]={pcts:[],count:0};
+    subjMap[subj].pcts.push(d.percentage);
+    subjMap[subj].count++;
+  });
+
+  H += `<div class="card card-p" style="margin-bottom:16px;"><div class="sec-hdr"><div class="sec-title">🧩 Overall Score Distribution</div></div>`;
+  const sorted = allAtt.slice().sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const ranges = [{label:'<40%',count:0,clr:'#dc2626'},{label:'40-60%',count:0,clr:'#d97706'},{label:'60-80%',count:0,clr:'#2563eb'},{label:'>80%',count:0,clr:'#16a34a'}];
+  sorted.forEach(d=>{
+    if(d.percentage<40) ranges[0].count++;
+    else if(d.percentage<60) ranges[1].count++;
+    else if(d.percentage<80) ranges[2].count++;
+    else ranges[3].count++;
+  });
+  H += `<div style="display:flex;gap:8px;flex-wrap:wrap;">`;
+  ranges.forEach(r=>{
+    const pct = allAtt.length>0?r.count/allAtt.length*100:0;
+    H += `<div style="flex:1;min-width:80px;background:var(--card2);border-radius:12px;padding:12px;text-align:center;border:1.5px solid var(--border);">
+      <div style="font-size:20px;font-weight:900;font-family:var(--mono);color:${r.clr};">${r.count}</div>
+      <div style="font-size:10px;color:var(--text3);margin-top:3px;font-weight:600;">${r.label}</div>
+      <div style="font-size:9px;color:var(--text3);">${pct.toFixed(0)}% of tests</div>
+    </div>`;
+  });
+  H += `</div></div>`;
+
+  cont.innerHTML = H;
+}
+
+/* ═══════════════════════════════════════
+   LEADERBOARD
+═══════════════════════════════════════ */
+function renderRank(){
+  const cont = document.getElementById('rank-content');
+  if(!cont) return;
+  const sid = getStudentID();
+  const allAtt = getAllAttempts();
+  const myAvg = allAtt.length>0?allAtt.reduce((s,d)=>s+d.percentage,0)/allAtt.length:0;
+
+  // Try to load from Google Sheet (same as ThunderStudy)
+  cont.innerHTML = `<div style="text-align:center;padding:40px;color:var(--text3);">
+    <div style="font-size:48px;margin-bottom:14px;">🏆</div>
+    <div style="font-size:14px;font-weight:800;margin-bottom:6px;">Leaderboard coming soon!</div>
+    <div style="font-size:12px;color:var(--text3);line-height:1.8;margin-bottom:20px;">
+      Your profile: <strong style="color:var(--text);">${escH(getUserName()||'Aspirant')}</strong><br>
+      Student ID: <strong style="font-family:var(--mono);color:var(--acc);">${escH(sid||'—')}</strong><br>
+      Your avg: <strong style="color:${rClr(myAvg)};">${myAvg.toFixed(1)}%</strong> from ${allAtt.length} tests
+    </div>
+    <div style="background:var(--card2);border:1.5px solid var(--border);border-radius:16px;padding:16px;max-width:340px;margin:0 auto;font-size:12px;color:var(--text3);line-height:1.8;text-align:left;">
+      📌 The SSC leaderboard will pull data from the same ThunderStudy infrastructure.<br><br>
+      Make sure your <strong>Student ID matches</strong> your ThunderStudy ID so your scores appear correctly.
+    </div>
+  </div>`;
+}
+
+/* ═══════════════════════════════════════
+   SETTINGS PAGE
+═══════════════════════════════════════ */
+function renderSettings(){
+  const cont = document.getElementById('settings-content');
+  if(!cont) return;
+  const name = getUserName();
+  const sid = getStudentID();
+  const gu = getGoogleUser();
+  const exams = getSelectedExams();
+
+  let H = `<!-- Profile card -->
+  <div class="card card-p" style="margin-bottom:16px;">
+    <div class="sec-hdr"><div class="sec-title">👤 Profile</div></div>
+    <div class="setting-row">
+      <div><div class="setting-lbl">Your Name</div><div class="setting-sub">${escH(name||'Not set')}</div></div>
+      <button class="btn btn-ghost" onclick="editName()" style="font-size:11px;padding:6px 12px;">✏️ Edit</button>
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-lbl">Student ID</div><div class="setting-sub" style="font-family:var(--mono);color:var(--acc);">${escH(sid||'Not set')}</div></div>
+      <button class="btn btn-ghost" onclick="editStudentID()" style="font-size:11px;padding:6px 12px;">✏️ Edit</button>
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-lbl">Selected Exams</div><div class="setting-sub">${exams.length>0?exams.map(e=>SSC_EXAMS.find(x=>x.id===e)?.name||e).join(', '):'None selected'}</div></div>
+      <button class="btn btn-ghost" onclick="openAddExamModal()" style="font-size:11px;padding:6px 12px;">✏️ Edit</button>
+    </div>
+  </div>
+
+  <!-- ThunderStudy Identity Link -->
+  <div class="card card-p" style="margin-bottom:16px;">
+    <div class="sec-hdr"><div class="sec-title">🔗 ThunderStudy Link</div></div>
+    <div style="font-size:12px;color:var(--text3);line-height:1.7;margin-bottom:14px;">
+      If you already have a <strong>ThunderStudy CUET dashboard</strong> account, fetch your name and Student ID automatically so they match for leaderboard rankings.
+    </div>
+    ${gu?`<div style="background:rgba(16,163,74,.06);border:1.5px solid rgba(16,163,74,.2);border-radius:12px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;">
+      <img src="${escH(gu.picture||'')}" width="32" height="32" style="border-radius:50%;" onerror="this.style.display='none'">
+      <div><div style="font-size:12px;font-weight:800;">${escH(gu.name)}</div><div style="font-size:10px;color:var(--text3);">${escH(gu.email)}</div></div>
+      <button onclick="sscGoogleLogout()" class="btn btn-ghost" style="margin-left:auto;font-size:11px;padding:5px 10px;">Sign Out</button>
+    </div>`:`<button class="btn-google" onclick="topbarGoogleLogin()" style="width:100%;justify-content:center;">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18"> Sign in with Google
+    </button>`}
+    <button onclick="fetchFromThunderStudy()" class="btn btn-prim" style="width:100%;justify-content:center;margin-top:10px;">🔗 Fetch from ThunderStudy</button>
+  </div>
+
+  <!-- Appearance -->
+  <div class="card card-p" style="margin-bottom:16px;">
+    <div class="sec-hdr"><div class="sec-title">🎨 Appearance</div></div>
+    <div class="setting-row">
+      <div><div class="setting-lbl">Dark Mode</div><div class="setting-sub">Switch to dark theme</div></div>
+      <label class="switch"><input type="checkbox" id="dark-toggle" onchange="toggleDark()" ${document.body.classList.contains('dark-mode')?'checked':''}><span class="switch-track"></span></label>
+    </div>
+  </div>
+
+  <!-- Data -->
+  <div class="card card-p" style="margin-bottom:16px;">
+    <div class="sec-hdr"><div class="sec-title">💾 Data</div></div>
+    <div class="setting-row">
+      <div><div class="setting-lbl">Total Tests Saved</div><div class="setting-sub">${getAllAttempts().length} attempts stored locally</div></div>
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-lbl">Clear All Data</div><div class="setting-sub" style="color:var(--acc);">⚠️ This cannot be undone</div></div>
+      <button class="btn btn-ghost" onclick="clearAllData()" style="font-size:11px;padding:6px 12px;color:var(--red);border-color:rgba(229,62,62,.3);">🗑️ Clear</button>
+    </div>
+  </div>`;
+
+  cont.innerHTML = H;
+}
+
+function editName(){
+  const n = prompt('Enter your name:', getUserName());
+  if(n===null) return;
+  const p = getProfile();
+  p.name = n.trim();
+  saveProfile(p);
+  localStorage.setItem('ssc_name', n.trim());
+  showToast('✅ Name updated!', 'success');
+  renderSettings();
+  renderHome();
+}
+
+function editStudentID(){
+  const n = prompt('Enter Student ID (e.g. TS00123):', getStudentID());
+  if(n===null) return;
+  localStorage.setItem('ssc_student_id', n.trim());
+  showToast('✅ Student ID updated!', 'success');
+  renderSettings();
+  renderHome();
+}
+
+function clearAllData(){
+  if(!confirm('Delete ALL SSC data? This cannot be undone.')) return;
+  Object.keys(localStorage).forEach(k=>{
+    if(k.startsWith('ssc_')) localStorage.removeItem(k);
+  });
+  showToast('🗑️ Data cleared','success');
+  location.reload();
+}
+
+/* ═══════════════════════════════════════
+   ADD EXAM MODAL
+═══════════════════════════════════════ */
+function openAddExamModal(){
+  const existing = document.getElementById('add-exam-modal');
+  if(existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'add-exam-modal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:flex-start;justify-content:center;backdrop-filter:blur(8px);padding:16px;overflow-y:auto;';
+
+  const selected = getSelectedExams();
+  let opts = SSC_EXAMS.map(e=>{
+    const isSel = selected.includes(e.id);
+    return `<div onclick="toggleExam('${e.id}',this)" style="display:flex;align-items:center;gap:12px;padding:14px;border-radius:14px;border:1.5px solid ${isSel?'var(--acc)':'var(--border)'};background:${isSel?'rgba(91,78,232,.1)':'var(--card2)'};cursor:pointer;margin-bottom:8px;transition:all .2s;" data-selected="${isSel}">
+      <span style="font-size:22px;">${e.icon}</span>
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:800;">${e.name}</div>
+        <div style="font-size:10px;color:var(--text3);">${e.full} · ${e.tag}</div>
+      </div>
+      <span style="font-size:18px;">${isSel?'✅':'○'}</span>
+    </div>`;
+  }).join('');
+
+  modal.innerHTML = `<div style="background:var(--card);border-radius:24px;padding:28px;max-width:480px;width:100%;border:1px solid var(--border);animation:mIn .3s cubic-bezier(.34,1.56,.64,1);margin:auto;max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div style="font-size:17px;font-weight:900;font-family:'Outfit',sans-serif;">📋 Select SSC Exams</div>
+      <span onclick="document.getElementById('add-exam-modal').remove()" style="cursor:pointer;font-size:24px;color:var(--text3);">×</span>
+    </div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:16px;">Select all exams you're preparing for (up to 4)</div>
+    <div id="exam-opts-list">${opts}</div>
+    <button onclick="saveExamSelection()" class="btn btn-prim" style="width:100%;justify-content:center;padding:13px;font-size:14px;margin-top:8px;">Save Selection</button>
+  </div>`;
+  modal.addEventListener('click',e=>{if(e.target===modal) modal.remove();});
+  document.body.appendChild(modal);
+}
+
+function toggleExam(id, el){
+  const selected = getSelectedExams();
+  const isSel = el.dataset.selected === 'true';
+  if(!isSel && selected.length>=4){ showToast('❌ Max 4 exams allowed','error'); return; }
+  const exam = SSC_EXAMS.find(e=>e.id===id);
+  el.dataset.selected = String(!isSel);
+  el.style.borderColor = !isSel ? exam.color : 'var(--border)';
+  el.style.background = !isSel ? exam.bg : 'var(--card2)';
+  el.lastElementChild.textContent = !isSel ? '✅' : '○';
+}
+
+function saveExamSelection(){
+  const els = document.querySelectorAll('#exam-opts-list [data-selected]');
+  const selected = [];
+  els.forEach((el,i)=>{ if(el.dataset.selected==='true') selected.push(SSC_EXAMS[i].id); });
+  saveSelectedExams(selected);
+  if(selected.length===0) _examTab='';
+  showToast('✅ Exams saved!','success');
+  document.getElementById('add-exam-modal').remove();
+  renderHome();
+  if(document.getElementById('page-exams').classList.contains('active')) renderExams();
+}
+
+/* ═══════════════════════════════════════
+   ONBOARDING — SMART AUTO-FETCH
+   Rules:
+   - If name + ID both exist → skip onboarding entirely
+   - If ID exists but no name → pre-fill ID, ask only for name
+   - If name exists but no ID → pre-fill name, generate ID silently
+   - If neither → full onboarding
+   - ID is generated ONCE — never regenerated automatically
+   - Name is locked after set (user can change via Settings only)
+═══════════════════════════════════════ */
+function shouldShowOnboarding(){
+  return !localStorage.getItem('ssc_ob_done');
+}
+
+/* Read from ALL known storage keys */
+function getStoredName(){
+  try {
+    const p = getProfile();
+    return p.name
+      || localStorage.getItem('ssc_name')
+      || localStorage.getItem('cbtUserName')
+      || (() => {
+           try{ return JSON.parse(localStorage.getItem('ts_profile')||'{}').name||''; }catch{return '';}
+         })()
+      || '';
+  } catch { return ''; }
+}
+
+function getStoredID(){
+  return localStorage.getItem('ts_student_id')
+    || localStorage.getItem('ssc_student_id')
+    || '';
+}
+
+/* Generate a brand-new ID — only called once, never auto-overwrites */
+function generateOnceID(){
+  const existing = getStoredID();
+  if(existing) return existing;          // already have one — keep it!
+  const newId = 'TS' + String(Math.floor(Math.random()*100000)).padStart(5,'0');
+  localStorage.setItem('ts_student_id', newId);
+  localStorage.setItem('ssc_student_id', newId);
+  return newId;
+}
+
+/* Save name to ALL keys so other ThunderStudy pages pick it up */
+function persistName(name){
+  const p = getProfile(); p.name = name; saveProfile(p);
+  localStorage.setItem('ssc_name', name);
+  localStorage.setItem('cbtUserName', name);
+}
+
+function startOnboarding(){
+  const storedName = getStoredName();
+  const storedID   = getStoredID();
+
+  // ── Both exist: nothing to do ──
+  if(storedName && storedID){
+    localStorage.setItem('ssc_ob_done','1');
+    renderHome();
+    return;
+  }
+
+  // ── Silently generate an ID if none exists ──
+  const id = storedID || generateOnceID();
+
+  // ── Pre-fill name if we have it ──
+  const nameInp = document.getElementById('ob-name');
+  if(nameInp && storedName){
+    nameInp.value = storedName;
+    nameInp.readOnly = true;
+    nameInp.style.opacity = '.7';
+    nameInp.style.cursor  = 'default';
+    // Show a lock hint
+    const hint = document.getElementById('ob-name-hint');
+    if(hint) hint.innerHTML = `<span style="color:var(--acc);font-size:11px;font-weight:700;">✓ Name auto-loaded · <span onclick="unlockObName()" style="cursor:pointer;text-decoration:underline;">change?</span></span>`;
+  }
+
+  // ── Pre-fill ID in step 3 ──
+  const sidInp = document.getElementById('ob-sid');
+  if(sidInp){
+    sidInp.value = id;
+    sidInp.style.color = storedID ? 'var(--acc)' : 'var(--green)';
+    // Lock the Regenerate button if ID was already stored
+    const regenBtn = document.getElementById('ob-regen-btn');
+    if(regenBtn && storedID){
+      regenBtn.style.display = 'none';
+      const lockNote = document.getElementById('ob-sid-lock-note');
+      if(lockNote) lockNote.style.display = 'block';
+    }
+  }
+
+  renderObExamList();
+  obValidate1();
+  document.getElementById('ob-overlay').classList.add('open');
+}
+
+function unlockObName(){
+  const nameInp = document.getElementById('ob-name');
+  if(nameInp){
+    nameInp.readOnly = false;
+    nameInp.style.opacity = '1';
+    nameInp.style.cursor  = '';
+    nameInp.focus(); nameInp.select();
+  }
+  const hint = document.getElementById('ob-name-hint');
+  if(hint) hint.innerHTML = '';
+}
+
+function renderObExamList(){
+  const list = document.getElementById('ob-exam-list');
+  if(!list) return;
+  list.innerHTML = SSC_EXAMS.map(e=>`
+    <div onclick="toggleObExam(this,'${e.id}')" data-selected="false" style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--card2);cursor:pointer;transition:all .2s;">
+      <span style="font-size:20px;">${e.icon}</span>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:800;">${e.name}</div>
+        <div style="font-size:10px;color:var(--text3);">${e.full}</div>
+      </div>
+      <span class="ob-check" style="font-size:18px;">○</span>
+    </div>`).join('');
+}
+
+function toggleObExam(el, id){
+  const isSel = el.dataset.selected==='true';
+  const exam = SSC_EXAMS.find(e=>e.id===id);
+  const anySelected = document.querySelectorAll('#ob-exam-list [data-selected="true"]').length;
+  if(!isSel && anySelected>=4){ showToast('❌ Max 4 exams','error'); return; }
+  el.dataset.selected = String(!isSel);
+  el.style.borderColor = !isSel ? exam.color : 'var(--border)';
+  el.style.background = !isSel ? exam.bg : 'var(--card2)';
+  el.querySelector('.ob-check').textContent = !isSel?'✅':'○';
+  const btn2 = document.getElementById('ob-next-2');
+  const count = document.querySelectorAll('#ob-exam-list [data-selected="true"]').length;
+  btn2.style.opacity = count>0?'1':'.4';
+  btn2.disabled = count===0;
+}
+
+function obValidate1(){
+  const n = document.getElementById('ob-name')?.value.trim();
+  const btn = document.getElementById('ob-next-1');
+  const err = document.getElementById('ob-step1-err');
+  if(btn){
+    btn.disabled = !n || n.length<2;
+    btn.style.opacity = (!n||n.length<2)?'.4':'1';
+  }
+  if(err) err.textContent = '';
+}
+
+function obStep2(){
+  const n = document.getElementById('ob-name')?.value.trim();
+  if(!n || n.length<2){ document.getElementById('ob-step1-err').textContent='Enter your full name.'; return; }
+  persistName(n);
+  document.getElementById('ob-step-1').classList.remove('active');
+  document.getElementById('ob-step-2').classList.add('active');
+}
+
+function obStep3(){
+  const allItems = document.querySelectorAll('#ob-exam-list [data-selected]');
+  const sel2 = [];
+  allItems.forEach((el,i)=>{ if(el.dataset.selected==='true') sel2.push(SSC_EXAMS[i].id); });
+  saveSelectedExams(sel2);
+  document.getElementById('ob-step-2').classList.remove('active');
+  document.getElementById('ob-step-3').classList.add('active');
+}
+
+/* Regenerate — only allowed if user explicitly clicks in onboarding */
+function obGenID(){
+  const storedID = getStoredID();
+  const sidInp   = document.getElementById('ob-sid');
+  // If ID was already persisted before onboarding started, never auto-overwrite
+  if(storedID && sidInp && sidInp.dataset.locked === '1') return;
+  const id = 'TS'+String(Math.floor(Math.random()*100000)).padStart(5,'0');
+  localStorage.setItem('ts_student_id', id);
+  localStorage.setItem('ssc_student_id', id);
+  if(sidInp){ sidInp.value=id; sidInp.style.color='var(--green)'; }
+}
+
+/* Manual regenerate triggered by user button */
+function obRegenID(){
+  if(!confirm('⚠️ This will create a new Student ID. Your current ID will be lost from the leaderboard. Continue?')) return;
+  const id = 'TS'+String(Math.floor(Math.random()*100000)).padStart(5,'0');
+  localStorage.setItem('ts_student_id', id);
+  localStorage.setItem('ssc_student_id', id);
+  const sidInp = document.getElementById('ob-sid');
+  if(sidInp){ sidInp.value=id; sidInp.style.color='var(--green)'; }
+  showToast('🎲 New ID generated: '+id,'success');
+}
+
+async function obGoogleLogin(){
+  const btn = document.getElementById('ob-google-btn');
+  if(btn){btn.disabled=true;btn.textContent='⏳ Signing in…';}
+  try{
+    const result = await fbAuth.signInWithPopup(fbProvider);
+    const user = result.user;
+    const gu = {name:user.displayName,email:user.email,picture:user.photoURL,googleId:user.uid};
+    localStorage.setItem('ts_google_user', JSON.stringify(gu));
+    localStorage.setItem('cbtUserName', gu.name);
+
+    const nameInp = document.getElementById('ob-name');
+
+    // Try to fetch existing ThunderStudy Firestore data
+    try{
+      const doc = await Promise.race([
+        fbDb.collection('users').doc(user.uid).get(),
+        new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),8000))
+      ]);
+      if(doc.exists){
+        const data = doc.data();
+        let tsName = '';
+        if(data.ts_profile){ try{tsName=JSON.parse(data.ts_profile).name||'';}catch{} }
+        tsName = tsName || data.cbtUserName || gu.name;
+        const tsSID = data.ts_student_id || '';
+
+        // Fill name — prefer cloud data
+        if(tsName && nameInp && !nameInp.value.trim()){ nameInp.value=tsName; obValidate1(); }
+
+        // Fill ID — only if no ID exists yet
+        if(tsSID && !getStoredID()){
+          localStorage.setItem('ts_student_id', tsSID);
+          localStorage.setItem('ssc_student_id', tsSID);
+          const sidInp=document.getElementById('ob-sid');
+          if(sidInp){ sidInp.value=tsSID; sidInp.style.color='var(--acc)';
+            // Lock regenerate since this ID is from cloud
+            const regenBtn=document.getElementById('ob-regen-btn');
+            if(regenBtn) regenBtn.style.display='none';
+            const lockNote=document.getElementById('ob-sid-lock-note');
+            if(lockNote) lockNote.style.display='block';
+          }
+        }
+        showToast('✅ Identity fetched from ThunderStudy!','success');
+      } else {
+        // No cloud data — just use Google name
+        if(nameInp && !nameInp.value.trim()){ nameInp.value=gu.name; obValidate1(); }
+      }
+    }catch{
+      if(nameInp && !nameInp.value.trim()){ nameInp.value=gu.name; obValidate1(); }
+    }
+
+    // Show Google user badge
+    document.getElementById('ob-google-btn').style.display='none';
+    const guEl = document.getElementById('ob-google-user');
+    if(guEl){
+      guEl.style.display='flex';
+      document.getElementById('ob-guser-pic').src=gu.picture||'';
+      document.getElementById('ob-guser-name').textContent=gu.name;
+      document.getElementById('ob-guser-email').textContent=gu.email;
+    }
+    obValidate1();
+  } catch(e){
+    if(btn){btn.disabled=false;btn.innerHTML='<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18"> Continue with Google';}
+    if(e.code!=='auth/popup-closed-by-user') showToast('❌ Login failed: '+e.message,'error');
+  }
+}
+
+function obGoogleLogout(){
+  fbAuth.signOut();
+  localStorage.removeItem('ts_google_user');
+  document.getElementById('ob-google-btn').style.display='flex';
+  const guEl=document.getElementById('ob-google-user');
+  if(guEl) guEl.style.display='none';
+}
+
+function obFinish(){
+  // Final persist — ensure ID and name are both saved
+  const sid = document.getElementById('ob-sid')?.value || getStoredID();
+  if(sid){
+    localStorage.setItem('ts_student_id', sid);
+    localStorage.setItem('ssc_student_id', sid);
+  }
+  const name = document.getElementById('ob-name')?.value.trim() || getStoredName();
+  if(name) persistName(name);
+
+  localStorage.setItem('ssc_ob_done','1');
+  document.getElementById('ob-overlay').classList.remove('open');
+  renderHome();
+  showToast('🚀 Welcome! All set to start preparing!','success',3000);
+}
+
+/* ═══════════════════════════════════════
+   GOOGLE AUTH (topbar / settings)
+═══════════════════════════════════════ */
+async function topbarGoogleLogin(){
+  try{
+    const result = await fbAuth.signInWithPopup(fbProvider);
+    const user = result.user;
+    const gu = {name:user.displayName,email:user.email,picture:user.photoURL,googleId:user.uid};
+    localStorage.setItem('ts_google_user', JSON.stringify(gu));
+    localStorage.setItem('cbtUserName', gu.name);
+    const p=getProfile(); if(!p.name&&gu.name){p.name=gu.name;saveProfile(p);}
+    // Only generate ID if none exists — NEVER overwrite
+    if(!getStudentID()){
+      const id='TS'+String(Math.floor(Math.random()*100000)).padStart(5,'0');
+      localStorage.setItem('ts_student_id',id);
+      localStorage.setItem('ssc_student_id',id);
+    }
+    showToast('✅ Signed in as '+gu.name.split(' ')[0],'success');
+    renderHomeTopbar();
+    if(document.getElementById('page-settings').classList.contains('active')) renderSettings();
+    // Fetch ThunderStudy identity (will not overwrite if already set)
+    fetchIdentityFromCloud(user.uid);
+  }catch(e){
+    if(e.code!=='auth/popup-closed-by-user') showToast('❌ '+e.message,'error');
+  }
+}
+
+async function fetchFromThunderStudy(){
+  const user = fbAuth.currentUser;
+  if(!user){ topbarGoogleLogin(); return; }
+  const st = document.getElementById('fetch-id-status');
+  if(st) st.innerHTML = '<span style="color:var(--acc)">⏳ Fetching from ThunderStudy…</span>';
+  await fetchIdentityFromCloud(user.uid);
+  closeModal('fetch-id-modal');
+}
+
+async function fetchIdentityFromCloud(uid){
+  try{
+    const doc = await Promise.race([
+      fbDb.collection('users').doc(uid).get(),
+      new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),10000))
+    ]);
+    if(!doc.exists){ showToast('ℹ️ No ThunderStudy data found',''); return; }
+    const data = doc.data();
+    let tsName='';
+    if(data.ts_profile){try{tsName=JSON.parse(data.ts_profile).name||'';}catch{}}
+    tsName=tsName||data.cbtUserName||'';
+    const tsSID=data.ts_student_id||'';
+    let changed=false;
+    if(tsName&&!getUserName()){ const p=getProfile();p.name=tsName;saveProfile(p);localStorage.setItem('ssc_name',tsName);localStorage.setItem('cbtUserName',tsName);changed=true; }
+    if(tsSID&&!getStudentID()){ localStorage.setItem('ssc_student_id',tsSID);localStorage.setItem('ts_student_id',tsSID);changed=true; }
+    if(changed){
+      showToast('✅ Identity fetched: '+escH(tsName||'')+(tsSID?' | ID: '+tsSID:''),'success',3500);
+      renderHome();
+      if(document.getElementById('page-settings').classList.contains('active')) renderSettings();
+    } else {
+      showToast('ℹ️ Already up to date','');
+    }
+  }catch(e){showToast('❌ Fetch failed','error');}
+}
+
+function sscGoogleLogout(){
+  fbAuth.signOut();
+  localStorage.removeItem('ts_google_user');
+  showToast('👋 Signed out','success');
+  renderHomeTopbar();
+  if(document.getElementById('page-settings').classList.contains('active')) renderSettings();
+}
+
+/* ═══════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════ */
+function getStreak(){
+  const allAtt = getAllAttempts();
+  if(!allAtt.length) return 0;
+  const dates = [...new Set(allAtt.map(d=>d.date?d.date.substring(0,10):null).filter(Boolean))].sort().reverse();
+  if(!dates.length) return 0;
+  let streak=0; let cur=new Date(); cur.setHours(0,0,0,0);
+  for(const d of dates){
+    const dt=new Date(d); dt.setHours(0,0,0,0);
+    const diff=(cur-dt)/86400000;
+    if(diff>1) break;
+    streak++;
+    cur=dt;
+  }
+  return streak;
+}
+
+function openModal(id){ document.getElementById(id)?.classList.add('open'); }
+function closeModal(id){ document.getElementById(id)?.classList.remove('open'); }
+
+function toggleDark(){
+  document.body.classList.toggle('dark-mode');
+  localStorage.setItem('ssc_dark', document.body.classList.contains('dark-mode')?'1':'0');
+  const tog=document.getElementById('dark-toggle');
+  if(tog) tog.checked=document.body.classList.contains('dark-mode');
+  renderHomeTopbar();
+}
+
+
+/* ═══════════════════════════════════════
+   BOOT ANIMATION + INIT
+═══════════════════════════════════════ */
+(function initBoot(){
+  if(localStorage.getItem('ssc_dark')==='1') document.body.classList.add('dark-mode');
+
+  const steps=[
+    {id:'bs0',pct:25,label:'Loading SSC exams…'},
+    {id:'bs1',pct:55,label:'Checking your identity…'},
+    {id:'bs2',pct:80,label:'Loading scores…'},
+    {id:'bs3',pct:100,label:'Ready!'}
+  ];
+  const delays=[400,900,1500,2200];
+
+  // Show tagline
+  setTimeout(()=>{ const t=document.getElementById('boot-tagline'); if(t) t.style.opacity='1'; },800);
+
+  steps.forEach((s,i)=>{
+    setTimeout(()=>{
+      const el=document.getElementById(s.id);
+      if(el) el.classList.add('active');
+      if(i>0){const prev=document.getElementById(steps[i-1].id);if(prev)prev.classList.remove('active');}
+      const fill=document.getElementById('boot-pbar-fill');
+      const lbl=document.getElementById('boot-label');
+      if(fill) fill.style.width=s.pct+'%';
+      if(lbl) lbl.textContent=s.label;
+    }, delays[i]);
+  });
+
+  setTimeout(()=>{
+    const boot=document.getElementById('ssc-boot');
+    if(boot){
+      boot.style.transition='opacity .5s ease, transform .5s ease';
+      boot.style.opacity='0';
+      boot.style.transform='scale(1.04)';
+      setTimeout(()=>{ if(boot&&boot.parentNode) boot.parentNode.removeChild(boot); },500);
+    }
+    // Init app
+    if(shouldShowOnboarding()){
+      startOnboarding();
+    } else {
+      renderHome();
+    }
+    // Show notice popups after boot — if notices already fetched show instantly,
+    // else fetchNotices() will fire showNoticePopup() when ready
+    window._bootDone = true;
+    if(window._noticesReady) setTimeout(showNoticePopup, 600);
+  }, 3200);
+})();
+</script>
+</body>
+</html>
