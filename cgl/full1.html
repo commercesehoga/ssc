@@ -723,7 +723,7 @@
       <div class="instr-card-body">
         <ul class="instr-list">
           <li><span class="num">1</span>This test contains <strong>50 MCQ questions</strong> from ssc cgl syllabus (Class 12). Your set was selected on the previous screen.</li>
-          <li><span class="num">2</span>Each correct answer carries <strong>+5 marks</strong>. Each wrong answer carries <strong>−1 mark</strong>. Unattempted questions carry <strong>0 marks</strong>.</li>
+          <li><span class="num">2</span>Each correct answer carries <strong>+2 marks</strong>. Each wrong answer carries <strong>−0.5 mark</strong>. Unattempted questions carry <strong>0 marks</strong>.</li>
           <li><span class="num">3</span>Click on an option to select it. You can change your answer any time before final submission.</li>
           <li><span class="num">4</span>Use the <strong>Question Palette</strong> on the right side to navigate to any question directly.</li>
           <li><span class="num">5</span>You can mark questions <strong>"Mark for Review"</strong> to revisit them later before submission.</li>
@@ -817,8 +817,8 @@
   </div>
 </div>
     <div class="jee-marks-info">
-      <span class="jee-mark-chip pos">✓ Correct: +5</span>
-      <span class="jee-mark-chip neg">✗ Wrong: −1</span>
+      <span class="jee-mark-chip pos">✓ Correct: +2</span>
+      <span class="jee-mark-chip neg">✗ Wrong: −0.5</span>
       <span style="font-size:12px;color:#555;font-weight:600;">Unattempted: 0</span>
     </div>
   </div>
@@ -923,7 +923,7 @@
         <div class="score-ring" id="scoreRing" style="--score-pct:0%">
           <div class="score-inner">
             <div class="score-num" id="resultScoreNum">0</div>
-            <div class="score-total">/ 250</div>
+            <div class="score-total">/ 200</div>
           </div>
         </div>
       </div>
@@ -3037,8 +3037,8 @@ function calculateResult() {
     }
   });
 
-  const score = (correct * 5) - (wrong * 1);
-  const maxScore = questions.length * 5;
+  const score = (correct * 2) - (wrong * 0.5);
+  const maxScore = questions.length * 2;
   const pct = Math.max(0, Math.round((score / maxScore) * 100));
 
   // Save last attempt to localStorage
@@ -3075,7 +3075,7 @@ function calculateResult() {
     if (res === 'correct') btn.classList.add('qb-result-correct');
     else if (res === 'wrong') btn.classList.add('qb-result-wrong');
     else btn.classList.add('qb-result-skip');
-    btn.title = res === 'correct' ? `Q${i+1}: Correct (+5)` : res === 'wrong' ? `Q${i+1}: Wrong (−1)` : `Q${i+1}: Not Attempted (0)`;
+    btn.title = res === 'correct' ? `Q${i+1}: Correct (+2)` : res === 'wrong' ? `Q${i+1}: Wrong (−0.5)` : `Q${i+1}: Not Attempted (0)`;
     rp.appendChild(btn);
   });
 
@@ -3091,9 +3091,9 @@ const optKeysList = ['a','b','c','d'];
     let userText = userAns !== null ? (q.options[optKeysList[userAns]] || 'Not Attempted') : 'Not Attempted';
     let correctText = q.options[q.correctAnswer] || q.options[q.correct] || '';
     const marksChip = res === 'correct'
-      ? `<span class="review-q-marks rqm-correct">+5</span>`
+      ? `<span class="review-q-marks rqm-correct">+2</span>`
       : res === 'wrong'
-      ? `<span class="review-q-marks rqm-wrong">−1</span>`
+      ? `<span class="review-q-marks rqm-wrong">−0.5</span>`
       : `<span class="review-q-marks rqm-skip">0</span>`;
 
     reviewHTML += `
@@ -3163,7 +3163,7 @@ function downloadPDF() {
   const wrong       = parseInt(document.getElementById('res-wrong').textContent);
   const unattempted = parseInt(document.getElementById('res-unattempted').textContent);
   const score       = parseInt(document.getElementById('res-score').textContent);
-  const maxScore    = questions.length * 5;
+  const maxScore    = questions.length * 2;
 
   // ── helpers ──────────────────────────────────────────────
   function rgb(hex) {
@@ -3204,7 +3204,7 @@ function downloadPDF() {
   doc.setFontSize(10); color('#fce4ec');
   doc.text('ssc cgl Mock Test  ·  Question Paper & Answer Key', ML, 21);
   doc.setFontSize(8.5); color('#ffffff');
-  doc.text(`eco Set ${selectedSet}   ·   100 Questions   ·   Class 12 Syllabus   ·   60 Minutes`, ML, 28);
+  doc.text(`eco Set ${selectedSet}   ·   100 Questions   ·   SSC CGL Syllabus   ·   60 Minutes`, ML, 28);
 
   // @ThunderStudy watermark on cover
   doc.setFont('helvetica','bold'); doc.setFontSize(10); color('#fce4ec');
@@ -3247,7 +3247,7 @@ function downloadPDF() {
   needsPage(12);
   fill('#fce4ec'); doc.roundedRect(ML, y, CW, 10, 2, 2, 'F');
   doc.setFont('helvetica','bold'); doc.setFontSize(8); color('#9b0f58');
-  doc.text('MARKING SCHEME:   Correct = +5   |   Wrong = −1   |   Not Attempted = 0', ML+4, y+6.5);
+  doc.text('MARKING SCHEME:   Correct = +2   |   Wrong = −0.5   |   Not Attempted = 0', ML+4, y+6.5);
   y += 15;
 
   // ── QUESTIONS ─────────────────────────────────────────────
@@ -3256,7 +3256,7 @@ function downloadPDF() {
   questions.forEach((q, qi) => {
     const userAns   = answers[qi];
     const res       = questionResults[qi];
-    const marksText = res === 'correct' ? '+5' : res === 'wrong' ? '−1' : '0';
+    const marksText = res === 'correct' ? '+2' : res === 'wrong' ? '−0.5' : '0';
     const statusTxt = res === 'correct' ? 'CORRECT' : res === 'wrong' ? 'WRONG' : 'SKIPPED';
     const bgHex     = res === 'correct' ? '#e8f5e9' : res === 'wrong' ? '#ffebee' : '#e3f2fd';
     const brdHex    = res === 'correct' ? '#2e7d32' : res === 'wrong' ? '#c62828' : '#1565c0';
