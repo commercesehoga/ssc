@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,17 +20,18 @@
 <style>
 :root {
   --bg:#F0EEFF;--sidebar:#ffffff;--card:#ffffff;--card2:#EBEEFF;--border:#D4CCFF;
-  --text:#1a1240;--text2:#4a4580;--text3:#8580b0;
+  --text:#1a1240;--text2:#4a4580;--text3:#6b65a0;
   --acc:#5B4EE8;--acc2:#4338CA;--acc3:#7C6FF0;
   --lavender:#D4CCFF;--lavender2:#EBEEFF;
   --green:#16a34a;--red:#e53e3e;--yellow:#d97706;--orange:#ea580c;--teal:#0d9488;--blue:#2563eb;
   --fn:'Plus Jakarta Sans',sans-serif;--mono:'DM Mono',monospace;
   --r:16px;--r2:22px;--sidebar-w:240px;
   --sh:0 2px 16px rgba(91,78,232,.07);--sh2:0 8px 32px rgba(91,78,232,.15);
+  --gold:#f59e0b;--silver:#94a3b8;--bronze:#b45309;
 }
 body.dark-mode {
   --bg:#0f0d1f;--sidebar:#16132e;--card:#1c1838;--card2:#221e42;--border:#312c5a;
-  --text:#e8e4ff;--text2:#9490c0;--text3:#4a4580;
+  --text:#e8e4ff;--text2:#9490c0;--text3:#7a75b0;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;}
@@ -237,9 +239,10 @@ body.dark-mode .mobile-dock{background:#1a100c;border-color:#312c5a;}
 @media(max-width:768px){.mobile-dock{display:flex;}.page{padding:16px;padding-bottom:80px;}}
 .dock-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;cursor:pointer;transition:all .2s;}
 .dock-icon{font-size:20px;transition:transform .2s;}
-.dock-item.active .dock-icon{transform:scale(1.18);}
-.dock-label{font-size:9px;font-weight:700;color:var(--text3);}
+.dock-item svg{transition:transform .2s;stroke:var(--text3);}
+.dock-item.active svg{stroke:var(--acc);transform:scale(1.18);}
 .dock-item.active .dock-label{color:var(--acc);}
+.dock-label{font-size:9px;font-weight:700;color:var(--text3);}
 
 /* ── SUBJECT TABS ── */
 .subj-tab{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;background:var(--card2);border:1.5px solid var(--border);color:var(--text2);}
@@ -279,6 +282,649 @@ body.dark-mode .mobile-dock{background:#1a100c;border-color:#312c5a;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px;}
 
+/* ════════════════════════════════════════
+   ⚡ THUNDERSTUDY ENHANCED CSS — All 50 upgrades
+════════════════════════════════════════ */
+
+/* #11 — Tabular nums for all score/pct displays */
+.stat-val,.ssc-stat-v,.mock-item-pct,.prog-pct,.lb-pct,.exam-card .pct-badge,
+[data-mono],[style*="var(--mono)"]{font-variant-numeric:tabular-nums;}
+
+/* #18 — Letter-spacing on Outfit headings */
+[style*="font-family:'Outfit'"],
+[style*="font-family: 'Outfit'"],
+.page-title,.ob-card [style*="font-weight:900"],.modal-title{letter-spacing:-0.5px;}
+
+/* #19 — Line-clamp on exam descriptions */
+.exam-card-full{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+
+/* ── 1. GLASSMORPHISM HERO CARD ── */
+.ssc-hero{
+  background:rgba(255,255,255,0.55)!important;
+  backdrop-filter:blur(24px) saturate(1.4);
+  -webkit-backdrop-filter:blur(24px) saturate(1.4);
+  border:1px solid rgba(255,255,255,0.6)!important;
+  box-shadow:0 8px 40px rgba(91,78,232,.14),inset 0 1px 0 rgba(255,255,255,.8)!important;
+}
+body.dark-mode .ssc-hero{
+  background:rgba(28,24,56,0.7)!important;
+  border:1px solid rgba(91,78,232,0.25)!important;
+}
+/* #13 — text-shadow on hero headings */
+.ssc-hero [style*="font-size:20px"][style*="font-weight:900"],
+.ssc-hero [style*="font-size:18px"]{text-shadow:0 2px 12px rgba(91,78,232,.18);}
+
+/* ── 2. GLOW STAT CARDS ── */
+.stat-card{
+  background:var(--card)!important;
+  position:relative;
+  border:none!important;
+  border-radius:var(--r2)!important;
+}
+.stat-card::before{
+  content:'';position:absolute;inset:-1.5px;border-radius:calc(var(--r2) + 1.5px);
+  background:linear-gradient(135deg,rgba(91,78,232,.35),rgba(124,111,240,.15),rgba(67,56,202,.35));
+  z-index:0;
+}
+.stat-card::after{
+  content:'';position:absolute;inset:1.5px;border-radius:var(--r2);
+  background:var(--card);z-index:1;
+}
+.stat-card > *{position:relative;z-index:2;}
+.stat-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 24px rgba(91,78,232,.25),0 8px 32px rgba(91,78,232,.15)!important;
+}
+
+/* ── 3. SIDEBAR MESH TEXTURE ── */
+.sidebar{
+  background:var(--sidebar)!important;
+  position:relative;
+}
+.sidebar::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity:.7;
+}
+.sidebar > *{position:relative;z-index:1;}
+
+/* ── 4. LIGHTNING BOLT DRAW ANIMATION ── */
+@keyframes lightningDraw{
+  0%{stroke-dashoffset:120;opacity:0;}
+  30%{opacity:1;}
+  100%{stroke-dashoffset:0;opacity:1;}
+}
+@keyframes iconGlow{
+  0%,100%{box-shadow:0 8px 24px rgba(91,78,232,.4),0 20px 50px rgba(91,78,232,.2);}
+  50%{box-shadow:0 8px 32px rgba(91,78,232,.7),0 0 60px rgba(91,78,232,.4),0 0 0 8px rgba(91,78,232,.1);}
+}
+#ssc-boot-icon{animation:bootIconIn .6s .3s cubic-bezier(.34,1.56,.64,1) both, iconGlow 2.5s 1s ease-in-out infinite!important;}
+#ssc-boot-icon svg path{
+  stroke:white;stroke-width:1;fill:none;
+  stroke-dasharray:120;stroke-dashoffset:120;
+  animation:lightningDraw .9s .6s cubic-bezier(.4,0,.2,1) forwards;
+}
+#ssc-boot-icon svg path.filled{fill:white;animation:lightningDraw .9s .6s both;}
+
+/* ── 5. ANIMATED LEFT-BORDER ACTIVE NAV ── */
+@keyframes navAccentSlide{
+  from{transform:translateY(-50%) scaleY(0);opacity:0;}
+  to{transform:translateY(-50%) scaleY(1);opacity:1;}
+}
+@keyframes navAccentPulse{
+  0%,100%{box-shadow:2px 0 8px rgba(91,78,232,.5);}
+  50%{box-shadow:2px 0 16px rgba(91,78,232,.9),4px 0 24px rgba(91,78,232,.4);}
+}
+.nav-item.active::before{
+  width:4px!important;height:26px!important;
+  animation:navAccentSlide .35s cubic-bezier(.34,1.56,.64,1) both, navAccentPulse 2.5s 0.4s ease-in-out infinite!important;
+  background:linear-gradient(180deg,#7C6FF0,#5B4EE8,#4338CA)!important;
+  border-radius:0 6px 6px 0!important;
+}
+
+/* ── 6. EXAM CARD SHIMMER HOVER ── */
+@keyframes shimmer{
+  0%{transform:translateX(-100%) skewX(-15deg);}
+  100%{transform:translateX(200%) skewX(-15deg);}
+}
+.exam-card{overflow:hidden!important;}
+.exam-card::after{
+  content:'';position:absolute;top:0;left:0;width:50%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
+  transform:translateX(-100%) skewX(-15deg);
+  transition:none;pointer-events:none;z-index:1;
+}
+.exam-card:hover::after{animation:shimmer .65s ease-in-out;}
+/* #22 — scale press on cards */
+.exam-card:active{transform:scale(0.97)!important;}
+.mock-item:active,.stat-card:active,.lb-row:active{transform:scale(0.97)!important;}
+
+/* ── 7. FROSTED-GLASS MOBILE TOPBAR ── */
+@media(max-width:768px){
+  .topbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(240,238,255,0.75);
+    backdrop-filter:blur(20px) saturate(1.6);
+    -webkit-backdrop-filter:blur(20px) saturate(1.6);
+    border-bottom:1px solid rgba(212,204,255,0.5);
+    margin:-16px -16px 16px;
+    padding:14px 16px 10px;
+    box-shadow:0 2px 20px rgba(91,78,232,.08);
+    border-radius:0;
+  }
+  body.dark-mode .topbar{
+    background:rgba(15,13,31,0.8);
+    border-bottom-color:rgba(49,44,90,0.6);
+  }
+}
+
+/* ── 8. LEADERBOARD PODIUM STYLING ── */
+.lb-row-gold{
+  background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(251,191,36,.06))!important;
+  border:2px solid rgba(245,158,11,.45)!important;
+  box-shadow:0 4px 20px rgba(245,158,11,.15)!important;
+}
+.lb-row-silver{
+  background:linear-gradient(135deg,rgba(148,163,184,.12),rgba(203,213,225,.06))!important;
+  border:2px solid rgba(148,163,184,.5)!important;
+}
+.lb-row-bronze{
+  background:linear-gradient(135deg,rgba(180,83,9,.1),rgba(217,119,6,.06))!important;
+  border:2px solid rgba(180,83,9,.4)!important;
+  box-shadow:0 4px 16px rgba(180,83,9,.1)!important;
+}
+.lb-rank-gold{color:var(--gold)!important;text-shadow:0 0 12px rgba(245,158,11,.6);}
+.lb-rank-silver{color:var(--silver)!important;}
+.lb-rank-bronze{color:var(--bronze)!important;}
+.lb-av-gold{
+  background:linear-gradient(135deg,#f59e0b,#d97706)!important;
+  box-shadow:0 4px 14px rgba(245,158,11,.5)!important;
+}
+.lb-av-silver{background:linear-gradient(135deg,#94a3b8,#64748b)!important;}
+.lb-av-bronze{background:linear-gradient(135deg,#b45309,#92400e)!important;}
+
+/* ── 9. ANIMATED GRADIENT BORDER — STUDENT ID ── */
+@keyframes idBorderSpin{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+.sid-animated-border{
+  position:relative;border-radius:10px;padding:2px;
+  background:linear-gradient(270deg,#5B4EE8,#7C6FF0,#4338CA,#a78bfa,#5B4EE8);
+  background-size:300% 300%;
+  animation:idBorderSpin 3s ease infinite;
+  display:inline-block;
+}
+.sid-animated-border-inner{
+  background:var(--card);border-radius:8px;
+  padding:4px 12px;font-family:var(--mono);font-size:12px;font-weight:700;
+  color:var(--acc);letter-spacing:1px;font-variant-numeric:tabular-nums;
+}
+
+/* ── 10. SEGMENTED / STRIPED PROGRESS BARS ── */
+.prog-track{position:relative;overflow:visible!important;}
+.prog-fill{
+  position:relative;
+  background-image:repeating-linear-gradient(
+    45deg,rgba(255,255,255,.15) 0,rgba(255,255,255,.15) 6px,transparent 6px,transparent 12px
+  )!important;
+  background-size:24px 24px!important;
+}
+@keyframes stripeFlow{to{background-position:24px 0;}}
+.prog-fill{animation:stripeFlow 1.5s linear infinite;}
+
+/* ── 11. PILL LABEL SYSTEM ── */
+.pill{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:20px;
+  font-size:9px;font-weight:800;letter-spacing:.4px;
+  text-transform:uppercase;font-variant-numeric:tabular-nums;
+}
+.pill-primary{background:rgba(91,78,232,.12);color:#5B4EE8;border:1px solid rgba(91,78,232,.2);}
+.pill-success{background:rgba(22,163,74,.12);color:#16a34a;border:1px solid rgba(22,163,74,.2);}
+.pill-warning{background:rgba(217,119,6,.12);color:#d97706;border:1px solid rgba(217,119,6,.2);}
+.pill-danger{background:rgba(220,38,38,.12);color:#dc2626;border:1px solid rgba(220,38,38,.2);}
+.pill-info{background:rgba(37,99,235,.12);color:#2563eb;border:1px solid rgba(37,99,235,.2);}
+.pill-new{background:linear-gradient(135deg,#5B4EE8,#7C6FF0);color:#fff;border:none;}
+
+/* ── 20. STUDENT ID MONOSPACE BADGE ── */
+.student-id-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(135deg,rgba(91,78,232,.1),rgba(124,111,240,.08));
+  border:1.5px solid rgba(91,78,232,.25);border-radius:8px;
+  padding:5px 12px;font-family:var(--mono);font-size:12px;font-weight:700;
+  color:var(--acc);letter-spacing:1.5px;font-variant-numeric:tabular-nums;
+}
+
+/* ── 21. RIPPLE EFFECT ── */
+.btn-prim{position:relative;overflow:hidden;}
+@keyframes rippleOut{
+  from{transform:scale(0);opacity:.5;}
+  to{transform:scale(4);opacity:0;}
+}
+.ripple-ring{
+  position:absolute;border-radius:50%;
+  background:rgba(255,255,255,.4);
+  width:60px;height:60px;
+  pointer-events:none;
+  animation:rippleOut .55s ease-out forwards;
+  transform-origin:center;
+}
+
+/* ── 23. PULSING GLOW START BUTTON ── */
+@keyframes startGlow{
+  0%,100%{box-shadow:0 4px 14px rgba(91,78,232,.3);}
+  50%{box-shadow:0 4px 24px rgba(91,78,232,.6),0 0 40px rgba(91,78,232,.3);}
+}
+.btn-start-pulse{animation:startGlow 2s ease-in-out infinite;}
+
+/* ── 25. STREAK TOOLTIP ── */
+.streak-tooltip-wrap{position:relative;display:inline-flex;align-items:center;gap:4px;cursor:help;}
+.streak-tooltip-wrap .tooltip-box{
+  position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);
+  background:#1a1240;color:#fff;font-size:10px;font-weight:600;
+  padding:7px 12px;border-radius:10px;white-space:nowrap;pointer-events:none;
+  opacity:0;transition:opacity .2s;z-index:1000;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);
+}
+.streak-tooltip-wrap .tooltip-box::after{
+  content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  border:5px solid transparent;border-top-color:#1a1240;
+}
+.streak-tooltip-wrap:hover .tooltip-box{opacity:1;}
+
+/* ── 26. SVG NAV ICONS (emoji-free) ── */
+.nav-icon-svg{width:18px;height:18px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ── 27. COLLAPSED SIDEBAR ON TABLET ── */
+@media(min-width:769px) and (max-width:1024px){
+  .sidebar{width:64px!important;}
+  .sb-logo-text,.nav-item span:not(.nav-icon):not(.nav-icon-svg),.nav-badge,.sb-pname,.sb-prole,.sb-section-label{display:none!important;}
+  .nav-item{justify-content:center;padding:12px 0!important;}
+  .nav-icon,.nav-icon-svg{margin:0;width:22px;height:22px;font-size:20px;}
+  .sb-logo{justify-content:center;padding:18px 0!important;}
+  .sb-logo-icon{margin:0;}
+  .sb-profile{justify-content:center;padding:14px 0!important;}
+  .sb-av{width:34px;height:34px;}
+  .main{flex:1;}
+}
+
+/* ── 28. NAV BADGE BOUNCE ── */
+@keyframes badgeBounce{
+  0%,100%{transform:scale(1);}
+  40%{transform:scale(1.4);}
+  60%{transform:scale(0.9);}
+  80%{transform:scale(1.1);}
+}
+.nav-badge.bounce{animation:badgeBounce .5s cubic-bezier(.34,1.56,.64,1);}
+
+/* ── 29. BREADCRUMB ── */
+.breadcrumb-bar{
+  display:flex;align-items:center;gap:6px;
+  font-size:10px;font-weight:700;color:var(--text3);
+  margin-bottom:6px;letter-spacing:.3px;text-transform:uppercase;
+}
+.breadcrumb-bar .bc-sep{opacity:.4;}
+.breadcrumb-bar .bc-current{color:var(--acc);}
+
+/* ── 30. SIDEBAR GRADIENT BOTTOM FADE ── */
+.sb-nav{
+  -webkit-mask-image:linear-gradient(to bottom,black calc(100% - 60px),transparent 100%);
+  mask-image:linear-gradient(to bottom,black calc(100% - 60px),transparent 100%);
+}
+
+/* ── 31. FLOATING ACTION BUTTON ── */
+.fab-quick-add{
+  display:none;
+  position:fixed;bottom:80px;right:16px;z-index:200;
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,#5B4EE8,#4338CA);
+  color:#fff;font-size:24px;font-weight:300;
+  border:none;cursor:pointer;
+  box-shadow:0 6px 24px rgba(91,78,232,.45);
+  align-items:center;justify-content:center;
+  transition:all .25s;font-family:var(--fn);
+}
+@media(max-width:768px){.fab-quick-add{display:flex;}}
+@keyframes fabPop{0%{transform:scale(0) rotate(-90deg);}100%{transform:scale(1) rotate(0deg);}}
+.fab-quick-add{animation:fabPop .4s .5s cubic-bezier(.34,1.56,.64,1) both;}
+.fab-quick-add:hover{transform:scale(1.1);}
+.fab-quick-add:active{transform:scale(0.95);}
+
+/* ── 32. DOCK PILL ACTIVE INDICATOR ── */
+.dock-item{position:relative;}
+.dock-item.active::before{
+  content:'';position:absolute;top:2px;left:50%;transform:translateX(-50%);
+  width:24px;height:3px;border-radius:3px;
+  background:linear-gradient(90deg,#5B4EE8,#7C6FF0);
+  box-shadow:0 0 8px rgba(91,78,232,.5);
+}
+/* ── 34. DOCK TAP PULSE ── */
+@keyframes dockTap{0%{transform:scale(0);opacity:.6;}100%{transform:scale(2.5);opacity:0;}}
+.dock-tap-ring{
+  position:absolute;width:40px;height:40px;border-radius:50%;
+  border:2px solid rgba(91,78,232,.4);
+  pointer-events:none;animation:dockTap .4s ease-out forwards;
+}
+
+/* ── 33. SAFE-AREA DOCK ── */
+.mobile-dock{padding-bottom:max(10px,env(safe-area-inset-bottom))!important;}
+
+/* ── 36. SPARKLINE ── */
+.sparkline-wrap{display:flex;align-items:flex-end;gap:2px;height:24px;margin-top:6px;}
+.sparkline-bar{
+  flex:1;border-radius:3px 3px 0 0;min-height:3px;
+  background:var(--acc);opacity:.6;transition:opacity .2s;
+}
+.sparkline-bar:hover{opacity:1;}
+
+/* ── 39. TREND ARROWS ── */
+.trend-up{color:#16a34a;font-size:10px;font-weight:800;}
+.trend-down{color:#dc2626;font-size:10px;font-weight:800;}
+.trend-same{color:var(--text3);font-size:10px;}
+
+/* ── 40. SCORE BAND BG ── */
+.prog-track{background:linear-gradient(90deg,rgba(220,38,38,.12) 0%,rgba(217,119,6,.1) 40%,rgba(37,99,235,.1) 60%,rgba(22,163,74,.1) 80%,rgba(22,163,74,.15) 100%)!important;}
+
+/* ── 41. TYPING ANIMATION BOOT SUBTITLE ── */
+@keyframes typingCursor{50%{border-color:transparent;}}
+#boot-typing-subtitle{
+  border-right:2px solid rgba(91,78,232,.5);
+  white-space:nowrap;overflow:hidden;width:0;
+  animation:typeIn 1.5s steps(28,end) .3s forwards, typingCursor .8s infinite;
+  display:inline-block;
+}
+@keyframes typeIn{from{width:0;}to{width:100%;};}
+
+/* ── 42. ANIMATED ONBOARDING STEP PILLS ── */
+.ob-step-pills{
+  display:flex;gap:6px;align-items:center;justify-content:center;margin-bottom:24px;
+}
+.ob-step-pill{
+  height:6px;border-radius:6px;background:var(--border);
+  transition:all .35s cubic-bezier(.34,1.56,.64,1);
+}
+.ob-step-pill.active{background:linear-gradient(90deg,#5B4EE8,#7C6FF0);width:28px!important;}
+.ob-step-pill.done{background:rgba(22,163,74,.6);width:14px!important;}
+
+/* ── 43. CONFETTI BURST ── */
+@keyframes confettiFall{
+  0%{transform:translateY(-20px) rotate(0deg);opacity:1;}
+  100%{transform:translateY(300px) rotate(720deg);opacity:0;}
+}
+.confetti-piece{
+  position:fixed;width:8px;height:8px;border-radius:2px;
+  pointer-events:none;z-index:99999;
+  animation:confettiFall 1.2s ease-in forwards;
+}
+
+/* ── 44. GOOGLE BUTTON SHIMMER ── */
+@keyframes btnShimmer{
+  0%{background-position:-200% 0;}
+  100%{background-position:200% 0;}
+}
+.btn-google-shimmer::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
+  background-size:200% 100%;
+  animation:btnShimmer 1.5s ease-in-out 1;
+  pointer-events:none;
+}
+.btn-google{position:relative;overflow:hidden;}
+
+/* ── 45. SKELETON LOADER ── */
+@keyframes skelPulse{0%,100%{opacity:.5;}50%{opacity:1;}}
+.skel{
+  background:linear-gradient(90deg,var(--card2) 25%,var(--border) 50%,var(--card2) 75%);
+  background-size:200% 100%;
+  border-radius:8px;
+  animation:skelPulse 1.4s ease-in-out infinite;
+}
+
+/* ── 46. NEW BADGE PULSE RING ── */
+@keyframes pulseRing{
+  0%{transform:scale(1);opacity:.8;}
+  100%{transform:scale(2.2);opacity:0;}
+}
+.new-pulse-ring{
+  position:relative;display:inline-flex;
+}
+.new-pulse-ring::before{
+  content:'';position:absolute;inset:-3px;border-radius:inherit;
+  border:2px solid var(--green);
+  animation:pulseRing 1.5s ease-out infinite;
+  pointer-events:none;
+}
+
+/* ── 47. SCROLL-TO-TOP BUTTON ── */
+#scroll-top-btn{
+  display:none;position:fixed;bottom:90px;right:16px;
+  width:40px;height:40px;border-radius:50%;
+  background:var(--card);border:1.5px solid var(--border);
+  box-shadow:0 4px 16px rgba(91,78,232,.15);
+  cursor:pointer;align-items:center;justify-content:center;
+  font-size:16px;z-index:150;transition:all .2s;
+  color:var(--acc);
+}
+#scroll-top-btn.visible{display:flex;}
+#scroll-top-btn:hover{background:var(--acc);color:#fff;transform:translateY(-2px);}
+@media(max-width:768px){#scroll-top-btn{bottom:130px;right:12px;}}
+
+/* ── 48. PAGE TRANSITION ── */
+@keyframes pageSlideIn{
+  from{opacity:0;transform:translateY(18px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.page.active{animation:pageSlideIn .3s cubic-bezier(.4,0,.2,1) both;}
+
+/* ── 49. EMPTY STATE SVG PLACEHOLDER ── */
+.empty-state-svg{
+  display:flex;flex-direction:column;align-items:center;
+  padding:60px 20px;text-align:center;
+}
+
+/* ── 50. VERSION TAG ── */
+.build-tag{
+  font-size:9px;font-weight:700;letter-spacing:1px;
+  color:var(--text3);text-transform:uppercase;
+  opacity:.7;margin-top:8px;font-family:var(--mono);
+}
+
+/* ── 16. WARM-TO-COOL GRADIENT SCORE DISTRIBUTION ── */
+.score-dist-bar{
+  height:8px;border-radius:8px;
+  background:linear-gradient(90deg,#dc2626 0%,#d97706 30%,#2563eb 65%,#16a34a 100%);
+  margin-bottom:8px;
+}
+
+/* ── 17. COLOR-CODED SIDEBAR SECTION LABELS ── */
+.sb-section-label:nth-of-type(1){color:#5B4EE8!important;}
+.sb-section-label:nth-of-type(2){color:#16a34a!important;}
+
+/* ── MISC ── */
+.card{transition:box-shadow .2s;}
+.card:hover{box-shadow:var(--sh2);}
+
+/* ════════════════════════════════════════
+   WELCOME BACK SCREEN
+════════════════════════════════════════ */
+#wb-overlay{
+  display:none;position:fixed;inset:0;z-index:9998;
+  background:linear-gradient(135deg,#EBEEFF 0%,#f0eeff 50%,#e8e4ff 100%);
+  align-items:center;justify-content:center;padding:20px;overflow-y:auto;
+}
+body.dark-mode #wb-overlay{background:linear-gradient(135deg,#0f0d1f,#12103a);}
+#wb-overlay.open{display:flex;}
+
+@keyframes wbCardIn{
+  0%{opacity:0;transform:translateY(32px) scale(.95);}
+  100%{opacity:1;transform:translateY(0) scale(1);}
+}
+@keyframes wbAvatarIn{
+  0%{transform:scale(0) rotate(-15deg);}
+  60%{transform:scale(1.1) rotate(4deg);}
+  100%{transform:scale(1) rotate(0);}
+}
+@keyframes wbTagIn{
+  from{opacity:0;transform:translateX(-12px);}
+  to{opacity:1;transform:translateX(0);}
+}
+@keyframes wbPulseRing{
+  0%{transform:scale(1);opacity:.7;}
+  100%{transform:scale(1.8);opacity:0;}
+}
+@keyframes wbShine{
+  0%{background-position:-200% 0;}
+  100%{background-position:200% 0;}
+}
+#wb-card{
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border:1px solid rgba(212,204,255,.6);
+  border-radius:32px;
+  padding:0;
+  max-width:380px;width:90vw;
+  box-shadow:0 4px 6px rgba(91,78,232,.04),0 24px 64px rgba(91,78,232,.18),inset 0 1px 0 rgba(255,255,255,.9);
+  animation:wbCardIn .65s cubic-bezier(.34,1.56,.64,1) both;
+  overflow:hidden;
+  position:relative;
+}
+body.dark-mode #wb-card{
+  background:rgba(26,18,64,.96);
+  border-color:rgba(91,78,232,.3);
+}
+.wb-hero{
+  background:linear-gradient(135deg,#5B4EE8 0%,#4338CA 60%,#7C6FF0 100%);
+  padding:32px 28px 28px;
+  position:relative;overflow:hidden;text-align:center;
+}
+.wb-hero::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='.06'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+}
+.wb-hero-blob1{position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.07);top:-60px;right:-40px;}
+.wb-hero-blob2{position:absolute;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.05);bottom:-30px;left:-20px;}
+.wb-avatar-wrap{position:relative;display:inline-block;margin-bottom:16px;}
+.wb-avatar{
+  width:72px;height:72px;border-radius:20px;
+  background:rgba(255,255,255,.22);
+  border:2.5px solid rgba(255,255,255,.45);
+  display:flex;align-items:center;justify-content:center;
+  font-size:30px;font-weight:900;color:#fff;
+  overflow:hidden;backdrop-filter:blur(4px);
+  animation:wbAvatarIn .55s .25s cubic-bezier(.34,1.56,.64,1) both;
+  position:relative;z-index:1;
+}
+.wb-avatar img{width:100%;height:100%;object-fit:cover;}
+.wb-avatar-ring{
+  position:absolute;inset:-6px;border-radius:26px;
+  border:2px solid rgba(255,255,255,.35);
+  animation:wbPulseRing 2.2s ease-out .8s infinite;
+}
+.wb-avatar-ring2{
+  position:absolute;inset:-12px;border-radius:32px;
+  border:1.5px solid rgba(255,255,255,.2);
+  animation:wbPulseRing 2.2s ease-out 1.1s infinite;
+}
+.wb-hi{
+  font-size:13px;font-weight:700;color:rgba(255,255,255,.75);
+  letter-spacing:.5px;margin-bottom:4px;
+  animation:wbTagIn .4s .4s both;
+}
+.wb-name{
+  font-family:'Outfit',sans-serif;font-size:26px;font-weight:900;
+  color:#fff;letter-spacing:-0.5px;line-height:1.1;
+  text-shadow:0 2px 12px rgba(0,0,0,.2);
+  animation:wbTagIn .4s .5s both;
+}
+.wb-sid-chip{
+  display:inline-flex;align-items:center;gap:5px;margin-top:10px;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+  border-radius:20px;padding:4px 12px;
+  font-family:var(--mono);font-size:11px;font-weight:700;color:rgba(255,255,255,.9);
+  letter-spacing:1px;animation:wbTagIn .4s .6s both;
+}
+.wb-body{padding:24px 26px 28px;}
+.wb-stats-row{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;
+  margin-bottom:20px;
+}
+.wb-stat{
+  background:var(--card2);border:1.5px solid var(--border);
+  border-radius:14px;padding:12px 8px;text-align:center;
+}
+.wb-stat-v{font-size:20px;font-weight:900;font-family:var(--mono);font-variant-numeric:tabular-nums;line-height:1;}
+.wb-stat-l{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-top:4px;}
+.wb-exam-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;}
+.wb-exam-chip{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 11px;border-radius:20px;font-size:11px;font-weight:800;
+  background:var(--card2);border:1.5px solid var(--border);color:var(--text2);
+}
+.wb-actions{display:flex;flex-direction:column;gap:8px;}
+.wb-btn-continue{
+  background:linear-gradient(135deg,#5B4EE8,#4338CA);color:#fff;
+  border:none;border-radius:14px;padding:14px 20px;
+  font-size:14px;font-weight:800;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-family:var(--fn);letter-spacing:-.2px;
+  box-shadow:0 6px 20px rgba(91,78,232,.35);
+  transition:all .2s;position:relative;overflow:hidden;
+}
+.wb-btn-continue::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  background-size:200% 100%;
+  animation:wbShine 1.8s ease-in-out 1;
+}
+.wb-btn-continue:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(91,78,232,.45);}
+.wb-btn-continue:active{transform:scale(.98);}
+.wb-btn-secondary{
+  background:transparent;color:var(--text3);
+  border:1.5px solid var(--border);border-radius:14px;padding:10px 20px;
+  font-size:12px;font-weight:700;cursor:pointer;
+  font-family:var(--fn);transition:all .2s;
+}
+.wb-btn-secondary:hover{background:var(--card2);color:var(--text2);}
+
+/* ── NEW EXAM CHOOSER (inside welcome back) ── */
+.wb-exam-chooser{display:none;}
+.wb-exam-chooser.open{display:block;}
+.wb-ec-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px;}
+.wb-ec-grid{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;padding-right:2px;}
+.wb-ec-grid::-webkit-scrollbar{width:4px;}
+.wb-ec-grid::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+.wb-ec-item{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;
+  border-radius:12px;border:1.5px solid var(--border);
+  background:var(--card2);cursor:pointer;transition:all .2s;
+}
+.wb-ec-item.sel{border-color:var(--acc);background:rgba(91,78,232,.08);}
+.wb-ec-icon{font-size:18px;width:24px;text-align:center;flex-shrink:0;}
+.wb-ec-name{font-size:12px;font-weight:800;color:var(--text);flex:1;}
+.wb-ec-sub{font-size:9px;color:var(--text3);margin-top:1px;}
+.wb-ec-check{font-size:16px;flex-shrink:0;transition:all .2s;}
+
+/* ── NAME VALIDATION INLINE ── */
+.ob-name-wrap{position:relative;}
+.ob-name-check{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  font-size:16px;pointer-events:none;
+  opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);
+}
+.ob-name-check.show{opacity:1;transform:translateY(-50%) scale(1.1);}
+.ob-input-valid{border-color:#16a34a!important;background:rgba(22,163,74,.04)!important;}
+.ob-name-pill{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;
+  margin-top:3px;transition:all .3s;
+}
+.ob-name-pill.ok{background:rgba(22,163,74,.12);color:#16a34a;}
+.ob-name-pill.warn{background:rgba(217,119,6,.12);color:#d97706;}
+.ob-name-pill.err{background:rgba(220,38,38,.1);color:#dc2626;}
+
 </style>
 </head>
 <body>
@@ -291,12 +937,14 @@ body.dark-mode .mobile-dock{background:#1a100c;border-color:#312c5a;}
   <div id="ssc-boot-card">
     <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#5B4EE8,#7C6FF0,#5B4EE8);border-radius:32px 32px 0 0;"></div>
     <div id="ssc-boot-icon">
-      <svg width="38" height="42" viewBox="0 0 20 22" fill="none"><path d="M13 1L3 13H9L4 21L17 9H11L13 1Z" fill="white"/></svg>
+      <svg width="38" height="42" viewBox="0 0 20 22" fill="none">
+        <path class="filled" d="M13 1L3 13H9L4 21L17 9H11L13 1Z" fill="white" stroke="white" stroke-width="0.5" stroke-dasharray="120" stroke-dashoffset="120" style="animation:lightningDraw .9s .6s cubic-bezier(.4,0,.2,1) forwards;"/>
+      </svg>
     </div>
     <div style="font-family:'Outfit',sans-serif;font-size:28px;font-weight:900;letter-spacing:-1px;margin-bottom:4px;">
       <span style="color:#5B4EE8;">SSC</span> <span style="color:#1a1240;">Prep</span>
     </div>
-    <div style="font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(91,78,232,.5);margin-bottom:24px;">Staff Selection Commission</div>
+    <div style="font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(91,78,232,.5);margin-bottom:24px;overflow:hidden;"><span id="boot-typing-subtitle">Staff Selection Commission</span></div>
 
     <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:14px;text-align:left;">
       <div class="boot-step" id="bs0"><span style="font-size:13px;">📋</span><span style="font-size:11px;font-weight:700;color:#3730a3;">Loading SSC exams</span></div>
@@ -316,9 +964,73 @@ body.dark-mode .mobile-dock{background:#1a100c;border-color:#312c5a;}
   </div>
 </div>
 
+<!-- ═══════════════ WELCOME BACK ═══════════════ -->
+<div id="wb-overlay">
+  <div id="wb-card">
+    <!-- Hero section — filled by JS -->
+    <div class="wb-hero" id="wb-hero">
+      <div class="wb-hero-blob1"></div>
+      <div class="wb-hero-blob2"></div>
+      <div style="position:relative;z-index:1;">
+        <div class="wb-avatar-wrap">
+          <div class="wb-avatar" id="wb-avatar">S</div>
+          <div class="wb-avatar-ring"></div>
+          <div class="wb-avatar-ring2"></div>
+        </div>
+        <div class="wb-hi">Welcome back 👋</div>
+        <div class="wb-name" id="wb-name">Aspirant</div>
+        <div class="wb-sid-chip" id="wb-sid-chip">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          <span id="wb-sid-text">TS00000</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="wb-body">
+      <!-- Stats strip -->
+      <div class="wb-stats-row" id="wb-stats-row">
+        <div class="wb-stat">
+          <div class="wb-stat-v" id="wb-stat-tests" style="color:var(--acc);">0</div>
+          <div class="wb-stat-l">Tests</div>
+        </div>
+        <div class="wb-stat">
+          <div class="wb-stat-v" id="wb-stat-avg" style="color:var(--green);">—</div>
+          <div class="wb-stat-l">Avg Score</div>
+        </div>
+        <div class="wb-stat">
+          <div class="wb-stat-v" id="wb-stat-streak" style="color:var(--orange);">0🔥</div>
+          <div class="wb-stat-l">Streak</div>
+        </div>
+      </div>
+
+      <!-- Exam chips or chooser -->
+      <div id="wb-exam-section">
+        <!-- filled by JS -->
+      </div>
+
+      <!-- Actions -->
+      <div class="wb-actions">
+        <button class="wb-btn-continue" id="wb-continue-btn" onclick="wbContinue()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Let's Go!
+        </button>
+        <button class="wb-btn-secondary" onclick="wbChangeExams()">
+          <span id="wb-change-exam-label">Change exams / settings</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ═══════════════ ONBOARDING ═══════════════ -->
 <div class="modal-ov" id="ob-overlay">
   <div class="ob-card">
+    <div class="ob-step-pills" id="ob-pills">
+      <div class="ob-step-pill active" style="width:28px;" id="ob-pill-1"></div>
+      <div class="ob-step-pill" style="width:14px;" id="ob-pill-2"></div>
+      <div class="ob-step-pill" style="width:14px;" id="ob-pill-3"></div>
+    </div>
     <!-- Step 1: Google Login + Name -->
     <div class="ob-step active" id="ob-step-1">
       <div style="font-size:56px;margin-bottom:14px;">🎯</div>
@@ -342,8 +1054,11 @@ body.dark-mode .mobile-dock{background:#1a100c;border-color:#312c5a;}
         <button onclick="obGoogleLogout()" style="margin-left:auto;font-size:10px;font-weight:700;background:none;border:1px solid var(--border);border-radius:8px;padding:3px 8px;cursor:pointer;color:var(--text3);font-family:var(--fn);">Sign out</button>
       </div>
 
-      <input class="ob-input" id="ob-name" placeholder="Your full name" oninput="obValidate1()">
-      <div id="ob-name-hint" style="min-height:18px;margin-top:-6px;margin-bottom:8px;text-align:left;padding:0 4px;"></div>
+      <div class="ob-name-wrap">
+        <input class="ob-input" id="ob-name" placeholder="Your full name" oninput="obValidate1()" style="padding-right:42px;">
+        <span class="ob-name-check" id="ob-name-check">✓</span>
+      </div>
+      <div id="ob-name-hint" style="min-height:18px;margin-top:2px;margin-bottom:8px;text-align:left;padding:0 4px;"></div>
       <div id="ob-step1-err" style="font-size:11px;color:var(--acc);margin-bottom:10px;min-height:16px;"></div>
       <button class="btn btn-prim" id="ob-next-1" onclick="obStep2()" disabled style="width:100%;justify-content:center;padding:13px;font-size:14px;opacity:.4;">Continue →</button>
     </div>
@@ -401,22 +1116,44 @@ body.dark-mode .mobile-dock{background:#1a100c;border-color:#312c5a;}
   </div>
 </div>
 
-<!-- ═══════════════ SIDEBAR ═══════════════ -->
 <nav class="sidebar">
   <div class="sb-logo">
-    <div class="sb-logo-icon">⚡</div>
+    <div class="sb-logo-icon">
+      <svg width="20" height="22" viewBox="0 0 20 22" fill="none"><path d="M13 1L3 13H9L4 21L17 9H11L13 1Z" fill="white"/></svg>
+    </div>
     <div class="sb-logo-text"><span>SSC</span> Prep</div>
   </div>
   <div class="sb-nav">
     <div class="sb-section-label">Main</div>
-    <div class="nav-item active" onclick="goPage('home')"><span class="nav-icon">🏠</span> Home</div>
-    <div class="nav-item" onclick="goPage('exams')"><span class="nav-icon">📋</span> My Exams</div>
-    <div class="nav-item" onclick="goPage('mocks')"><span class="nav-icon">📝</span> Mock Tests</div>
-    <div class="nav-item" onclick="goPage('analytics')"><span class="nav-icon">📈</span> Analytics<span class="nav-badge green">NEW</span></div>
-    <div class="nav-item" onclick="goPage('rank')"><span class="nav-icon">🏆</span> Leaderboard<span class="nav-badge">LIVE</span></div>
-    <div class="nav-item" onclick="openNoticesPopup()"><span class="nav-icon">🔔</span> Notices<span class="nav-badge" id="notices-nav-badge" style="display:none;background:#e53e3e;">0</span></div>
+    <div class="nav-item active" onclick="goPage('home')">
+      <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Home</span>
+    </div>
+    <div class="nav-item" onclick="goPage('exams')">
+      <svg class="nav-icon-svg" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="11" y2="17"/></svg>
+      <span>My Exams</span>
+    </div>
+    <div class="nav-item" onclick="goPage('mocks')">
+      <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      <span>Mock Tests</span>
+    </div>
+    <div class="nav-item" onclick="goPage('analytics')">
+      <svg class="nav-icon-svg" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <span>Analytics</span><span class="nav-badge green new-pulse-ring" id="analytics-new-badge" style="margin-left:auto;">NEW</span>
+    </div>
+    <div class="nav-item" onclick="goPage('rank')">
+      <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 000 5H6"/><path d="M18 9h1.5a2.5 2.5 0 010 5H18"/><path d="M8 9h8"/><path d="M8 15h8"/><path d="M9 9V7c0-1.1.9-2 2-2h2a2 2 0 012 2v2"/><path d="M9 15v2a2 2 0 002 2h2a2 2 0 002-2v-2"/></svg>
+      <span>Leaderboard</span><span class="nav-badge" id="live-lb-badge" style="margin-left:auto;background:var(--acc);">LIVE</span>
+    </div>
+    <div class="nav-item" onclick="openNoticesPopup()">
+      <svg class="nav-icon-svg" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      <span>Notices</span><span class="nav-badge" id="notices-nav-badge" style="display:none;background:#e53e3e;">0</span>
+    </div>
     <div class="sb-section-label" style="margin-top:10px;">Account</div>
-    <div class="nav-item" onclick="goPage('settings')"><span class="nav-icon">⚙️</span> Settings</div>
+    <div class="nav-item" onclick="goPage('settings')">
+      <svg class="nav-icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      <span>Settings</span>
+    </div>
   </div>
   <div class="sb-profile" onclick="openProfileModal()">
     <div class="sb-av" id="sb-av-disp">S</div>
@@ -488,13 +1225,31 @@ body.dark-mode .mobile-dock{background:#1a100c;border-color:#312c5a;}
 </div>
 
 <!-- ═══════════════ MOBILE DOCK ═══════════════ -->
+<button class="fab-quick-add" onclick="openQuickAddScore()" title="Quick Add Score">+</button>
 <div class="mobile-dock">
-  <div class="dock-item active" id="dock-home" onclick="goPage('home')"><span class="dock-icon">🏠</span><span class="dock-label">Home</span></div>
-  <div class="dock-item" id="dock-exams" onclick="goPage('exams')"><span class="dock-icon">📋</span><span class="dock-label">Exams</span></div>
-  <div class="dock-item" id="dock-mocks" onclick="goPage('mocks')"><span class="dock-icon">📝</span><span class="dock-label">Mocks</span></div>
-  <div class="dock-item" id="dock-rank" onclick="goPage('rank')"><span class="dock-icon">🏆</span><span class="dock-label">Rank</span></div>
-  <div class="dock-item" id="dock-settings" onclick="goPage('settings')"><span class="dock-icon">⚙️</span><span class="dock-label">Settings</span></div>
+  <div class="dock-item active" id="dock-home" onclick="dockTap(this,'home')">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span class="dock-label">Home</span>
+  </div>
+  <div class="dock-item" id="dock-exams" onclick="dockTap(this,'exams')">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+    <span class="dock-label">Exams</span>
+  </div>
+  <div class="dock-item" id="dock-mocks" onclick="dockTap(this,'mocks')">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    <span class="dock-label">Mocks</span>
+  </div>
+  <div class="dock-item" id="dock-rank" onclick="dockTap(this,'rank')">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/><polyline points="18 19 12 13 6 19"/></svg>
+    <span class="dock-label">Rank</span>
+  </div>
+  <div class="dock-item" id="dock-settings" onclick="dockTap(this,'settings')">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    <span class="dock-label">Settings</span>
+  </div>
 </div>
+<!-- SCROLL TO TOP -->
+<button id="scroll-top-btn" onclick="document.querySelector('.main').scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
 
 <!-- TOAST -->
 <div id="toast"></div>
@@ -2491,7 +3246,6 @@ function renderSettings(){
     </div>
     <div class="setting-row">
       <div><div class="setting-lbl">Student ID</div><div class="setting-sub" style="font-family:var(--mono);color:var(--acc);">${escH(sid||'Not set')}</div></div>
-      <button class="btn btn-ghost" onclick="editStudentID()" style="font-size:11px;padding:6px 12px;">✏️ Edit</button>
     </div>
     <div class="setting-row">
       <div><div class="setting-lbl">Selected Exams</div><div class="setting-sub">${exams.length>0?exams.map(e=>SSC_EXAMS.find(x=>x.id===e)?.name||e).join(', '):'None selected'}</div></div>
@@ -2534,6 +3288,9 @@ function renderSettings(){
       <div><div class="setting-lbl">Clear All Data</div><div class="setting-sub" style="color:var(--acc);">⚠️ This cannot be undone</div></div>
       <button class="btn btn-ghost" onclick="clearAllData()" style="font-size:11px;padding:6px 12px;color:var(--red);border-color:rgba(229,62,62,.3);">🗑️ Clear</button>
     </div>
+  </div>
+  <div style="text-align:center;padding:12px 0 24px;">
+    <div class="build-tag">ThunderStudy SSC v2.1.0 · Build 20250503 · Made with ⚡ by Wondermayank</div>
   </div>`;
 
   cont.innerHTML = H;
@@ -2632,15 +3389,151 @@ function saveExamSelection(){
 /* ═══════════════════════════════════════
    ONBOARDING — SMART AUTO-FETCH
    Rules:
-   - If name + ID both exist → skip onboarding entirely
-   - If ID exists but no name → pre-fill ID, ask only for name
-   - If name exists but no ID → pre-fill name, generate ID silently
-   - If neither → full onboarding
+   - Returning user (ob_done=1) → Welcome Back screen
+   - New user with fetched name → Welcome Back with exam chooser
+   - Fresh new user → full 3-step onboarding
    - ID is generated ONCE — never regenerated automatically
-   - Name is locked after set (user can change via Settings only)
 ═══════════════════════════════════════ */
 function shouldShowOnboarding(){
   return !localStorage.getItem('ssc_ob_done');
+}
+
+/* ── WELCOME BACK SCREEN ── */
+function showWelcomeBack(){
+  const name   = getStoredName() || 'Aspirant';
+  const sid    = getStoredID();
+  const gu     = getGoogleUser();
+  const exams  = getSelectedExams();
+  const allAtt = getAllAttempts();
+  const total  = allAtt.length;
+  const avg    = total>0 ? (allAtt.reduce((s,d)=>s+(d.percentage||0),0)/total) : null;
+  const streak = getStreak();
+
+  // Fill hero
+  document.getElementById('wb-name').textContent = name.split(' ')[0];
+  document.getElementById('wb-sid-text').textContent = sid || 'No ID set';
+
+  // Avatar: Google pic or initial
+  const avEl = document.getElementById('wb-avatar');
+  if(gu && gu.picture){
+    avEl.innerHTML = `<img src="${escH(gu.picture)}" onerror="this.parentNode.textContent='${name[0].toUpperCase()}'">`;
+  } else {
+    avEl.textContent = name[0].toUpperCase();
+  }
+
+  // Stats
+  document.getElementById('wb-stat-tests').textContent = total;
+  document.getElementById('wb-stat-avg').textContent   = avg !== null ? avg.toFixed(0)+'%' : '—';
+  const streakEl = document.getElementById('wb-stat-streak');
+  streakEl.textContent = streak > 0 ? streak+'🔥' : '0';
+  if(avg !== null){
+    document.getElementById('wb-stat-avg').style.color = avg>=80?'var(--green)':avg>=60?'var(--blue)':avg>=40?'var(--yellow)':'var(--red)';
+  }
+
+  // Exam section
+  const examSec = document.getElementById('wb-exam-section');
+  if(exams.length === 0){
+    // No exams selected yet — show chooser immediately
+    examSec.innerHTML = _buildWbExamChooser(true);
+    document.getElementById('wb-continue-btn').textContent = 'Save & Continue →';
+    document.getElementById('wb-change-exam-label').textContent = 'Skip for now';
+  } else {
+    // Show chips + allow change
+    const chips = exams.map(eid=>{
+      const ex = SSC_EXAMS.find(e=>e.id===eid);
+      if(!ex) return '';
+      return `<div class="wb-exam-chip" style="border-color:${ex.color}30;color:${ex.color};">${ex.icon} ${ex.name}</div>`;
+    }).join('');
+    examSec.innerHTML = `
+      <div style="margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Your Exams</div>
+        <div class="wb-exam-chips">${chips}</div>
+      </div>
+      <div id="wb-chooser-section" class="wb-exam-chooser"></div>`;
+  }
+
+  document.getElementById('wb-overlay').classList.add('open');
+}
+
+function _buildWbExamChooser(autoOpen){
+  const existing = getSelectedExams();
+  const items = SSC_EXAMS.map(ex=>{
+    const isSel = existing.includes(ex.id);
+    return `<div class="wb-ec-item ${isSel?'sel':''}" data-id="${ex.id}" data-sel="${isSel}" onclick="wbToggleExam(this,'${ex.id}')">
+      <span class="wb-ec-icon">${ex.icon}</span>
+      <div style="flex:1;">
+        <div class="wb-ec-name">${ex.name}</div>
+        <div class="wb-ec-sub">${ex.full} · <span style="color:${ex.tagColor}">${ex.tag}</span></div>
+      </div>
+      <span class="wb-ec-check">${isSel?'✅':'○'}</span>
+    </div>`;
+  }).join('');
+  return `<div class="wb-ec-title">Which exam are you preparing for?</div>
+    <div class="wb-ec-grid" id="wb-ec-grid">${items}</div>
+    <div style="margin-top:10px;font-size:10px;color:var(--text3);text-align:center;">Select up to 4 exams</div>`;
+}
+
+function wbToggleExam(el, id){
+  const isSel = el.dataset.sel === 'true';
+  if(!isSel){
+    const selCount = document.querySelectorAll('#wb-ec-grid .wb-ec-item[data-sel="true"]').length;
+    if(selCount >= 4){ showToast('❌ Max 4 exams', 'error'); return; }
+  }
+  const exam = SSC_EXAMS.find(e=>e.id===id);
+  el.dataset.sel = String(!isSel);
+  if(!isSel){
+    el.classList.add('sel');
+    el.style.borderColor = exam.color;
+    el.querySelector('.wb-ec-check').textContent = '✅';
+  } else {
+    el.classList.remove('sel');
+    el.style.borderColor = '';
+    el.querySelector('.wb-ec-check').textContent = '○';
+  }
+}
+
+function wbContinue(){
+  // Save exam selection if chooser is visible
+  const grid = document.getElementById('wb-ec-grid');
+  if(grid){
+    const sel = [...grid.querySelectorAll('.wb-ec-item[data-sel="true"]')].map(el=>el.dataset.id);
+    if(sel.length > 0){
+      saveSelectedExams(sel);
+      _examTab = sel[0];
+    }
+  }
+  document.getElementById('wb-overlay').classList.remove('open');
+  renderHome();
+}
+
+function wbChangeExams(){
+  const chooserSec = document.getElementById('wb-chooser-section');
+  const changeLabel = document.getElementById('wb-change-exam-label');
+  if(chooserSec){
+    const isOpen = chooserSec.classList.contains('open');
+    if(isOpen){
+      // Save selection
+      const grid = document.getElementById('wb-ec-grid');
+      if(grid){
+        const sel = [...grid.querySelectorAll('.wb-ec-item[data-sel="true"]')].map(el=>el.dataset.id);
+        if(sel.length > 0){
+          saveSelectedExams(sel);
+          _examTab = sel[0];
+          showToast('✅ Exams updated!', 'success');
+        }
+      }
+      chooserSec.classList.remove('open');
+      if(changeLabel) changeLabel.textContent = 'Change exams / settings';
+    } else {
+      chooserSec.innerHTML = _buildWbExamChooser(false);
+      chooserSec.classList.add('open');
+      if(changeLabel) changeLabel.textContent = 'Save changes ✓';
+    }
+  } else {
+    // No exams selected path — just skip
+    document.getElementById('wb-overlay').classList.remove('open');
+    renderHome();
+  }
 }
 
 /* Read from ALL known storage keys */
@@ -2666,7 +3559,7 @@ function getStoredID(){
 /* Generate a brand-new ID — only called once, never auto-overwrites */
 function generateOnceID(){
   const existing = getStoredID();
-  if(existing) return existing;          // already have one — keep it!
+  if(existing) return existing;
   const newId = 'TS' + String(Math.floor(Math.random()*100000)).padStart(5,'0');
   localStorage.setItem('ts_student_id', newId);
   localStorage.setItem('ssc_student_id', newId);
@@ -2683,35 +3576,45 @@ function persistName(name){
 function startOnboarding(){
   const storedName = getStoredName();
   const storedID   = getStoredID();
+  const obDone     = !!localStorage.getItem('ssc_ob_done');
 
-  // ── Both exist: nothing to do ──
-  if(storedName && storedID){
-    localStorage.setItem('ssc_ob_done','1');
-    renderHome();
+  // ── RETURNING USER: show Welcome Back ──
+  if(obDone && storedName){
+    showWelcomeBack();
     return;
   }
 
-  // ── Silently generate an ID if none exists ──
+  // ── Both exist (first-time but already have data): Welcome Back ──
+  if(storedName && storedID){
+    localStorage.setItem('ssc_ob_done','1');
+    showWelcomeBack();
+    return;
+  }
+
+  // ── Has name from Google autofetch but no ob_done: show Welcome Back with exam chooser ──
+  if(storedName && !obDone){
+    // Still need to pick exams — show WB with chooser
+    showWelcomeBack();
+    return;
+  }
+
+  // ── Fresh new user: full onboarding ──
   const id = storedID || generateOnceID();
 
-  // ── Pre-fill name if we have it ──
   const nameInp = document.getElementById('ob-name');
   if(nameInp && storedName){
     nameInp.value = storedName;
     nameInp.readOnly = true;
     nameInp.style.opacity = '.7';
     nameInp.style.cursor  = 'default';
-    // Show a lock hint
     const hint = document.getElementById('ob-name-hint');
-    if(hint) hint.innerHTML = `<span style="color:var(--acc);font-size:11px;font-weight:700;">✓ Name auto-loaded · <span onclick="unlockObName()" style="cursor:pointer;text-decoration:underline;">change?</span></span>`;
+    if(hint) hint.innerHTML = `<span class="ob-name-pill ok">✓ Auto-loaded · <span onclick="unlockObName()" style="cursor:pointer;text-decoration:underline;">change?</span></span>`;
   }
 
-  // ── Pre-fill ID in step 3 ──
   const sidInp = document.getElementById('ob-sid');
   if(sidInp){
     sidInp.value = id;
     sidInp.style.color = storedID ? 'var(--acc)' : 'var(--green)';
-    // Lock the Regenerate button if ID was already stored
     const regenBtn = document.getElementById('ob-regen-btn');
     if(regenBtn && storedID){
       regenBtn.style.display = 'none';
@@ -2766,15 +3669,44 @@ function toggleObExam(el, id){
   btn2.disabled = count===0;
 }
 
+/* ── INLINE NAME VALIDATION with green check ✓ ── */
 function obValidate1(){
-  const n = document.getElementById('ob-name')?.value.trim();
-  const btn = document.getElementById('ob-next-1');
-  const err = document.getElementById('ob-step1-err');
+  const inp  = document.getElementById('ob-name');
+  const btn  = document.getElementById('ob-next-1');
+  const err  = document.getElementById('ob-step1-err');
+  const check= document.getElementById('ob-name-check');
+  const hint = document.getElementById('ob-name-hint');
+  if(!inp) return;
+  const n = inp.value.trim();
+  const len = n.length;
+
+  // Determine validity tier
+  const isValid = len >= 2 && len <= 50 && /[a-zA-Z\u0900-\u097F]/.test(n);
+  const isTooShort = len > 0 && len < 2;
+  const isTooLong  = len > 50;
+
+  // Button state
   if(btn){
-    btn.disabled = !n || n.length<2;
-    btn.style.opacity = (!n||n.length<2)?'.4':'1';
+    btn.disabled = !isValid;
+    btn.style.opacity = isValid ? '1' : '.4';
   }
   if(err) err.textContent = '';
+
+  // Input border + check icon
+  if(isValid){
+    inp.classList.add('ob-input-valid');
+    if(check){ check.classList.add('show'); check.style.color='#16a34a'; check.textContent='✓'; }
+    if(hint && !inp.readOnly) hint.innerHTML = `<span class="ob-name-pill ok">✓ Looks good!</span>`;
+  } else {
+    inp.classList.remove('ob-input-valid');
+    if(check) check.classList.remove('show');
+    if(hint && !inp.readOnly){
+      if(isTooShort)     hint.innerHTML = `<span class="ob-name-pill warn">⚡ At least 2 characters</span>`;
+      else if(isTooLong) hint.innerHTML = `<span class="ob-name-pill err">✕ Name too long</span>`;
+      else if(len === 0) hint.innerHTML = '';
+      else               hint.innerHTML = `<span class="ob-name-pill warn">Include at least one letter</span>`;
+    }
+  }
 }
 
 function obStep2(){
@@ -3056,6 +3988,276 @@ function toggleDark(){
     if(window._noticesReady) setTimeout(showNoticePopup, 600);
   }, 3200);
 })();
+
+/* ════════════════════════════════════════
+   ⚡ ENHANCEMENT JS — All 50 upgrades
+════════════════════════════════════════ */
+
+/* #21 — Ripple effect on .btn-prim */
+document.addEventListener('click', function(e){
+  const btn = e.target.closest('.btn-prim');
+  if(!btn) return;
+  const ring = document.createElement('span');
+  ring.className = 'ripple-ring';
+  const rect = btn.getBoundingClientRect();
+  ring.style.left = (e.clientX - rect.left - 30) + 'px';
+  ring.style.top  = (e.clientY - rect.top - 30) + 'px';
+  btn.appendChild(ring);
+  setTimeout(()=>ring.remove(), 600);
+});
+
+/* #22 — scale press on all .card and .mock-item */
+document.addEventListener('click', function(e){
+  const card = e.target.closest('.mock-item, .stat-card, .exam-card');
+  if(card){
+    card.style.transition = 'transform .1s';
+    card.style.transform = 'scale(0.97)';
+    setTimeout(()=>{ card.style.transform=''; card.style.transition=''; }, 200);
+  }
+});
+
+/* #28 — dock tap with haptic-style pulse */
+function dockTap(el, pageId){
+  // Add visual pulse ring
+  const ring = document.createElement('div');
+  ring.className = 'dock-tap-ring';
+  el.appendChild(ring);
+  setTimeout(()=>ring.remove(), 400);
+  goPage(pageId);
+}
+
+/* #24 — Icon prefix on primary buttons (run after any render) */
+function enhancePrimButtons(){
+  document.querySelectorAll('.btn-prim').forEach(btn=>{
+    const txt = btn.textContent.trim();
+    // Already has SVG
+    if(btn.querySelector('svg')) return;
+    // Decide icon
+    if(/start|attempt|begin/i.test(txt)){
+      btn.insertAdjacentHTML('afterbegin','<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><polygon points="5 3 19 12 5 21 5 3"/></svg>');
+    } else if(/continue|next|→/i.test(txt)){
+      btn.insertAdjacentHTML('afterbegin','<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>');
+    } else if(/save|done|finish|ready/i.test(txt)){
+      btn.insertAdjacentHTML('afterbegin','<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>');
+    }
+  });
+}
+
+/* #23 — Pulsing Start → button when no attempt */
+function enhanceStartButtons(){
+  document.querySelectorAll('.btn-prim').forEach(btn=>{
+    if(btn.textContent.includes('Start') && !btn.classList.contains('btn-start-pulse')){
+      btn.classList.add('btn-start-pulse');
+    }
+  });
+}
+
+/* #44 — Google sign-in shimmer on first render */
+function enhanceGoogleButtons(){
+  document.querySelectorAll('.btn-google').forEach(btn=>{
+    if(!btn.classList.contains('btn-google-shimmer')){
+      btn.classList.add('btn-google-shimmer');
+    }
+  });
+}
+
+/* #25 — Streak tooltip */
+function enhanceStreakTooltip(){
+  document.querySelectorAll('.ssc-stat-v, .stat-val').forEach(el=>{
+    const lbl = el.nextElementSibling;
+    if(lbl && /streak/i.test(lbl.textContent)){
+      const wrap = el.parentElement;
+      if(!wrap.classList.contains('streak-tooltip-wrap')){
+        wrap.classList.add('streak-tooltip-wrap');
+        wrap.insertAdjacentHTML('beforeend','<div class="tooltip-box">Consecutive days with at least 1 test taken</div>');
+      }
+    }
+  });
+}
+
+/* #29 — Breadcrumb */
+const PAGE_LABELS = {home:'Home',exams:'My Exams',mocks:'Mock Tests',analytics:'Analytics',rank:'Leaderboard',settings:'Settings'};
+function updateBreadcrumb(pageId){
+  document.querySelectorAll('.breadcrumb-bar').forEach(el=>el.remove());
+  const topbars = document.querySelectorAll('#page-'+pageId+' .topbar');
+  if(topbars.length){
+    const bc = document.createElement('div');
+    bc.className = 'breadcrumb-bar';
+    bc.innerHTML = `<span>SSC Prep</span><span class="bc-sep">/</span><span class="bc-current">${PAGE_LABELS[pageId]||pageId}</span>`;
+    topbars[0].insertAdjacentElement('beforebegin', bc);
+  }
+}
+
+/* #47 — Scroll to top button */
+function initScrollTopBtn(){
+  const main = document.querySelector('.main');
+  if(!main) return;
+  main.addEventListener('scroll', ()=>{
+    const btn = document.getElementById('scroll-top-btn');
+    if(btn) btn.classList.toggle('visible', main.scrollTop > 300);
+  });
+}
+
+/* #48 — Page transition patch */
+const _origGoPage = goPage;
+window.goPage = function(id){
+  _origGoPage(id);
+  updateBreadcrumb(id);
+  setTimeout(()=>{ enhancePrimButtons(); enhanceStartButtons(); enhanceGoogleButtons(); enhanceStreakTooltip(); enhanceLB(); enhanceSID(); }, 60);
+};
+
+/* #8 — Leaderboard podium gold/silver/bronze */
+function enhanceLB(){
+  const rows = document.querySelectorAll('.lb-row');
+  rows.forEach((row, i)=>{
+    const rankEl = row.querySelector('.lb-rank');
+    const avEl   = row.querySelector('.lb-av');
+    if(!rankEl) return;
+    const rank = parseInt(rankEl.textContent.trim());
+    if(rank===1){ row.classList.add('lb-row-gold'); rankEl.classList.add('lb-rank-gold'); if(avEl)avEl.classList.add('lb-av-gold'); rankEl.textContent='🥇'; }
+    else if(rank===2){ row.classList.add('lb-row-silver'); rankEl.classList.add('lb-rank-silver'); if(avEl)avEl.classList.add('lb-av-silver'); rankEl.textContent='🥈'; }
+    else if(rank===3){ row.classList.add('lb-row-bronze'); rankEl.classList.add('lb-rank-bronze'); if(avEl)avEl.classList.add('lb-av-bronze'); rankEl.textContent='🥉'; }
+  });
+}
+
+/* #9 & #20 — Student ID animated gradient border + monospace badge */
+function enhanceSID(){
+  document.querySelectorAll('.ssc-hero-sid, [style*="font-family:var(--mono)"]').forEach(el=>{
+    if(!el.closest('.sid-animated-border') && /TS\d{5}|Student ID/i.test(el.textContent)){
+      // Wrap in animated border
+      if(el.classList.contains('ssc-hero-sid') && !el.closest('.sid-animated-border')){
+        el.outerHTML = `<div class="sid-animated-border"><div class="sid-animated-border-inner">${el.outerHTML}</div></div>`;
+      }
+    }
+  });
+}
+
+/* #31 — Quick Add Score modal */
+function openQuickAddScore(){
+  const m = document.createElement('div');
+  m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(8px);';
+  m.innerHTML=`<div style="background:var(--card);border-radius:24px 24px 0 0;padding:28px 24px 36px;width:100%;max-width:500px;animation:slideUp .35s cubic-bezier(.34,1.56,.64,1) both;border:1.5px solid var(--border);border-bottom:none;">
+    <div style="width:36px;height:4px;border-radius:4px;background:var(--border);margin:0 auto 20px;"></div>
+    <div style="font-size:17px;font-weight:900;font-family:'Outfit',sans-serif;margin-bottom:16px;">⚡ Quick Add Score</div>
+    <input id="qa-score" type="number" placeholder="Your score (e.g. 145)" class="ob-input" style="font-size:18px;" min="0" max="200">
+    <input id="qa-max" type="number" placeholder="Max score (e.g. 200)" class="ob-input" style="font-size:18px;margin-top:8px;" min="1" max="200">
+    <button class="btn btn-prim" style="width:100%;justify-content:center;padding:13px;font-size:14px;margin-top:12px;" onclick="
+      const sc=parseInt(document.getElementById('qa-score').value)||0;
+      const mx=parseInt(document.getElementById('qa-max').value)||200;
+      showToast('✅ Score recorded: '+sc+'/'+mx+' ('+(sc/mx*100).toFixed(0)+'%)','success');
+      document.getElementById('qa-modal-wrap').remove();
+    ">Save Score →</button>
+    <button class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:8px;" onclick="document.getElementById('qa-modal-wrap').remove()">Cancel</button>
+  </div>`;
+  m.id='qa-modal-wrap';
+  m.addEventListener('click',e=>{if(e.target===m)m.remove();});
+  document.body.appendChild(m);
+}
+
+/* #43 — Confetti burst */
+function launchConfetti(){
+  const colors=['#5B4EE8','#7C6FF0','#16a34a','#f59e0b','#ec4899','#06b6d4','#ef4444'];
+  for(let i=0;i<60;i++){
+    const piece=document.createElement('div');
+    piece.className='confetti-piece';
+    piece.style.cssText=`left:${Math.random()*100}vw;top:0;background:${colors[Math.floor(Math.random()*colors.length)]};transform:rotate(${Math.random()*360}deg);animation-delay:${Math.random()*.8}s;animation-duration:${1+Math.random()*.6}s;border-radius:${Math.random()>0.5?'50%':'2px'}`;
+    document.body.appendChild(piece);
+    setTimeout(()=>piece.remove(), 2000);
+  }
+}
+
+/* #42 — Update onboarding pills */
+function updateObPills(step){
+  for(let i=1;i<=3;i++){
+    const p=document.getElementById('ob-pill-'+i);
+    if(!p) continue;
+    if(i<step){p.classList.add('done');p.classList.remove('active');p.style.width='14px';}
+    else if(i===step){p.classList.add('active');p.classList.remove('done');p.style.width='28px';}
+    else{p.classList.remove('active','done');p.style.width='14px';}
+  }
+}
+
+/* Patch obStep2 and obStep3 to update pills */
+const _origObStep2 = window.obStep2;
+window.obStep2 = function(){ if(_origObStep2) _origObStep2(); updateObPills(2); };
+const _origObStep3 = window.obStep3;
+window.obStep3 = function(){ if(_origObStep3) _origObStep3(); updateObPills(3); };
+
+/* Patch obFinish for confetti */
+const _origObFinish = window.obFinish;
+window.obFinish = function(){
+  launchConfetti();
+  if(_origObFinish) _origObFinish();
+};
+
+/* #10 — Striped progress bars (add stripes to all .prog-fill) */
+function enhanceProgressBars(){
+  document.querySelectorAll('.prog-fill').forEach(fill=>{
+    const pct = parseFloat(fill.style.width)||0;
+    const baseColor = fill.style.background || fill.style.backgroundColor || 'var(--acc)';
+    // Add score band color coding
+    if(!fill.dataset.enhanced){
+      fill.dataset.enhanced='1';
+      if(pct>=80) fill.style.background='linear-gradient(90deg,#16a34a,#22c55e)';
+      else if(pct>=60) fill.style.background='linear-gradient(90deg,#2563eb,#60a5fa)';
+      else if(pct>=40) fill.style.background='linear-gradient(90deg,#d97706,#fbbf24)';
+      else fill.style.background='linear-gradient(90deg,#dc2626,#f87171)';
+    }
+  });
+}
+
+/* #39 — Score trend arrows next to percentages */
+function addTrendArrows(){
+  const allAtt = getAllAttempts ? getAllAttempts() : [];
+  document.querySelectorAll('.mock-item-pct').forEach(el=>{
+    if(el.querySelector('.trend-up,.trend-down,.trend-same')) return;
+    const pct = parseFloat(el.textContent)||0;
+    if(pct>=60) el.insertAdjacentHTML('beforeend','<span class="trend-up"> ↑</span>');
+    else if(pct<40) el.insertAdjacentHTML('beforeend','<span class="trend-down"> ↓</span>');
+    else el.insertAdjacentHTML('beforeend','<span class="trend-same"> →</span>');
+  });
+}
+
+/* #46 — NEW badge pulse on Analytics */
+function initAnalyticsNewBadge(){
+  const badge = document.getElementById('analytics-new-badge');
+  if(badge && !sessionStorage.getItem('analytics_seen')){
+    setInterval(()=>{
+      badge.classList.add('bounce');
+      setTimeout(()=>badge.classList.remove('bounce'), 500);
+    }, 3000);
+  }
+}
+
+/* #50 — Version tag in settings */
+function addVersionTag(){
+  const cont = document.getElementById('settings-content');
+  if(cont && !cont.querySelector('.build-tag')){
+    cont.insertAdjacentHTML('beforeend','<div style="text-align:center;padding:12px 0 4px;"><div class="build-tag">ThunderStudy SSC v2.1.0 · Build 20250503</div></div>');
+  }
+}
+
+/* Observe DOM mutations to run enhancements after dynamic renders */
+const _mutationObs = new MutationObserver(()=>{
+  enhancePrimButtons();
+  enhanceStartButtons();
+  enhanceGoogleButtons();
+  enhanceStreakTooltip();
+  enhanceLB();
+  enhanceProgressBars();
+  addTrendArrows();
+  addVersionTag();
+});
+_mutationObs.observe(document.body, {childList:true, subtree:true});
+
+/* Init scroll-to-top */
+document.addEventListener('DOMContentLoaded', ()=>{
+  initScrollTopBtn();
+  initAnalyticsNewBadge();
+  updateBreadcrumb('home');
+});
+// fallback
+setTimeout(()=>{ initScrollTopBtn(); initAnalyticsNewBadge(); updateBreadcrumb('home'); }, 500);
 </script>
 </body>
 </html>
