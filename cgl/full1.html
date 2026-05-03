@@ -1,0 +1,3405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thunder⚡ CBT – ssc cgl Mock Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root {
+    --pink-primary: #e91e8c;
+    --pink-dark: #c0156e;
+    --pink-deeper: #9b0f58;
+    --pink-light: #f48fb1;
+    --pink-pale: #fce4ec;
+    --pink-soft: #fdf0f6;
+    --pink-mid: #f8bbd9;
+    --jee-bg: #f0f0f0;
+    --jee-header-bg: #e8e8e8;
+    --jee-border: #c8c8c8;
+    --jee-text: #222;
+    --jee-green: #28a745;
+    --jee-red: #dc3545;
+    --jee-orange: #f5a623;
+    --jee-blue: #1976d2;
+    --jee-purple: #7b1fa2;
+    --gray-dark: #1a1a2e;
+    --gray-mid: #4a4a6a;
+    --gray-light: #f5f5f5;
+    --shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: Arial, sans-serif; background: var(--jee-bg); color: var(--jee-text); min-height:100vh; overflow-x:hidden; }
+
+  /* ===== SCREENS ===== */
+  .screen { display:none; min-height:100vh; }
+  .screen.active { display:block; }
+
+  /* ===============================================================
+     LOGIN SCREEN
+  =============================================================== */
+  #screen-login {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    display: none;
+    flex-direction: column; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  #screen-login.active { display: flex; }
+  .login-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    width: 100%; max-width: 440px;
+    overflow: hidden;
+  }
+  .login-header {
+    background: linear-gradient(135deg, #1976d2, #0a3880);
+    padding: 28px 30px 22px;
+    text-align: center;
+  }
+  .login-header .login-logo { font-size: 36px; margin-bottom: 8px; }
+  .login-header h2 { font-family: Arial, sans-serif; font-size: 22px; font-weight: 700; color: white; letter-spacing: 1px; }
+  .login-header p { color: rgba(255,255,255,0.8); font-size: 13px; margin-top: 4px; }
+  .login-body { padding: 28px 30px 32px; }
+  .login-field { margin-bottom: 18px; }
+  .login-field label { display: block; font-size: 13px; font-weight: 700; color: #555; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .login-field input {
+    width: 100%; padding: 12px 14px; border: 2px solid #e0e0e0; border-radius: 8px;
+    font-size: 14px; font-family: Arial, sans-serif; transition: border-color 0.2s;
+    background: #fafafa;
+  }
+  .login-field input:focus { outline: none; border-color: #1976d2; background: white; }
+  .login-remember { display: flex; align-items: center; gap: 8px; margin-bottom: 22px; font-size: 13px; color: #666; }
+  .login-remember input { width: 15px; height: 15px; accent-color: #1976d2; }
+  .btn-login {
+    width: 100%; padding: 13px; background: linear-gradient(135deg, #1976d2, #0d47a1);
+    color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 700;
+    cursor: pointer; letter-spacing: 1px; transition: all 0.2s; text-transform: uppercase;
+  }
+  .btn-login:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(233,30,140,0.4); }
+  .login-note { text-align: center; font-size: 11.5px; color: #aaa; margin-top: 14px; }
+
+  /* ===============================================================
+     JEE-STYLE EXAM HEADER (test screen)
+  =============================================================== */
+  .jee-header {
+    background: var(--jee-header-bg);
+    border-bottom: 2px solid var(--jee-border);
+    padding: 10px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    flex-wrap: wrap; gap: 8px;
+  }
+  .jee-candidate-block {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .jee-photo {
+    width: 64px; height: 72px;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    background: #d0d0d0;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .jee-photo svg { width: 44px; height: 44px; }
+  .jee-info-table { font-size: 13.5px; }
+  .jee-info-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 3px; }
+  .jee-info-label { color: #444; font-weight: 400; min-width: 110px; }
+  .jee-info-value { font-weight: 700; color: #e65100; }
+  .jee-info-value.name-val { color: #e65100; }
+  .jee-info-value.time-val {
+    background: #1976d2; color: white; padding: 2px 12px;
+    border-radius: 4px; font-weight: 700; font-size: 14px; font-family: monospace;
+    letter-spacing: 1px;
+  }
+  .jee-info-value.time-val.warning { background: #c62828; }
+  .jee-lang-block { display: flex; align-items: center; gap: 8px; }
+  .jee-lang-select {
+    padding: 7px 32px 7px 12px;
+    border: 1px solid #bbb; border-radius: 4px;
+    font-size: 13px; background: white; cursor: pointer;
+    appearance: auto; min-width: 120px;
+  }
+
+  /* Instruction screen header (pink) */
+  .exam-header {
+    background: linear-gradient(135deg, #1976d2 0%, #0a3880 100%);
+    padding: 0; box-shadow: 0 4px 16px rgba(0,0,0,0.2); position: relative; overflow: hidden;
+  }
+  .exam-header::before { content:''; position:absolute; top:-30px; right:-30px; width:120px; height:120px; background:rgba(255,255,255,0.08); border-radius:50%; }
+  .exam-header::after { content:''; position:absolute; bottom:-20px; left:40%; width:80px; height:80px; background:rgba(255,255,255,0.06); border-radius:50%; }
+  .header-inner { display:flex; align-items:center; justify-content:space-between; padding:10px 20px; max-width:1400px; margin:0 auto; }
+  .header-logo { display:flex; align-items:center; gap:12px; }
+  .logo-icon { width:46px; height:46px; background:white; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:22px; box-shadow:0 2px 8px rgba(0,0,0,0.2); }
+  .logo-text h1 { font-family:'Arial',sans-serif; font-size:20px; font-weight:700; color:white; line-height:1; letter-spacing:1px; }
+  .logo-text p { font-size:11px; color:rgba(255,255,255,0.8); font-weight:600; letter-spacing:0.5px; text-transform:uppercase; }
+  .header-candidate { display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.12); padding:6px 14px; border-radius:30px; backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.2); }
+  .candidate-avatar { width:34px; height:34px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; overflow:hidden; }
+  .candidate-info .name { color:white; font-weight:700; font-size:13px; }
+  .candidate-info .roll { color:rgba(255,255,255,0.75); font-size:11px; }
+
+  /* ===== INSTRUCTION SCREENS ===== */
+  #screen-instructions { background: #eff6ff; }
+  .instr-body { max-width:900px; margin:0 auto; padding:24px 16px 40px; }
+  .instr-card { background:white; border-radius:16px; box-shadow:var(--shadow); overflow:hidden; margin-bottom:20px; border:1px solid #bfdbfe; }
+  .instr-card-header { background:linear-gradient(135deg,#dbeafe,#bfdbfe); padding:14px 20px; border-bottom:2px solid #1976d2; display:flex; align-items:center; gap:10px; }
+  .instr-card-header h3 { font-family:'Arial',sans-serif; font-size:16px; font-weight:700; color:#0a3880; text-transform:uppercase; letter-spacing:1px; }
+  .instr-card-icon { width:32px; height:32px; background:#1976d2; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:15px; color:white; }
+  .instr-card-body { padding:18px 20px; }
+  .exam-info-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-bottom:4px; }
+  .exam-info-item { background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:12px 14px; text-align:center; }
+  .exam-info-item .label { font-size:11px; color:#0d47a1; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; }
+  .exam-info-item .value { font-size:20px; font-weight:800; color:#1976d2; font-family:'Arial',sans-serif; }
+  .instr-list { list-style:none; }
+  .instr-list li { display:flex; gap:10px; padding:8px 0; border-bottom:1px solid #dbeafe; font-size:13.5px; color:var(--gray-mid); line-height:1.5; }
+  .instr-list li:last-child { border-bottom:none; }
+  .instr-list li .num { min-width:22px; height:22px; background:#1976d2; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; margin-top:1px; flex-shrink:0; }
+  .legend-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .legend-item { display:flex; align-items:center; gap:10px; padding:8px 12px; background:#eff6ff; border-radius:8px; font-size:12.5px; color:var(--gray-mid); font-weight:600; }
+  .legend-dot { width:28px; height:28px; border-radius:6px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; color:white; }
+
+  /* JEE palette legend dots */
+  .dot-not-visited  { background:#fff; border:2px solid #999; color:#666; }
+  .dot-not-answered { background:var(--jee-red); clip-path:polygon(50% 0%,100% 30%,100% 100%,0% 100%,0% 30%); border-radius:0; color:white; }
+  .dot-answered     { background:var(--jee-green); border-radius:50% !important; color:white; }
+  .dot-marked       { background:var(--jee-purple); border-radius:50% !important; color:white; }
+  .dot-answered-marked { background:var(--jee-purple); border-radius:50% !important; color:white; position:relative; }
+  .dot-answered-marked::after { content:'✓'; position:absolute; bottom:-3px; right:-3px; background:var(--jee-green); width:13px; height:13px; border-radius:50%; font-size:8px; display:flex; align-items:center; justify-content:center; border:1px solid white; }
+
+  /* Step progress */
+  .step-progress-wrap { background:white; border-bottom:2px solid #bfdbfe; padding:0; }
+  .step-progress { max-width:900px; margin:0 auto; display:flex; align-items:stretch; }
+  .step-item { flex:1; display:flex; align-items:center; gap:10px; padding:14px 20px; position:relative; cursor:default; border-bottom:3px solid transparent; transition:all 0.2s; }
+  .step-item.active { border-bottom-color:#1976d2; }
+  .step-item.done { border-bottom-color:#2e7d32; }
+  .step-num { width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Arial',sans-serif; font-size:14px; font-weight:700; flex-shrink:0; transition:all 0.2s; background:#e0e0e0; color:#9e9e9e; }
+  .step-item.active .step-num { background:#1976d2; color:white; box-shadow:0 3px 10px rgba(233,30,140,0.35); }
+  .step-item.done .step-num { background:#2e7d32; color:white; }
+  .step-label { font-size:12px; font-weight:700; color:#9e9e9e; line-height:1.3; }
+  .step-item.active .step-label { color:#1976d2; }
+  .step-item.done .step-label { color:#2e7d32; }
+  .step-connector { width:1px; background:#bfdbfe; align-self:stretch; margin:8px 0; }
+
+  /* Step panels */
+  .instr-step { display:none; }
+  .instr-step.active { display:block; }
+
+ 
+  /* Step nav */
+  .step-nav { display:flex; justify-content:space-between; align-items:center; margin-top:20px; gap:12px; }
+  .btn-step-next { background:linear-gradient(135deg,#1976d2,#0d47a1); color:white; border:none; padding:12px 36px; border-radius:50px; font-family:'Arial',sans-serif; font-size:17px; font-weight:700; cursor:pointer; box-shadow:0 4px 16px rgba(233,30,140,0.35); transition:all 0.25s; letter-spacing:1px; display:flex; align-items:center; gap:8px; text-transform:uppercase; }
+  .btn-step-next:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(233,30,140,0.45); }
+  .btn-step-back { background:white; color:var(--gray-mid); border:2px solid #bfdbfe; padding:12px 28px; border-radius:50px; font-family:'Arial',sans-serif; font-size:16px; font-weight:700; cursor:pointer; transition:all 0.2s; text-transform:uppercase; display:flex; align-items:center; gap:8px; }
+  .btn-step-back:hover { border-color:var(--pink-light); color:#1976d2; }
+  .step-spacer { flex:1; }
+  .agree-check { display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:14px; font-size:13px; color:var(--gray-mid); font-weight:600; cursor:pointer; }
+  .agree-check input { width:16px; height:16px; accent-color:#1976d2; cursor:pointer; }
+  .start-btn-wrap { text-align:center; margin-top:24px; }
+  .btn-start-exam { background:linear-gradient(135deg,#1976d2,#0d47a1); color:white; border:none; padding:14px 50px; border-radius:50px; font-family:'Arial',sans-serif; font-size:20px; font-weight:700; letter-spacing:1.5px; cursor:pointer; box-shadow:0 6px 24px rgba(233,30,140,0.4); transition:all 0.3s; text-transform:uppercase; position:relative; overflow:hidden; }
+  .btn-start-exam:hover { transform:translateY(-3px); box-shadow:0 10px 32px rgba(233,30,140,0.5); }
+
+  /* ===============================================================
+     TEST SCREEN LAYOUT
+  =============================================================== */
+  #screen-test { background: var(--jee-bg); }
+
+  .jee-subject-bar {
+    background: white;
+    border-bottom: 1px solid var(--jee-border);
+    padding: 6px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 6px;
+  }
+  .jee-subject-tag {
+    font-size: 13px; font-weight: 700; color: #333;
+    background: #e8f4fd; border: 1px solid #90caf9;
+    padding: 4px 14px; border-radius: 4px;
+  }
+  .jee-marks-info { display:flex; gap:10px; align-items:center; }
+  .jee-mark-chip { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; }
+  .jee-mark-chip.pos { background:#e8f5e9; color:#2e7d32; border:1px solid #a5d6a7; }
+  .jee-mark-chip.neg { background:#ffebee; color:#c62828; border:1px solid #ef9a9a; }
+
+  /* Main test layout */
+  .test-layout { display:grid; grid-template-columns:1fr 300px; min-height:calc(100vh - 115px); }
+
+  /* Question panel */
+  .question-panel { padding:0; background:#fff; border-right:1px solid var(--jee-border); display:flex; flex-direction:column; }
+  .q-header-bar { background:#f7f7f7; border-bottom:1px solid var(--jee-border); padding:8px 16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+  .q-num-badge { background:#1976d2; color:white; padding:4px 14px; border-radius:4px; font-size:14px; font-weight:700; }
+  .q-topic-tag { font-size:12px; color:#555; font-weight:600; background:#eee; padding:3px 10px; border-radius:4px; }
+
+  .question-scroll { flex:1; overflow-y:auto; padding:16px 18px; }
+  .q-text { font-size:15px; color:#1a1a1a; line-height:1.75; margin-bottom:18px; font-weight:400; }
+  .q-text .formula { font-weight:700; color:#1976d2; background:#dbeafe; padding:2px 6px; border-radius:4px; display:inline-block; margin:0 2px; }
+
+  .options-label { font-size:13px; font-weight:700; color:#333; margin-bottom:10px; }
+  .options-list { list-style:none; display:flex; flex-direction:column; gap:8px; }
+  .opt-item { display:flex; align-items:flex-start; gap:10px; padding:10px 14px; border:1.5px solid #ddd; border-radius:6px; cursor:pointer; transition:all 0.15s; background:white; }
+  .opt-item:hover { border-color:#90caf9; background:#f0f8ff; }
+  .opt-item.selected { border-color:var(--jee-green); background:#f1fff1; }
+  .opt-radio { width:18px; height:18px; border:2px solid #aaa; border-radius:50%; flex-shrink:0; margin-top:2px; display:flex; align-items:center; justify-content:center; transition:all 0.15s; }
+  .opt-item.selected .opt-radio { border-color:var(--jee-green); background:var(--jee-green); }
+  .opt-radio-dot { width:8px; height:8px; background:white; border-radius:50%; display:none; }
+  .opt-item.selected .opt-radio-dot { display:block; }
+  .opt-key { font-size:13px; font-weight:700; color:#444; min-width:18px; margin-top:1px; }
+  .opt-content { font-size:14px; color:#222; line-height:1.5; flex:1; }
+  .chem-svg-wrap { width:130px; height:80px; border:1.5px solid #ddd; border-radius:6px; background:white; display:flex; align-items:center; justify-content:center; padding:4px; overflow:hidden; margin-top:6px; }
+  .chem-svg-wrap svg { width:100%; height:100%; }
+  .options-grid-2col { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+
+  /* ===== JEE ACTION ROW ===== */
+  .jee-action-row {
+    background: #f0f0f0;
+    border-top: 2px solid var(--jee-border);
+    padding: 10px 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .jee-action-left { display:flex; gap:8px; flex-wrap:wrap; }
+  .jee-action-right { display:flex; gap:8px; flex-wrap:wrap; }
+
+  .jbtn {
+    padding: 9px 16px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-family: Arial, sans-serif;
+    font-size: 13px; font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex; align-items: center; gap: 5px;
+    text-transform: uppercase; letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+  .jbtn:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,0.15); }
+  .jbtn-green  { background: var(--jee-green); color: white; border-color: #1e7e34; }
+  .jbtn-white  { background: white; color: #333; border: 2px solid #aaa; }
+  .jbtn-white:hover { border-color: #666; }
+  .jbtn-orange { background: var(--jee-orange); color: white; border-color: #d4891b; }
+  .jbtn-blue   { background: var(--jee-blue); color: white; border-color: #1256a3; }
+  .jbtn-gray   { background: #666; color: white; border-color: #444; }
+  .jbtn-purple { background: var(--jee-purple); color: white; border-color: #5c1580; }
+
+  /* ===== RIGHT PANEL ===== */
+  .right-panel { background: white; border-left:1px solid var(--jee-border); display:flex; flex-direction:column; overflow-y:auto; max-height:calc(100vh - 115px); position:sticky; top:0; }
+
+  /* JEE-style legend box */
+  .jee-legend-box {
+    border: 1.5px dashed #bbb;
+    border-radius: 6px;
+    margin: 12px 12px 6px;
+    padding: 12px 10px;
+    background: #fafafa;
+  }
+  .jee-legend-row { display:grid; grid-template-columns:1fr 1fr; gap:8px 4px; }
+  .jee-legend-item { display:flex; align-items:center; gap:8px; font-size:12px; color:#333; }
+  .jee-legend-count {
+    min-width: 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 700; flex-shrink: 0;
+    font-family: Arial, sans-serif;
+  }
+  /* Not visited — plain square */
+  .jlc-nv { background:white; border:2px solid #999; border-radius:3px; color:#333; }
+  /* Not answered — red pentagon flag shape */
+  .jlc-na {
+    background: var(--jee-red); color: white; border-radius: 3px 3px 0 0;
+    position: relative;
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%);
+  }
+  /* Answered — green circle */
+  .jlc-ans { background: var(--jee-green); color: white; border-radius: 50%; }
+  /* Marked — purple circle */
+  .jlc-mrk { background: var(--jee-purple); color: white; border-radius: 50%; }
+  /* Answered+Marked — purple circle with green small dot */
+  .jlc-am { background: var(--jee-purple); color: white; border-radius: 50%; position: relative; }
+  .jlc-am::after { content:''; position:absolute; bottom:0; right:0; width:13px; height:13px; background:var(--jee-green); border-radius:50%; border:1.5px solid white; }
+  .jee-legend-text { line-height:1.3; }
+
+  /* Stats bar below legend */
+  .jee-stats-bar { padding: 6px 12px; border-bottom: 1px solid #eee; }
+  .jee-stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:5px; }
+  .jee-stat-chip { text-align:center; padding:5px 4px; border-radius:5px; }
+  .jee-stat-chip .snum { font-size:17px; font-weight:700; font-family:Arial,sans-serif; }
+  .jee-stat-chip .slbl { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.3px; }
+  .jsc-nv  { background:#f5f5f5; } .jsc-nv .snum { color:#777; }
+  .jsc-na  { background:#ffebee; } .jsc-na .snum { color:#c62828; }
+  .jsc-ans { background:#e8f5e9; } .jsc-ans .snum { color:#2e7d32; }
+  .jsc-mrk { background:#f3e5f5; } .jsc-mrk .snum { color:#7b1fa2; }
+  .jee-stat-chip .slbl { color:#555; }
+
+  /* Palette section */
+  .palette-section { padding: 8px 12px 4px; }
+  .palette-section-title { font-size:12px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; border-bottom:1px solid #eee; padding-bottom:4px; }
+  .q-palette { display:grid; grid-template-columns:repeat(5,1fr); gap:5px; }
+
+  /* JEE palette buttons — shapes per status */
+  .q-palette-btn { aspect-ratio:1; border:none; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.12s; font-family:Arial,sans-serif; position:relative; display:flex; align-items:center; justify-content:center; }
+  .q-palette-btn:hover { transform:scale(1.1); }
+
+  /* Not visited: white with gray border */
+  .qb-not-visited { background:white; border:2px solid #aaa !important; color:#555; border-radius:4px; }
+  /* Not answered: red pentagon/flag */
+  .qb-not-answered {
+    background: var(--jee-red); color: white;
+    clip-path: polygon(0 0, 100% 0, 100% 68%, 50% 100%, 0 68%);
+    border-radius: 0;
+  }
+  /* Answered: green circle */
+  .qb-answered { background: var(--jee-green); color: white; border-radius: 50%; }
+  /* Marked: purple circle */
+  .qb-marked { background: var(--jee-purple); color: white; border-radius: 50%; }
+  /* Answered+Marked: purple circle with green bottom-right dot */
+  .qb-answered-marked { background: var(--jee-purple); color: white; border-radius: 50%; }
+  .qb-answered-marked::after { content:''; position:absolute; bottom:0; right:0; width:35%; height:35%; background:var(--jee-green); border-radius:50%; border:1.5px solid white; }
+  /* Current highlight */
+  .qb-current { outline: 3px solid #1976d2; outline-offset: 1px; }
+
+  /* Post-result palette */
+  .qb-result-correct  { background:#2e7d32; color:white; border-radius:4px; }
+  .qb-result-wrong    { background:#c62828; color:white; border-radius:4px; }
+  .qb-result-skip     { background:#1565c0; color:white; border-radius:4px; }
+
+  /* Submit button in right panel */
+  .submit-wrap { padding:10px 12px; margin-top:auto; }
+  .btn-submit { width:100%; padding:11px; background:linear-gradient(135deg,#1976d2,#0d47a1); color:white; border:none; border-radius:6px; font-family:Arial,sans-serif; font-size:16px; font-weight:700; letter-spacing:1px; cursor:pointer; box-shadow:0 4px 16px rgba(233,30,140,0.35); transition:all 0.2s; text-transform:uppercase; }
+  .btn-submit:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(233,30,140,0.45); }
+
+  /* ===== MODAL ===== */
+  .modal-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center; backdrop-filter:blur(4px); }
+  .modal-overlay.active { display:flex; }
+  .modal-box { background:white; border-radius:16px; padding:28px; max-width:420px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.3); border:2px solid #bfdbfe; animation:modalIn 0.3s ease; }
+  @keyframes modalIn { from{transform:scale(0.85);opacity:0} to{transform:scale(1);opacity:1} }
+  .modal-icon { text-align:center; font-size:46px; margin-bottom:10px; }
+  .modal-title { text-align:center; font-size:20px; font-weight:700; color:var(--gray-dark); margin-bottom:8px; }
+  .modal-text { text-align:center; font-size:13px; color:var(--gray-mid); line-height:1.6; margin-bottom:18px; }
+  .modal-summary { background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:12px; margin-bottom:18px; display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .ms-item { display:flex; flex-direction:column; align-items:center; }
+  .ms-item .ms-num { font-size:22px; font-weight:800; }
+  .ms-item .ms-lbl { font-size:11px; font-weight:700; text-transform:uppercase; color:var(--gray-mid); }
+  .modal-actions { display:flex; gap:10px; }
+  .modal-actions .btn { flex:1; justify-content:center; }
+  .btn { padding:9px 18px; border-radius:6px; border:none; font-family:Arial,sans-serif; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:6px; }
+  .btn:hover { transform:translateY(-1px); }
+  .btn-cancel { background:#f5f5f5; color:var(--gray-mid); border:1px solid #e0e0e0; }
+  .btn-confirm-submit { background:linear-gradient(135deg,#1976d2,#0d47a1); color:white; box-shadow:0 4px 14px rgba(233,30,140,0.35); }
+
+  /* ===== RESULT SCREEN ===== */
+  #screen-result { background:#eff6ff; padding-bottom:40px; }
+  .result-body { max-width:760px; margin:0 auto; padding:24px 16px; }
+  .result-hero { text-align:center; padding:28px 20px; background:white; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.1); border:1px solid #bfdbfe; margin-bottom:18px; position:relative; overflow:hidden; }
+  .result-hero::before { content:''; position:absolute; top:-40px; right:-40px; width:160px; height:160px; background:#dbeafe; border-radius:50%; }
+  .result-trophy { font-size:56px; margin-bottom:8px; position:relative; z-index:1; }
+  .result-hero h2 { font-size:26px; font-weight:700; color:var(--gray-dark); margin-bottom:4px; position:relative; z-index:1; }
+  .result-hero p { color:var(--gray-mid); font-size:13px; position:relative; z-index:1; }
+  .score-ring-wrap { display:flex; justify-content:center; margin:18px 0; position:relative; z-index:1; }
+  .score-ring { width:130px; height:130px; border-radius:50%; background:conic-gradient(#1976d2 0%, #bfdbfe var(--score-pct), #eee var(--score-pct)); display:flex; align-items:center; justify-content:center; box-shadow:0 6px 24px rgba(233,30,140,0.3); position:relative; }
+  .score-ring::before { content:''; position:absolute; width:90px; height:90px; background:white; border-radius:50%; }
+  .score-inner { position:relative; z-index:1; text-align:center; }
+  .score-inner .score-num { font-size:28px; font-weight:700; color:#1976d2; line-height:1; }
+  .score-inner .score-total { font-size:12px; font-weight:700; color:var(--gray-mid); }
+  .result-stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; margin-bottom:18px; }
+  .result-stat { background:white; border-radius:10px; padding:14px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.08); border:1px solid #eee; }
+  .result-stat .rs-num { font-size:24px; font-weight:700; }
+  .result-stat .rs-lbl { font-size:11px; font-weight:700; color:var(--gray-mid); text-transform:uppercase; }
+  .rs-correct .rs-num { color:#2e7d32; } .rs-wrong .rs-num { color:#c62828; } .rs-unattempted .rs-num { color:#9e9e9e; } .rs-score .rs-num { color:#1976d2; }
+  .result-palette-legend { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px; padding:10px 12px; background:#eff6ff; border-radius:8px; border:1px solid #bfdbfe; }
+  .rpl-item { display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--gray-mid); }
+  .rpl-dot { width:18px; height:18px; border-radius:4px; flex-shrink:0; }
+  .answer-review { margin-bottom:18px; }
+  .review-q { background:white; border-radius:10px; padding:14px; margin-bottom:8px; border:1px solid #eee; box-shadow:0 1px 6px rgba(0,0,0,0.06); }
+  .review-q.rq-correct { border-left:5px solid #2e7d32; } .review-q.rq-wrong { border-left:5px solid #c62828; } .review-q.rq-skip { border-left:5px solid #1565c0; }
+  .review-q-num { font-weight:800; color:#1976d2; font-size:13px; margin-bottom:5px; }
+  .review-q-marks { display:inline-block; padding:2px 8px; border-radius:20px; font-size:11px; font-weight:800; margin-left:6px; }
+  .rqm-correct { background:#e8f5e9; color:#2e7d32; border:1px solid #a5d6a7; }
+  .rqm-wrong { background:#ffebee; color:#c62828; border:1px solid #ef9a9a; }
+  .rqm-skip { background:#e3f2fd; color:#1565c0; border:1px solid #90caf9; }
+  .review-q-text { font-size:13.5px; color:var(--gray-dark); margin-bottom:8px; line-height:1.5; }
+  .review-answers { display:flex; gap:8px; flex-wrap:wrap; }
+  .ra-chip { padding:4px 10px; border-radius:20px; font-size:12px; font-weight:700; }
+  .ra-your { background:#e3f2fd; color:#1565c0; } .ra-your.wrong { background:#ffebee; color:#c62828; } .ra-correct { background:#e8f5e9; color:#2e7d32; }
+  .result-action-row { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:22px; }
+  .btn-retry { background:linear-gradient(135deg,#1976d2,#0d47a1); color:white; border:none; padding:13px 36px; border-radius:50px; font-size:17px; font-weight:700; cursor:pointer; box-shadow:0 6px 20px rgba(233,30,140,0.35); transition:all 0.2s; text-transform:uppercase; }
+  .btn-retry:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(233,30,140,0.45); }
+  .btn-pdf { background:linear-gradient(135deg,#1565c0,#0d47a1); color:white; border:none; padding:13px 36px; border-radius:50px; font-size:17px; font-weight:700; cursor:pointer; box-shadow:0 6px 20px rgba(21,101,192,0.4); transition:all 0.2s; display:flex; align-items:center; gap:10px; text-transform:uppercase; letter-spacing:1px; }
+  .btn-pdf:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(21,101,192,0.5); }
+  .instr-card { background:white; border-radius:14px; box-shadow:0 2px 10px rgba(0,0,0,0.08); overflow:hidden; margin-bottom:16px; border:1px solid #bfdbfe; }
+  .instr-card-header { background:linear-gradient(135deg,#dbeafe,#bfdbfe); padding:12px 18px; border-bottom:2px solid #1976d2; display:flex; align-items:center; gap:10px; }
+  .instr-card-header h3 { font-size:15px; font-weight:700; color:#0a3880; text-transform:uppercase; letter-spacing:1px; }
+  .instr-card-body { padding:16px 18px; }
+
+  /* ===== TOAST ===== */
+  .toast-container { position:fixed; top:80px; right:20px; z-index:2000; display:flex; flex-direction:column; gap:8px; }
+  .toast { padding:10px 16px; border-radius:8px; font-size:13px; font-weight:700; color:white; box-shadow:0 4px 16px rgba(0,0,0,0.2); animation:toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards; display:flex; align-items:center; gap:8px; }
+  .toast.success { background:#2e7d32; } .toast.info { background:#1976d2; } .toast.warning { background:#e65100; }
+  @keyframes toastIn { from{transform:translateX(100%);opacity:0} to{transform:translateX(0);opacity:1} }
+  @keyframes toastOut { from{opacity:1} to{opacity:0;transform:translateX(100%)} }
+
+  @media(max-width:768px) {
+    .test-layout { grid-template-columns:1fr; }
+    .right-panel { max-height:none; border-left:none; border-top:2px solid var(--jee-border); }
+    .jee-header { flex-direction:column; align-items:flex-start; }
+    .jbtn { font-size:11px; padding:7px 10px; }
+  }
+
+  /* ===== LOGIN SCREEN ===== */
+  #screen-login { min-height:100vh; background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%); display:none; flex-direction:column; align-items:center; justify-content:center; padding:20px; }
+  #screen-login.active { display:flex; }
+  .login-card { background:white; border-radius:18px; box-shadow:0 24px 64px rgba(0,0,0,0.45); width:100%; max-width:460px; overflow:hidden; }
+  .login-header { background:linear-gradient(135deg,#1976d2,#0a3880); padding:30px 32px 24px; text-align:center; }
+  .login-logo { font-size:42px; margin-bottom:8px; }
+  .login-header h2 { font-size:24px; font-weight:800; color:white; letter-spacing:1px; margin-bottom:4px; }
+  .login-header p { color:rgba(255,255,255,0.8); font-size:13px; font-weight:600; }
+  .login-body { padding:28px 32px 32px; }
+  .login-field { margin-bottom:18px; }
+  .login-field label { display:block; font-size:11.5px; font-weight:700; color:#555; margin-bottom:7px; text-transform:uppercase; letter-spacing:0.5px; }
+  .login-field input { width:100%; padding:12px 14px; border:2px solid #e0e0e0; border-radius:8px; font-size:14px; font-family:Arial,sans-serif; transition:border-color 0.2s; background:#fafafa; outline:none; }
+  .login-field input:focus { border-color:#1976d2; background:white; }
+  .login-remember { display:flex; align-items:center; gap:8px; margin-bottom:22px; font-size:13px; color:#666; font-weight:600; cursor:pointer; }
+  .login-remember input { width:15px; height:15px; accent-color:#1976d2; cursor:pointer; }
+  .btn-login { width:100%; padding:13px; background:linear-gradient(135deg,#1976d2,#0d47a1); color:white; border:none; border-radius:8px; font-size:16px; font-weight:700; cursor:pointer; letter-spacing:1px; transition:all 0.2s; text-transform:uppercase; font-family:Arial,sans-serif; }
+  .btn-login:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(233,30,140,0.4); }
+  .login-note { text-align:center; font-size:11.5px; color:#bbb; margin-top:14px; font-weight:600; }
+
+  /* ===== START SCREEN ===== */
+  #screen-start { min-height:100vh; background:linear-gradient(160deg,#fdf0f6 0%,#fff 60%,#fce4ec 100%); }
+  #screen-start.active { display:block; }
+  .flow-bar { background:white; border-bottom:1px solid #bfdbfe; padding:10px 20px; display:flex; align-items:center; justify-content:center; gap:0; flex-wrap:wrap; }
+  .flow-step { display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:#bbb; padding:6px 10px; border-radius:20px; transition:all 0.2s; white-space:nowrap; }
+  .flow-step.done  { color:#2e7d32; }
+  .flow-step.active { color:#1976d2; background:#dbeafe; }
+  .flow-step .fsnum { width:22px; height:22px; border-radius:50%; background:#e0e0e0; color:#888; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; flex-shrink:0; }
+  .flow-step.done  .fsnum { background:#2e7d32; color:white; }
+  .flow-step.active .fsnum { background:#1976d2; color:white; }
+  .flow-arrow { color:#ccc; font-size:16px; padding:0 4px; }
+  .start-body { max-width:820px; margin:0 auto; padding:28px 16px 48px; }
+  .start-hero { text-align:center; padding:34px 24px 26px; background:white; border-radius:20px; box-shadow:0 6px 28px rgba(233,30,140,0.12); border:1px solid #bfdbfe; margin-bottom:20px; position:relative; overflow:hidden; }
+  .start-hero::before { content:''; position:absolute; top:-40px; right:-40px; width:180px; height:180px; background:#dbeafe; border-radius:50%; }
+  .start-hero::after  { content:''; position:absolute; bottom:-30px; left:-30px; width:120px; height:120px; background:#dbeafe; border-radius:50%; }
+  .start-hero-icon { font-size:52px; margin-bottom:10px; position:relative; z-index:1; }
+  .start-hero h2 { font-size:24px; font-weight:800; color:var(--gray-dark); margin-bottom:5px; position:relative; z-index:1; }
+  .start-hero p  { color:var(--gray-mid); font-size:13.5px; font-weight:600; position:relative; z-index:1; }
+  .start-cand-card { background:linear-gradient(135deg,#1976d2,#0a3880); border-radius:14px; padding:18px 22px; display:flex; align-items:center; gap:16px; margin-bottom:20px; box-shadow:0 6px 20px rgba(233,30,140,0.3); flex-wrap:wrap; }
+  .start-cand-avatar { width:56px; height:56px; background:rgba(255,255,255,0.2); border-radius:50%; border:3px solid rgba(255,255,255,0.5); display:flex; align-items:center; justify-content:center; font-size:26px; flex-shrink:0; }
+  .start-cand-info { flex:1; }
+  .start-cand-name { font-size:20px; font-weight:800; color:white; line-height:1.2; }
+  .start-cand-meta { font-size:12px; color:rgba(255,255,255,0.8); font-weight:600; margin-top:3px; }
+  .start-cand-edit { background:rgba(255,255,255,0.18); color:white; border:2px solid rgba(255,255,255,0.4); border-radius:20px; padding:6px 16px; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s; font-family:Arial,sans-serif; }
+  .start-cand-edit:hover { background:rgba(255,255,255,0.3); }
+  .start-info-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin-bottom:22px; }
+  .start-info-tile { background:white; border-radius:12px; padding:14px 16px; text-align:center; border:1px solid #bfdbfe; box-shadow:0 2px 8px rgba(233,30,140,0.07); }
+  .start-info-tile .sit-label { font-size:10.5px; font-weight:700; color:#0d47a1; text-transform:uppercase; letter-spacing:0.4px; margin-bottom:5px; }
+  .start-info-tile .sit-value { font-size:19px; font-weight:800; color:#1976d2; }
+  .btn-go-instructions { display:block; width:100%; padding:16px; background:linear-gradient(135deg,#1976d2,#0d47a1); color:white; border:none; border-radius:12px; font-size:20px; font-weight:700; cursor:pointer; letter-spacing:1px; box-shadow:0 6px 24px rgba(233,30,140,0.4); transition:all 0.3s; text-transform:uppercase; font-family:Arial,sans-serif; position:relative; overflow:hidden; }
+  .btn-go-instructions::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent); transition:left 0.5s; }
+  .btn-go-instructions:hover::before { left:100%; }
+  .btn-go-instructions:hover { transform:translateY(-3px); box-shadow:0 12px 32px rgba(233,30,140,0.5); }
+
+ 
+  /* ===== FULLSCREEN WARNING MODAL ===== */
+  .fs-warning-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.82); z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(6px); }
+  .fs-warning-overlay.active { display:flex; }
+  .fs-warning-box { background:white; border-radius:20px; padding:36px 32px; max-width:440px; width:90%; text-align:center; box-shadow:0 24px 60px rgba(0,0,0,0.5); border:3px solid #c62828; animation:modalIn 0.3s ease; }
+  .fs-warning-icon { font-size:56px; margin-bottom:12px; }
+  .fs-warning-title { font-size:22px; font-weight:800; color:#c62828; margin-bottom:8px; }
+  .fs-warning-text  { font-size:14px; color:#555; line-height:1.6; margin-bottom:20px; }
+  .fs-countdown { font-size:42px; font-weight:800; color:#c62828; margin-bottom:16px; font-family:Arial,sans-serif; }
+  .fs-warning-btns { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+  .btn-fs-return { background:linear-gradient(135deg,#1976d2,#0d47a1); color:white; border:none; padding:12px 28px; border-radius:8px; font-size:15px; font-weight:700; cursor:pointer; font-family:Arial,sans-serif; }
+  .btn-fs-submit  { background:white; color:#c62828; border:2px solid #ef9a9a; padding:12px 24px; border-radius:8px; font-size:14px; font-weight:700; cursor:pointer; font-family:Arial,sans-serif; }
+  .history-section { background:white; border-radius:16px; border:1px solid #bfdbfe; box-shadow:0 2px 12px rgba(233,30,140,0.08); overflow:hidden; margin-bottom:22px; }
+  .history-header { background:linear-gradient(135deg,#dbeafe,#bfdbfe); padding:14px 20px; border-bottom:2px solid #1976d2; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+  .history-header-left { display:flex; align-items:center; gap:10px; }
+  .history-icon { width:32px; height:32px; background:#1976d2; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:15px; color:white; flex-shrink:0; }
+  .history-header h3 { font-size:15px; font-weight:700; color:#0a3880; text-transform:uppercase; letter-spacing:1px; }
+  .btn-clear-hist { background:white; border:1.5px solid #ef9a9a; color:#c62828; border-radius:20px; padding:4px 14px; font-size:11px; font-weight:700; cursor:pointer; font-family:Arial,sans-serif; transition:all 0.2s; }
+  .btn-clear-hist:hover { background:#ffebee; }
+  .history-empty { padding:32px; text-align:center; color:#bbb; }
+  .history-empty .he-icon { font-size:36px; margin-bottom:10px; }
+  .history-empty p { font-size:14px; font-weight:600; }
+  .history-wrap { overflow-x:auto; }
+  .history-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .history-table thead tr { background:#eff6ff; }
+  .history-table th { padding:9px 14px; text-align:left; font-size:10.5px; font-weight:700; color:#0d47a1; text-transform:uppercase; letter-spacing:0.5px; border-bottom:1px solid #bfdbfe; white-space:nowrap; }
+  .history-table td { padding:10px 14px; border-bottom:1px solid #f5f5f5; vertical-align:middle; }
+  .history-table tr:last-child td { border-bottom:none; }
+  .history-table tbody tr:hover td { background:#eff6ff; }
+  .ht-set { font-weight:700; color:#1976d2; white-space:nowrap; }
+  .ht-score { font-weight:800; font-size:15px; }
+  .ht-pct { display:inline-block; padding:3px 10px; border-radius:20px; font-size:12px; font-weight:800; }
+  .ht-pct.high { background:#e8f5e9; color:#2e7d32; }
+  .ht-pct.mid  { background:#fff3e0; color:#e65100; }
+  .ht-pct.low  { background:#ffebee; color:#c62828; }
+  .ht-correct { color:#2e7d32; font-weight:700; }
+  .ht-wrong   { color:#c62828; font-weight:700; }
+  .ht-skip    { color:#9e9e9e; font-weight:700; }
+  .ht-date    { color:#999; font-size:11.5px; }
+  .ht-grade   { font-weight:800; font-size:16px; }
+  .history-summary-bar { display:flex; gap:16px; flex-wrap:wrap; padding:11px 18px; background:#eff6ff; border-top:1px solid #bfdbfe; font-size:12px; font-weight:700; color:var(--gray-mid); }
+  .history-summary-bar span { color:#1976d2; }
+</style>
+</head>
+<body>
+<!-- ==================== TOAST ==================== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ==================== 1. LOGIN SCREEN ==================== -->
+<div class="screen active" id="screen-login">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-logo">⚡</div>
+      <h2>Thunder CBT</h2>
+      <p>ssc cgl — Mock Test</p>
+    </div>
+    <div class="login-body">
+      <div class="login-field">
+        <label>Candidate Name</label>
+        <input type="text" id="loginName" placeholder="Enter your full Name" autocomplete="name" onkeydown="if(event.key==='Enter')document.getElementById('loginPass').focus()">
+      </div>
+      <div class="login-field">
+        <label>Password / Roll No</label>
+        <input type="password" id="loginPass" placeholder="Enter password or roll number" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <label class="login-remember">
+        <input type="checkbox" id="loginRemember"> Remember me on this device
+      </label>
+      <button class="btn-login" onclick="doLogin()">▶ Login &amp; Continue</button>
+      <p class="login-note">Your credentials are saved locally on this device only.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 2. START SCREEN ==================== -->
+<div class="screen" id="screen-start">
+  <!-- Flow progress bar -->
+  <div class="flow-bar">
+    <div class="flow-step done"   id="flow-login"><span class="fsnum">✓</span> Login</div>
+    <span class="flow-arrow">›</span>
+    <div class="flow-step active" id="flow-start"><span class="fsnum">2</span> Start</div>
+    <span class="flow-arrow">›</span>
+    <div class="flow-step"        id="flow-instr"><span class="fsnum">3</span> Instructions</div>
+<span class="flow-arrow">›</span>
+<div class="flow-step"        id="flow-test"><span class="fsnum">4</span> Test</div>
+<span class="flow-arrow">›</span>
+<div class="flow-step"        id="flow-result"><span class="fsnum">5</span> Result</div>
+  </div>
+
+  <div class="start-body">
+    <!-- Welcome hero -->
+    <div class="start-hero">
+      <div class="start-hero-icon">⚡</div>
+      <h2>Thunder CBT —  ssc cgl</h2>
+      <p> Computer Based Test ·  · 50 Questions Each</p>
+    </div>
+
+    <!-- Candidate card -->
+    <div class="start-cand-card">
+      <div class="start-cand-avatar">👤</div>
+      <div class="start-cand-info">
+        <div class="start-cand-name" id="startCandName">Candidate</div>
+        <div class="start-cand-meta">
+          Roll No: <span id="startCandRoll">—</span> &nbsp;·&nbsp; ssc &nbsp;·&nbsp; ssc — ssc cgl
+        </div>
+      </div>
+      <button class="start-cand-edit" onclick="showScreen('login')">✏️ Edit Details</button>
+    </div>
+
+    <!-- Exam info tiles -->
+    <div class="start-info-grid">
+      <div class="start-info-tile">
+        <div class="sit-label">Questions / Set</div>
+        <div class="sit-value">50</div>
+      </div>
+      <div class="start-info-tile">
+        <div class="sit-label">Total Sets</div>
+        <div class="sit-value">4</div>
+      </div>
+      <div class="start-info-tile">
+        <div class="sit-label">Duration / Set</div>
+        <div class="sit-value">60 min</div>
+      </div>
+      <div class="start-info-tile">
+        <div class="sit-label">Max Marks</div>
+        <div class="sit-value">250</div>
+      </div>
+      <div class="start-info-tile">
+        <div class="sit-label">Correct</div>
+        <div class="sit-value" style="color:#2e7d32;">+5</div>
+      </div>
+      <div class="start-info-tile">
+        <div class="sit-label">Wrong</div>
+        <div class="sit-value" style="color:#c62828;">−1</div>
+      </div>
+    </div>
+
+    <!-- Test Result History -->
+    <div class="history-section">
+      <div class="history-header">
+        <div class="history-header-left">
+          <div class="history-icon">📊</div>
+          <h3>Test Result History</h3>
+        </div>
+        <button class="btn-clear-hist" onclick="clearHistory()">🗑 Clear History</button>
+      </div>
+      <div id="historyContent">
+        <div class="history-empty">
+          <div class="he-icon">📭</div>
+          <p>No attempts yet — complete a test to see your history here.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Proceed button -->
+    <button class="btn-go-instructions" onclick="proceedToInstructions()">
+  ⚗️ Start ssc cgl Mock →
+</button>
+  </div>
+</div>
+
+
+<!-- ==================== FULLSCREEN WARNING MODAL ==================== -->
+<div class="fs-warning-overlay" id="fsWarningModal">
+  <div class="fs-warning-box">
+    <div class="fs-warning-icon">⚠️</div>
+    <div class="fs-warning-title">Fullscreen Exited!</div>
+    <div class="fs-warning-text" id="fsWarningText">
+      You have exited fullscreen mode. The exam requires fullscreen. Please return to fullscreen or your test will be auto-submitted.
+    </div>
+    <div class="fs-countdown" id="fsCountdown">3</div>
+    <div class="fs-warning-btns">
+      <button class="btn-fs-return" onclick="returnToFullscreen()">↩ Return to Fullscreen</button>
+      <button class="btn-fs-submit" onclick="forceSubmit()">Submit Now</button>
+    </div>
+  </div>
+</div>
+<div class="screen" id="screen-instructions">
+  <!-- 6-step flow bar (same as other screens) -->
+  <div class="flow-bar">
+    <div class="flow-step done"><span class="fsnum">✓</span> Login</div>
+    <span class="flow-arrow">›</span>
+    <div class="flow-step done"><span class="fsnum">✓</span> Start</div>
+    <span class="flow-arrow">›</span>
+    <div class="flow-step active"><span class="fsnum">4</span> Instructions</div>
+    <span class="flow-arrow">›</span>
+    <div class="flow-step"><span class="fsnum">5</span> Test</div>
+    <span class="flow-arrow">›</span>
+    <div class="flow-step"><span class="fsnum">6</span> Result</div>
+  </div>
+
+  <!-- Pink header bar with candidate name -->
+  <div class="exam-header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <div class="logo-icon">⚡</div>
+        <div class="logo-text">
+          <h1>Thunder CBT</h1>
+          <p>ssc Mock Test Series</p>
+        </div>
+      </div>
+      <div class="header-candidate">
+        <div class="candidate-avatar">👤</div>
+        <div class="candidate-info">
+          <div class="name" id="instrCandName">Candidate</div>
+          <div class="roll" id="instrCandRoll">Roll No: TH-2024-CHM-001</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="instr-body">
+
+    <!-- General Instructions -->
+    <div class="instr-card">
+      <div class="instr-card-header">
+        <div class="instr-card-icon">📌</div>
+        <h3>General Instructions</h3>
+      </div>
+      <div class="instr-card-body">
+        <ul class="instr-list">
+          <li><span class="num">1</span>This test contains <strong>50 MCQ questions</strong> from ssc cgl syllabus (Class 12). Your set was selected on the previous screen.</li>
+          <li><span class="num">2</span>Each correct answer carries <strong>+5 marks</strong>. Each wrong answer carries <strong>−1 mark</strong>. Unattempted questions carry <strong>0 marks</strong>.</li>
+          <li><span class="num">3</span>Click on an option to select it. You can change your answer any time before final submission.</li>
+          <li><span class="num">4</span>Use the <strong>Question Palette</strong> on the right side to navigate to any question directly.</li>
+          <li><span class="num">5</span>You can mark questions <strong>"Mark for Review"</strong> to revisit them later before submission.</li>
+          <li><span class="num">6</span>The timer is displayed at the top. The test will <strong>auto-submit</strong> when time runs out.</li>
+          <li><span class="num">7</span>The exam runs in <strong>fullscreen mode</strong>. Exiting fullscreen will trigger a 3-second auto-submit warning.</li>
+          <li><span class="num">8</span>Switching browser tabs will cause <strong>immediate auto-submission</strong> of your test.</li>
+          <li><span class="num">9</span>Click <strong>"Save &amp; Next"</strong> to save your answer and move to the next question.</li>
+          <li><span class="num">10</span>Once you click <strong>"Submit Test"</strong>, a confirmation popup will appear before final submission.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Question Palette Legend -->
+    <div class="instr-card">
+      <div class="instr-card-header">
+        <div class="instr-card-icon">🗂️</div>
+        <h3>Question Palette — Colour Guide</h3>
+      </div>
+      <div class="instr-card-body">
+        <p style="font-size:12.5px;color:var(--gray-mid);font-weight:600;margin-bottom:12px;">During the exam, the question palette on the right uses these colours:</p>
+        <div class="legend-grid">
+          <div class="legend-item"><div class="legend-dot dot-not-visited">1</div> Not Visited — Not opened yet</div>
+          <div class="legend-item"><div class="legend-dot dot-not-answered">2</div> Not Answered — Opened, no answer</div>
+          <div class="legend-item"><div class="legend-dot dot-answered">3</div> Answered — Answer saved</div>
+          <div class="legend-item"><div class="legend-dot dot-marked">4</div> Marked for Review — Will be evaluated</div>
+          <div class="legend-item"><div class="legend-dot dot-answered-marked">5</div> Answered + Marked — Saved &amp; flagged</div>
+        </div>
+        <div style="margin-top:14px;padding:12px;background:#eff6ff;border-radius:10px;border:1px solid #bfdbfe;">
+          <p style="font-size:12px;font-weight:700;color:#0a3880;margin-bottom:6px;">📊 After submission, palette changes to:</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <span style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#2e7d32;"><span style="width:18px;height:18px;background:#2e7d32;border-radius:4px;display:inline-block;"></span> Green = Correct</span>
+            <span style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#c62828;"><span style="width:18px;height:18px;background:#c62828;border-radius:4px;display:inline-block;"></span> Red = Wrong</span>
+            <span style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#1565c0;"><span style="width:18px;height:18px;background:#1565c0;border-radius:4px;display:inline-block;"></span> Blue = Unattempted</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Agreement & Start -->
+    <label class="agree-check">
+      <input type="checkbox" id="agreeCheck" onchange="toggleStartBtn()">
+      I have read all the instructions carefully and I am ready to start the examination.
+    </label>
+
+    <div class="step-nav">
+      <button class="btn-step-back" onclick="showScreen('start')">← Back</button>
+      <button class="btn-start-exam" id="startBtn" onclick="startExam()" style="opacity:0.5;pointer-events:none;">
+        ⚡ Start Exam
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== TEST SCREEN ==================== -->
+<div class="screen" id="screen-test">
+
+  <!-- JEE-style top candidate header -->
+  <div class="jee-header">
+    <div class="jee-candidate-block">
+      <div class="jee-photo">
+        <svg viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="30" cy="22" r="14" fill="#888"/>
+          <ellipse cx="30" cy="58" rx="22" ry="14" fill="#888"/>
+        </svg>
+      </div>
+      <div class="jee-info-table">
+        <div class="jee-info-row"><span class="jee-info-label">Candidate Name</span><span class="jee-info-value name-val" id="jeeNameDisp">: [Your Name]</span></div>
+        <div class="jee-info-row"><span class="jee-info-label">Exam Name</span><span class="jee-info-value">: ssc</span></div>
+        <div class="jee-info-row"><span class="jee-info-label">Subject Name</span><span class="jee-info-value">: — ssc cgl</span></div>
+        <div class="jee-info-row"><span class="jee-info-label">Remaining Time</span><span class="jee-info-value time-val" id="timerDisplay">60:00:00</span></div>
+      </div>
+    </div>
+    <div class="jee-lang-block">
+      <select class="jee-lang-select" onchange="showToast('Language: '+this.value,'info')">
+        <option>English</option>
+        <option>Hindi</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Subject bar -->
+  <div class="jee-subject-bar">
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+  <div class="jee-subject-tag" id="testSetTabLabel">⚗️ ssc cgl</div>
+  <div style="background:#dbeafe;border:1px solid #90caf9;padding:3px 12px;border-radius:4px;font-size:12px;font-weight:700;color:#0d47a1;">
+    Subject: <span id="subjectIdTag">chem</span>
+  </div>
+  <div style="background:#e3f2fd;border:1px solid #90caf9;padding:3px 12px;border-radius:4px;font-size:12px;font-weight:700;color:#0d47a1;">
+    Chapter: <span id="chapterIdTag">mock</span>
+  </div>
+</div>
+    <div class="jee-marks-info">
+      <span class="jee-mark-chip pos">✓ Correct: +5</span>
+      <span class="jee-mark-chip neg">✗ Wrong: −1</span>
+      <span style="font-size:12px;color:#555;font-weight:600;">Unattempted: 0</span>
+    </div>
+  </div>
+
+  <!-- Main two-column layout -->
+  <div class="test-layout">
+
+    <!-- LEFT: Question panel -->
+    <div class="question-panel">
+      <!-- Q header -->
+      <div class="q-header-bar">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="q-num-badge" id="qNumBadge">Question 1</span>
+          <span class="q-topic-tag" id="qTopicTag">Topic</span>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <span class="jee-mark-chip pos" style="font-size:11px;">+5</span>
+          <span class="jee-mark-chip neg" style="font-size:11px;">−1</span>
+        </div>
+      </div>
+
+      <!-- Scrollable question body -->
+      <div class="question-scroll" id="questionBody">
+        <!-- Loaded dynamically -->
+      </div>
+
+      <!-- JEE-style action row -->
+      <div class="jee-action-row">
+  <div class="jee-action-left">
+    <button class="jbtn jbtn-green" onclick="saveAndNext()">Save &amp; Next ▶</button>
+    <button class="jbtn jbtn-white" onclick="clearResponse()">Clear</button>
+    <button class="jbtn jbtn-orange" onclick="saveMarkAndNext()">Save &amp; Mark for Review</button>
+    <button class="jbtn jbtn-blue" onclick="markAndNext()">Mark for Review</button>
+  </div>
+  <div class="jee-action-right" style="display:flex;align-items:center;gap:8px;width:100%;justify-content:space-between;">
+    <div style="display:flex;gap:8px;">
+      <button class="jbtn jbtn-gray" onclick="goBack()">◀ Back</button>
+      <button class="jbtn jbtn-gray" onclick="if(currentQ < questions.length-1) renderQuestion(currentQ+1)">Next ▶</button>
+    </div>
+    <button class="jbtn jbtn-purple" onclick="showSubmitModal()" style="margin-left:auto;">🏁 Submit Test</button>
+  </div>
+</div>
+    </div>
+
+    <!-- RIGHT: Palette panel -->
+    <div class="right-panel">
+
+      <!-- JEE Legend box -->
+      <div class="jee-legend-box">
+        <div class="jee-legend-row">
+          <div class="jee-legend-item">
+            <div class="jee-legend-count jlc-nv" id="stat-nv">50</div>
+            <span class="jee-legend-text">Not Visited</span>
+          </div>
+          <div class="jee-legend-item">
+            <div class="jee-legend-count jlc-na" id="stat-na">0</div>
+            <span class="jee-legend-text">Not Answered</span>
+          </div>
+          <div class="jee-legend-item">
+            <div class="jee-legend-count jlc-ans" id="stat-ans">0</div>
+            <span class="jee-legend-text">Answered</span>
+          </div>
+          <div class="jee-legend-item">
+            <div class="jee-legend-count jlc-mrk" id="stat-mrk">0</div>
+            <span class="jee-legend-text">Marked for Review</span>
+          </div>
+          <div class="jee-legend-item" style="grid-column:span 2;">
+            <div class="jee-legend-count jlc-am" id="stat-am">0</div>
+            <span class="jee-legend-text">Answered &amp; Marked for Review <small style="color:#777;">(will be evaluated)</small></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question Palette -->
+      <div class="palette-section">
+        <div class="palette-section-title">⚗️ ssc cgl — <span id="paletteSetLabel">Mock</span></div>
+        <div class="q-palette" id="questionPalette"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== RESULT SCREEN ==================== -->
+<div class="screen" id="screen-result">
+  <div class="exam-header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <div class="logo-icon">⚡</div>
+        <div class="logo-text">
+          <h1>Thunder CBT</h1>
+          <p>Result —  ssc cgl</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="result-body">
+    <div class="result-hero">
+      <div class="result-trophy" id="resultTrophy">🏆</div>
+      <h2 id="resultTitle">Test Completed!</h2>
+      <p id="resultSubtitle">Here's your performance breakdown for ssc cgl</p>
+      <div class="score-ring-wrap">
+        <div class="score-ring" id="scoreRing" style="--score-pct:0%">
+          <div class="score-inner">
+            <div class="score-num" id="resultScoreNum">0</div>
+            <div class="score-total">/ 250</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-stats-grid">
+      <div class="result-stat rs-correct">
+        <div class="rs-num" id="res-correct">0</div>
+        <div class="rs-lbl">Correct</div>
+      </div>
+      <div class="result-stat rs-wrong">
+        <div class="rs-num" id="res-wrong">0</div>
+        <div class="rs-lbl">Wrong</div>
+      </div>
+      <div class="result-stat rs-unattempted">
+        <div class="rs-num" id="res-unattempted">0</div>
+        <div class="rs-lbl">Unattempted</div>
+      </div>
+      <div class="result-stat rs-score">
+        <div class="rs-num" id="res-score">0</div>
+        <div class="rs-lbl">Final Score</div>
+      </div>
+    </div>
+
+    <div class="instr-card answer-review">
+      <div class="instr-card-header">
+        <div class="instr-card-icon">📊</div>
+        <h3>Answer Review</h3>
+      </div>
+      <div class="instr-card-body">
+        <!-- Result palette legend -->
+        <div class="result-palette-legend">
+          <div class="rpl-item"><div class="rpl-dot" style="background:#2e7d32;"></div> Correct (+5)</div>
+          <div class="rpl-item"><div class="rpl-dot" style="background:#c62828;"></div> Wrong (−1)</div>
+          <div class="rpl-item"><div class="rpl-dot" style="background:#1565c0;"></div> Not Attempted (0)</div>
+        </div>
+        <!-- Result palette grid -->
+        <div class="q-palette" id="resultPalette" style="margin-bottom:18px;"></div>
+        <!-- Detailed answer review -->
+        <div id="answerReviewBody"></div>
+      </div>
+    </div>
+
+    <div class="result-action-row">
+      <button class="btn-pdf" onclick="downloadPDF()">📄 Download PDF Report</button>
+      <button class="btn-retry" onclick="retryTest()" style="margin:0;">🔄 Retry Test</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SUBMIT MODAL ==================== -->
+<div class="modal-overlay" id="submitModal">
+  <div class="modal-box">
+    <div class="modal-icon">📤</div>
+    <div class="modal-title">Submit Test?</div>
+    <div class="modal-text">Please review your progress before final submission. This action cannot be undone.</div>
+    <div class="modal-summary" id="modalSummary"></div>
+    <div class="modal-actions">
+      <button class="btn btn-cancel" onclick="closeModal()">✕ Cancel</button>
+      <button class="btn btn-confirm-submit" onclick="confirmSubmit()">✓ Confirm Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const SUBJECT_ID  = "cgl";
+const CHAPTER_ID  = "full1";
+const GS_URL = "https://script.google.com/macros/s/AKfycbyEsrvdSuRh06TIKPK0ozP-jQNjqHO8PaIeBcW5r45aGdr4H3ZVFHpKMm3xaDHrYmqX/exec";
+
+// ===== SET 1: 10 REAL + 40 PLACEHOLDERS =====
+const questions = [
+  {
+    id: 1,
+    section: "Application MCQ",
+    text: "Two sets of numbers are given below. In each set of numbers, certain mathematical operation(s) on the first number result(s) in the second number. Similarly, certain mathematical operation(s) on the second number result(s) in the third number and so on. Which of the given options follows the same set of operations as in the given sets? (NOTE: Operations should be performed on the whole numbers, without breaking down the numbers into their constituent digits. E.g. 13 – Operations on 13 such as adding/subtracting/multiplying to 13 can be performed. Breaking down 13 into 1 and 3 and then performing mathematical operations on 1 and 3 is not allowed.) 9 – 27 – 31 – 36; 10 – 30 – 34 – 39",
+    options: {
+      a: "8 – 24 – 28 – 35",
+      b: "15 – 45 – 50 – 55",
+      c: "11 – 33 – 38 – 44",
+      d: "5 – 15 – 19 – 24"
+    },
+    correctAnswer: "d",
+    explanation: "Logic: 1st number × 3 = 2nd number, 2nd number + 4 = 3rd number, 3rd number + 5 = 4th number. 9×3=27, 27+4=31, 31+5=36; 10×3=30, 30+4=34, 34+5=39. Similarly, 5×3=15, 15+4=19, 19+5=24. Option d correct."
+  },
+  {
+    id: 2,
+    section: "Application MCQ",
+    text: "In this question, three statements are given, followed by three conclusions numbered I, II and III. Assuming the statements to be true, even if they seem to be at variance with commonly known facts, decide which of the conclusions logically follow(s) from the statements.\nStatements:\nAll computers are printers.\nSome printers are laptops.\nAll laptops are mobiles.\nConclusions:\nI. Some printers are computers.\nII. Some laptops are printers.\nIII. Some mobiles are laptops.",
+    options: {
+      a: "Only conclusion III follows.",
+      b: "Only conclusions II and III follow.",
+      c: "All the conclusions follow.",
+      d: "Only conclusions I and III follow."
+    },
+    correctAnswer: "c",
+    explanation: "From 'All computers are printers', I (Some printers are computers) follows. From 'Some printers are laptops', II (Some laptops are printers) follows. From 'All laptops are mobiles', III (Some mobiles are laptops) follows. All conclusions follow. Option c correct."
+  },
+  {
+    id: 3,
+    section: "Application MCQ",
+    text: "Which of the following numbers will replace the question mark (?) in the given series? 101, 103, 107, 109, ?, 127, 131, 137",
+    options: {
+      a: "113",
+      b: "111",
+      c: "123",
+      d: "125"
+    },
+    correctAnswer: "a",
+    explanation: "The series is of prime numbers. Primes: 101, 103, 107, 109, 113, 127, 131, 137. The missing prime is 113. Option a correct. Option b 111 not prime, c 123=3×41, d 125=5³."
+  },
+  {
+    id: 4,
+    section: "Application MCQ",
+    text: "In a certain code language,\n'A + B' means 'A is the mother of B';\n'A - B' means 'A is the brother of B';\n'A × B' means 'A is the wife of B' and\n'A ÷ B' means 'A is the father of B'.\nBased on the above, how is 5 related to 3 if '5 - 2 × 4 ÷ 3' ?",
+    options: {
+      a: "Father's sister",
+      b: "Mother's brother",
+      c: "Father's brother",
+      d: "Mother's sister"
+    },
+    correctAnswer: "b",
+    explanation: "5 - 2 means 5 is brother of 2. 2 × 4 means 2 is wife of 4. 4 ÷ 3 means 4 is father of 3. So 5 is brother of 2 (mother of 3), so 5 is mother's brother (maternal uncle) of 3. Option b correct."
+  },
+  {
+    id: 5,
+    section: "Application MCQ",
+    text: "In a certain code language, 'MAP' is written as '102' and 'ROT' is written as '56'. How will 'SEC' be written in that language?",
+    options: {
+      a: "108",
+      b: "98",
+      c: "84",
+      d: "112"
+    },
+    correctAnswer: "a",
+    explanation: "Logic: (Sum of place values of opposite letters) × 2. Opposite of M(13)=N(14)?? Actually opposite letter mapping: A↔Z(1↔26), B↔Y(2↔25), so opposite of M(13) is N(14)? No, 13th letter M, opposite is 27-13=14→N. But given solution shows 102 and 56. For SEC: S opposite H(8), E opposite V(22), C opposite X(24). Sum=8+22+24=54, ×2=108. Option a correct."
+  },
+  {
+    id: 6,
+    section: "Image Based",
+    text: "Select the correct mirror image of the given figure when the mirror is placed at MN. (Figure shows combination of shapes)",
+    options: {
+      a: "Option A image",
+      b: "Option B image",
+      c: "Option C image",
+      d: "Option D image"
+    },
+    correctAnswer: "c",
+    explanation: "Mirror image horizontally flips the figure. The correct mirror image is option c as per the given solution."
+  },
+  {
+    id: 7,
+    section: "Application MCQ",
+    text: "Which letter cluster will replace the question mark (?) to complete the given series? RDLS, VKBF, ?, DYHF, HFXS",
+    options: {
+      a: "FHWR",
+      b: "ZTTS",
+      c: "ZRRS",
+      d: "KBET"
+    },
+    correctAnswer: "c",
+    explanation: "Pattern: Each letter moves forward by 5, then backward by 3, etc. Following the pattern, ZRRS completes the series. Option c correct."
+  },
+  {
+    id: 8,
+    section: "Application MCQ",
+    text: "Four letter-clusters have been given, out of which three are alike in some manner and one is different. Select the one that is different. The odd one out is not based on the number of consonants/vowels or their position in the letter cluster.",
+    options: {
+      a: "RTTUWW",
+      b: "NOPPSS",
+      c: "ACCDFF",
+      d: "IKKLNN"
+    },
+    correctAnswer: "b",
+    explanation: "In options a, c, d, the second letter is repeated two times. In option b (NOPPSS), the pattern is different. N O P P S S has first three letters consecutive, then repeats. Option b is odd one out."
+  },
+  {
+    id: 9,
+    section: "Application MCQ",
+    text: "51 is related to 256 by certain logic. Following the same logic, 53 is related to 266. To which of the following is 55 related, following the same logic? (NOTE: Operations should be performed on the whole numbers, without breaking down the numbers into its constituent digits.)",
+    options: {
+      a: "276",
+      b: "290",
+      c: "249",
+      d: "213"
+    },
+    correctAnswer: "a",
+    explanation: "Logic: (1st number × 5) + 1 = 2nd number. 51×5=255+1=256; 53×5=265+1=266; 55×5=275+1=276. Option a correct."
+  },
+  {
+    id: 10,
+    section: "Image Based",
+    text: "How many rectangles are there in the following figure? (Figure showing combination of rectangles)",
+    options: {
+      a: "10",
+      b: "5",
+      c: "7",
+      d: "9"
+    },
+    correctAnswer: "d",
+    explanation: "Counting all rectangles of different sizes in the figure gives total 9 rectangles. Option d correct."
+  },
+  {
+    id: 11,
+    section: "Application MCQ",
+    text: "In a certain code language,\n'A $ B' means 'A is the mother of B',\n'A # B' means 'A is the father of B',\n'A ! B' means 'A is the sister of B',\n'A @ B' means 'A is the brother of B',\n'A * B' means 'A is the wife of B',\n'A > B' means 'A is the husband of B',\n'A % B' means 'A is the father-in-law of B',\n'A ^ B' means 'A is the mother-in-law of B'.\nBased on the above, how is U related to A if\na) 'P > Q $ R > S ! T',\nb) 'U # T',\nc) 'R # A'?",
+    options: {
+      a: "Mother's brother",
+      b: "Father",
+      c: "Mother's father",
+      d: "Son"
+    },
+    correctAnswer: "c",
+    explanation: "From the given relations, P is husband of Q, Q is mother of R, R is husband of S, S is sister of T. So T is child of R? Actually U is father of T, R is father of A. So U is mother's father (maternal grandfather) of A. Option c correct."
+  },
+  {
+    id: 12,
+    section: "Image Based",
+    text: "Select the option in which the given figure is embedded (rotation is NOT allowed).",
+    options: {
+      a: "Option A image",
+      b: "Option B image",
+      c: "Option C image",
+      d: "Option D image"
+    },
+    correctAnswer: "c",
+    explanation: "The given figure is embedded in option c without rotation. Option c correct."
+  },
+  {
+    id: 13,
+    section: "Image Based",
+    text: "Select the correct mirror image of the given figure when the mirror is placed at MN as shown below.",
+    options: {
+      a: "Option A image",
+      b: "Option B image",
+      c: "Option C image",
+      d: "Option D image"
+    },
+    correctAnswer: "a",
+    explanation: "The correct mirror image is option a, as per the solution. Option a correct."
+  },
+  {
+    id: 14,
+    section: "Application MCQ",
+    text: "Three of the following numbers are alike in a certain way and one is different. Pick the odd one out. (NOTE: Operations should be performed on the whole numbers, without breaking down the numbers into its constituent digits.)",
+    options: {
+      a: "16 – 9 – 139",
+      b: "25 – 7 – 175",
+      c: "12 – 7 – 79",
+      d: "17 – 5 – 80"
+    },
+    correctAnswer: "b",
+    explanation: "Logic: (1st no. × 2nd no.) - 5 = 3rd no. 16×9=144-5=139; 12×7=84-5=79; 17×5=85-5=80. But 25×7=175-5=170 ≠ 175. So option b is odd one out."
+  },
+  {
+    id: 15,
+    section: "Application MCQ",
+    text: "What will come in place of the question mark (?) in the following equation, if '+' and '-' are interchanged and '×' and '÷' are interchanged? 14014 × 14 - 10 ÷ 8 + 14 = ?",
+    options: {
+      a: "1062",
+      b: "1063",
+      c: "1067",
+      d: "1064"
+    },
+    correctAnswer: "c",
+    explanation: "After interchanging: 14014 ÷ 14 + 10 × 8 - 14 = 1001 + 80 - 14 = 1067. Option c correct."
+  },
+  {
+    id: 16,
+    section: "Application MCQ",
+    text: "Select the option that is related to the fifth letter-cluster in the same way as the second letter-cluster is related to the first letter-cluster and the fourth letter-cluster is related to the third letter-cluster. JAP : BSH :: NDZ : FVR :: LCX : ?",
+    options: {
+      a: "EVP",
+      b: "DUP",
+      c: "DVP",
+      d: "EUP"
+    },
+    correctAnswer: "b",
+    explanation: "Pattern: Each letter moves backward by a certain number. Following the pattern, LCX becomes DUP. Option b correct."
+  },
+  {
+    id: 17,
+    section: "Image Based",
+    text: "Which figure should replace the question mark (?) if the following series were to be continued?",
+    options: {
+      a: "Option A image",
+      b: "Option B image",
+      c: "Option C image",
+      d: "Option D image"
+    },
+    correctAnswer: "b",
+    explanation: "The pattern shows rotation and movement of elements. Option b continues the series correctly."
+  },
+  {
+    id: 18,
+    section: "Application MCQ",
+    text: "Three statements are given, followed by three conclusions numbered I, II and III. Assuming the statements to be true, even if they seem to be at variance with commonly known facts, decide which of the conclusions logically follow(s) from the statements.\nStatements:\nSome rats are mouse.\nNo mouse is a rodent.\nSome rats are kittens.\nConclusions:\nI. No rodent is a kitten.\nII. Some rats are rodent.\nIII. No kitten is a mouse.",
+    options: {
+      a: "Only conclusion III follows",
+      b: "Only conclusion II follows",
+      c: "Neither conclusion follows",
+      d: "Only conclusion I follows"
+    },
+    correctAnswer: "c",
+    explanation: "From statements, no direct relation between rodent and kitten exists. Some rats are mouse, but no mouse is rodent, so some rats are not rodent, but cannot conclude some rats are rodent. No conclusion follows. Option c correct."
+  },
+  {
+    id: 19,
+    section: "Application MCQ",
+    text: "In a certain code language, 'FITCH' is coded as '47601' and 'DITCH' is coded as '70619'. What is the code for 'D' in the given code language?",
+    options: {
+      a: "7",
+      b: "0",
+      c: "9",
+      d: "1"
+    },
+    correctAnswer: "c",
+    explanation: "Comparing FITCH (47601) and DITCH (70619), common letters: ITCH have same codes? F=4, D=7? Actually D appears first in DITCH coded as 7? But from the two, code for D is 9? Option c correct."
+  },
+  {
+    id: 20,
+    section: "Application MCQ",
+    text: "Which of the following operations should be interchanged to make the following equation correct? 12 + 12 - 4 × 4 ÷ 2 = 22",
+    options: {
+      a: "+ and ÷",
+      b: "÷ and -",
+      c: "- and +",
+      d: "× and -"
+    },
+    correctAnswer: "b",
+    explanation: "Interchanging ÷ and -: 12 + 12 ÷ 4 × 4 - 2 = 12 + 3 × 4 - 2 = 12 + 12 - 2 = 22. Option b correct."
+  },
+  {
+    id: 21,
+    section: "Application MCQ",
+    text: "In a certain code language, 'FAVORITE' is written as 'ETIROVAF' and 'MINIMIZE' is written as 'EZIMINIM'. How will 'RESEMBLE' be written in that language?",
+    options: {
+      a: "ELBMESER",
+      b: "ELBRESEM",
+      c: "ERESLMBE",
+      d: "ERLBMESR"
+    },
+    correctAnswer: "a",
+    explanation: "The word is reversed. FAVORITE reversed is ETIROVAF. RESEMBLE reversed is ELBMESER. Option a correct."
+  },
+  {
+    id: 22,
+    section: "Application MCQ",
+    text: "Select the option that represents the letters which, when sequentially placed from left to right in the blanks below, will complete the letter series. fd_e_ef_dd_d_ff_d_d_f",
+    options: {
+      a: "ddfeeded",
+      b: "ddfefdee",
+      c: "ddfdedef",
+      d: "ddfeedee"
+    },
+    correctAnswer: "d",
+    explanation: "The pattern is fdde ddef / fdd e d e f / f d d e d e f. So ddfeedee completes the series. Option d correct."
+  },
+  {
+    id: 23,
+    section: "Application MCQ",
+    text: "Based on the English alphabetical order, three of the following four letter-clusters are alike in a certain way and thus form a group. Which letter-cluster does not belong to that group? (Note: The odd letter-cluster is not based on the number of consonants/vowels or their position in the letter-cluster.)",
+    options: {
+      a: "NKP",
+      b: "KHM",
+      c: "QNR",
+      d: "TQV"
+    },
+    correctAnswer: "c",
+    explanation: "In NKP, KHM, TQV, each letter moves backward by 3 positions. In QNR, the pattern is different. Option c is odd one out."
+  },
+  {
+    id: 24,
+    section: "Application MCQ",
+    text: "The position of how many letters will remain unchanged if each of the letters in the word 'DELIGHT' is arranged in the English alphabetical order?",
+    options: {
+      a: "One",
+      b: "None",
+      c: "Two",
+      d: "Three"
+    },
+    correctAnswer: "d",
+    explanation: "DELIGHT: D,E,G,H,I,L,T. Alphabetical order: D,E,G,H,I,L,T. Comparing positions: D(1),E(2),G(3),H(4),I(5),L(6),T(7). Original: D(1),E(2),L(3),I(4),G(5),H(6),T(7). D,E,T remain at same positions? Actually D(1),E(2),T(7) remain. So three letters. Option d correct."
+  },
+  {
+    id: 25,
+    section: "Image Based",
+    text: "Identify the figure given in the options, which when put in place of the question mark (?) will logically complete the series.",
+    options: {
+      a: "Option A image",
+      b: "Option B image",
+      c: "Option C image",
+      d: "Option D image"
+    },
+    correctAnswer: "d",
+    explanation: "The pattern shows rotation of shapes. Option d completes the series correctly."
+  },
+  {
+    id: 26,
+    section: "Application MCQ",
+    text: "Which of the following states had benefitted by the Indira Gandhi Canal?",
+    options: {
+      a: "Rajasthan",
+      b: "Uttar Pradesh",
+      c: "Gujarat",
+      d: "Madhya Pradesh"
+    },
+    correctAnswer: "a",
+    explanation: "Indira Gandhi Canal (formerly Rajasthan Canal) is India's longest canal (650 km) terminating in Thar desert, Rajasthan. It originates at Harike barrage in Punjab. Option a correct."
+  },
+  {
+    id: 27,
+    section: "Application MCQ",
+    text: "'My Country My Life' is the autobiography of:",
+    options: {
+      a: "Khushwant Singh",
+      b: "Manmohan Singh",
+      c: "Natwar Singh",
+      d: "Lal Krishna Advani"
+    },
+    correctAnswer: "d",
+    explanation: "My Country My Life is the autobiography of Lal Krishna Advani, former Deputy Prime Minister of India. Option d correct."
+  },
+  {
+    id: 28,
+    section: "Application MCQ",
+    text: "Which political party launched the Dr. Ambedkar Samman Yojana in December 2024 to support Dalit students pursuing higher education abroad?",
+    options: {
+      a: "Bharatiya Janata Party (BJP)",
+      b: "Indian National Congress (INC)",
+      c: "Aam Aadmi Party (AAP)",
+      d: "Bahujan Samaj Party (BSP)"
+    },
+    correctAnswer: "c",
+    explanation: "AAP leader Arvind Kejriwal announced Dr. Ambedkar Samman Scholarship Yojana for Delhi's Dalit students for higher education abroad. Option c correct."
+  },
+  {
+    id: 29,
+    section: "Application MCQ",
+    text: "Who among the following signed a pact with Lord Irwin on March 5, 1931?",
+    options: {
+      a: "B R Ambedkar",
+      b: "Subhas Chandra Bose",
+      c: "Mahatma Gandhi",
+      d: "Jawaharlal Nehru"
+    },
+    correctAnswer: "c",
+    explanation: "The Gandhi-Irwin Pact (Delhi Pact) was signed on March 5, 1931 between Mahatma Gandhi and Lord Irwin. Option c correct."
+  },
+  {
+    id: 30,
+    section: "Application MCQ",
+    text: "Which of the following is NOT related to goals of Fundamental Duties of Indian Citizens?",
+    options: {
+      a: "Preserve",
+      b: "Cherish",
+      c: "Courage",
+      d: "Respect"
+    },
+    correctAnswer: "c",
+    explanation: "Fundamental Duties (Article 51A) include to preserve heritage, cherish noble ideals, respect Constitution. Courage is not a specified goal. Option c correct."
+  },
+  {
+    id: 31,
+    section: "Application MCQ",
+    text: "The digestive enzymes inside lysosomes are made by:",
+    options: {
+      a: "rough endoplasmic reticulum",
+      b: "plastids themselves",
+      c: "Golgi apparatus",
+      d: "mitochondria"
+    },
+    correctAnswer: "a",
+    explanation: "Digestive enzymes are proteins synthesized by ribosomes on rough endoplasmic reticulum. Option a correct. Golgi apparatus modifies and packages them."
+  },
+  {
+    id: 32,
+    section: "Application MCQ",
+    text: "Who was the famous Venetian traveller of the 13th century who visited Kerala?",
+    options: {
+      a: "Abdur Razzaq",
+      b: "Marco Polo",
+      c: "Barthema",
+      d: "Nicolo Conti"
+    },
+    correctAnswer: "b",
+    explanation: "Marco Polo, the famous Venetian traveller, visited Southern India including Kerala in the 13th century. Option b correct."
+  },
+  {
+    id: 33,
+    section: "Application MCQ",
+    text: "Which Indian ministry launched the 'FloodWatch India' 2.0 app to enhance flood monitoring capabilities?",
+    options: {
+      a: "Ministry of Environment, Forest and Climate Change",
+      b: "Ministry of Home Affairs",
+      c: "Ministry of Jal Shakti",
+      d: "Ministry of Science and Technology"
+    },
+    correctAnswer: "c",
+    explanation: "Ministry of Jal Shakti launched FloodWatch India 2.0 app, developed by Central Water Commission, for real-time flood forecasts. Option c correct."
+  },
+  {
+    id: 34,
+    section: "Application MCQ",
+    text: "Which of the following states had benefitted by the Indira Gandhi Canal?",
+    options: {
+      a: "Rajasthan",
+      b: "Uttar Pradesh",
+      c: "Gujarat",
+      d: "Madhya Pradesh"
+    },
+    correctAnswer: "a",
+    explanation: "Indira Gandhi Canal benefits Rajasthan, especially the Thar desert region for irrigation. Option a correct."
+  },
+  {
+    id: 35,
+    section: "Application MCQ",
+    text: "'My Country My Life' is the autobiography of:",
+    options: {
+      a: "Khushwant Singh",
+      b: "Manmohan Singh",
+      c: "Natwar Singh",
+      d: "Lal Krishna Advani"
+    },
+    correctAnswer: "d",
+    explanation: "My Country My Life is autobiography of Lal Krishna Advani. Option d correct."
+  },
+  {
+    id: 36,
+    section: "Application MCQ",
+    text: "A river is capable of forming which of the following landscapes when the river is in its middle course?",
+    options: {
+      a: "Waterfalls",
+      b: "A delta",
+      c: "V shaped valley",
+      d: "A meander"
+    },
+    correctAnswer: "d",
+    explanation: "In middle course, rivers form meanders (U-shaped loops) due to erosion and deposition. Waterfalls in upper course, delta in lower course, V-shaped valley in upper course. Option d correct."
+  },
+  {
+    id: 37,
+    section: "Application MCQ",
+    text: "The digestive enzymes inside lysosomes are made by:",
+    options: {
+      a: "rough endoplasmic reticulum",
+      b: "plastids themselves",
+      c: "Golgi apparatus",
+      d: "mitochondria"
+    },
+    correctAnswer: "a",
+    explanation: "Lysosomal digestive enzymes are synthesized by ribosomes on rough ER. Option a correct."
+  },
+  {
+    id: 38,
+    section: "Application MCQ",
+    text: "What is the primary gas responsible for the leavening effect in bread when yeast ferments sugars?",
+    options: {
+      a: "Carbon dioxide",
+      b: "Nitrogen",
+      c: "Oxygen",
+      d: "Helium"
+    },
+    correctAnswer: "a",
+    explanation: "Yeast ferments sugars producing carbon dioxide gas, which causes dough to rise. Option a correct."
+  },
+  {
+    id: 39,
+    section: "Application MCQ",
+    text: "Sarhul is an agricultural festival of tribals, which is primarily celebrated in the Indian state of ________.",
+    options: {
+      a: "Uttarakhand",
+      b: "Sikkim",
+      c: "Jharkhand",
+      d: "Gujarat"
+    },
+    correctAnswer: "c",
+    explanation: "Sarhul festival is celebrated by Oraon, Munda, and Ho tribes in Jharkhand. Option c correct."
+  },
+  {
+    id: 40,
+    section: "Application MCQ",
+    text: "Who has been appointed as the new Director General of the Bureau of Civil Aviation Security (BCAS)?",
+    options: {
+      a: "Rajesh Nirwan",
+      b: "Zulfiquar Hasan",
+      c: "Usha Padhee",
+      d: "Amrit Mohan Prasad"
+    },
+    correctAnswer: "a",
+    explanation: "Rajesh Nirwan has been appointed as the new Director General of BCAS. Option a correct."
+  },
+  {
+    id: 41,
+    section: "Application MCQ",
+    text: "Who was the Registrar General and Census Commissioner of India for the 2011 Indian Census?",
+    options: {
+      a: "Vivek Joshi",
+      b: "Devender Kumar Sikri",
+      c: "Jayant Kumar Banthia",
+      d: "Dr. C Chandramouli"
+    },
+    correctAnswer: "d",
+    explanation: "Dr. C Chandramouli was the Registrar General and Census Commissioner for Census 2011. Option d correct."
+  },
+  {
+    id: 42,
+    section: "Application MCQ",
+    text: "The Indian Bureau of Mines (IBM) was established in the year ________.",
+    options: {
+      a: "1948",
+      b: "1973",
+      c: "1985",
+      d: "1960"
+    },
+    correctAnswer: "a",
+    explanation: "Indian Bureau of Mines (IBM) was established in 1948. Its headquarters is in Nagpur. Option a correct."
+  },
+  {
+    id: 43,
+    section: "Application MCQ",
+    text: "Which of the following statements is/are correct according to the Census of India-2011?\n(A) A person aged seven years or above, who can both read and write with understanding in any language, is treated as literate.\n(B) A person who can only read but cannot write is not literate.",
+    options: {
+      a: "Both (A) and (B) are correct",
+      b: "Only (B) is correct",
+      c: "Only (A) is correct",
+      d: "Neither (A) nor (B) is correct"
+    },
+    correctAnswer: "a",
+    explanation: "Both statements are correct. Literacy definition requires both reading and writing ability. Option a correct."
+  },
+  {
+    id: 44,
+    section: "Application MCQ",
+    text: "Which of the following statements are correct about Ribosomes?\nStatement A: Ribosomes have no membrane.\nStatement B: Digestive hydrolytic enzymes are present in Ribosomes.\nStatement C: These are called suicidal bags.\nStatement D: Ribosomes play an important role in protein synthesis.",
+    options: {
+      a: "Only statements A and D",
+      b: "Only statements A and B",
+      c: "Only statements A, B and C",
+      d: "Only statements A and C"
+    },
+    correctAnswer: "a",
+    explanation: "Ribosomes are non-membranous (A correct), and are site of protein synthesis (D correct). Digestive enzymes are in lysosomes (B false). Lysosomes are suicidal bags (C false). Option a correct."
+  },
+  {
+    id: 45,
+    section: "Application MCQ",
+    text: "Which of the following is a public sector industry in India?",
+    options: {
+      a: "Tata Iron and Steel Company (TISCO)",
+      b: "Bajaj",
+      c: "Hindustan Unilever Limited",
+      d: "Steel Authority of India Limited (SAIL)"
+    },
+    correctAnswer: "d",
+    explanation: "SAIL (Steel Authority of India Limited) is a public sector undertaking. TISCO, Bajaj, Hindustan Unilever are private sector. Option d correct."
+  },
+  {
+    id: 46,
+    section: "Application MCQ",
+    text: "Which of the following was the first subcontinental empire?",
+    options: {
+      a: "Satavahana Empire",
+      b: "Mauryan Empire",
+      c: "Kushan Empire",
+      d: "Gupta Empire"
+    },
+    correctAnswer: "b",
+    explanation: "The Mauryan Empire (322 BCE) by Chandragupta Maurya was the first subcontinental empire. Option b correct."
+  },
+  {
+    id: 47,
+    section: "Application MCQ",
+    text: "In which of the following months is the Tuluni festival celebrated in Nagaland by the Sumi tribe?",
+    options: {
+      a: "June",
+      b: "May",
+      c: "August",
+      d: "July"
+    },
+    correctAnswer: "d",
+    explanation: "Tuluni festival is celebrated by Sumi tribe in Nagaland during July. Option d correct."
+  },
+  {
+    id: 48,
+    section: "Application MCQ",
+    text: "Which of the following groups of plants are categorised as cryptogams?",
+    options: {
+      a: "Gymnosperms and Angiosperms",
+      b: "Pteridophyta and Angiosperms",
+      c: "Thallophyta and Gymnosperms",
+      d: "Bryophytes and Thallophyta"
+    },
+    correctAnswer: "d",
+    explanation: "Cryptogams include Thallophyta, Bryophytes, and Pteridophytes (non-seed plants). Option d correct (Bryophytes and Thallophyta)."
+  },
+  {
+    id: 49,
+    section: "Match the Following",
+    text: "Match the following and choose the correct option:\n1. Multi-Party System     a) USA\n2. Two Party system       b) China\n3. Single Party system    c) India",
+    options: {
+      a: "1-a, 2-b, 3-c",
+      b: "1-c, 2-b, 3-a",
+      c: "1-b, 2-c, 3-a",
+      d: "1-c, 2-a, 3-b"
+    },
+    correctAnswer: "d",
+    explanation: "India has multi-party system (1-c), USA has two-party system (2-a), China has single-party system (3-b). Option d correct."
+  },
+  {
+    id: 50,
+    section: "Application MCQ",
+    text: "Where was the India House established to work for India's liberation from British possession?",
+    options: {
+      a: "London",
+      b: "San Francisco",
+      c: "Kabul",
+      d: "Berlin"
+    },
+    correctAnswer: "a",
+    explanation: "India House was established in London in 1905 by Shyamji Krishna Varma for Indian liberation. Option a correct."
+  },
+  {
+    id: 51,
+    section: "Application MCQ",
+    text: "6²⁵ + 6²⁶ + 6²⁷ + 6²⁸ is divisible by:",
+    options: {
+      a: "254",
+      b: "259",
+      c: "256",
+      d: "255"
+    },
+    correctAnswer: "b",
+    explanation: "6²⁵(1+6+36+216) = 6²⁵ × 259. So divisible by 259. Option b correct."
+  },
+  {
+    id: 52,
+    section: "Application MCQ",
+    text: "The average weight of a family of five members (in kg) whose weights are 40 kg, 49 kg, 56 kg, 65 kg and 38 kg is:",
+    options: {
+      a: "48.6",
+      b: "49.6",
+      c: "50.6",
+      d: "51.6"
+    },
+    correctAnswer: "b",
+    explanation: "Sum=40+49+56+65+38=248. Average=248/5=49.6 kg. Option b correct."
+  },
+  {
+    id: 53,
+    section: "Application MCQ",
+    text: "A function of two variable varies directly with x and inversely with y. Determine function when x=5 and y=3. Given that, for x=0 and y=1, f=15 and for x=1 and y=15, f=2.",
+    options: {
+      a: "10",
+      b: "2",
+      c: "5",
+      d: "15"
+    },
+    correctAnswer: "a",
+    explanation: "f = k₁x + k₂/y. From f(0,1)=15 → k₂=15. From f(1,15)=2 → 2=k₁+1 → k₁=1. So f= x + 15/y. At x=5,y=3, f=5+5=10. Option a correct."
+  },
+  {
+    id: 54,
+    section: "Application MCQ",
+    text: "If a = 2² × 3⁴ × 5 × 7³, b = 2³ × 3⁴ × 5² × 7⁴ and c = 2⁴ × 3² × 5⁴ × 7, then the HCF of a, b and c is:",
+    options: {
+      a: "1260",
+      b: "1575",
+      c: "630",
+      d: "180"
+    },
+    correctAnswer: "a",
+    explanation: "HCF takes minimum powers: 2² × 3² × 5¹ × 7¹ = 4×9×5×7 = 36×35 = 1260. Option a correct."
+  },
+  {
+    id: 55,
+    section: "Application MCQ",
+    text: "If secθ = 29/20 where 0 < θ < 90°, then what is the value of 3cosecθ + 3cotθ?",
+    options: {
+      a: "7/3",
+      b: "7",
+      c: "14",
+      d: "49"
+    },
+    correctAnswer: "b",
+    explanation: "secθ=29/20, so cosθ=20/29, sinθ=21/29 (Pythagorean triplet 20,21,29). cosecθ=29/21, cotθ=20/21. 3cosecθ+3cotθ = 3×(29/21+20/21)=3×(49/21)=3×(7/3)=7. Option b correct."
+  },
+  {
+    id: 56,
+    section: "Image Based",
+    text: "Study the given graph carefully and answer the questions that follows. The graph shows the demand and production of different companies. Lowest production is what percentage of the highest demand?",
+    options: {
+      a: "29%",
+      b: "30%",
+      c: "71%",
+      d: "70%"
+    },
+    correctAnswer: "a",
+    explanation: "From graph, lowest production = 1450, highest demand = 5000. Percentage = (1450/5000)×100 = 29%. Option a correct."
+  },
+  {
+    id: 57,
+    section: "Application MCQ",
+    text: "From a point A, a tangent line is drawn to the circle of radius 7 units. From the same point, a secant is drawn to the circle which cuts the circle at B and C and the point B is near A than C. What is the length of BC in units if the length of the tangent to the circle from point A is 21 units and the length of AB is 14 units?",
+    options: {
+      a: "18.5",
+      b: "16.5",
+      c: "15.5",
+      d: "17.5"
+    },
+    correctAnswer: "d",
+    explanation: "Using tangent-secant theorem: AT² = AC × AB. 21² = (14+BC)×14 → 441=196+14BC → 14BC=245 → BC=17.5. Option d correct."
+  },
+  {
+    id: 58,
+    section: "Application MCQ",
+    text: "In a race of 400 m, Bhim gave Saral a head start by 20 m at the start of the race. Saral took 48 seconds to complete the race. What was the speed (in m/s) of Bhim if Saral defeated Bhim by a margin of 2 seconds?",
+    options: {
+      a: "7.6",
+      b: "8",
+      c: "8.7",
+      d: "7.4"
+    },
+    correctAnswer: "b",
+    explanation: "Saral time=48 sec. Bhim time=48+2=50 sec. Bhim distance=400 m. Speed=400/50=8 m/s. Option b correct."
+  },
+  {
+    id: 59,
+    section: "Application MCQ",
+    text: "Simplify: (8.3³ + 9.2³ + 6.1³ - 3×8.3×9.2×6.1) / (8.3² + 9.2² + 6.1² - 8.3×9.2 - 9.2×6.1 - 6.1×8.3)",
+    options: {
+      a: "30.2",
+      b: "23.6",
+      c: "28.7",
+      d: "25.5"
+    },
+    correctAnswer: "b",
+    explanation: "Using identity a³+b³+c³-3abc = (a+b+c)(a²+b²+c²-ab-bc-ca), the expression simplifies to a+b+c = 8.3+9.2+6.1 = 23.6. Option b correct."
+  },
+  {
+    id: 60,
+    section: "Application MCQ",
+    text: "A vendor started selling vegetables at ₹10 per kg, but couldn't find buyers at this rate. So he reduced the price to ₹7.2 per kg, but uses a faulty weight of 900 g instead of 1 kg. Find the percentage change in the actual price.",
+    options: {
+      a: "10%",
+      b: "15%",
+      c: "20%",
+      d: "25%"
+    },
+    correctAnswer: "c",
+    explanation: "Actual price per kg originally = ₹10. New effective price = 7.2 × (1000/900) = ₹8 per kg? Actually 7.2×1.111=8. So percentage change = (10-8)/10 × 100 = 20% decrease. Option c correct."
+  },
+  {
+    id: 61,
+    section: "Application MCQ",
+    text: "X, Y and Z can do a work in 24 days, 5 days and 12 days, respectively. In how many days can they do the same work if they work together?",
+    options: {
+      a: "1/24 days",
+      b: "3(1/13) days",
+      c: "4 days",
+      d: "7/24 days"
+    },
+    correctAnswer: "b",
+    explanation: "LCM of 24,5,12 = 120. Efficiency: X=5, Y=24, Z=10. Total=39. Time=120/39 = 40/13 = 3(1/13) days. Option b correct."
+  },
+  {
+    id: 62,
+    section: "Application MCQ",
+    text: "If θ is an acute angle and cotθ + tanθ = 2, then find the value of tan¹²θ + cot¹²θ + 2 tan⁵θ cot⁷θ.",
+    options: {
+      a: "2",
+      b: "3",
+      c: "4",
+      d: "1"
+    },
+    correctAnswer: "c",
+    explanation: "cotθ+tanθ=2 implies tanθ=1, θ=45°. Then tan¹²θ=1, cot¹²θ=1, tan⁵θ cot⁷θ=1. So sum=1+1+2=4. Option c correct."
+  },
+  {
+    id: 63,
+    section: "Application MCQ",
+    text: "By selling an article for ₹2,160, Prashant allows a 20% discount and earns 28% profit. If the article is sold without any discount, the profit will be:",
+    options: {
+      a: "50%",
+      b: "55%",
+      c: "65%",
+      d: "60%"
+    },
+    correctAnswer: "d",
+    explanation: "SP = MP×0.8 = 2160 → MP=2700. CP×(1.28)=2160 → CP=1687.5. Without discount, SP=2700, profit% = (2700-1687.5)/1687.5 ×100 = 1012.5/1687.5×100 = 60%. Option d correct."
+  },
+  {
+    id: 64,
+    section: "Application MCQ",
+    text: "A police station, a bank and a safe house for the thief are in a straight line with a bank in between. The distance between the police station and the safe house is four times the distance between the bank and the safe house. After looting the bank at 9:15 A.M, the thief runs away. A policeman gets the information instantly and chases him at the speed of 16 km/h. The policeman catches the thief at the gate of the safe house in fifteen minutes. What is the distance between the bank and the police station?",
+    options: {
+      a: "2 km",
+      b: "1 km",
+      c: "4 km",
+      d: "3 km"
+    },
+    correctAnswer: "d",
+    explanation: "Let bank to safe house = x, police to safe house = 4x, so police to bank = 3x. Police time=15 min=0.25 hr. Distance=16×0.25=4 km = 4x → x=1 km. Police to bank=3x=3 km. Option d correct."
+  },
+  {
+    id: 65,
+    section: "Image Based",
+    text: "A battery manufacturer manufactures five different types of batteries. The total revenue for the year 2020 is ₹25,00,000 and 20,000 units were exported in 2020. The distribution of revenue and units for the five different types of batteries is shown in the charts. Which type of battery provides the lowest revenue per unit?",
+    options: {
+      a: "Sodium",
+      b: "Li-ion",
+      c: "M-Air",
+      d: "Lead acid"
+    },
+    correctAnswer: "d",
+    explanation: "Calculating revenue per unit from charts, Lead acid gives lowest revenue per unit (≈89.28). Option d correct."
+  },
+  {
+    id: 66,
+    section: "Application MCQ",
+    text: "In ΔDEF, DE = 12 cm, EF = 15 cm, and ∠DEF = 90°. ΔDEF is congruent to ΔXYZ. If YZ = 15 cm, then what is the length of XZ?",
+    options: {
+      a: "3√41 cm",
+      b: "2√41 cm",
+      c: "5√41 cm",
+      d: "4√41 cm"
+    },
+    correctAnswer: "a",
+    explanation: "By Pythagoras, DF = √(12²+15²)=√(144+225)=√369=3√41. Congruent triangles, XZ = DF = 3√41 cm. Option a correct."
+  },
+  {
+    id: 67,
+    section: "Application MCQ",
+    text: "A trader sells 25 kg of rice at ₹1,400. A customer asks for 15% discount. The shopkeeper agrees to it but instead of 1 kg he gives 10% less rice. What is the effective discount that the customer gets (correct to one decimal place)?",
+    options: {
+      a: "5.8%",
+      b: "5.7%",
+      c: "5.6%",
+      d: "5.1%"
+    },
+    correctAnswer: "c",
+    explanation: "MP per kg = 1400/25=56. After 15% discount, price per kg = 56×0.85=47.6. But gets only 900g instead of 1kg, so effective price per kg = 47.6/0.9≈52.89. Discount = (56-52.89)/56×100≈5.56%≈5.6%. Option c correct."
+  },
+  {
+    id: 68,
+    section: "Application MCQ",
+    text: "A rectangular courtyard is 4m 95cm long and 16m 65cm broad. It is to be paved with the square tiles of the same size. Find the least number of such square tiles required to pave the rectangular courtyard.",
+    options: {
+      a: "877",
+      b: "944",
+      c: "388",
+      d: "407"
+    },
+    correctAnswer: "d",
+    explanation: "Length=495 cm, breadth=1665 cm. HCF(495,1665)=45. Number of tiles = (495×1665)/(45×45) = 11×37 = 407. Option d correct."
+  },
+  {
+    id: 69,
+    section: "Application MCQ",
+    text: "A certain sum of money becomes seven times itself when invested at a certain rate of simple interest, in 14 years. How much time (in years, rounded off to 2 decimal places) will it take to become 18 times itself at the same rate?",
+    options: {
+      a: "27.33",
+      b: "39.67",
+      c: "42.78",
+      d: "35.5"
+    },
+    correctAnswer: "b",
+    explanation: "SI = 6P = P×r×14/100 → r = 600/14 = 300/7%. Then 17P = P×(300/7)×t/100 → 17 = (300t)/(700) → t = 17×700/300 = 119/3 ≈ 39.67 years. Option b correct."
+  },
+  {
+    id: 70,
+    section: "Application MCQ",
+    text: "A grocer mixes two varieties of tea worth ₹120/kg and ₹125/kg in a ratio to produce a new variety worth ₹122/kg. What is the ratio of the varieties to be mixed to obtain the new variety?",
+    options: {
+      a: "2:5",
+      b: "4:4",
+      c: "1:3",
+      d: "3:2"
+    },
+    correctAnswer: "d",
+    explanation: "Using alligation: (125-122):(122-120) = 3:2. Ratio = 3:2. Option d correct."
+  },
+  {
+    id: 71,
+    section: "Application MCQ",
+    text: "The average of 12 numbers is 47. The average of the first 5 numbers is 45 and the average of the next 4 numbers is 52. If the 10th number is 10 less than the 11th number and is 5 more than the 12th number, then what is the average value of the 11th and 12th numbers?",
+    options: {
+      a: "44.5",
+      b: "42.5",
+      c: "46.5",
+      d: "47.5"
+    },
+    correctAnswer: "a",
+    explanation: "Sum of 12 numbers=564. Sum of first 5=225, next 4=208, sum of last 3=564-433=131. Let 10th=x, 11th=x+10, 12th=x-5. x+(x+10)+(x-5)=131→3x+5=131→x=42. Average of 11th and 12th = (52+37)/2=44.5. Option a correct."
+  },
+  {
+    id: 72,
+    section: "Application MCQ",
+    text: "If the mean and the mode of a particular data set are 36 and 63, respectively, then, using an empirical relation, find the value of the median of the same data set.",
+    options: {
+      a: "39",
+      b: "40",
+      c: "45",
+      d: "55"
+    },
+    correctAnswer: "c",
+    explanation: "Empirical relation: Mode = 3 Median - 2 Mean. 63 = 3M - 72 → 3M = 135 → M = 45. Option c correct."
+  },
+  {
+    id: 73,
+    section: "Application MCQ",
+    text: "If a = (√2 - 1)^(1/3), then the value of (a - 1/a)³ + 3(a - 1/a) is:",
+    options: {
+      a: "2",
+      b: "-2",
+      c: "√2",
+      d: "-√2"
+    },
+    correctAnswer: "b",
+    explanation: "a³ = √2 - 1, 1/a³ = √2 + 1. (a-1/a)³+3(a-1/a) = a³ - 1/a³ = (√2-1)-(√2+1) = -2. Option b correct."
+  },
+  {
+    id: 74,
+    section: "Application MCQ",
+    text: "A boatman rows to a place 30 km distant and back in 14 hours. He finds that he can row 10 km with the stream at the same time as 4 km against the stream. Find the speed (in km/h) of the stream.",
+    options: {
+      a: "9/2",
+      b: "9/4",
+      c: "2/9",
+      d: "4/9"
+    },
+    correctAnswer: "b",
+    explanation: "Let speed in still water=x, stream=y. 10/(x+y)=4/(x-y) → 5x-5y=2x+2y → 3x=7y → x=7y/3. Then 30/(x+y)+30/(x-y)=14. Substituting gives y=9/4 km/h. Option b correct."
+  },
+  {
+    id: 75,
+    section: "Application MCQ",
+    text: "A person spends 60% of his salary on family expenses, 10% on medical expenses, 5% on charity, and saves the remaining amount. If the amount on savings is ₹4,000, find his monthly salary.",
+    options: {
+      a: "₹12,000",
+      b: "₹15,000",
+      c: "₹14,000",
+      d: "₹16,000"
+    },
+    correctAnswer: "d",
+    explanation: "Total expenditure = 60+10+5=75%, saving=25%. 25% = 4000, so 100% = ₹16,000. Option d correct."
+  },
+  {
+    id: 76,
+    section: "Application MCQ",
+    text: "Identify the segment in the sentence, which contains the error. The article suggests that when a person is under unusual stress you should be especially careful to eat a well-balanced diet.",
+    options: {
+      a: "the article suggests that when a person is under unusual stress.",
+      b: "to eat a well-balanced diet.",
+      c: "no error",
+      d: "you should be especially careful."
+    },
+    correctAnswer: "d",
+    explanation: "The noun is 'a person', so 'he' should be used instead of 'you'. Error in segment 'you should be especially careful'. Option d correct."
+  },
+  {
+    id: 77,
+    section: "Application MCQ",
+    text: "Select the most appropriate ANTONYM of the underlined word. If you want to be a good detective, it helps to have an inquisitive nature.",
+    options: {
+      a: "Comprehensive",
+      b: "Itemised",
+      c: "Intrusive",
+      d: "Disinterested"
+    },
+    correctAnswer: "d",
+    explanation: "Inquisitive means curious; disinterested means uninterested or impartial. Antonym is disinterested. Option d correct."
+  },
+  {
+    id: 78,
+    section: "Application MCQ",
+    text: "Select the option that will most suitably substitute the underlined part of the given sentence. He was not happy until he gave up his job and live as a fakir in the forests.",
+    options: {
+      a: "until he gave up his job and lived",
+      b: "until he gives up his job and lived",
+      c: "unless he gave up his job and lives",
+      d: "until he gave up his job and lives"
+    },
+    correctAnswer: "a",
+    explanation: "Sentence is in past tense, so both verbs should be in past tense: 'gave' and 'lived'. Option a correct."
+  },
+  {
+    id: 79,
+    section: "Application MCQ",
+    text: "Select the one which can be substituted for the given words/sentence. Confirm or support something",
+    options: {
+      a: "Collaborate",
+      b: "Corroborate",
+      c: "Cooperate",
+      d: "Consider"
+    },
+    correctAnswer: "b",
+    explanation: "Corroborate means to confirm or support evidence. Collaborate is to work together. Cooperate is to work jointly. Consider is to think. Option b correct."
+  },
+  {
+    id: 80,
+    section: "Application MCQ",
+    text: "Choose the most appropriate option to change the voice (active/passive) form of the given sentence. The schools take care of the overall needs of the students.",
+    options: {
+      a: "The overall needs of the students are taken care of by the schools.",
+      b: "The overall need of the students will be taken care of by the schools",
+      c: "The overall needs of the students are taken care by the schools",
+      d: "The overall needs of the students are to be taken care of by the schools"
+    },
+    correctAnswer: "a",
+    explanation: "Passive voice: subject (needs) + are taken care of + by the schools. Option a correct. Option c missing 'of', b tense changed, d incorrect structure."
+  },
+  {
+    id: 81,
+    section: "Application MCQ",
+    text: "Sentences of a paragraph are given below in jumbled order. Arrange the sentences in the correct order to form a meaningful and coherent paragraph.\nA. Mobile phones or smartphones are becoming popular all over the world.\nB. But at the same time, it also harms us in many ways.\nC. It is the most widely used means of communication today.\nD. Today, it is very affordable and available to everyone.",
+    options: {
+      a: "ABCD",
+      b: "DACB",
+      c: "CABD",
+      d: "ACDB"
+    },
+    correctAnswer: "d",
+    explanation: "Logical sequence: A introduces popularity, C states it's widely used, D says affordable, B adds it also harms. So A-C-D-B. Option d correct."
+  },
+  {
+    id: 82,
+    section: "Application MCQ",
+    text: "Choose the most appropriate option to change the narration (direct/indirect) of the given sentence: She said, 'I am going to the pictures. Where are you going?'",
+    options: {
+      a: "She said that I was going to the pictures and wanted to know where he was going.",
+      b: "She said that she was going to the pictures and wanted to know where I was going.",
+      c: "She asked that she was going to the pictures and wanted to know where she was going.",
+      d: "She said that she was going to the pictures and wanted to know where was I gone."
+    },
+    correctAnswer: "b",
+    explanation: "Indirect: She said that she was going to the pictures and wanted to know where I was going. Option b correct. Option a changes pronouns incorrectly."
+  },
+  {
+    id: 83,
+    section: "Application MCQ",
+    text: "Identify the segment in the sentence, which contains error. Lack of required / vitamins and minerals / lead against / several complications / in the human body.",
+    options: {
+      a: "in the human body",
+      b: "Lack of required",
+      c: "lead against",
+      d: "several complications"
+    },
+    correctAnswer: "c",
+    explanation: "Correct phrase is 'lead to', not 'lead against'. Also singular 'lack' requires 'leads to'. Error in 'lead against'. Option c correct."
+  },
+  {
+    id: 84,
+    section: "Application MCQ",
+    text: "Select the INCORRECTLY spelt word.",
+    options: {
+      a: "Aquire",
+      b: "Congratulate",
+      c: "Hygiene",
+      d: "Category"
+    },
+    correctAnswer: "a",
+    explanation: "Correct spelling is 'Acquire'. 'Aquire' is incorrect. Option a correct."
+  },
+  {
+    id: 85,
+    section: "Application MCQ",
+    text: "Select the most appropriate option to substitute the underlined segment in the following sentence. The company do not broke the law at any time.",
+    options: {
+      a: "did not broken",
+      b: "do not brakes",
+      c: "does not break",
+      d: "did not breaking"
+    },
+    correctAnswer: "c",
+    explanation: "Correct structure: singular 'company' + 'does not break'. Option c correct. Options a,b,d have incorrect verb forms."
+  },
+  {
+    id: 86,
+    section: "Application MCQ",
+    text: "Choose the most appropriate option to change the voice (active/passive) form of the given sentence. Did you visit your grandmother in the village last summer?",
+    options: {
+      a: "Have your grandmother been visited by you last summer?",
+      b: "Was your grandmother been visited in the village by you last summer?",
+      c: "Was your grandmother visited in the village by you last summer?",
+      d: "Were your grandmother been visited by you last summer?"
+    },
+    correctAnswer: "c",
+    explanation: "Passive: Was your grandmother visited in the village by you last summer? Option c correct. Option b has extra 'been', a tense changed, d incorrect."
+  },
+  {
+    id: 87,
+    section: "Application MCQ",
+    text: "Select the most appropriate meaning of the idiom. A fly on the wall",
+    options: {
+      a: "A vigilant security guard",
+      b: "An unperceived observer",
+      c: "Very intelligent person",
+      d: "An unwelcome guest"
+    },
+    correctAnswer: "b",
+    explanation: "'A fly on the wall' means an unperceived observer who watches without being noticed. Option b correct."
+  },
+  {
+    id: 88,
+    section: "Application MCQ",
+    text: "Select the most appropriate meaning of the idiom (in the context). The personality development class started with an ice-breaking session.",
+    options: {
+      a: "having breakfast",
+      b: "starting conversation",
+      c: "introducing chief guest",
+      d: "making speeches"
+    },
+    correctAnswer: "b",
+    explanation: "'Ice-breaking' means starting conversation to make people comfortable. Option b correct."
+  },
+  {
+    id: 89,
+    section: "Application MCQ",
+    text: "Select the most appropriate option to fill in the blank. The teacher asked the students to ______ electricity by switching off lights when they left the room.",
+    options: {
+      a: "deposit",
+      b: "save",
+      c: "rescue",
+      d: "retain"
+    },
+    correctAnswer: "b",
+    explanation: "'Save electricity' is the correct phrase. Option b correct."
+  },
+  {
+    id: 90,
+    section: "Application MCQ",
+    text: "Select the one which can be substituted for the given words/sentence. A change in the form or nature of something",
+    options: {
+      a: "Metamorphosis",
+      b: "Hibernation",
+      c: "Camouflaging",
+      d: "Refraction"
+    },
+    correctAnswer: "a",
+    explanation: "Metamorphosis means a change in form or nature. Hibernation is winter sleep, camouflaging is disguise, refraction is bending of light. Option a correct."
+  },
+  {
+    id: 91,
+    section: "Application MCQ",
+    text: "Select the most appropriate synonym of the given word. Pliable",
+    options: {
+      a: "Rigid",
+      b: "Probable",
+      c: "Malleable",
+      d: "Severe"
+    },
+    correctAnswer: "c",
+    explanation: "Pliable means easily bent; malleable means same. Rigid is opposite, probable likely, severe harsh. Option c correct."
+  },
+  {
+    id: 92,
+    section: "Application MCQ",
+    text: "Select the INCORRECTLY spelt word in the given sentence. 'Vande Mataram', a poignant poem, is obviously and indisputebly the premier national song of India.",
+    options: {
+      a: "Premier",
+      b: "Poignant",
+      c: "Indisputebly",
+      d: "Obviously"
+    },
+    correctAnswer: "c",
+    explanation: "Correct spelling is 'indisputably'. 'Indisputebly' is incorrect. Option c correct."
+  },
+  {
+    id: 93,
+    section: "Application MCQ",
+    text: "Select the most appropriate synonym of the underlined word in the given sentence. We should not discriminate against people who are different from us.",
+    options: {
+      a: "part",
+      b: "differentiate",
+      c: "divide",
+      d: "sever"
+    },
+    correctAnswer: "b",
+    explanation: "Discriminate means to differentiate unfairly. Differentiate is the closest synonym. Option b correct."
+  },
+  {
+    id: 94,
+    section: "Application MCQ",
+    text: "Select the most appropriate ANTONYM of the word 'bold' in the given sentence. A person can be friendly, timid, clever, or fearless based on the context of the situation.",
+    options: {
+      a: "clever",
+      b: "timid",
+      c: "fearless",
+      d: "friendly"
+    },
+    correctAnswer: "b",
+    explanation: "Bold means brave; timid means shy or lacking courage, which is antonym. Option b correct."
+  },
+  {
+    id: 95,
+    section: "Application MCQ",
+    text: "Select the most appropriate idiom to fill in the blank. After a day long trek, we were so tired that we were ready to _________.",
+    options: {
+      a: "face the music",
+      b: "hit the sack",
+      c: "get into deep water",
+      d: "go from rags to riches"
+    },
+    correctAnswer: "b",
+    explanation: "'Hit the sack' means to go to bed or sleep. Option b correct."
+  },
+  {
+    id: 96,
+    section: "Application MCQ",
+    text: "Cloze Test: There is a saying that coming events cast their shadows before. (96)________, it is not universally true. Select the most appropriate option to fill in blank number 96.",
+    options: {
+      a: "Moreover",
+      b: "Therefore",
+      c: "Furthermore",
+      d: "However"
+    },
+    correctAnswer: "d",
+    explanation: "'However' contrasts with the previous statement. Option d correct."
+  },
+  {
+    id: 97,
+    section: "Application MCQ",
+    text: "Cloze Test: Something can happen within a second, and one may not (97)________ it. Select the most appropriate option to fill in blank number 97.",
+    options: {
+      a: "legalise",
+      b: "foresee",
+      c: "rescind",
+      d: "affect"
+    },
+    correctAnswer: "b",
+    explanation: "'Foresee' means to predict or see in advance. Option b correct."
+  },
+  {
+    id: 98,
+    section: "Application MCQ",
+    text: "Cloze Test: (98)________, some instances show that predictions based on certain signs have gone wrong. Select the most appropriate option to fill in blank number 98.",
+    options: {
+      a: "Therefore",
+      b: "Moreover",
+      c: "Nevertheless",
+      d: "However"
+    },
+    correctAnswer: "b",
+    explanation: "'Moreover' adds additional supporting information. Option b correct."
+  },
+  {
+    id: 99,
+    section: "Application MCQ",
+    text: "Cloze Test: (99)________, some unnatural calamities that are likely to appear may forecast their shadows by some bad omens. Select the most appropriate option to fill in blank number 99.",
+    options: {
+      a: "Besides",
+      b: "Secondly",
+      c: "Therefore",
+      d: "Despite"
+    },
+    correctAnswer: "a",
+    explanation: "'Besides' means in addition to. Option a correct."
+  },
+  {
+    id: 100,
+    section: "Application MCQ",
+    text: "Cloze Test: (100)________, we should not completely cancel out the possibilities that animals can sense certain unnatural happenings. Select the most appropriate option to fill in blank number 100.",
+    options: {
+      a: "However",
+      b: "Nevertheless",
+      c: "Moreover",
+      d: "Therefore"
+    },
+    correctAnswer: "d",
+    explanation: "'Therefore' introduces a logical conclusion. Option d correct."
+  }
+];
+
+const questionSets = { 1: questions };
+let activeQuestions = questions; // mutable reference
+
+// ===== STATE =====
+let selectedSet = 1;
+let currentQ = 0;
+let answers = new Array(questions.length).fill(null);
+let status = new Array(questions.length).fill('not-visited');
+let timerInterval = null;
+let timeLeft = 60 * 60;
+let candidateName = 'Candidate';
+
+// ===== LOGIN & NAVIGATION =====
+const LS_CRED = 'thunderCBT_creds';
+const LS_KEY  = 'thunderCBT_lastAttempts';
+
+function unlockNextBtn() {
+  const btn = document.getElementById('step1NextBtn');
+  if (btn) { btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
+}
+
+function populateStartScreen(name, pass) {
+  const sn = document.getElementById('startCandName');
+  const sr = document.getElementById('startCandRoll');
+  const ih = document.getElementById('instrCandName');
+  const ir = document.getElementById('instrCandRoll');
+  if (sn) sn.textContent = name;
+  if (sr) sr.textContent = pass;
+  if (ih) ih.textContent = name;
+  if (ir) ir.textContent = 'Roll No: ' + pass;
+  unlockNextBtn();
+  loadLastAttempts();
+  renderHistory();
+}
+
+function doLogin() {
+  const savedName = localStorage.getItem('cbtUserName') || '';
+  const savedSID  = localStorage.getItem('ts_student_id') || '';
+
+  if (savedName && savedSID) {
+    candidateName = savedName;
+    populateStartScreen(savedName, savedSID);
+    showScreen('start');
+    showToast('✅ Welcome back, ' + savedName + '!', 'success');
+    return;
+  }
+
+  // Not found — show message with button to open dashboard
+  const loginCard = document.querySelector('.login-card');
+  if (loginCard) {
+    loginCard.innerHTML = `
+      <div class="login-header">
+        <div class="login-logo">⚡</div>
+        <h2>Thunder CBT</h2>
+        <p>ssc cgl — Mock Test Series</p>
+      </div>
+      <div class="login-body" style="text-align:center;padding:32px 28px;">
+        <div style="font-size:48px;margin-bottom:14px;">🔐</div>
+        <div style="font-size:17px;font-weight:800;color:#1a1d2e;margin-bottom:8px;">
+          Dashboard Login Required
+        </div>
+        <div style="font-size:13px;color:#666;line-height:1.7;margin-bottom:22px;">
+          You need to log in via the <strong>Thunderstudy Dashboard</strong> first 
+          to generate your Student ID before taking this test.
+        </div>
+        <a href="https://commercesehoga.github.io/dashboard/" target="_blank"
+          style="display:block;width:100%;padding:14px;background:linear-gradient(135deg,#1976d2,#0d47a1);
+          color:white;border:none;border-radius:8px;font-size:15px;font-weight:700;
+          cursor:pointer;text-decoration:none;letter-spacing:1px;margin-bottom:12px;
+          box-sizing:border-box;">
+          🌐 Open Thunderstudy Dashboard
+        </a>
+        <button onclick="checkAndRetry()" 
+          style="width:100%;padding:12px;background:white;color:#1976d2;
+          border:2px solid #1976d2;border-radius:8px;font-size:14px;font-weight:700;
+          cursor:pointer;letter-spacing:0.5px;">
+          ✅ I've Logged In — Retry
+        </button>
+        <p style="font-size:11px;color:#aaa;margin-top:14px;">
+          After logging in on the dashboard, come back here and click Retry.
+        </p>
+      </div>`;
+  }
+}
+
+  function checkAndRetry() {
+  const savedName = localStorage.getItem('cbtUserName') || '';
+  const savedSID  = localStorage.getItem('ts_student_id') || '';
+
+  if (savedName && savedSID) {
+    candidateName = savedName;
+    populateStartScreen(savedName, savedSID);
+    showScreen('start');
+    showToast('✅ Welcome, ' + savedName + '!', 'success');
+  } else {
+    showToast('⚠️ Still not found. Please log in on the Dashboard first.', 'warning');
+    // Flash the button to draw attention
+    const btn = document.querySelector('.login-body a');
+    if (btn) {
+      btn.style.animation = 'none';
+      btn.style.background = '#c62828';
+      setTimeout(() => btn.style.background = 'linear-gradient(135deg,#1976d2,#0d47a1)', 600);
+    }
+  }
+}
+
+function proceedToInstructions() {
+  selectedSet = 1;
+  const ag = document.getElementById('agreeCheck');
+  if (ag) ag.checked = false;
+  toggleStartBtn();
+  showScreen('instructions');
+  setTimeout(enterFullscreen, 300);
+}
+
+function goToInstructions() {
+  goToStep(1);
+  showScreen('instructions');
+}
+
+// Run after DOM is fully loaded
+window.addEventListener('DOMContentLoaded', function() {
+  const savedName = localStorage.getItem('cbtUserName') || '';
+  const savedSID  = localStorage.getItem('ts_student_id') || '';
+
+  if (savedName && savedSID) {
+    // Auto-login silently
+    candidateName = savedName;
+    populateStartScreen(savedName, savedSID);
+    showScreen('start');
+    showToast('✅ Welcome back, ' + savedName + '!', 'success');
+  } else {
+    // Show the no-data message immediately without waiting for button click
+    showScreen('login');
+    doLogin(); // This will render the "go to dashboard" card
+  }
+});
+
+
+// ===== FULLSCREEN =====
+let fsCountdownTimer = null;
+let fsExitedBySystem = false; // true = timer ran out (allowed to exit)
+
+function enterFullscreen() {
+  const el = document.documentElement;
+  try {
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    else if (el.mozRequestFullScreen) el.mozRequestFullScreen();
+    else if (el.msRequestFullscreen) el.msRequestFullscreen();
+  } catch(e) {}
+}
+
+function exitFullscreenAPI() {
+  try {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+    else if (document.msExitFullscreen) document.msExitFullscreen();
+  } catch(e) {}
+}
+
+function isFullscreen() {
+  return !!(document.fullscreenElement || document.webkitFullscreenElement ||
+            document.mozFullScreenElement || document.msFullscreenElement);
+}
+
+function returnToFullscreen() {
+  clearFsCountdown();
+  hideFsWarning();
+  enterFullscreen();
+}
+
+function forceSubmit() {
+  clearFsCountdown();
+  hideFsWarning();
+  exitFullscreenAPI();
+  clearInterval(timerInterval);
+  calculateResult();
+}
+
+function showFsWarning(text) {
+  const modal = document.getElementById('fsWarningModal');
+  const textEl = document.getElementById('fsWarningText');
+  if (textEl && text) textEl.textContent = text;
+  if (modal) modal.classList.add('active');
+  let count = 3;
+  const cd = document.getElementById('fsCountdown');
+  if (cd) cd.textContent = count;
+  clearFsCountdown();
+  fsCountdownTimer = setInterval(() => {
+    count--;
+    if (cd) cd.textContent = count;
+    if (count <= 0) {
+      clearFsCountdown();
+      hideFsWarning();
+      exitFullscreenAPI();
+      clearInterval(timerInterval);
+      calculateResult();
+    }
+  }, 1000);
+}
+
+function hideFsWarning() {
+  const modal = document.getElementById('fsWarningModal');
+  if (modal) modal.classList.remove('active');
+}
+
+function clearFsCountdown() {
+  if (fsCountdownTimer) { clearInterval(fsCountdownTimer); fsCountdownTimer = null; }
+}
+
+// Fullscreen change event — fires when user presses Esc
+function onFullscreenChange() {
+  const testScreen  = document.getElementById('screen-test');
+  const instrScreen = document.getElementById('screen-instructions');
+  const testActive  = testScreen  && testScreen.classList.contains('active');
+  const instrActive = instrScreen && instrScreen.classList.contains('active');
+  if (!testActive && !instrActive) return;
+  if (fsExitedBySystem) return;
+  if (!isFullscreen()) {
+    if (testActive) {
+      showFsWarning('You exited fullscreen. Return to fullscreen or the test will auto-submit in 3 seconds.');
+    } else {
+      // On instructions screen — warn and silently re-enter
+      showToast('⚠️ Please stay in fullscreen during the exam!', 'warning');
+      setTimeout(enterFullscreen, 800);
+    }
+  }
+}
+document.addEventListener('fullscreenchange',       onFullscreenChange);
+document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+document.addEventListener('mozfullscreenchange',    onFullscreenChange);
+document.addEventListener('MSFullscreenChange',     onFullscreenChange);
+
+// Tab visibility — fires when user switches tabs
+document.addEventListener('visibilitychange', () => {
+  const testScreen = document.getElementById('screen-test');
+  if (!testScreen || !testScreen.classList.contains('active')) return;
+  if (fsExitedBySystem) return;
+  if (document.hidden) {
+    // Tab switched — immediate auto-submit (no countdown)
+    clearFsCountdown();
+    hideFsWarning();
+    exitFullscreenAPI();
+    clearInterval(timerInterval);
+    showToast('⚠️ Tab switch detected — auto-submitting!', 'warning');
+    setTimeout(calculateResult, 800);
+  }
+});
+
+// ===== STEP NAVIGATION =====
+function goToStep(step) {
+  [1, 2, 3].forEach(s => {
+    const sp = document.getElementById(`sp-${s}`);
+    sp.classList.remove('active', 'done');
+    if (s < step) sp.classList.add('done');
+    else if (s === step) sp.classList.add('active');
+  });
+  document.querySelectorAll('.instr-step').forEach(el => el.classList.remove('active'));
+  const panel = document.getElementById(`istep-${step}`);
+  if (panel) { panel.classList.add('active'); window.scrollTo(0, 0); }
+}
+
+// ===== HISTORY (localStorage) =====
+const LS_HIST = 'thunderCBT_history';
+
+function saveToHistory(setNum, correct, wrong, unattempted, score, maxScore, pct, name) {
+  let hist = [];
+  try { hist = JSON.parse(localStorage.getItem(LS_HIST) || '[]'); } catch(e) {}
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+  const timeStr = now.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+  hist.unshift({
+    id: Date.now(),
+    set: setNum,
+    name: name || 'Candidate',
+    correct, wrong, unattempted,
+    score, maxScore, pct,
+    date: dateStr, time: timeStr
+  });
+  // Keep only last 50 records
+  if (hist.length > 50) hist = hist.slice(0, 50);
+  try { localStorage.setItem(LS_HIST, JSON.stringify(hist)); } catch(e) {}
+}
+
+function getGrade(pct) {
+  if (pct >= 90) return { g: 'A+', c: '#2e7d32' };
+  if (pct >= 75) return { g: 'A',  c: '#388e3c' };
+  if (pct >= 60) return { g: 'B+', c: '#1976d2' };
+  if (pct >= 45) return { g: 'B',  c: '#1565c0' };
+  if (pct >= 33) return { g: 'C',  c: '#e65100' };
+  return { g: 'F', c: '#c62828' };
+}
+
+function renderHistory() {
+  const el = document.getElementById('historyContent');
+  if (!el) return;
+  let hist = [];
+  try { hist = JSON.parse(localStorage.getItem(LS_HIST) || '[]'); } catch(e) {}
+  if (!hist.length) {
+    el.innerHTML = `<div class="history-empty"><div class="he-icon">📭</div><p>No attempts yet — complete a test to see your history here.</p></div>`;
+    return;
+  }
+  // Summary bar stats
+  const totalAttempts = hist.length;
+  const bestPct = Math.max(...hist.map(h => h.pct));
+  const avgPct  = Math.round(hist.reduce((a,h) => a + h.pct, 0) / hist.length);
+
+  let rows = hist.map((h, i) => {
+    const pctCls = h.pct >= 60 ? 'high' : h.pct >= 33 ? 'mid' : 'low';
+    const { g, c } = getGrade(h.pct);
+    const isBest = h.pct === bestPct && hist.filter(x => x.pct === bestPct)[0].id === h.id;
+    return `<tr>
+      <td style="font-weight:700;color:#888;font-size:12px;">${i+1}</td>
+      <td class="ht-set">⚗️ Set ${h.set}</td>
+      <td style="font-size:12px;color:#555;">${h.name}</td>
+      <td class="ht-score">${h.score}<span style="font-size:11px;color:#aaa;">/${h.maxScore}</span></td>
+      <td><span class="ht-pct ${pctCls}">${h.pct}%</span>${isBest ? ' 🏆' : ''}</td>
+      <td class="ht-grade" style="color:${c};">${g}</td>
+      <td class="ht-correct">✓ ${h.correct}</td>
+      <td class="ht-wrong">✗ ${h.wrong}</td>
+      <td class="ht-skip">— ${h.unattempted}</td>
+      <td class="ht-date">${h.date}<br><span style="font-size:10.5px;">${h.time}</span></td>
+    </tr>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div class="history-wrap">
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>#</th><th>Set</th><th>Name</th><th>Score</th><th>Percent</th>
+            <th>Grade</th><th>Correct</th><th>Wrong</th><th>Skipped</th><th>Date & Time</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <div class="history-summary-bar">
+      Total Attempts: <span>${totalAttempts}</span>
+      &nbsp;·&nbsp; Best Score: <span>${bestPct}%</span>
+      &nbsp;·&nbsp; Average: <span>${avgPct}%</span>
+    </div>`;
+}
+
+function clearHistory() {
+  if (!confirm('Clear all test history? This cannot be undone.')) return;
+  try { localStorage.removeItem(LS_HIST); } catch(e) {}
+  renderHistory();
+  showToast('🗑 History cleared', 'info');
+}
+
+function loadLastAttempts() {
+  let data = {};
+  try { data = JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch(e) {}
+  [1, 2, 3, 4].forEach(s => {
+    const el = document.getElementById(`sla-${s}`);
+    if (!el) return;
+    if (data[s] !== undefined) {
+      const pct = data[s];
+      const cls = pct >= 60 ? 'pct-high' : pct >= 35 ? 'pct-mid' : 'pct-low';
+      el.innerHTML = `<span class="sla-pct ${cls}">${pct}%</span><span class="sla-label">Last</span>`;
+    } else {
+      el.innerHTML = `<span class="sla-new">New</span>`;
+    }
+  });
+}
+
+function saveLastAttempt(setNum, pct) {
+  let data = {};
+  try { data = JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch(e) {}
+  data[setNum] = pct;
+  try { localStorage.setItem(LS_KEY, JSON.stringify(data)); } catch(e) {}
+}
+
+// ===== INIT =====
+function toggleStartBtn() {
+  const cb = document.getElementById('agreeCheck');
+  const btn = document.getElementById('startBtn');
+  if (!cb || !btn) return;
+  btn.style.opacity = cb.checked ? '1' : '0.5';
+  btn.style.pointerEvents = cb.checked ? 'auto' : 'none';
+}
+
+function startExam() {
+  activeQuestions = questionSets[selectedSet];
+  // Use a getter so all code using 'questions' still works
+Object.defineProperty(window, 'questions', { get: () => activeQuestions });
+  answers = new Array(questions.length).fill(null);
+  status = new Array(questions.length).fill('not-visited');
+  timeLeft = 60 * 60;
+  fsExitedBySystem = false;
+
+  const tabLabel = document.getElementById('testSetTabLabel');
+  const paletteLabel = document.getElementById('paletteSetLabel');
+  const nameDisp = document.getElementById('jeeNameDisp');
+  if (tabLabel) tabLabel.textContent = `⚗️ eco — Set ${selectedSet}`;
+  if (paletteLabel) paletteLabel.textContent = `Set ${selectedSet}`;
+  if (nameDisp) nameDisp.textContent = ': ' + candidateName;
+
+  showScreen('test');
+  renderQuestion(0);
+  buildPalette();
+  startTimer();
+  showToast(`⚗️ eco Set ${selectedSet} started! All the best!`, 'info');
+}
+
+// ===== SCREEN SWITCH =====
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.remove('active');
+    s.style.display = 'none';
+  });
+  const target = document.getElementById('screen-' + name);
+  if (target) {
+    target.style.display = '';
+    target.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+}
+
+// ===== TIMER =====
+function startTimer() {
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    const h = Math.floor(timeLeft / 3600);
+    const m = Math.floor((timeLeft % 3600) / 60);
+    const s = timeLeft % 60;
+    const display = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    const el = document.getElementById('timerDisplay');
+    if (el) el.textContent = display;
+    if (timeLeft <= 300) el.classList.add('warning');
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      fsExitedBySystem = true; // timer ran out, allow fullscreen exit
+      exitFullscreenAPI();
+      showToast('⏰ Time up! Auto-submitting...', 'warning');
+      setTimeout(confirmSubmit, 1500);
+    }
+  }, 1000);
+}
+
+// ===== RENDER QUESTION =====
+function renderQuestion(idx) {
+  currentQ = idx;
+  const q = questions[idx];
+  if (status[idx] === 'not-visited') status[idx] = 'not-answered';
+
+  document.getElementById('qNumBadge').textContent = `Question ${idx + 1}:`;
+  const topicEl = document.getElementById('qTopicTag');
+  if (topicEl) topicEl.textContent = q.section || '';
+
+  // ── Split passage from question ──────────────────────────
+  let passageHTML = '';
+  let questionHTML = '';
+  const rawText = q.text;
+
+  // Detect passage questions (Case Study or Passage Based)
+  const hasPassage = (
+    rawText.includes('READ THE FOLLOWING') ||
+    rawText.includes('PASSAGE') ||
+    rawText.includes('Refer to') ||
+    (q.section && (q.section.toLowerCase().includes('case') || q.section.toLowerCase().includes('passage')))
+  );
+
+  if (hasPassage) {
+    // Try to split at Q-number pattern like "\nQ1." or "\nQ21." or "(Refer to"
+    const splitMatch = rawText.match(/(\n)(Q\d+\.|Refer to the (?:case study|passage))/i);
+    if (splitMatch) {
+      const splitIdx = rawText.indexOf(splitMatch[0]);
+      const passage = rawText.substring(0, splitIdx).trim();
+      const question = rawText.substring(splitIdx).trim();
+      passageHTML = passage;
+      questionHTML = question;
+    } else {
+    questionHTML = rawText;
+    // Auto-fetch passage from the nearest earlier question that has one
+    for (let pi = idx - 1; pi >= 0; pi--) {
+      const prev = questions[pi];
+      if (prev.text.includes('READ THE FOLLOWING') || prev.text.includes('PASSAGE')) {
+        const prevSplit = prev.text.match(/(\n)(Q\d+\.)/i);
+        passageHTML = prevSplit
+          ? prev.text.substring(0, prev.text.indexOf(prevSplit[0])).trim()
+          : prev.text;
+        break;
+      }
+    }
+  }
+  } else {
+    questionHTML = rawText;
+  }
+
+  // ── Format Assertion-Reason ──────────────────────────────
+  let formattedQuestion = questionHTML;
+  if (formattedQuestion.includes('Assertion') && formattedQuestion.includes('Reason')) {
+    formattedQuestion = formattedQuestion.replace(
+      /(Assertion\s*\(A\):\s*)(.*?)(\nReason\s*\(R\):\s*)([\s\S]*?)(\n\nChoose|\nChoose|$)/,
+      (match, aL, aT, rL, rT, end) => {
+        return `<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px;"><thead><tr><th style="background:#1565c0;color:white;padding:9px 12px;text-align:left;border:1px solid #90caf9;width:18%;">Type</th><th style="background:#1565c0;color:white;padding:9px 12px;text-align:left;border:1px solid #90caf9;width:82%;">Statement</th></tr></thead><tbody><tr style="background:#e3f2fd;"><td style="padding:9px 12px;border:1px solid #90caf9;font-weight:700;color:#1565c0;white-space:nowrap;">Assertion (A)</td><td style="padding:9px 12px;border:1px solid #90caf9;">${aT.trim()}</td></tr><tr style="background:#ffffff;"><td style="padding:9px 12px;border:1px solid #90caf9;font-weight:700;color:#2e7d32;white-space:nowrap;">Reason (R)</td><td style="padding:9px 12px;border:1px solid #90caf9;">${rT.trim()}</td></tr></tbody></table>${end}`;
+      }
+    );
+  }
+
+  // ── Format List-I / List-II ──────────────────────────────
+  if (formattedQuestion.includes('List-I') && formattedQuestion.includes('List-II')) {
+    formattedQuestion = formattedQuestion.replace(
+      /List-I:([\s\S]*?)List-II:([\s\S]*?)(?=\n\nChoose|\nChoose|$)/,
+      (match, list1, list2) => {
+        const parseAlpha  = str => str.trim().split('\n').filter(l => l.trim().match(/^\([A-Z]\)/)).map(l => l.trim());
+        const parseRoman  = str => str.trim().split('\n').filter(l => l.trim().match(/^\([IVX]+\)/)).map(l => l.trim());
+        const l1 = parseAlpha(list1);
+        const l2 = parseRoman(list2);
+        const rows = Math.max(l1.length, l2.length);
+        // REPLACE the entire let tableHTML = ... loop ... tableHTML += </tbody></table> block with:
+let tableHTML = `<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px;"><thead><tr><th style="background:#1565c0;color:white;padding:9px 12px;text-align:left;border:1px solid #90caf9;width:50%;">List-I</th><th style="background:#1565c0;color:white;padding:9px 12px;text-align:left;border:1px solid #90caf9;width:50%;">List-II</th></tr></thead><tbody>`;
+for (let i = 0; i < rows; i++) {
+  const bg = i % 2 === 0 ? '#e3f2fd' : '#ffffff';
+  tableHTML += `<tr style="background:${bg};"><td style="padding:9px 12px;border:1px solid #90caf9;">${l1[i] || ''}</td><td style="padding:9px 12px;border:1px solid #90caf9;">${l2[i] || ''}</td></tr>`;
+}
+tableHTML += `</tbody></table>`;
+return tableHTML;
+      }
+    );
+  }
+
+  // ── Build the layout ─────────────────────────────────────
+  let html = '';
+
+  if (passageHTML) {
+    // NTA-style: passage on left, question on right in two-column layout
+    html += `<div style="display:flex;flex-direction:column;gap:12px;">
+  <div style="
+    width:100%;
+    background:#fffde7;
+    border:1.5px solid #f9a825;
+    border-left:5px solid #f9a825;
+    border-radius:8px;padding:14px;
+    font-size:13px;line-height:1.75;
+    color:#1a1a1a;
+    max-height:260px;overflow-y:auto;
+  ">
+    <div style="font-size:10.5px;font-weight:800;color:#f57f17;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;border-bottom:1px solid #ffe082;padding-bottom:5px;">📄 Passage / Case Study</div>
+    ${applyLineBreaks(formatText(passageHTML))}
+  </div>
+  <div style="width:100%;">
+    <div class="q-text">${applyLineBreaks(formatText(formattedQuestion))}</div>
+  </div>
+</div>`;
+  } else {
+    html += `<div class="q-text">${formatText(formattedQuestion).replace(/\n/g,'<br>')}</div>`;
+  }
+
+  html += `<div class="options-label" style="margin-top:14px;">Options :</div>`;
+
+const optKeys = ['a','b','c','d'];
+  const optLabels = ['A','B','C','D'];
+  html += `<ul class="options-list">`;
+  optKeys.forEach((key, i) => {
+    const opt = q.options[key];
+    if (!opt) return;
+    const sel = answers[idx] === i ? 'selected' : '';
+    html += `
+      <li class="opt-item ${sel}" onclick="selectOption(${i})">
+        <div class="opt-radio"><div class="opt-radio-dot"></div></div>
+        <span class="opt-key">${optLabels[i]}.</span>
+        <div class="opt-content">${formatText(opt)}</div>
+      </li>`;
+  });
+  html += `</ul>`;
+
+  document.getElementById('questionBody').innerHTML = html;
+  updatePalette();
+  updateStats();
+}
+
+function applyLineBreaks(str) {
+  // Replace \n with <br> only outside HTML tags
+  return str.replace(/(<[^>]*>)|(\n)/g, (m, tag, nl) => tag || '<br>');
+}
+
+function formatText(txt) {
+  txt = txt
+    .replace(/₀/g,'<sub>0</sub>').replace(/₁/g,'<sub>1</sub>').replace(/₂/g,'<sub>2</sub>')
+    .replace(/₃/g,'<sub>3</sub>').replace(/₄/g,'<sub>4</sub>').replace(/₅/g,'<sub>5</sub>')
+    .replace(/₆/g,'<sub>6</sub>').replace(/₇/g,'<sub>7</sub>').replace(/₈/g,'<sub>8</sub>')
+    .replace(/⁺/g,'<sup>+</sup>').replace(/²⁻/g,'<sup>2−</sup>').replace(/³⁺/g,'<sup>3+</sup>')
+    .replace(/²/g,'<sup>2</sup>').replace(/³/g,'<sup>3</sup>').replace(/⁻²/g,'<sup>−2</sup>');
+  return txt;
+}
+
+// ===== SELECT OPTION =====
+function selectOption(i) {
+  answers[currentQ] = i;
+  if (status[currentQ] === 'marked') status[currentQ] = 'answered-marked';
+  else status[currentQ] = 'answered';
+  renderQuestion(currentQ);
+}
+
+// ===== ACTIONS =====
+function saveAndNext() {
+  if (answers[currentQ] === null) {
+    showToast('⚠️ Please select an option first!', 'warning');
+    status[currentQ] = 'not-answered';
+  } else {
+    showToast('✅ Answer saved!', 'success');
+    status[currentQ] = 'answered';
+  }
+  updatePalette(); updateStats();
+  if (currentQ < questions.length - 1) renderQuestion(currentQ + 1);
+  else showToast('📋 Last question reached. Review or Submit!', 'info');
+}
+
+function goBack() {
+  if (currentQ > 0) renderQuestion(currentQ - 1);
+}
+
+// Mark for Review & Next (no answer required)
+function markAndNext() {
+  if (answers[currentQ] !== null) status[currentQ] = 'answered-marked';
+  else status[currentQ] = 'marked';
+  showToast('🔖 Marked for Review', 'info');
+  updatePalette(); updateStats();
+  if (currentQ < questions.length - 1) renderQuestion(currentQ + 1);
+}
+
+// Answer & Mark for Review (save answer AND mark)
+function saveMarkAndNext() {
+  if (answers[currentQ] === null) {
+    showToast('⚠️ Please select an option first!', 'warning');
+    return;
+  }
+  status[currentQ] = 'answered-marked';
+  showToast('✅ Saved & Marked for Review!', 'success');
+  updatePalette(); updateStats();
+  if (currentQ < questions.length - 1) renderQuestion(currentQ + 1);
+}
+
+// Legacy alias
+function markForReview() { markAndNext(); }
+
+function clearResponse() {
+  answers[currentQ] = null;
+  status[currentQ] = 'not-answered';
+  renderQuestion(currentQ);
+  showToast('🗑 Response cleared', 'info');
+}
+
+// ===== PALETTE =====
+function buildPalette() {
+  const palette = document.getElementById('questionPalette');
+  palette.innerHTML = '';
+  questions.forEach((_, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'q-palette-btn';
+    btn.textContent = String(i + 1).padStart(2, '0');
+    btn.onclick = () => renderQuestion(i);
+    palette.appendChild(btn);
+  });
+  updatePalette();
+}
+
+function updatePalette() {
+  const btns = document.querySelectorAll('.q-palette-btn');
+  btns.forEach((btn, i) => {
+    btn.className = 'q-palette-btn';
+    const s = status[i];
+    if      (s === 'not-visited')     btn.classList.add('qb-not-visited');
+    else if (s === 'not-answered')    btn.classList.add('qb-not-answered');
+    else if (s === 'answered')        btn.classList.add('qb-answered');
+    else if (s === 'marked')          btn.classList.add('qb-marked');
+    else if (s === 'answered-marked') btn.classList.add('qb-answered-marked');
+    if (i === currentQ) btn.classList.add('qb-current');
+  });
+}
+
+function updateStats() {
+  const nv  = status.filter(s => s === 'not-visited').length;
+  const na  = status.filter(s => s === 'not-answered').length;
+  const ans = status.filter(s => s === 'answered').length;
+  const mrk = status.filter(s => s === 'marked').length;
+  const am  = status.filter(s => s === 'answered-marked').length;
+  document.getElementById('stat-nv').textContent  = nv;
+  document.getElementById('stat-na').textContent  = na;
+  document.getElementById('stat-ans').textContent = ans;
+  document.getElementById('stat-mrk').textContent = mrk;
+  const amEl = document.getElementById('stat-am');
+  if (amEl) amEl.textContent = am;
+}
+
+// ===== SUBMIT =====
+function showSubmitModal() {
+  const nv = status.filter(s => s === 'not-visited').length;
+  const na = status.filter(s => s === 'not-answered').length;
+  const ans = status.filter(s => s === 'answered' || s === 'answered-marked').length;
+  const mrk = status.filter(s => s === 'marked' || s === 'answered-marked').length;
+
+  document.getElementById('modalSummary').innerHTML = `
+    <div class="ms-item"><div class="ms-num" style="color:#9e9e9e">${nv}</div><div class="ms-lbl">Not Visited</div></div>
+    <div class="ms-item"><div class="ms-num" style="color:#c62828">${na}</div><div class="ms-lbl">Not Answered</div></div>
+    <div class="ms-item"><div class="ms-num" style="color:#2e7d32">${ans}</div><div class="ms-lbl">Answered</div></div>
+    <div class="ms-item"><div class="ms-num" style="color:#7b1fa2">${mrk}</div><div class="ms-lbl">Marked</div></div>
+  `;
+  document.getElementById('submitModal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('submitModal').classList.remove('active');
+}
+
+function confirmSubmit() {
+  clearInterval(timerInterval);
+  fsExitedBySystem = true;
+  exitFullscreenAPI();
+  closeModal();
+  calculateResult();
+}
+
+// ===== RESULT =====
+// Track per-question result for palette colouring
+let questionResults = []; // 'correct' | 'wrong' | 'skip'
+
+function calculateResult() {
+  let correct = 0, wrong = 0, unattempted = 0;
+  questionResults = [];
+
+  questions.forEach((q, i) => {
+    if (answers[i] === null) {
+      unattempted++;
+      questionResults.push('skip');
+    } else if (answers[i] !== null && ['a','b','c','d'][answers[i]] === q.correctAnswer) {
+      correct++;
+      questionResults.push('correct');
+    } else {
+      wrong++;
+      questionResults.push('wrong');
+    }
+  });
+
+  const score = (correct * 5) - (wrong * 1);
+  const maxScore = questions.length * 5;
+  const pct = Math.max(0, Math.round((score / maxScore) * 100));
+
+  // Save last attempt to localStorage
+  saveLastAttempt(selectedSet, pct);
+  // Save to full history
+  saveToHistory(selectedSet, correct, wrong, unattempted, score, maxScore, pct, candidateName);
+
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent = wrong;
+  document.getElementById('res-unattempted').textContent = unattempted;
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('resultScoreNum').textContent = score;
+  document.querySelector('.score-total').textContent = `/ ${maxScore}`;
+
+  const ring = document.getElementById('scoreRing');
+  ring.style.setProperty('--score-pct', pct + '%');
+
+  const trophy = document.getElementById('resultTrophy');
+  const title = document.getElementById('resultTitle');
+  const subtitle = document.getElementById('resultSubtitle');
+  if (pct >= 80) { trophy.textContent = '🏆'; title.textContent = 'Outstanding Performance!'; subtitle.textContent = `Excellent! Set ${selectedSet} conquered!`; }
+  else if (pct >= 60) { trophy.textContent = '🥈'; title.textContent = 'Good Performance!'; subtitle.textContent = 'Keep practising — you\'re almost there!'; }
+  else if (pct >= 40) { trophy.textContent = '🥉'; title.textContent = 'Average Performance'; subtitle.textContent = 'Revise your concepts and try again.'; }
+  else { trophy.textContent = '📚'; title.textContent = 'Needs Improvement'; subtitle.textContent = 'Don\'t give up! Review the topics and retry.'; }
+
+  // ===== BUILD RESULT PALETTE (green/red/blue) =====
+  const rp = document.getElementById('resultPalette');
+  rp.innerHTML = '';
+  questions.forEach((_, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'q-palette-btn';
+    btn.textContent = i + 1;
+    const res = questionResults[i];
+    if (res === 'correct') btn.classList.add('qb-result-correct');
+    else if (res === 'wrong') btn.classList.add('qb-result-wrong');
+    else btn.classList.add('qb-result-skip');
+    btn.title = res === 'correct' ? `Q${i+1}: Correct (+5)` : res === 'wrong' ? `Q${i+1}: Wrong (−1)` : `Q${i+1}: Not Attempted (0)`;
+    rp.appendChild(btn);
+  });
+
+  // ===== ANSWER REVIEW =====
+  let reviewHTML = '';
+  questions.forEach((q, i) => {
+    const userAns = answers[i];
+    const res = questionResults[i];
+    const optLabels = ['A','B','C','D'];
+const optKeysList = ['a','b','c','d'];
+    let userLabel = userAns !== null ? optLabels[userAns] : '—';
+    let correctLabel = (q.correctAnswer || q.correct || '').toUpperCase();
+    let userText = userAns !== null ? (q.options[optKeysList[userAns]] || 'Not Attempted') : 'Not Attempted';
+    let correctText = q.options[q.correctAnswer] || q.options[q.correct] || '';
+    const marksChip = res === 'correct'
+      ? `<span class="review-q-marks rqm-correct">+5</span>`
+      : res === 'wrong'
+      ? `<span class="review-q-marks rqm-wrong">−1</span>`
+      : `<span class="review-q-marks rqm-skip">0</span>`;
+
+    reviewHTML += `
+      <div class="review-q rq-${res}">
+        <div class="review-q-num">Q${i+1} · ${q.topic} ${marksChip}</div>
+        <div class="review-q-text">${q.text.substring(0,120)}${q.text.length > 120 ? '...' : ''}</div>
+        <div class="review-answers">
+          <span class="ra-chip ra-your ${res === 'wrong' ? 'wrong' : ''}">
+            Your: ${userLabel}. ${String(userText).replace(' ✓','').substring(0,35)}
+          </span>
+          <span class="ra-chip ra-correct">
+            ✓ Correct: ${correctLabel}. ${String(correctText).replace(' ✓','').substring(0,35)}
+          </span>
+        </div>
+      </div>`;
+  });
+  document.getElementById('answerReviewBody').innerHTML = reviewHTML;
+// ---- Auto-save to Google Sheet ----
+  const resultData = {
+    studentId: localStorage.getItem('ts_student_id') || '',
+    name: candidateName,
+    subject: SUBJECT_ID,
+    chapter: CHAPTER_ID,
+    set: selectedSet,
+    date: new Date().toISOString(),
+    score: score,
+    maxScore: maxScore,
+    correct: correct,
+    wrong: wrong,
+    skipped: unattempted,
+    totalQ: questions.length,
+    percentage: pct,
+    timeTaken: (60 * 60) - timeLeft
+  };
+  const lsKey = `thunderstudy_result_${SUBJECT_ID}_${CHAPTER_ID}`;
+  try { localStorage.setItem(lsKey, JSON.stringify(resultData)); } catch(e) {}
+  fetch(GS_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(resultData)
+  }).catch(err => console.error('Sheet sync failed', err));
+  const idxKey = `thunderstudy_index_${SUBJECT_ID}`;
+  let idx = [];
+  try { idx = JSON.parse(localStorage.getItem(idxKey) || '[]'); } catch(e) {}
+  if (!idx.includes(CHAPTER_ID)) idx.push(CHAPTER_ID);
+  try { localStorage.setItem(idxKey, JSON.stringify(idx)); } catch(e) {}
+  // ---- End auto-save ----
+  showScreen('result');
+}
+
+// ===== PDF DOWNLOAD =====
+function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+  const PW = 210, PH = 297;
+  const ML = 12, MR = 12;
+  const CW = PW - ML - MR;          // 186 mm usable width
+  const INNER = CW - 10;            // inner text width inside a card
+  const TEXT_X = ML + 8;            // left edge for text inside card
+  const TEXT_W = INNER - 4;         // max text wrap width
+  let y = 14;
+  let pageNum = 1;
+
+  const correct     = parseInt(document.getElementById('res-correct').textContent);
+  const wrong       = parseInt(document.getElementById('res-wrong').textContent);
+  const unattempted = parseInt(document.getElementById('res-unattempted').textContent);
+  const score       = parseInt(document.getElementById('res-score').textContent);
+  const maxScore    = questions.length * 5;
+
+  // ── helpers ──────────────────────────────────────────────
+  function rgb(hex) {
+    return [parseInt(hex.slice(1,3),16), parseInt(hex.slice(3,5),16), parseInt(hex.slice(5,7),16)];
+  }
+  function fill(hex)  { doc.setFillColor(...rgb(hex)); }
+  function stroke(hex){ doc.setDrawColor(...rgb(hex)); }
+  function color(hex) { doc.setTextColor(...rgb(hex)); }
+
+  function addFooter() {
+    doc.setFontSize(7.5); color('#aaaaaa');
+    doc.setFont('helvetica','normal');
+    doc.text(`@ThunderStudy  ·  Thunder CBT  ·  ssc cgl Set ${selectedSet}  ·  Page ${pageNum}`, PW/2, PH - 6, {align:'center'});
+  }
+
+  function addPageHeader() {
+    fill('#e91e8c'); doc.rect(0, 0, PW, 9, 'F');
+    doc.setFont('helvetica','bold'); doc.setFontSize(8); color('#ffffff');
+    doc.text(`⚡ Thunder CBT  ·  @ThunderStudy  ·  ssc cgl Set ${selectedSet}  ·  Answer Key`, PW/2, 6, {align:'center'});
+    y = 14;
+  }
+
+  function needsPage(h) {
+    if (y + h > PH - 14) {
+      addFooter();
+      doc.addPage();
+      pageNum++;
+      addPageHeader();
+    }
+  }
+
+  // ── COVER HEADER ─────────────────────────────────────────
+  fill('#e91e8c'); doc.rect(0, 0, PW, 40, 'F');
+  fill('#c0156e'); doc.rect(0, 34, PW, 6, 'F');
+
+  doc.setFont('helvetica','bold'); doc.setFontSize(20); color('#ffffff');
+  doc.text('⚡ Thunder CBT', ML, 13);
+  doc.setFontSize(10); color('#fce4ec');
+  doc.text('ssc cgl Mock Test  ·  Question Paper & Answer Key', ML, 21);
+  doc.setFontSize(8.5); color('#ffffff');
+  doc.text(`eco Set ${selectedSet}   ·   100 Questions   ·   Class 12 Syllabus   ·   60 Minutes`, ML, 28);
+
+  // @ThunderStudy watermark on cover
+  doc.setFont('helvetica','bold'); doc.setFontSize(10); color('#fce4ec');
+  doc.text('@ThunderStudy', PW - MR, 28, {align:'right'});
+
+  // Candidate name on cover
+  doc.setFont('helvetica','normal'); doc.setFontSize(8); color('#fce4ec');
+  doc.text(`Candidate: ${candidateName}`, ML, 35);
+  const now = new Date();
+  doc.text(`Date: ${now.toLocaleDateString('en-IN')}  ${now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}`, PW - MR, 35, {align:'right'});
+
+  y = 46;
+
+  // ── SCORE SUMMARY ─────────────────────────────────────────
+  fill('#fdf0f6'); doc.roundedRect(ML, y, CW, 28, 3, 3, 'F');
+  stroke('#e91e8c'); doc.setLineWidth(0.5); doc.roundedRect(ML, y, CW, 28, 3, 3, 'S');
+  doc.setFont('helvetica','bold'); doc.setFontSize(9); color('#9b0f58');
+  doc.text('PERFORMANCE SUMMARY', ML+5, y+6);
+
+  const cols = [
+    {label:'Correct',  val:String(correct),    col:'#2e7d32'},
+    {label:'Wrong',    val:String(wrong),       col:'#c62828'},
+    {label:'Skipped',  val:String(unattempted), col:'#1565c0'},
+    {label:'Score',    val:`${score}/${maxScore}`, col:'#e91e8c'},
+  ];
+  const bw = (CW - 14) / 4;
+  cols.forEach((c, ci) => {
+    const bx = ML + 5 + ci*(bw+3);
+    const by = y + 9;
+    fill('#ffffff'); doc.roundedRect(bx, by, bw, 14, 2, 2, 'F');
+    stroke(c.col); doc.roundedRect(bx, by, bw, 14, 2, 2, 'S');
+    doc.setFont('helvetica','bold'); doc.setFontSize(12); color(c.col);
+    doc.text(c.val, bx+bw/2, by+8.5, {align:'center'});
+    doc.setFontSize(6.5); color('#666666');
+    doc.text(c.label, bx+bw/2, by+13, {align:'center'});
+  });
+  y += 34;
+
+  // ── MARKING SCHEME ────────────────────────────────────────
+  needsPage(12);
+  fill('#fce4ec'); doc.roundedRect(ML, y, CW, 10, 2, 2, 'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(8); color('#9b0f58');
+  doc.text('MARKING SCHEME:   Correct = +5   |   Wrong = −1   |   Not Attempted = 0', ML+4, y+6.5);
+  y += 15;
+
+  // ── QUESTIONS ─────────────────────────────────────────────
+  const optKeys = ['A','B','C','D'];
+
+  questions.forEach((q, qi) => {
+    const userAns   = answers[qi];
+    const res       = questionResults[qi];
+    const marksText = res === 'correct' ? '+5' : res === 'wrong' ? '−1' : '0';
+    const statusTxt = res === 'correct' ? 'CORRECT' : res === 'wrong' ? 'WRONG' : 'SKIPPED';
+    const bgHex     = res === 'correct' ? '#e8f5e9' : res === 'wrong' ? '#ffebee' : '#e3f2fd';
+    const brdHex    = res === 'correct' ? '#2e7d32' : res === 'wrong' ? '#c62828' : '#1565c0';
+
+    // Strip SVG tags from question text for PDF
+    const cleanText = q.text.replace(/<[^>]*>/g, '');
+
+    // Calculate wrapped lines
+    doc.setFontSize(9); doc.setFont('helvetica','normal');
+    const qLines = doc.splitTextToSize(cleanText, TEXT_W);
+
+    const optLineArr = optKeys.map((k, oi) => {
+      const raw = q.type === 'text-options'
+        ? q.options[oi]
+        : q.options[oi].label.replace(' ✓','');
+      const clean = raw.replace(/<[^>]*>/g, '');
+      doc.setFontSize(8.5); doc.setFont('helvetica','normal');
+      return doc.splitTextToSize(`${k}.  ${clean}`, TEXT_W - 4);
+    });
+
+    const optsTotalH = optLineArr.reduce((a, ls) => a + ls.length * 5 + 2, 0);
+    const blockH     = 7 + qLines.length * 5.2 + 3 + optsTotalH + 5;
+
+    needsPage(blockH);
+
+    // Card background + border
+    fill(bgHex); doc.roundedRect(ML, y, CW, blockH, 2.5, 2.5, 'F');
+    stroke(brdHex); doc.setLineWidth(0.4); doc.roundedRect(ML, y, CW, blockH, 2.5, 2.5, 'S');
+    // Left stripe
+    fill(brdHex); doc.rect(ML, y, 3.5, blockH, 'F');
+
+    let qy = y + 6;
+
+    // Q number + topic
+    doc.setFont('helvetica','bold'); doc.setFontSize(9); color('#1a1a2e');
+    doc.text(`Q${qi+1}`, ML+6, qy);
+    doc.setFont('helvetica','normal'); doc.setFontSize(7.5); color('#555555');
+    const topicX = ML + 16;
+    const topicMaxW = CW - 38;
+    const topicLine = doc.splitTextToSize(q.topic, topicMaxW)[0];
+    doc.text(topicLine, topicX, qy);
+
+    // Status badge — right side
+    const bdgW = 28, bdgX = ML + CW - bdgW - 2;
+    fill(brdHex); doc.roundedRect(bdgX, qy-5, bdgW, 7, 2, 2, 'F');
+    doc.setFont('helvetica','bold'); doc.setFontSize(7); color('#ffffff');
+    doc.text(`${statusTxt}  ${marksText}`, bdgX + bdgW/2, qy-0.3, {align:'center'});
+
+    qy += 4;
+
+    // Question text — properly wrapped
+    doc.setFont('helvetica','normal'); doc.setFontSize(9); color('#1a1a2e');
+    qLines.forEach(line => {
+      doc.text(line, TEXT_X, qy);
+      qy += 5.2;
+    });
+    qy += 2;
+
+    // Options
+    optLineArr.forEach((lines, oi) => {
+      const isUser    = userAns === oi;
+      const isCorrect = q.correct === oi;
+      const optColor  = isCorrect ? '#1b5e20' : (isUser && !isCorrect) ? '#b71c1c' : '#333333';
+      const optBg     = isCorrect ? '#c8e6c9' : (isUser && !isCorrect) ? '#ffcdd2' : null;
+
+      const optH = lines.length * 5 + 3;
+      if (optBg) {
+        fill(optBg);
+        doc.roundedRect(TEXT_X - 1, qy - 3.5, TEXT_W + 4, optH, 1, 1, 'F');
+      }
+
+      doc.setFont('helvetica', (isCorrect || isUser) ? 'bold' : 'normal');
+      doc.setFontSize(8.5);
+      color(optColor);
+      lines.forEach((line, li) => {
+        doc.text(line, TEXT_X + 1, qy + li * 5);
+      });
+      // Correct tick symbol
+      if (isCorrect) {
+        doc.setFontSize(9); color('#2e7d32');
+        doc.text('✓', ML + CW - 7, qy);
+      }
+      qy += optH;
+    });
+
+    y += blockH + 4;
+  });
+
+  // Final footer
+  addFooter();
+
+  doc.save(`Thunder_CBT_Set${selectedSet}_${candidateName.replace(/\s+/g,'_')}.pdf`);
+  showToast('📄 PDF downloaded!', 'success');
+}
+
+function retryTest() {
+  clearInterval(timerInterval);
+  selectedSet = 1;
+  answers = new Array(questions.length).fill(null);
+  status = new Array(questions.length).fill('not-visited');
+  timeLeft = 60 * 60;
+  currentQ = 0;
+  const ag = document.getElementById('agreeCheck');
+  if (ag) { ag.checked = false; toggleStartBtn(); }
+  loadLastAttempts();
+  renderHistory();
+  showScreen('start');
+}
+
+// ===== KEYBOARD NAVIGATION =====
+document.addEventListener('keydown', function(e) {
+  const testScreen = document.getElementById('screen-test');
+  if (!testScreen || !testScreen.classList.contains('active')) return;
+  // Ignore if typing in an input
+  if (['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) return;
+
+  switch(e.key) {
+    case 'ArrowRight':
+      e.preventDefault();
+      if (currentQ < questions.length - 1) renderQuestion(currentQ + 1);
+      break;
+    case 'ArrowLeft':
+      e.preventDefault();
+      if (currentQ > 0) renderQuestion(currentQ - 1);
+      break;
+    case 'ArrowDown':
+      e.preventDefault();
+      window.scrollBy({ top: 120, behavior: 'smooth' });
+      break;
+    case 'ArrowUp':
+      e.preventDefault();
+      window.scrollBy({ top: -120, behavior: 'smooth' });
+      break;
+  }
+});
+function showToast(msg, type = 'info') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = msg;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 3100);
+}
+</script>
+</body>
+</html>
