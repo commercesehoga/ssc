@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F6F5FF"/>
+      <stop offset="100%" stop-color="#DDE3FF"/>
+    </linearGradient>
+
+    <!-- Glass Overlay Gradient -->
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.1"/>
+    </linearGradient>
+
+    <!-- Lightning Gradient -->
+    <linearGradient id="bolt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7C6FF0"/>
+      <stop offset="100%" stop-color="#4F46E5"/>
+    </linearGradient>
+
+    <!-- Blur for Glass -->
+    <filter id="blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+
+    <!-- Soft Inner Shadow -->
+    <filter id="innerShadow">
+      <feOffset dx="0" dy="2"/>
+      <feGaussianBlur stdDeviation="3" result="offset-blur"/>
+      <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"/>
+      <feFlood flood-color="#000" flood-opacity="0.08"/>
+      <feComposite operator="in" in2="inverse"/>
+      <feComposite operator="over" in2="SourceGraphic"/>
+    </filter>
+
+    <!-- Outer Glow -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+  </defs>
+
+  <!-- Base Rounded Icon -->
+  <rect width="64" height="64" rx="18" fill="url(#bg)"/>
+
+  <!-- Frosted Glass Layer -->
+  <rect width="64" height="64" rx="18"
+        fill="url(#glass)"
+        filter="url(#blur)"
+        opacity="0.6"/>
+
+  <!-- Top Highlight (iOS shine) -->
+  <path d="M0 0 H64 V22 Q32 32 0 22 Z"
+        fill="white"
+        opacity="0.25"/>
+
+  <!-- Glass Circle Core -->
+  <circle cx="32" cy="32" r="22"
+          fill="white"
+          opacity="0.15"
+          stroke="white"
+          stroke-opacity="0.25"/>
+
+  <!-- Inner Glow -->
+  <circle cx="32" cy="32" r="18"
+          fill="#5B4EE8"
+          opacity="0.08"/>
+
+  <!-- Lightning Bolt -->
+  <path d="M37 8 L17 34 H29 L24 56 L47 28 H34 Z"
+        fill="url(#bolt)"
+        filter="url(#innerShadow)"/>
+
+  <!-- Glow Effect -->
+  <path d="M37 8 L17 34 H29 L24 56 L47 28 H34 Z"
+        fill="url(#bolt)"
+        opacity="0.3"
+        filter="url(#glow)"/>
+
+</svg>
