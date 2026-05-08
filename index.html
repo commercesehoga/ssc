@@ -1,11 +1,14 @@
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>⚡ SSC Prep | ThunderStudy</title>
-<link rel="icon" type="image/svg+xml" href="Favicon.svg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="shortcut icon" href="favicon.svg">
 <meta name="theme-color" content="#5B4EE8">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -925,9 +928,129 @@ body.dark-mode #wb-card{
 .ob-name-pill.warn{background:rgba(217,119,6,.12);color:#d97706;}
 .ob-name-pill.err{background:rgba(220,38,38,.1);color:#dc2626;}
 
+
+/* === Codex UI/UX fixes: 2026-05-08 === */
+:root{
+  --toast-bg:var(--text);
+  --hero-avatar-border:rgba(255,255,255,.32);
+}
+body{font-family:'Plus Jakarta Sans',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+.boot-blob{will-change:transform;}
+#ssc-boot-card{min-width:0;width:min(90vw,360px);max-width:360px;padding:clamp(32px,8vw,44px) clamp(22px,8vw,48px) 40px;}
+#ssc-boot-icon svg path,#ssc-boot-icon svg path.filled{stroke:white!important;stroke-width:1!important;fill:none!important;}
+#boot-typing-subtitle{border-right-color:color-mix(in srgb,var(--acc) 55%,transparent);}
+#boot-pbar-track{background:var(--lavender2);}
+#boot-pbar-fill,.btn-prim,.subj-tab.active,.fab-quick-add,.wb-btn-continue{background:linear-gradient(135deg,var(--acc),var(--acc2))!important;}
+.sb-section-label{font-size:10px;letter-spacing:.9px;}
+.nav-badge,.exam-card-tag{font-size:10px;line-height:1.1;}
+.nav-item{isolation:isolate;}
+.nav-item::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(91,78,232,.10),rgba(67,56,202,.05));opacity:0;transition:opacity .2s;z-index:-1;}
+.nav-item.active::after{opacity:1;}
+.nav-item.active::before{width:4px!important;}
+.sb-profile{padding-bottom:max(14px,env(safe-area-inset-bottom));}
+.page{padding:clamp(16px,3.1vw,28px);}
+.topbar>div:first-child{min-width:min(100%,240px);flex:1 1 280px;}
+.topbar-right{min-width:max-content;flex:0 1 auto;flex-wrap:wrap;justify-content:flex-end;}
+@media(max-width:900px) and (min-width:601px){.grid-3{grid-template-columns:repeat(2,1fr);}.grid-2{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:600px) and (min-width:401px){.grid-2,.grid-3{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:400px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+.card-p{padding:20px;}
+.card,.stat-card,.mock-item,.exam-card{transition:transform .2s,box-shadow .2s,border-color .2s;}
+.card:hover,.stat-card:hover,.mock-item:hover,.exam-card:hover{transform:translateY(-2px)!important;box-shadow:var(--sh2);}
+.stat-val{font-size:clamp(20px,5vw,24px);overflow-wrap:anywhere;}
+.btn{border:1.5px solid transparent;border-radius:18px;}
+.btn-prim{border-color:transparent;}
+.btn-ghost{border-color:var(--border);}
+.ob-input{border-radius:18px;}
+.ssc-hero{background:color-mix(in srgb,var(--card) 82%,transparent)!important;border-color:var(--border)!important;}
+body.dark-mode .ssc-hero{background:color-mix(in srgb,var(--card) 82%,transparent)!important;border-color:var(--border)!important;}
+.ssc-hero-av img,.wb-avatar img{object-position:center top;}
+.ssc-hero-name{color:var(--text)!important;}
+.ssc-level-pill{background:var(--lavender2);border-color:var(--lavender);color:var(--acc);}
+.ssc-stat-cell{border-right:1px solid var(--border);border-bottom:1px solid var(--border);}
+.ssc-stat-cell:nth-child(4n){border-right:none;}
+.ssc-stat-l{color:var(--text3);}
+@media(max-width:500px){.ssc-stat-cell:nth-child(2n){border-right:none;}.ssc-stat-cell:nth-child(4n){border-right:none;}}
+#toast{background:var(--toast-bg);max-width:min(92vw,560px);white-space:normal;text-align:center;}
+#toast.success{background:var(--green);}
+#toast.error{background:var(--red);}
+.modal-ov{align-items:flex-start;}
+.modal-box{display:flex;flex-direction:column;overflow:hidden;max-height:min(90dvh,720px);}
+.modal-hdr{position:relative;top:auto;flex-shrink:0;}
+.modal-body{overflow-y:auto;}
+.modal-close{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;border:1px solid transparent;background:transparent;}
+.modal-close:hover{background:var(--card2);border-color:var(--border);}
+.ob-card{background:var(--card);padding:32px;border-color:var(--border);}
+body.dark-mode .ob-card{background:var(--card);border-color:var(--border);}
+.wb-body{padding:24px;}
+.wb-stats-row{gap:12px;}
+.prog-lbl{width:min(34%,120px);max-width:120px;}
+.prog-fill{transition:width .9s cubic-bezier(.2,.8,.2,1);}
+.prog-row:not(.is-visible) .prog-fill{width:0!important;}
+.mobile-dock{background:var(--card);border-color:var(--border);padding-top:max(10px,env(safe-area-inset-top));padding-bottom:max(10px,env(safe-area-inset-bottom))!important;}
+body.dark-mode .mobile-dock{background:var(--sidebar);border-color:var(--border);}
+.dock-item{min-height:44px;padding:10px 8px;}
+.dock-item:hover svg{stroke:var(--text2);}
+.dock-item.active::before{top:auto;bottom:4px;background:linear-gradient(90deg,var(--acc),var(--acc3));}
+.lb-row.mine{background:rgba(91,78,232,.10);}
+.lb-rank{width:36px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.lb-delta{font-size:10px;font-weight:800;display:inline-flex;align-items:center;gap:2px;margin-left:4px;}
+.lb-delta.up{color:var(--green);}.lb-delta.down{color:var(--red);}.lb-delta.same{color:var(--text3);}
+#ts-identity-banner{background:linear-gradient(135deg,color-mix(in srgb,var(--red) 8%,transparent),rgba(234,88,12,.06));border-color:color-mix(in srgb,var(--red) 28%,transparent);z-index:20;position:relative;}
+.score-dist-bar{background:linear-gradient(90deg,var(--red) 0%,var(--yellow) 30%,var(--blue) 65%,var(--green) 100%);}
+body.dark-mode .score-dist-bar{filter:brightness(1.12) saturate(1.1);}
+.wb-avatar{border-color:var(--hero-avatar-border);}
+.switch{width:48px;height:26px;}
+.switch-track{border-radius:26px;}
+.switch-track::before{width:18px;height:18px;bottom:4px;left:4px;}
+.switch input:checked + .switch-track::before{transform:translateX(22px);}
+.skel{background:linear-gradient(90deg,var(--card2) 0%,var(--border) 45%,var(--card2) 90%);background-size:220% 100%;animation:skelShimmer 1.35s ease-in-out infinite;}
+@keyframes skelShimmer{0%{background-position:120% 0;}100%{background-position:-120% 0;}}
+.trend-up,.trend-down,.trend-same{display:inline-flex;vertical-align:middle;margin-left:4px;}
+.kbd-help{position:fixed;right:16px;bottom:148px;z-index:180;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--card);color:var(--text2);box-shadow:var(--sh);cursor:pointer;font-weight:900;}
+.shortcut-panel{position:fixed;right:16px;bottom:190px;z-index:10000;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:14px 16px;box-shadow:var(--sh2);font-size:12px;color:var(--text2);display:none;}
+.shortcut-panel.open{display:block;}
+.offline-banner{position:fixed;left:50%;top:12px;transform:translateX(-50%);z-index:99997;background:var(--card);border:1.5px solid var(--border);color:var(--text);box-shadow:var(--sh2);border-radius:18px;padding:10px 16px;font-size:12px;font-weight:800;display:none;}
+.offline-banner.show{display:block;}
+.btn.is-loading{pointer-events:none;opacity:.72;}
+.btn.is-loading::after{content:'';width:12px;height:12px;border:2px solid rgba(255,255,255,.55);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--acc) 60%,white);outline-offset:3px;}
+@media(max-width:768px){.page{padding:16px;padding-bottom:90px;}.topbar{margin:-16px -16px 16px;}.stat-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}}
+@media(max-width:340px){#ssc-boot-card{width:calc(100vw - 24px);padding-left:18px;padding-right:18px;}.prog-row{gap:7px;}.dock-label{font-size:8px;}}
+
+.goal-ring-wrap { display:flex;flex-direction:column;align-items:center;gap:4px; }
+.goal-ring { transform:rotate(-90deg); }
+.goal-ring-track { fill:none;stroke:var(--border);stroke-width:6; }
+.goal-ring-fill  { fill:none;stroke:#5B4EE8;stroke-width:6;stroke-linecap:round;
+  transition:stroke-dashoffset 1s cubic-bezier(.34,1.56,.64,1);
+  stroke-dasharray:113; }
+@keyframes goalPop{0%{transform:scale(0) rotate(-90deg);}100%{transform:scale(1) rotate(-90deg);}}
+.goal-ring{animation:goalPop .5s cubic-bezier(.34,1.56,.64,1) both;}
+.radar-wrap { display:flex;flex-direction:column;align-items:center;margin-bottom:16px; }
+.ticker-wrap{overflow:hidden;position:relative;}
+.ticker-inner{display:flex;gap:12px;animation:tickerScroll 30s linear infinite;}
+.ticker-inner:hover{animation-play-state:paused;}
+@keyframes tickerScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+@media(max-width:768px){
+  .exam-grid{
+    display:flex !important;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    padding-bottom:8px;
+    gap:10px;
+  }
+  .exam-grid::-webkit-scrollbar{ height:3px; }
+  .exam-grid .exam-card{
+    min-width:180px;
+    flex-shrink:0;
+    scroll-snap-align:start;
+  }
+}
 </style>
 </head>
 <body>
+<noscript><div style="padding:18px;font:600 15px system-ui;background:#fff3cd;color:#3b2f00;">JavaScript is required to use SSC Prep. Please enable JavaScript in your browser.</div></noscript>
 
 <!-- ═══════════════ BOOT SCREEN ═══════════════ -->
 <div id="ssc-boot">
@@ -938,7 +1061,7 @@ body.dark-mode #wb-card{
     <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#5B4EE8,#7C6FF0,#5B4EE8);border-radius:32px 32px 0 0;"></div>
     <div id="ssc-boot-icon">
       <svg width="38" height="42" viewBox="0 0 20 22" fill="none">
-        <path class="filled" d="M13 1L3 13H9L4 21L17 9H11L13 1Z" fill="white" stroke="white" stroke-width="0.5" stroke-dasharray="120" stroke-dashoffset="120" style="animation:lightningDraw .9s .6s cubic-bezier(.4,0,.2,1) forwards;"/>
+        <path class="filled" d="M13 1L3 13H9L4 21L17 9H11L13 1Z" fill="none" stroke="white" stroke-width="1" stroke-dasharray="120" stroke-dashoffset="120" style="animation:lightningDraw .9s .6s cubic-bezier(.4,0,.2,1) forwards;"/>
       </svg>
     </div>
     <div style="font-family:'Outfit',sans-serif;font-size:28px;font-weight:900;letter-spacing:-1px;margin-bottom:4px;">
@@ -1039,7 +1162,7 @@ body.dark-mode #wb-card{
 
       <div id="ob-google-area">
         <button class="btn-google" id="ob-google-btn" onclick="obGoogleLogin()" style="width:100%;justify-content:center;margin-bottom:12px;">
-          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" loading="lazy" alt="Google">
           Continue with Google
         </button>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
@@ -1049,7 +1172,7 @@ body.dark-mode #wb-card{
         </div>
       </div>
       <div id="ob-google-user" style="display:none;background:rgba(16,163,74,.06);border:1.5px solid rgba(16,163,74,.2);border-radius:14px;padding:12px 14px;align-items:center;gap:10px;margin-bottom:12px;text-align:left;">
-        <img id="ob-guser-pic" src="" width="36" height="36" style="border-radius:50%;border:2px solid rgba(16,163,74,.3);">
+        <img id="ob-guser-pic" src="" width="36" height="36" loading="lazy" alt="Google profile photo" style="border-radius:50%;border:2px solid rgba(16,163,74,.3);">
         <div><div id="ob-guser-name" style="font-size:13px;font-weight:800;"></div><div id="ob-guser-email" style="font-size:10px;color:var(--text3);"></div></div>
         <button onclick="obGoogleLogout()" style="margin-left:auto;font-size:10px;font-weight:700;background:none;border:1px solid var(--border);border-radius:8px;padding:3px 8px;cursor:pointer;color:var(--text3);font-family:var(--fn);">Sign out</button>
       </div>
@@ -1109,14 +1232,14 @@ body.dark-mode #wb-card{
       <div style="font-size:13px;color:var(--text3);line-height:1.7;margin-bottom:20px;">Your name and Student ID can be automatically fetched from your ThunderStudy dashboard. Sign in with the same Google account.</div>
       <div id="fetch-id-status" style="font-size:12px;color:var(--text3);margin-bottom:14px;min-height:20px;"></div>
       <button class="btn-google" onclick="fetchFromThunderStudy()" id="fetch-ts-btn" style="width:100%;justify-content:center;">
-        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" loading="lazy" alt="Google">
         Sign in with Google to fetch
       </button>
     </div>
   </div>
 </div>
 
-<nav class="sidebar">
+<nav class="sidebar" role="navigation" aria-label="Primary">
   <div class="sb-logo">
     <div class="sb-logo-icon">
       <svg width="20" height="22" viewBox="0 0 20 22" fill="none"><path d="M13 1L3 13H9L4 21L17 9H11L13 1Z" fill="white"/></svg>
@@ -1226,7 +1349,7 @@ body.dark-mode #wb-card{
 
 <!-- ═══════════════ MOBILE DOCK ═══════════════ -->
 <button class="fab-quick-add" onclick="openQuickAddScore()" title="Quick Add Score">+</button>
-<div class="mobile-dock">
+<div class="mobile-dock" role="navigation" aria-label="Mobile primary">
   <div class="dock-item active" id="dock-home" onclick="dockTap(this,'home')">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     <span class="dock-label">Home</span>
@@ -1252,7 +1375,7 @@ body.dark-mode #wb-card{
 <button id="scroll-top-btn" onclick="document.querySelector('.main').scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
 
 <!-- TOAST -->
-<div id="toast"></div>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <!-- ═══════════════ MAIN SCRIPT ═══════════════ -->
 <script>
@@ -1279,7 +1402,7 @@ fbAuth.onAuthStateChanged(user=>{
     localStorage.setItem('ts_google_user',JSON.stringify(gu));
     localStorage.setItem('cbtUserName',user.displayName||'');
     const p=getProfile();if(!p.name&&user.displayName){p.name=user.displayName;saveProfile(p);localStorage.setItem('ssc_name',user.displayName);}
-    if(!getStudentID()){ const id='TS'+String(Math.floor(Math.random()*100000)).padStart(5,'0');localStorage.setItem('ssc_student_id',id); }
+    if(!getStudentID()){ const id=makeStudentId();localStorage.setItem('ssc_student_id',id); }
     renderHomeTopbar();
   }
 });
@@ -2458,8 +2581,11 @@ function renderHome(){
       </div>
     </div>
     <div class="ssc-stats-grid">
-      <div class="ssc-stat-cell"><div class="ssc-stat-v" style="color:var(--acc);">${totalTests}</div><div class="ssc-stat-l">Tests Done</div></div>
-      <div class="ssc-stat-cell"><div class="ssc-stat-v" style="color:${rClr(avgPct)};">${avgPct.toFixed(1)}%</div><div class="ssc-stat-l">Avg Score</div></div>
+      <div class="ssc-stat-cell">
+  <div class="ssc-stat-v" style="color:${rClr(avgPct)};">${avgPct.toFixed(1)}%</div>
+  <div class="ssc-stat-l">Avg Score</div>
+  ${buildSparkline(allAtt)}
+</div>
       <div class="ssc-stat-cell"><div class="ssc-stat-v" style="color:var(--orange);">${streak}<span style="font-size:14px;">🔥</span></div><div class="ssc-stat-l">Streak</div></div>
       <div class="ssc-stat-cell"><div class="ssc-stat-v" style="color:var(--green);">${bestPct>0?bestPct.toFixed(0)+'%':'—'}</div><div class="ssc-stat-l">Best Score</div></div>
     </div>
@@ -2482,7 +2608,22 @@ function renderHome(){
     </div>
   </div>`;
 
-  // ── NOTICES PREVIEW ──
+    // 1. NEWS TICKER (notices scrolling banner — eye-catching, top of feed)
+  H += buildNewsTicker();
+
+  // 2. TODAY'S TARGET (daily checklist card — motivational, early placement)
+  H += buildTodayTargetCard();
+
+  // 3. DAILY STUDY GOAL (time logger with ring chart)
+  H += buildGoalCard();
+
+  // 4. NEXT MOCK RECOMMENDATION (weakest subject nudge)
+  H += buildNextMockCard();
+
+  // 5. EXAM COUNTDOWN (user sets their exam dates)
+  H += buildCountdownCard();
+
+// ── NOTICES PREVIEW ──
   H += `<div id="home-notices-preview" style="margin-bottom:16px;"></div>`;
 
   // ── QUOTE OF THE DAY ──
@@ -2524,6 +2665,9 @@ function renderHome(){
     H += `</div>`;
   }
 
+  // 6. RADAR CHART
+  H += buildRadarCard();
+
   // ── RECENT MOCKS ──
   const allMocks=exams.flatMap(e=>(SSC_MOCKS[e]||[]).map(m=>({...m,examId:e})));
   const recentMocks=allMocks.slice(0,4);
@@ -2549,6 +2693,23 @@ function renderHome(){
     });
     H += `</div>`;
   }
+
+  // 7. REVISION REMINDERS
+  H += buildRevisionReminders();
+
+  // 8. PEER COMPARISON CHIP
+  if(avgPct > 0){
+    H += `<div style="margin-bottom:16px;">${buildPeerChip(avgPct)}</div>`;
+  }
+
+  // 9. ACTIVITY HEATMAP
+  H += buildHeatmapCard();
+
+  // 10. BADGES
+  H += buildBadgesCard(allAtt, streak);
+
+  // 11. PREVIOUS YEAR CUTOFFS
+  H += buildCutoffCard();
 
   document.getElementById('home-content').innerHTML = H;
   updateNoticesBadge();
@@ -3264,7 +3425,7 @@ function renderSettings(){
       <div><div style="font-size:12px;font-weight:800;">${escH(gu.name)}</div><div style="font-size:10px;color:var(--text3);">${escH(gu.email)}</div></div>
       <button onclick="sscGoogleLogout()" class="btn btn-ghost" style="margin-left:auto;font-size:11px;padding:5px 10px;">Sign Out</button>
     </div>`:`<button class="btn-google" onclick="topbarGoogleLogin()" style="width:100%;justify-content:center;">
-      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18"> Sign in with Google
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" loading="lazy" alt="Google"> Sign in with Google
     </button>`}
     <button onclick="fetchFromThunderStudy()" class="btn btn-prim" style="width:100%;justify-content:center;margin-top:10px;">🔗 Fetch from ThunderStudy</button>
   </div>
@@ -3560,7 +3721,7 @@ function getStoredID(){
 function generateOnceID(){
   const existing = getStoredID();
   if(existing) return existing;
-  const newId = 'TS' + String(Math.floor(Math.random()*100000)).padStart(5,'0');
+  const newId = makeStudentId();
   localStorage.setItem('ts_student_id', newId);
   localStorage.setItem('ssc_student_id', newId);
   return newId;
@@ -3732,7 +3893,7 @@ function obGenID(){
   const sidInp   = document.getElementById('ob-sid');
   // If ID was already persisted before onboarding started, never auto-overwrite
   if(storedID && sidInp && sidInp.dataset.locked === '1') return;
-  const id = 'TS'+String(Math.floor(Math.random()*100000)).padStart(5,'0');
+  const id = makeStudentId();
   localStorage.setItem('ts_student_id', id);
   localStorage.setItem('ssc_student_id', id);
   if(sidInp){ sidInp.value=id; sidInp.style.color='var(--green)'; }
@@ -3741,7 +3902,7 @@ function obGenID(){
 /* Manual regenerate triggered by user button */
 function obRegenID(){
   if(!confirm('⚠️ This will create a new Student ID. Your current ID will be lost from the leaderboard. Continue?')) return;
-  const id = 'TS'+String(Math.floor(Math.random()*100000)).padStart(5,'0');
+  const id = makeStudentId();
   localStorage.setItem('ts_student_id', id);
   localStorage.setItem('ssc_student_id', id);
   const sidInp = document.getElementById('ob-sid');
@@ -3810,7 +3971,7 @@ async function obGoogleLogin(){
     }
     obValidate1();
   } catch(e){
-    if(btn){btn.disabled=false;btn.innerHTML='<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18"> Continue with Google';}
+    if(btn){btn.disabled=false;btn.innerHTML='<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" loading="lazy" alt="Google"> Continue with Google';}
     if(e.code!=='auth/popup-closed-by-user') showToast('❌ Login failed: '+e.message,'error');
   }
 }
@@ -3852,7 +4013,7 @@ async function topbarGoogleLogin(){
     const p=getProfile(); if(!p.name&&gu.name){p.name=gu.name;saveProfile(p);}
     // Only generate ID if none exists — NEVER overwrite
     if(!getStudentID()){
-      const id='TS'+String(Math.floor(Math.random()*100000)).padStart(5,'0');
+      const id=makeStudentId();
       localStorage.setItem('ts_student_id',id);
       localStorage.setItem('ssc_student_id',id);
     }
@@ -3925,6 +4086,508 @@ function getStreak(){
     cur=dt;
   }
   return streak;
+}
+
+// ── DAILY GOAL TRACKER ──
+function getTodayKey(){ return 'ssc_goal_'+new Date().toISOString().slice(0,10); }
+function getGoalMins(){ return parseInt(localStorage.getItem('ssc_goal_target')||'120'); }
+function getLoggedMins(){ return parseInt(localStorage.getItem(getTodayKey())||'0'); }
+function logStudyTime(mins){
+  const cur = getLoggedMins();
+  const newVal = Math.min(cur + mins, getGoalMins());
+  localStorage.setItem(getTodayKey(), newVal);
+  renderHome();
+  if(newVal >= getGoalMins()) { showToast('🎯 Daily goal reached!','success',3000); launchConfetti(); }
+  else showToast('+'+mins+' min logged  (' + newVal + '/' + getGoalMins() + ' min)','success');
+}
+const SSC_CUTOFFS = {
+  cgl: {
+    year: '2023-24',
+    tiers: [
+      { tier:'Tier I + II', rows:[
+        {cat:'General', marks:'714.88'},
+        {cat:'OBC',     marks:'703.17'},
+        {cat:'EWS',     marks:'699.44'},
+        {cat:'SC',      marks:'668.99'},
+        {cat:'ST',      marks:'638.85'},
+        {cat:'PH',      marks:'632.16'},
+      ]}
+    ]
+  },
+  chsl: {
+    year: '2023-24',
+    tiers: [
+      { tier:'Tier I', rows:[
+        {cat:'General', marks:'183.40'},
+        {cat:'OBC',     marks:'178.71'},
+        {cat:'EWS',     marks:'178.54'},
+        {cat:'SC',      marks:'163.51'},
+        {cat:'ST',      marks:'152.25'},
+      ]}
+    ]
+  },
+  mts: {
+    year: '2023',
+    tiers: [
+      { tier:'MTS Paper I', rows:[
+        {cat:'General', marks:'148.81'},
+        {cat:'OBC',     marks:'142.00'},
+        {cat:'EWS',     marks:'140.00'},
+        {cat:'SC',      marks:'120.00'},
+        {cat:'ST',      marks:'108.00'},
+      ]}
+    ]
+  },
+};
+
+function buildCutoffCard(){
+  const exams = getSelectedExams();
+  const key   = 'ssc_cutoff_open';
+  const isOpen= localStorage.getItem(key)==='1';
+
+  const rows = exams.filter(e => SSC_CUTOFFS[e]).map(examId => {
+    const cut  = SSC_CUTOFFS[examId];
+    const exam = SSC_EXAMS.find(e=>e.id===examId);
+    const table = cut.tiers.map(tier=>`
+      <div style="margin-bottom:10px;">
+        <div style="font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">${tier.tier} (${cut.year})</div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px;">
+          <thead><tr style="background:var(--card2);">
+            <th style="padding:6px 10px;text-align:left;font-weight:700;border-radius:8px 0 0 8px;">Category</th>
+            <th style="padding:6px 10px;text-align:right;font-weight:700;border-radius:0 8px 8px 0;">Cutoff</th>
+          </tr></thead>
+          <tbody>${tier.rows.map(r=>`
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:6px 10px;color:var(--text2);">${r.cat}</td>
+              <td style="padding:6px 10px;text-align:right;font-family:var(--mono);font-weight:700;color:var(--text);">${r.marks}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`).join('');
+    return `<div style="margin-bottom:12px;"><div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:8px;">${exam?.icon} ${exam?.name}</div>${table}</div>`;
+  }).join('');
+
+  if(!rows) return '';
+
+  return `<div class="card card-p" style="margin-bottom:16px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="
+      const cur=localStorage.getItem('ssc_cutoff_open')==='1';
+      localStorage.setItem('ssc_cutoff_open',cur?'0':'1');
+      renderHome();">
+      <div class="sec-title">📊 Previous Year Cutoffs</div>
+      <span style="font-size:18px;color:var(--text3);transition:transform .3s;${isOpen?'transform:rotate(180deg);':''}">⌄</span>
+    </div>
+    ${isOpen ? `<div style="margin-top:14px;">${rows}</div>` : ''}
+  </div>`;
+}
+function getMilestones(allAtt, streak){
+  const total = allAtt.length;
+  const best  = allAtt.length ? Math.max(...allAtt.map(d=>d.percentage)) : 0;
+  return [
+    { id:'first',   icon:'🎯', label:'First Mock',    desc:'Complete your first test',   unlocked: total >= 1 },
+    { id:'five',    icon:'📚', label:'5 Mocks Done',  desc:'Complete 5 tests',           unlocked: total >= 5 },
+    { id:'ten',     icon:'🏃', label:'10 Mocks Done', desc:'Complete 10 tests',          unlocked: total >= 10 },
+    { id:'streak3', icon:'🔥', label:'3-Day Streak',  desc:'Study 3 days in a row',      unlocked: streak >= 3 },
+    { id:'streak7', icon:'💥', label:'7-Day Streak',  desc:'Study 7 days in a row',      unlocked: streak >= 7 },
+    { id:'pass',    icon:'✅', label:'First 60%+',    desc:'Score 60% or more',          unlocked: best >= 60 },
+    { id:'good',    icon:'🌟', label:'First 80%+',    desc:'Score 80% or more',          unlocked: best >= 80 },
+    { id:'perfect', icon:'💯', label:'90%+ Score',    desc:'Score 90% or more',          unlocked: best >= 90 },
+  ];
+}
+
+function buildBadgesCard(allAtt, streak){
+  const badges   = getMilestones(allAtt, streak);
+  const unlocked = badges.filter(b=>b.unlocked);
+  if(!unlocked.length) return '';
+  return `<div class="card card-p" style="margin-bottom:16px;">
+    <div class="sec-hdr" style="margin-bottom:12px;">
+      <div class="sec-title">🏅 Your Badges <span style="font-size:10px;color:var(--text3);font-weight:600;">${unlocked.length}/${badges.length} unlocked</span></div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      ${badges.map(b=>`
+        <div title="${b.desc}" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px;border-radius:14px;
+          background:${b.unlocked?'rgba(91,78,232,.08)':'var(--card2)'};
+          border:1.5px solid ${b.unlocked?'rgba(91,78,232,.3)':'var(--border)'};
+          opacity:${b.unlocked?'1':'.35'};min-width:60px;">
+          <span style="font-size:22px;">${b.icon}</span>
+          <span style="font-size:9px;font-weight:800;color:${b.unlocked?'var(--acc)':'var(--text3)'};text-align:center;line-height:1.3;">${b.label}</span>
+        </div>`).join('')}
+    </div>
+  </div>`;
+}
+function buildHeatmapCard(){
+  const allAtt = getAllAttempts();
+  const days = 28;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const counts = {};
+  allAtt.forEach(d => {
+    if(!d.date) return;
+    const k = d.date.slice(0,10);
+    counts[k] = (counts[k]||0) + 1;
+  });
+
+  const cells = [];
+  for(let i = days-1; i >= 0; i--){
+    const d = new Date(today); d.setDate(d.getDate()-i);
+    const k = d.toISOString().slice(0,10);
+    const c = counts[k] || 0;
+    const opacity = c===0?'0.08':c===1?'0.35':c===2?'0.6':'1';
+    const bg = c===0?'var(--border)':'#5B4EE8';
+    cells.push(`<div title="${k}: ${c} test${c!==1?'s':''}" style="width:20px;height:20px;border-radius:5px;background:${bg};opacity:${opacity};cursor:default;transition:opacity .2s;"
+      onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity='${opacity}'"></div>`);
+  }
+
+  const totalActive = Object.keys(counts).length;
+  return `<div class="card card-p" style="margin-bottom:16px;">
+    <div class="sec-hdr" style="margin-bottom:12px;">
+      <div class="sec-title">📅 Activity — Last 28 Days</div>
+      <span style="font-size:10px;color:var(--text3);">${totalActive} active days</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:5px;">
+      ${cells.join('')}
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;margin-top:8px;justify-content:flex-end;">
+      <span style="font-size:9px;color:var(--text3);">Less</span>
+      ${['0.08','0.35','0.6','1'].map(o=>`<div style="width:12px;height:12px;border-radius:3px;background:#5B4EE8;opacity:${o};"></div>`).join('')}
+      <span style="font-size:9px;color:var(--text3);">More</span>
+    </div>
+  </div>`;
+}
+function buildPeerChip(myAvg){
+  if(!myAvg || myAvg <= 0) return '';
+  // Benchmark against score bands (rough national average heuristic)
+  const ahead = myAvg >= 80 ? 92 : myAvg >= 70 ? 78 : myAvg >= 60 ? 61 : myAvg >= 50 ? 44 : myAvg >= 40 ? 30 : 15;
+  const clr   = ahead >= 70 ? '#16a34a' : ahead >= 50 ? '#2563eb' : '#d97706';
+  return `<div style="display:inline-flex;align-items:center;gap:5px;background:${clr}12;border:1px solid ${clr}30;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700;color:${clr};">
+    📊 Ahead of ~${ahead}% of students
+  </div>`;
+}
+function buildNewsTicker(){
+  if(!_notices||!_notices.length) return '';
+  const items = [..._notices, ..._notices]; // duplicate for infinite scroll
+  const tags = items.map(n=>{
+    const tag = n.type||'Notice';
+    const clr = tag.toLowerCase().includes('urgent')?'#dc2626':tag.toLowerCase().includes('exam')?'#5B4EE8':'#16a34a';
+    return `<span style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;
+      background:${clr}12;border:1px solid ${clr}30;color:${clr};font-size:11px;font-weight:700;white-space:nowrap;cursor:pointer;"
+      onclick="openNoticesPopup()">
+      📌 ${escH(n.title||n.heading||'Notice')}
+    </span>`;
+  }).join('');
+
+  return `<div style="margin-bottom:16px;">
+    <div style="font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">📡 Live Notices</div>
+    <div class="ticker-wrap">
+      <div class="ticker-inner">${tags}</div>
+    </div>
+  </div>`;
+}
+function buildNextMockCard(){
+  const exams = getSelectedExams();
+  if(!exams.length) return '';
+
+  // Find weakest subject across all exams
+  let worst = null, worstAvg = Infinity;
+  exams.forEach(examId => {
+    const exam = SSC_EXAMS.find(e=>e.id===examId);
+    if(!exam) return;
+    exam.subjects.forEach(subj => {
+      const data = SSC_MOCK_CHAPTERS[examId];
+      if(!data) return;
+      const chs = (data.chapters||{})[subj.id] || [];
+      const done = chs.filter(m => getCBTResult(examId, m.id));
+      if(!done.length) return;
+      const avg = done.reduce((s,m)=>{const r=getCBTResult(examId,m.id);return s+(r?r.percentage:0);},0)/done.length;
+      if(avg < worstAvg){ worstAvg = avg; worst = {examId, subj, avg}; }
+    });
+  });
+
+  // If no attempts yet, just recommend first mock
+  if(!worst){
+    const examId = exams[0];
+    const exam = SSC_EXAMS.find(e=>e.id===examId);
+    const data = SSC_MOCK_CHAPTERS[examId];
+    const firstMock = data?.tier1Mocks?.[0];
+    if(!firstMock || !exam) return '';
+    return `<div onclick="goPage('mocks')" class="card card-p" style="margin-bottom:16px;cursor:pointer;border:1.5px solid rgba(91,78,232,.3);background:linear-gradient(135deg,rgba(91,78,232,.06),transparent);"
+      onmouseenter="this.style.borderColor='var(--acc)'" onmouseleave="this.style.borderColor='rgba(91,78,232,.3)'">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,#5B4EE8,#4338CA);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🚀</div>
+        <div style="flex:1;">
+          <div style="font-size:10px;font-weight:800;color:var(--acc);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;">Next Recommended</div>
+          <div style="font-size:14px;font-weight:800;color:var(--text);">${exam.icon} ${firstMock.name}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px;">No attempts yet — start here!</div>
+        </div>
+        <div style="font-size:18px;color:var(--acc);">→</div>
+      </div>
+    </div>`;
+  }
+
+  const { examId, subj, avg } = worst;
+  const data = SSC_MOCK_CHAPTERS[examId];
+  const chs  = (data?.chapters||{})[subj.id] || [];
+  // Find first unattempted chapter
+  const next = chs.find(m => !getCBTResult(examId, m.id)) || chs[0];
+  if(!next) return '';
+  const url  = mockUrl(examId, next.id);
+  const clr  = avg < 40 ? '#dc2626' : avg < 60 ? '#d97706' : '#2563eb';
+
+  return `<a href="${url}" target="_blank" style="text-decoration:none;" rel="noopener">
+    <div class="card card-p" style="margin-bottom:16px;cursor:pointer;border:1.5px solid ${clr}40;background:linear-gradient(135deg,${clr}08,transparent);"
+      onmouseenter="this.style.borderColor='${clr}'" onmouseleave="this.style.borderColor='${clr}40'">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:44px;height:44px;border-radius:13px;background:${clr}18;border:1.5px solid ${clr}35;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">${subj.icon}</div>
+        <div style="flex:1;">
+          <div style="font-size:10px;font-weight:800;color:${clr};text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;">
+            ⚠️ Weakest Subject — ${avg.toFixed(0)}% avg
+          </div>
+          <div style="font-size:14px;font-weight:800;color:var(--text);">${escH(next.name)}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px;">${subj.name} · 100Q · 60 min → tap to start</div>
+        </div>
+        <div style="font-size:20px;color:${clr};">→</div>
+      </div>
+    </div>
+  </a>`;
+}
+function buildTodayTargetCard(){
+  const key   = 'ssc_target_done_'+new Date().toISOString().slice(0,10);
+  const done  = localStorage.getItem(key) === '1';
+  const exams = getSelectedExams();
+  if(!exams.length) return '';
+  return `<div class="card card-p" style="margin-bottom:16px;border:1.5px solid ${done?'rgba(22,163,74,.4)':'var(--border)'};background:${done?'rgba(22,163,74,.04)':'var(--card)'};">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div onclick="
+        localStorage.setItem('${key}','1');
+        launchConfetti();
+        showToast('🎯 Target complete! Great work!','success',3000);
+        renderHome();
+      " style="width:40px;height:40px;border-radius:50%;border:2.5px solid ${done?'#16a34a':'var(--border)'};
+        background:${done?'#16a34a':'transparent'};display:flex;align-items:center;justify-content:center;
+        cursor:${done?'default':'pointer'};flex-shrink:0;transition:all .25s;font-size:18px;">
+        ${done?'✅':''}
+      </div>
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:900;color:var(--text);${done?'text-decoration:line-through;opacity:.6;':''}">
+          Today's Target: Complete 1 Mock
+        </div>
+        <div style="font-size:11px;color:${done?'#16a34a':'var(--text3)'};margin-top:2px;">
+          ${done?'✅ Done for today! Come back tomorrow.':'Tap the circle when you complete it →'}
+        </div>
+      </div>
+      ${done?'':'<button class="btn btn-prim" onclick="goPage(\'mocks\')" style="flex-shrink:0;font-size:11px;padding:7px 14px;">Start →</button>'}
+    </div>
+  </div>`;
+}
+function buildRevisionReminders(){
+  const allAtt = getAllAttempts();
+  const now    = Date.now();
+  const stale  = allAtt.filter(d => {
+    if(!d.date) return false;
+    const daysAgo = (now - new Date(d.date).getTime()) / 86400000;
+    return daysAgo >= 7 && d.percentage < 75;
+  }).slice(0,3);
+  if(!stale.length) return '';
+
+  const rows = stale.map(d => {
+    const exam = SSC_EXAMS.find(e=>e.id===d.examId);
+    const daysAgo = Math.floor((now - new Date(d.date).getTime()) / 86400000);
+    const url = mockUrl(d.examId, d.mockId);
+    return `<a href="${url}" target="_blank" rel="noopener" style="text-decoration:none;display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);">
+      <span style="font-size:18px;flex-shrink:0;">${exam?.icon||'📝'}</span>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:12px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escH(d.mockId)}</div>
+        <div style="font-size:10px;color:var(--text3);">Scored ${d.percentage.toFixed(0)}% · ${daysAgo}d ago</div>
+      </div>
+      <span style="font-size:11px;font-weight:700;color:#d97706;flex-shrink:0;">Revise →</span>
+    </a>`;
+  }).join('');
+
+  return `<div class="card card-p" style="margin-bottom:16px;border-left:4px solid #d97706;">
+    <div class="sec-hdr" style="margin-bottom:10px;">
+      <div class="sec-title">🔁 Revision Due</div>
+      <span style="font-size:10px;color:#d97706;font-weight:700;">Low scores from 7+ days ago</span>
+    </div>
+    ${rows}
+  </div>`;
+}
+function buildCountdownCard(){
+  const exams = getSelectedExams();
+  if(!exams.length) return '';
+
+  // Load saved exam dates
+  let dates = {};
+  try { dates = JSON.parse(localStorage.getItem('ssc_exam_dates')||'{}'); } catch{}
+
+  const cards = exams.map(examId => {
+    const exam = SSC_EXAMS.find(e=>e.id===examId);
+    if(!exam) return '';
+    const saved = dates[examId];
+    if(!saved) return `
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);">
+        <span style="font-size:18px;flex-shrink:0;">${exam.icon}</span>
+        <div style="flex:1;font-size:12px;font-weight:700;color:var(--text);">${exam.name}</div>
+        <input type="date" onchange="
+          let d={};try{d=JSON.parse(localStorage.getItem('ssc_exam_dates')||'{}')}catch{}
+          d['${examId}']=this.value;localStorage.setItem('ssc_exam_dates',JSON.stringify(d));renderHome();
+        " style="border:1.5px solid var(--border);border-radius:10px;padding:5px 8px;font-size:11px;font-family:var(--fn);background:var(--card2);color:var(--text);cursor:pointer;">
+      </div>`;
+
+    const diff = Math.ceil((new Date(saved) - new Date()) / 86400000);
+    const clr  = diff <= 7 ? '#dc2626' : diff <= 30 ? '#d97706' : diff <= 60 ? '#2563eb' : '#16a34a';
+    const label= diff < 0 ? 'Passed' : diff === 0 ? 'TODAY!' : diff+' days left';
+    return `
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+        <div style="width:48px;height:48px;border-radius:13px;background:${clr}15;border:1.5px solid ${clr}30;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;">
+          <div style="font-size:16px;font-weight:900;font-family:var(--mono);color:${clr};line-height:1;">${diff<0?'✓':diff<=0?'!':diff>99?'99+':diff}</div>
+          <div style="font-size:7px;font-weight:700;color:${clr};text-transform:uppercase;">${diff<0?'done':'days'}</div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:800;color:var(--text);">${exam.name} Exam</div>
+          <div style="font-size:11px;color:${clr};font-weight:700;">${label}</div>
+          <div style="font-size:10px;color:var(--text3);">${new Date(saved).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</div>
+        </div>
+        <button onclick="
+          let d={};try{d=JSON.parse(localStorage.getItem('ssc_exam_dates')||'{}')}catch{}
+          delete d['${examId}'];localStorage.setItem('ssc_exam_dates',JSON.stringify(d));renderHome();
+        " style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;padding:4px;">✕</button>
+      </div>`;
+  }).join('');
+
+  return `<div class="card card-p" style="margin-bottom:16px;">
+    <div class="sec-hdr" style="margin-bottom:12px;">
+      <div class="sec-title">📅 Exam Countdown</div>
+      <span style="font-size:10px;color:var(--text3);">Set your exam dates</span>
+    </div>
+    ${cards}
+  </div>`;
+}
+function buildSparkline(allAtt){
+  const last7 = allAtt.slice(-7);
+  if(last7.length < 2) return '';
+  const max = Math.max(...last7.map(d=>d.percentage), 1);
+  const bars = last7.map(d=>{
+    const h = Math.max(12, Math.round(d.percentage / max * 24));
+    const c = rClr(d.percentage);
+    return `<div title="${d.percentage.toFixed(0)}%" style="flex:1;height:${h}px;border-radius:3px 3px 0 0;background:${c};opacity:.7;min-height:3px;transition:opacity .2s;cursor:default;"
+      onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=.7"></div>`;
+  }).join('');
+  return `<div style="display:flex;align-items:flex-end;gap:2px;height:24px;margin-top:5px;padding:0 2px;">${bars}</div>`;
+}
+function buildRadarCard(){
+  const exams = getSelectedExams();
+  if(!exams.length) return '';
+  const examId = exams[0];
+  const exam   = SSC_EXAMS.find(e=>e.id===examId);
+  if(!exam) return '';
+
+  const subjects = exam.subjects;
+  const n = subjects.length;
+  const data = SSC_MOCK_CHAPTERS[examId];
+
+  const scores = subjects.map(subj => {
+    if(!data) return 0;
+    const chs  = (data.chapters||{})[subj.id] || [];
+    const done = chs.filter(m => getCBTResult(examId, m.id));
+    if(!done.length) return 0;
+    return done.reduce((s,m)=>{const r=getCBTResult(examId,m.id);return s+(r?r.percentage:0);},0)/done.length;
+  });
+
+  if(scores.every(s=>s===0)) return '';
+
+  const cx=100, cy=100, R=70;
+  // polygon points for each subject
+  function pt(i, val){
+    const angle = (i / n) * 2 * Math.PI - Math.PI/2;
+    const r = R * val / 100;
+    return { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) };
+  }
+  function gridPt(i, frac){
+    const angle = (i / n) * 2 * Math.PI - Math.PI/2;
+    return { x: cx + R * frac * Math.cos(angle), y: cy + R * frac * Math.sin(angle) };
+  }
+
+  // Grid rings (25%, 50%, 75%, 100%)
+  let gridSVG = '';
+  [.25,.5,.75,1].forEach(frac=>{
+    const pts = subjects.map((_,i)=>gridPt(i,frac));
+    gridSVG += `<polygon points="${pts.map(p=>p.x+','+p.y).join(' ')}" fill="none" stroke="var(--border)" stroke-width="${frac===1?1.5:.7}"/>`;
+  });
+  // Axis lines
+  subjects.forEach((_,i)=>{
+    const p = gridPt(i,1);
+    gridSVG += `<line x1="${cx}" y1="${cy}" x2="${p.x}" y2="${p.y}" stroke="var(--border)" stroke-width=".7"/>`;
+  });
+
+  // Data polygon
+  const dataPts = scores.map((s,i)=>pt(i,s));
+  const polyStr = dataPts.map(p=>p.x+','+p.y).join(' ');
+
+  // Labels
+  let labelSVG = '';
+  subjects.forEach((subj, i) => {
+    const angle = (i / n) * 2 * Math.PI - Math.PI/2;
+    const lx = cx + (R + 18) * Math.cos(angle);
+    const ly = cy + (R + 18) * Math.sin(angle);
+    const clr = rClr(scores[i] || 0);
+    labelSVG += `<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle"
+      font-size="9" font-weight="800" fill="${scores[i]>0?clr:'var(--text3)'}">
+      ${subj.icon || ''} ${scores[i]>0 ? scores[i].toFixed(0)+'%' : '—'}
+    </text>
+    <text x="${lx}" y="${ly+10}" text-anchor="middle" dominant-baseline="middle"
+      font-size="7" fill="var(--text3)">${subj.name.split(' ')[0]}</text>`;
+  });
+
+  return `<div class="card card-p" style="margin-bottom:16px;">
+    <div class="sec-hdr" style="margin-bottom:12px;">
+      <div class="sec-title">🕸️ Subject Radar — ${exam.name}</div>
+    </div>
+    <div class="radar-wrap">
+      <svg viewBox="0 0 200 200" width="200" height="200" style="overflow:visible;">
+        ${gridSVG}
+        <polygon points="${polyStr}" fill="rgba(91,78,232,.15)" stroke="#5B4EE8" stroke-width="2" stroke-linejoin="round"/>
+        ${dataPts.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="4" fill="${rClr(scores[i]||0)}" stroke="var(--card)" stroke-width="2"/>`).join('')}
+        ${labelSVG}
+      </svg>
+    </div>
+  </div>`;
+}
+function buildGoalCard(){
+  const target = getGoalMins();
+  const done   = getLoggedMins();
+  const pct    = Math.min(100, done / target * 100);
+  const offset = 113 - (113 * pct / 100);
+  const clr    = pct >= 100 ? '#16a34a' : pct >= 50 ? '#2563eb' : '#5B4EE8';
+  return `<div class="card card-p" style="margin-bottom:16px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div class="goal-ring-wrap">
+          <svg class="goal-ring" width="52" height="52" viewBox="0 0 40 40">
+            <circle class="goal-ring-track" cx="20" cy="20" r="18"/>
+            <circle class="goal-ring-fill" cx="20" cy="20" r="18"
+              style="stroke:${clr};stroke-dashoffset:${offset.toFixed(1)};"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:14px;font-weight:900;color:var(--text);">
+            ${pct>=100?'🎯 Goal reached!':'📚 Daily Study Goal'}
+          </div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px;">
+            ${done} / ${target} min logged today
+          </div>
+          <div style="height:4px;width:120px;background:var(--card2);border-radius:4px;margin-top:6px;overflow:hidden;">
+            <div style="height:100%;width:${pct.toFixed(1)}%;background:${clr};border-radius:4px;transition:width 1s;"></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        ${[15,30,60].map(m=>`<button class="btn btn-ghost" onclick="logStudyTime(${m})" style="padding:6px 10px;font-size:11px;">+${m}m</button>`).join('')}
+        <button class="btn btn-ghost" onclick="
+          const v=prompt('Set daily goal (minutes):',getGoalMins());
+          if(v&&!isNaN(+v)&&+v>0){localStorage.setItem('ssc_goal_target',+v);renderHome();}
+        " style="padding:6px 10px;font-size:11px;color:var(--text3);">⚙️</button>
+      </div>
+    </div>
+  </div>`;
 }
 
 function openModal(id){ document.getElementById(id)?.classList.add('open'); }
@@ -4258,6 +4921,332 @@ document.addEventListener('DOMContentLoaded', ()=>{
 });
 // fallback
 setTimeout(()=>{ initScrollTopBtn(); initAnalyticsNewBadge(); updateBreadcrumb('home'); }, 500);
+
+/* === Codex UI/UX runtime fixes: 2026-05-08 === */
+(function(){
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+  function safeSet(key, value){
+    try{ localStorage.setItem(key, value); return true; }
+    catch(e){ showToast('Storage is full. Clear some browser data and try again.','error',4200); return false; }
+  }
+
+  window.saveProfile = function(p){ safeSet('ssc_profile', JSON.stringify(p)); };
+  window.saveSelectedExams = function(e){ safeSet('ssc_exams', JSON.stringify(e)); };
+  window.sR = function(examId, mockId, data){ safeSet(rKey(examId,mockId), JSON.stringify(data)); };
+
+  window.makeStudentId = function(){
+    const ts = String(Date.now()).slice(-3);
+    const rand = String(Math.floor(Math.random()*100)).padStart(2,'0');
+    return 'TS' + ts + rand;
+  };
+  window.generateOnceID = function(){
+    const existing = getStoredID();
+    if(existing) return existing;
+    const id = makeStudentId();
+    safeSet('ts_student_id', id);
+    safeSet('ssc_student_id', id);
+    return id;
+  };
+  window.obGenID = function(){
+    const sidInp = $('#ob-sid');
+    if(getStoredID() && sidInp && sidInp.dataset.locked === '1') return;
+    const id = makeStudentId();
+    safeSet('ts_student_id', id);
+    safeSet('ssc_student_id', id);
+    if(sidInp){ sidInp.value=id; sidInp.style.color='var(--green)'; }
+  };
+  window.obRegenID = function(){
+    if(!confirm('This will create a new Student ID. Your current ID will be lost from the leaderboard. Continue?')) return;
+    const id = makeStudentId();
+    safeSet('ts_student_id', id);
+    safeSet('ssc_student_id', id);
+    const sidInp = $('#ob-sid');
+    if(sidInp){ sidInp.value=id; sidInp.style.color='var(--green)'; }
+    showToast('New ID generated: '+id,'success',2200);
+  };
+
+  const storedTheme = localStorage.getItem('ssc_dark');
+  if(storedTheme === null && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches){
+    document.body.classList.add('dark-mode');
+  }
+
+  const oldToast = window.showToast;
+  window.showToast = function(msg, type='', dur){
+    const duration = dur || (type === 'error' ? 4200 : type === 'success' ? 2200 : 3000);
+    oldToast(msg, type, duration);
+  };
+
+  function closeIcon(){
+    return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+  }
+  function enhanceStaticAccessibility(){
+    $('#toast')?.setAttribute('role','status');
+    $('#toast')?.setAttribute('aria-live','polite');
+    $('.sidebar')?.setAttribute('role','navigation');
+    $('.sidebar')?.setAttribute('aria-label','Primary');
+    $('.mobile-dock')?.setAttribute('role','navigation');
+    $('.mobile-dock')?.setAttribute('aria-label','Mobile primary');
+    $$('.nav-item,.dock-item,[onclick]').forEach(el=>{
+      if(!/^(A|BUTTON|INPUT|TEXTAREA|SELECT)$/i.test(el.tagName)){
+        el.tabIndex = el.tabIndex < 0 ? 0 : el.tabIndex;
+        if(!el.dataset.keyReady){
+          el.dataset.keyReady = '1';
+          el.addEventListener('keydown', ev=>{
+            if(ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); el.click(); }
+          });
+        }
+      }
+    });
+    $$('.modal-close').forEach(el=>{
+      el.setAttribute('role','button');
+      el.setAttribute('aria-label','Close');
+      el.tabIndex = 0;
+      el.innerHTML = closeIcon();
+    });
+    $$('img').forEach(img=>{
+      if(!img.hasAttribute('loading')) img.loading = 'lazy';
+      if(!img.hasAttribute('alt')){
+        img.alt = img.id && /pic|avatar|user/i.test(img.id) ? 'User avatar' : 'Decorative image';
+      }
+      if(/avatar|pic|guser/i.test(img.id || img.parentElement?.className || '')) img.style.objectPosition='center top';
+    });
+  }
+
+  function ensureNoscriptFallback(){
+    if(!$('noscript')){
+      document.head.insertAdjacentHTML('beforeend','<noscript><style>body:before{content:"JavaScript is required to use SSC Prep. Please enable JavaScript in your browser.";display:block;padding:18px;font:600 15px system-ui;background:#fff3cd;color:#3b2f00}</style></noscript>');
+    }
+  }
+
+  function showOfflineBanner(text){
+    let b = $('#offline-banner');
+    if(!b){
+      b = document.createElement('div');
+      b.id = 'offline-banner';
+      b.className = 'offline-banner';
+      document.body.appendChild(b);
+    }
+    b.textContent = text;
+    b.classList.add('show');
+  }
+  if(!navigator.onLine) showOfflineBanner('Offline mode - some sync features are unavailable.');
+  window.addEventListener('offline',()=>showOfflineBanner('Offline mode - some sync features are unavailable.'));
+  window.addEventListener('online',()=>$('#offline-banner')?.classList.remove('show'));
+  window.addEventListener('load',()=>{ if(typeof firebase === 'undefined') showOfflineBanner('Offline mode - Firebase features are unavailable.'); });
+
+  const oldGsFetch = window.gsFetch;
+  window.gsFetch = async function(targetUrl){
+    const timer = setTimeout(()=>showToast('Loading notices... retrying connection','',3600),3000);
+    try{ return await oldGsFetch(targetUrl); }
+    finally{ clearTimeout(timer); }
+  };
+
+  const oldFetchNotices = window.fetchNotices;
+  window.fetchNotices = async function(){
+    try{ await oldFetchNotices(); }
+    catch(e){
+      _notices = [];
+      const nb = $('#home-notices-preview');
+      if(nb) nb.innerHTML = '<div style="background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:14px 16px;font-size:12px;color:var(--text3);"><strong style="color:var(--text);">Could not load notices.</strong> <button class="btn btn-ghost" style="margin-left:8px;padding:5px 10px;" onclick="fetchNotices()">Retry</button></div>';
+    }
+  };
+
+  const oldGoPage = window.goPage;
+  window.goPage = function(id, opts={}){
+    oldGoPage(id);
+    if(!opts.skipHistory && location.hash !== '#'+id) history.pushState({page:id},'', '#'+id);
+    setTimeout(()=>{ enhanceStaticAccessibility(); observeProgress(); }, 40);
+  };
+  window.addEventListener('popstate', e=>{
+    const id = (e.state && e.state.page) || location.hash.replace('#','') || 'home';
+    if(PAGE_LABELS[id]) window.goPage(id,{skipHistory:true});
+  });
+
+  document.addEventListener('keydown', e=>{
+    if(e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+    if(e.altKey || e.ctrlKey || e.metaKey) return;
+    const key = e.key.toLowerCase();
+    const map = {h:'home',m:'mocks',r:'rank',s:'settings'};
+    if(map[key]){ e.preventDefault(); window.goPage(map[key]); }
+    if(key === '?'){ e.preventDefault(); $('#shortcut-panel')?.classList.toggle('open'); }
+  });
+
+  function addShortcutHelp(){
+    if($('#kbd-help')) return;
+    document.body.insertAdjacentHTML('beforeend','<button id="kbd-help" class="kbd-help" title="Keyboard shortcuts" aria-label="Keyboard shortcuts">?</button><div id="shortcut-panel" class="shortcut-panel"><strong style="display:block;color:var(--text);margin-bottom:8px;">Shortcuts</strong>H Home<br>M Mocks<br>R Rank<br>S Settings<br>? Toggle help</div>');
+    $('#kbd-help').addEventListener('click',()=>$('#shortcut-panel').classList.toggle('open'));
+  }
+
+  function observeProgress(){
+    const bars = $$('.prog-row');
+    if(!('IntersectionObserver' in window)){ bars.forEach(b=>b.classList.add('is-visible')); return; }
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(ent=>{
+        if(ent.isIntersecting){ ent.target.classList.add('is-visible'); io.unobserve(ent.target); }
+      });
+    },{threshold:.25});
+    bars.forEach(row=>{ if(!row.classList.contains('is-visible')) io.observe(row); });
+  }
+
+  function svgTrend(cls, path){
+    return '<span class="'+cls+'" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">'+path+'</svg></span>';
+  }
+  window.addTrendArrows = function(){
+    const allAtt = typeof getAllAttempts === 'function' ? getAllAttempts() : [];
+    if(!allAtt.length) return;
+    $$('.mock-item-pct').forEach(el=>{
+      if(el.querySelector('.trend-up,.trend-down,.trend-same')) return;
+      const pct = parseFloat(el.textContent)||0;
+      if(pct>=60) el.insertAdjacentHTML('beforeend',svgTrend('trend-up','<path d="M12 19V5"/><path d="M5 12l7-7 7 7"/>'));
+      else if(pct<40) el.insertAdjacentHTML('beforeend',svgTrend('trend-down','<path d="M12 5v14"/><path d="M19 12l-7 7-7-7"/>'));
+      else el.insertAdjacentHTML('beforeend',svgTrend('trend-same','<path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>'));
+    });
+  };
+
+  window.openQuickAddScore = function(){
+    const selected = getSelectedExams();
+    const examId = selected[0] || 'quick';
+    const mockId = 'quick_' + Date.now();
+    const m = document.createElement('div');
+    m.id='qa-modal-wrap';
+    m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(8px);';
+    m.innerHTML=`<div style="background:var(--card);border-radius:24px 24px 0 0;padding:28px 24px 36px;width:100%;max-width:500px;animation:slideUp .35s cubic-bezier(.34,1.56,.64,1) both;border:1.5px solid var(--border);border-bottom:none;">
+      <div style="width:36px;height:4px;border-radius:4px;background:var(--border);margin:0 auto 20px;"></div>
+      <div style="font-size:17px;font-weight:900;font-family:'Outfit',sans-serif;margin-bottom:16px;">Quick Add Score</div>
+      <input id="qa-score" type="number" placeholder="Your score (e.g. 145)" class="ob-input" style="font-size:18px;" min="0">
+      <input id="qa-max" type="number" placeholder="Max score (e.g. 200)" class="ob-input" style="font-size:18px;margin-top:8px;" min="1">
+      <button id="qa-save-btn" class="btn btn-prim" style="width:100%;justify-content:center;padding:13px;font-size:14px;margin-top:12px;">Save Score</button>
+      <button class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:8px;" onclick="document.getElementById('qa-modal-wrap').remove()">Cancel</button>
+    </div>`;
+    m.addEventListener('click',e=>{if(e.target===m)m.remove();});
+    document.body.appendChild(m);
+    $('#qa-save-btn').addEventListener('click',()=>{
+      const sc=parseFloat($('#qa-score').value);
+      const mx=parseFloat($('#qa-max').value)||200;
+      if(!Number.isFinite(sc) || sc<0 || sc>mx){ showToast('Invalid score','error'); return; }
+      const pct = sc/mx*100;
+      sR(examId, mockId, {examId, mockId, score:sc, maxScore:mx, percentage:pct, date:new Date().toISOString(), quick:true});
+      showToast('Score recorded: '+sc+'/'+mx+' ('+pct.toFixed(0)+'%)','success');
+      m.remove();
+      if($('#page-home')?.classList.contains('active')) renderHome();
+      if($('#page-analytics')?.classList.contains('active')) renderAnalytics();
+    });
+  };
+
+  const oldOpenMock = window.openMock;
+  window.openMock = function(examId, mockId){
+    oldOpenMock(examId, mockId);
+    const link = $('#mock-launch-modal a.btn-prim');
+    if(link){
+      link.addEventListener('click', e=>{
+        const btn = e.currentTarget;
+        btn.classList.add('is-loading');
+        const old = btn.innerHTML;
+        btn.innerHTML = 'Opening...';
+        setTimeout(()=>{ btn.classList.remove('is-loading'); btn.innerHTML = old; }, 300);
+      });
+    }
+    enhanceStaticAccessibility();
+  };
+
+  const oldRenderQuoteCard = window.renderQuoteCard;
+  window.renderQuoteCard = function(el){
+    oldRenderQuoteCard(el);
+    if(el && el.firstElementChild && !el.querySelector('.quote-actions')){
+      el.firstElementChild.insertAdjacentHTML('beforeend','<div class="quote-actions" style="position:relative;z-index:2;margin-top:10px;display:flex;gap:8px;"><button class="btn btn-ghost" style="padding:6px 10px;font-size:11px;" onclick="fetchQuote()">Next Quote</button><button class="btn btn-ghost" style="padding:6px 10px;font-size:11px;" onclick="localStorage.setItem(\'ssc_fav_quote\',document.querySelector(\'#home-quote-area\').innerText);showToast(\'Quote favorited\',\'success\')">Favorite</button></div>');
+    }
+  };
+
+  const oldRenderRank = window.renderRank;
+  window.renderRank = function(){
+    oldRenderRank();
+    const cont = $('#rank-content');
+    if(cont && !cont.querySelector('.btn')){
+      cont.insertAdjacentHTML('beforeend','<div style="text-align:center;margin-top:12px;"><button class="btn btn-ghost" onclick="renderRank()">Retry</button></div>');
+    }
+  };
+
+  const oldRenderSettings = window.renderSettings;
+  window.renderSettings = function(){
+    oldRenderSettings();
+    const cont = $('#settings-content');
+    if(cont && !$('#goal-setting-row')){
+      cont.insertAdjacentHTML('afterbegin','<div class="card card-p" style="margin-bottom:16px;"><div class="sec-hdr"><div class="sec-title">Goal Score</div></div><div class="setting-row" id="goal-setting-row"><div><div class="setting-lbl">Target Average</div><div class="setting-sub">Shown on your dashboard progress cards</div></div><input id="goal-score-input" type="number" min="1" max="100" value="'+(localStorage.getItem('ssc_goal_score')||80)+'" class="ob-input" style="width:88px;margin:0;text-align:center;font-size:13px;" onchange="localStorage.setItem(\'ssc_goal_score\',this.value);showToast(\'Goal updated\',\'success\')"></div></div>');
+    }
+  };
+
+  window.clearAllData = function(){
+    const ok = confirm('Delete all SSC data from this browser? This cannot be undone.');
+    if(!ok) return;
+    Object.keys(localStorage).forEach(k=>{ if(k.startsWith('ssc_')) localStorage.removeItem(k); });
+    showToast('Data cleared','success');
+    location.reload();
+  };
+
+  const oldShowWelcomeBack = window.showWelcomeBack;
+  window.showWelcomeBack = function(){
+    oldShowWelcomeBack();
+    const exams = getSelectedExams();
+    const first = exams[0] ? SSC_EXAMS.find(e=>e.id===exams[0]) : null;
+    const btn = $('#wb-continue-btn');
+    if(btn && first && !$('#wb-ec-grid')){
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> Continue '+first.name;
+    }
+    enhanceStaticAccessibility();
+  };
+
+  window.obBack = function(step){
+    $$('.ob-step').forEach(s=>s.classList.remove('active'));
+    $('#ob-step-'+step)?.classList.add('active');
+    if(typeof updateObPills === 'function') updateObPills(step);
+  };
+  function addOnboardingBackButtons(){
+    if(!$('#ob-back-2')) $('#ob-step-2')?.insertAdjacentHTML('beforeend','<button id="ob-back-2" class="btn btn-ghost" onclick="obBack(1)" style="width:100%;justify-content:center;margin-top:8px;">Back</button>');
+    if(!$('#ob-back-3')) $('#ob-step-3')?.insertAdjacentHTML('beforeend','<button id="ob-back-3" class="btn btn-ghost" onclick="obBack(2)" style="width:100%;justify-content:center;margin-top:8px;">Back</button>');
+  }
+
+  function patchMutationObserver(){
+    try{ if(typeof _mutationObs !== 'undefined') _mutationObs.disconnect(); }catch(e){}
+    let pending = false;
+    const run = () => {
+      pending = false;
+      enhancePrimButtons(); enhanceStartButtons(); enhanceGoogleButtons(); enhanceStreakTooltip();
+      enhanceLB(); enhanceProgressBars(); addTrendArrows(); addVersionTag();
+      enhanceStaticAccessibility(); observeProgress();
+    };
+    const idle = window.requestIdleCallback || (cb=>setTimeout(cb,120));
+    new MutationObserver(()=>{
+      if(pending) return;
+      pending = true;
+      idle(run);
+    }).observe(document.body,{childList:true,subtree:true});
+  }
+
+  const oldTopbarGoogleLogin = window.topbarGoogleLogin;
+  window.topbarGoogleLogin = async function(){
+    try{ return await oldTopbarGoogleLogin(); }
+    catch(e){ showToast('Popup blocked? Try allowing popups for this site.','error',4200); }
+  };
+  const oldObGoogleLogin = window.obGoogleLogin;
+  window.obGoogleLogin = async function(){
+    try{ return await oldObGoogleLogin(); }
+    catch(e){ showToast('Popup blocked? Try allowing popups for this site.','error',4200); }
+  };
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    ensureNoscriptFallback();
+    addShortcutHelp();
+    addOnboardingBackButtons();
+    enhanceStaticAccessibility();
+    observeProgress();
+    patchMutationObserver();
+    if(location.hash && PAGE_LABELS[location.hash.slice(1)]) window.goPage(location.hash.slice(1),{skipHistory:true});
+    else history.replaceState({page:'home'},'', location.hash || '#home');
+  });
+  setTimeout(()=>{ addShortcutHelp(); addOnboardingBackButtons(); enhanceStaticAccessibility(); observeProgress(); },700);
+})();
 </script>
 </body>
 </html>
