@@ -14,6 +14,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SSC Prep">
+  <link rel="manifest" href="/ssc/manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
@@ -5247,6 +5248,15 @@ setTimeout(()=>{ initScrollTopBtn(); initAnalyticsNewBadge(); updateBreadcrumb('
   });
   setTimeout(()=>{ addShortcutHelp(); addOnboardingBackButtons(); enhanceStaticAccessibility(); observeProgress(); },700);
 })();
+</script>
+  <script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/ssc/sw.js', { scope: '/ssc/' })
+      .then(r => console.log('[SW] Registered:', r.scope))
+      .catch(e => console.error('[SW] Registration failed:', e));
+  });
+}
 </script>
 </body>
 </html>
