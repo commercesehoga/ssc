@@ -2602,10 +2602,26 @@ function getCBTResult(examId, mockId){
   }catch(e){ return null; }
 }
 
-/* Legacy SSC_MOCKS kept for analytics/exams page backward-compat */
+/* Legacy SSC_MOCKS kept for backward-compat (was always empty) */
 const SSC_MOCKS = {
   cgl:   [],chsl:[],mts:[],gd:[],cpo:[],je:[],steno:[],sel:[]
 };
+
+/* ── Helper: get flat list of ALL mock objects for an exam from SSC_MOCK_CHAPTERS ── */
+function getAllMocksForExam(examId){
+  const chData = SSC_MOCK_CHAPTERS[examId];
+  if(!chData) return [];
+  const all = [];
+  const chapters = chData.chapters || {};
+  Object.entries(chapters).forEach(([subjId, arr])=>{
+    arr.forEach(m=>all.push({...m, subject:subjId, type:'Chapter Mock'}));
+  });
+  (chData.tier1Mocks||[]).forEach(m=>all.push({...m, subject:'all', type:'Full Mock'}));
+  (chData.tier2Mocks||[]).forEach(m=>all.push({...m, subject:'all', type:'Full Mock'}));
+  (chData.imageMocks||[]).forEach(m=>all.push({...m, subject:'all', type:'Full Mock'}));
+  (chData.specialMocks||[]).forEach(m=>all.push({...m, subject:'all', type:'Full Mock'}));
+  return all;
+}
 
 /* ═══════════════════════════════════════
    LOCAL STORAGE HELPERS
@@ -2630,16 +2646,73 @@ function saveSelectedExams(e){ localStorage.setItem('ssc_exams', JSON.stringify(
 function getGoogleUser(){ try{return JSON.parse(localStorage.getItem('ts_google_user')||'null')}catch{return null;} }
 
 function rKey(examId, mockId){ return `ssc_result_${examId}_${mockId}`; }
-function lR(examId, mockId){ try{return JSON.parse(localStorage.getItem(rKey(examId,mockId))||'null')}catch{return null;} }
+function cbtKey(examId, mockId){ return `thunderstudy_result_${examId}_${mockId}`; }
+
+/* Read result — checks both key formats so CBT results show everywhere */
+function lR(examId, mockId){
+  try{
+    // Primary: ssc_result_* (dashboard-saved)
+    const v1 = localStorage.getItem(rKey(examId,mockId));
+    if(v1) return JSON.parse(v1);
+    // Fallback: thunderstudy_result_* (CBT-saved)
+    const v2 = localStorage.getItem(cbtKey(examId,mockId));
+    if(v2){
+      const d = JSON.parse(v2);
+      // Normalise to dashboard shape so all render code works
+      return _normaliseCBTResult(d, examId, mockId);
+    }
+    return null;
+  }catch{return null;}
+}
 function sR(examId, mockId, data){ localStorage.setItem(rKey(examId,mockId), JSON.stringify(data)); }
 
+/* Normalise a raw CBT result object to the shape the dashboard expects */
+function _normaliseCBTResult(d, examId, mockId){
+  if(!d) return null;
+  // CBT saves: {score, maxScore, percentage, date, examId?, mockId?} — already compatible
+  // Just ensure required fields exist
+  const pct = d.percentage ?? (d.maxScore>0 ? Math.round((d.score/d.maxScore)*100) : 0);
+  return {
+    examId:     d.examId   || examId,
+    mockId:     d.mockId   || mockId,
+    score:      d.score    ?? 0,
+    maxScore:   d.maxScore ?? 0,
+    percentage: pct,
+    date:       d.date     || d.timestamp || new Date().toISOString(),
+    ...d,  // keep any extra fields
+  };
+}
+
 function getAllAttempts(){
-  const all = [];
-  Object.keys(localStorage).forEach(k => {
-    if(k.startsWith('ssc_result_')) {
-      try{ const d=JSON.parse(localStorage.getItem(k)||'null'); if(d) all.push(d); }catch{}
-    }
+  const seen = new Set();
+  const all  = [];
+
+  function _push(k, prefix){
+    try{
+      const raw = localStorage.getItem(k);
+      if(!raw) return;
+      const d = JSON.parse(raw);
+      if(!d) return;
+      // Extract examId + mockId from key  e.g. "ssc_result_cgl_eng6" or "thunderstudy_result_cgl_eng6"
+      const parts = k.slice(prefix.length).split('_');
+      // examId = parts[0], mockId = rest joined (e.g. "t2full1", "image_ga")
+      const examId = parts[0];
+      const mockId = parts.slice(1).join('_');
+      const uid    = `${examId}__${mockId}`;
+      if(seen.has(uid)) return; // prefer ssc_result_* over thunderstudy_result_*
+      seen.add(uid);
+      const norm = _normaliseCBTResult({...d, examId, mockId}, examId, mockId);
+      if(norm) all.push(norm);
+    }catch{}
+  }
+
+  Object.keys(localStorage).forEach(k=>{
+    if(k.startsWith('ssc_result_'))          _push(k,'ssc_result_');
   });
+  Object.keys(localStorage).forEach(k=>{
+    if(k.startsWith('thunderstudy_result_')) _push(k,'thunderstudy_result_');
+  });
+
   return all;
 }
 
@@ -2984,7 +3057,7 @@ H += `<div style="position:relative;margin-bottom:16px;">
     H += `<div class="exam-grid">`;
     exams.slice(0,4).forEach(examId=>{
       const exam=SSC_EXAMS.find(e=>e.id===examId);if(!exam)return;
-      const mocks=SSC_MOCKS[examId]||[];
+      const mocks=getAllMocksForExam(examId);
       const attempted=mocks.filter(m=>lR(examId,m.id));
       const avgE=attempted.length>0?attempted.reduce((s,m)=>{const r=lR(examId,m.id);return s+(r?r.percentage:0);},0)/attempted.length:0;
       const pctBar=attempted.length>0?Math.min(100,avgE):0;
@@ -3288,7 +3361,7 @@ function renderExams(){
   selected.forEach(examId=>{
     const exam = SSC_EXAMS.find(e=>e.id===examId);
     if(!exam) return;
-    const mocks = SSC_MOCKS[examId]||[];
+    const mocks = getAllMocksForExam(examId);
     const done = mocks.filter(m=>lR(examId,m.id)).length;
     const isActive = _examTab===examId;
     H += `<div class="subj-tab ${isActive?'active':''}" onclick="switchExamTab('${examId}')" style="position:relative;">
@@ -3316,7 +3389,7 @@ function renderExamTab(examId){
   const cont = document.getElementById('exam-tab-content');
   if(!cont) return;
 
-  const mocks      = SSC_MOCKS[examId]||[];
+  const mocks      = getAllMocksForExam(examId);
   const attempted  = mocks.filter(m=>lR(examId,m.id));
   const totalDone  = attempted.length;
   const totalMocks = mocks.length;
@@ -3520,7 +3593,7 @@ function renderExamTab(examId){
 ═══════════════════════════════════════ */
 function openMock(examId, mockId){
   const exam = SSC_EXAMS.find(e=>e.id===examId);
-  const mocks = SSC_MOCKS[examId]||[];
+  const mocks = getAllMocksForExam(examId);
   const mock = mocks.find(m=>m.id===mockId);
   if(!exam||!mock) return;
 
@@ -3829,20 +3902,29 @@ function renderAnalytics(){
     <div class="stat-card"><div class="stat-icon" style="background:rgba(37,99,235,.1);">🎯</div><div class="stat-val" style="color:var(--blue);">${exams.length}</div><div class="stat-lbl">Exams</div></div>
   </div>`;
 
-  // Per-exam breakdown
+  // Per-exam breakdown — use SSC_MOCK_CHAPTERS (real data) not empty SSC_MOCKS
   H += `<div class="card card-p" style="margin-bottom:16px;">
     <div class="sec-hdr"><div class="sec-title">📋 Exam-wise Performance</div></div>`;
   exams.forEach(examId=>{
     const exam = SSC_EXAMS.find(e=>e.id===examId);
     if(!exam) return;
-    const mocks = SSC_MOCKS[examId]||[];
-    const done = mocks.filter(m=>lR(examId,m.id));
+    const chData = SSC_MOCK_CHAPTERS[examId];
+    // Collect all mock IDs for this exam
+    const allMockIds = [];
+    if(chData){
+      Object.values(chData.chapters||{}).forEach(arr=>arr.forEach(m=>allMockIds.push(m.id)));
+      (chData.tier1Mocks||[]).forEach(m=>allMockIds.push(m.id));
+      (chData.tier2Mocks||[]).forEach(m=>allMockIds.push(m.id));
+      (chData.imageMocks||[]).forEach(m=>allMockIds.push(m.id));
+      (chData.specialMocks||[]).forEach(m=>allMockIds.push(m.id));
+    }
+    const done = allMockIds.map(mid=>lR(examId,mid)).filter(Boolean);
     if(done.length===0) return;
-    const avg = done.reduce((s,m)=>{const r=lR(examId,m.id);return s+(r?r.percentage:0);},0)/done.length;
+    const avg = done.reduce((s,r)=>s+(r.percentage||0),0)/done.length;
     H += `<div class="prog-row">
       <div class="prog-lbl">${exam.icon} ${exam.name}</div>
       <div class="prog-track"><div class="prog-fill" style="width:${avg.toFixed(1)}%;background:${rClr(avg)};"></div></div>
-      <div class="prog-pct" style="color:${rClr(avg)};">${avg.toFixed(0)}%</div>
+      <div class="prog-pct" style="color:${rClr(avg)};">${avg.toFixed(0)}% <span style="font-size:9px;color:var(--text3);font-weight:600;">(${done.length} mock${done.length!==1?'s':''})</span></div>
     </div>`;
   });
   H += `</div>`;
@@ -3850,7 +3932,7 @@ function renderAnalytics(){
   // Subject breakdown across all exams
   const subjMap = {};
   allAtt.forEach(d=>{
-    const mock = (SSC_MOCKS[d.examId]||[]).find(m=>m.id===d.mockId);
+    const mock = getAllMocksForExam(d.examId).find(m=>m.id===d.mockId);
     if(!mock) return;
     const subj = mock.subject==='all'?'Overall':'subj_'+mock.subject;
     if(!subjMap[subj]) subjMap[subj]={pcts:[],count:0};
@@ -6152,11 +6234,15 @@ setTimeout(()=>{ initScrollTopBtn(); initAnalyticsNewBadge(); updateBreadcrumb('
   setTimeout(()=>{ addShortcutHelp(); addOnboardingBackButtons(); enhanceStaticAccessibility(); observeProgress(); },700);
 })();
 </script>
-  <script>
+<script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/ssc/sw.js', { scope: '/ssc/' })
-      .then(r => console.log('[SW] Registered:', r.scope))
+      .then(r => {
+        console.log('[SW] Registered:', r.scope);
+        // Check for updates every 60 seconds while tab is open
+        setInterval(() => r.update(), 60 * 1000);
+      })
       .catch(e => console.error('[SW] Registration failed:', e));
   });
 }
@@ -6219,5 +6305,150 @@ function triggerPwaInstall(){
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v13"/><path d="M7 11l5 5 5-5"/><rect x="3" y="18" width="18" height="3" rx="1.5"/></svg>
   Install App
 </button>
+
+<!-- ⚡ SW UPDATE POPUP -->
+<style>
+#sw-update-toast{
+  position:fixed;
+  bottom:88px;
+  left:50%;transform:translateX(-50%) translateY(20px);
+  z-index:99990;
+  background:linear-gradient(135deg,#1a1240,#2d2060);
+  border:1.5px solid rgba(124,111,240,.5);
+  border-radius:22px;
+  padding:14px 20px;
+  display:flex;align-items:center;gap:14px;
+  box-shadow:0 8px 32px rgba(0,0,0,.45),0 0 0 1px rgba(124,111,240,.15) inset;
+  min-width:0;max-width:min(92vw,420px);width:max-content;
+  opacity:0;pointer-events:none;
+  transition:opacity .35s cubic-bezier(.34,1.56,.64,1),
+             transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+#sw-update-toast.show{
+  opacity:1;pointer-events:auto;
+  transform:translateX(-50%) translateY(0);
+}
+@media(min-width:769px){
+  #sw-update-toast{
+    left:auto;right:24px;bottom:24px;
+    transform:translateY(20px);
+  }
+  #sw-update-toast.show{transform:translateY(0);}
+}
+.sw-toast-icon{
+  width:40px;height:40px;border-radius:12px;flex-shrink:0;
+  background:linear-gradient(135deg,#5B4EE8,#7C6FF0);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+  box-shadow:0 4px 14px rgba(91,78,232,.5);
+}
+.sw-toast-body{flex:1;min-width:0;}
+.sw-toast-title{
+  font-size:13px;font-weight:800;color:#fff;
+  font-family:'Outfit',sans-serif;letter-spacing:-.2px;
+  margin-bottom:2px;
+}
+.sw-toast-sub{font-size:11px;color:rgba(255,255,255,.55);font-weight:600;}
+.sw-toast-btns{display:flex;gap:7px;flex-shrink:0;}
+.sw-toast-btn-update{
+  padding:8px 16px;border-radius:20px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,#5B4EE8,#7C6FF0);
+  color:#fff;font-size:12px;font-weight:800;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  box-shadow:0 4px 12px rgba(91,78,232,.5);
+  transition:transform .15s,box-shadow .15s;
+  white-space:nowrap;
+}
+.sw-toast-btn-update:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(91,78,232,.65);}
+.sw-toast-btn-update:active{transform:scale(.95);}
+.sw-toast-btn-dismiss{
+  padding:8px 12px;border-radius:20px;border:1.5px solid rgba(255,255,255,.18);
+  background:transparent;color:rgba(255,255,255,.55);
+  font-size:12px;font-weight:700;cursor:pointer;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  transition:background .15s,color .15s;
+  white-space:nowrap;
+}
+.sw-toast-btn-dismiss:hover{background:rgba(255,255,255,.08);color:rgba(255,255,255,.85);}
+.sw-toast-btn-update.loading{pointer-events:none;opacity:.75;}
+.sw-toast-btn-update.loading::after{
+  content:'';display:inline-block;width:11px;height:11px;margin-left:6px;
+  border:2px solid rgba(255,255,255,.4);border-top-color:#fff;
+  border-radius:50%;animation:swSpin .6s linear infinite;vertical-align:middle;
+}
+@keyframes swSpin{to{transform:rotate(360deg);}}
+#sw-update-toast::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#5B4EE8,#818cf8,#a78bfa,#ec4899,#5B4EE8);
+  background-size:300% 100%;
+  animation:swShimmer 2.5s linear infinite;
+  border-radius:22px 22px 0 0;
+}
+@keyframes swShimmer{0%{background-position:0% 0}100%{background-position:300% 0}}
+</style>
+
+<div id="sw-update-toast" role="alert" aria-live="polite">
+  <div class="sw-toast-icon">⚡</div>
+  <div class="sw-toast-body">
+    <div class="sw-toast-title">Update Available!</div>
+    <div class="sw-toast-sub" id="sw-toast-ver">New version ready</div>
+  </div>
+  <div class="sw-toast-btns">
+    <button class="sw-toast-btn-update" id="sw-update-btn" onclick="swDoUpdate()">Update</button>
+    <button class="sw-toast-btn-dismiss" onclick="swDismiss()">Later</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  if(!('serviceWorker' in navigator)) return;
+
+  navigator.serviceWorker.addEventListener('message', function(e){
+    if(!e.data || e.data.type !== 'SW_UPDATED') return;
+    _showSwToast(e.data.version || '');
+  });
+
+  navigator.serviceWorker.ready.then(function(reg){
+    if(reg.waiting){ _showSwToast(''); }
+    reg.addEventListener('updatefound', function(){
+      const newSW = reg.installing;
+      if(!newSW) return;
+      newSW.addEventListener('statechange', function(){
+        if(newSW.state === 'installed' && navigator.serviceWorker.controller){
+          _showSwToast('');
+        }
+      });
+    });
+  });
+
+  function _showSwToast(version){
+    const toast = document.getElementById('sw-update-toast');
+    if(!toast || toast.classList.contains('show')) return;
+    const verEl = document.getElementById('sw-toast-ver');
+    if(verEl) verEl.textContent = version ? 'Version ' + version + ' is ready' : 'New version ready';
+    setTimeout(function(){ toast.classList.add('show'); }, 800);
+  }
+
+  window.swDoUpdate = function(){
+    const btn = document.getElementById('sw-update-btn');
+    if(btn){ btn.classList.add('loading'); btn.textContent = 'Updating'; }
+    navigator.serviceWorker.ready.then(function(reg){
+      if(reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+    });
+    setTimeout(function(){
+      const url = new URL(location.href);
+      url.searchParams.set('_sw_reload', Date.now());
+      location.replace(url.toString());
+    }, 400);
+  };
+
+  window.swDismiss = function(){
+    const toast = document.getElementById('sw-update-toast');
+    if(toast) toast.classList.remove('show');
+    setTimeout(function(){ if(toast) toast.classList.add('show'); }, 3 * 60 * 1000);
+  };
+})();
+</script>
+
 </body>
 </html>
