@@ -8,7 +8,7 @@
      • Everything else        → Network-first, fallback to cache
    ===================================================== */
 
-const APP_VERSION   = 'v1';
+const APP_VERSION   = 'v2';
 const CACHE_SHELL   = `ssc-shell-${APP_VERSION}`;
 const CACHE_CDN     = `ssc-cdn-${APP_VERSION}`;
 const CACHE_PAGES   = `ssc-pages-${APP_VERSION}`;
