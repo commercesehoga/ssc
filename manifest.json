@@ -1,6 +1,6 @@
 {
   "name": "SSC Prep – ThunderStudy",
-  "short_name": "SSC Prep",
+  "short_name": "Thunderstudy SSC",
   "description": "ThunderStudy SSC exam preparation dashboard",
   "start_url": "/ssc/",
   "scope": "/ssc/",
