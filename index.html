@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,6 +18,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
 <style>
 :root {
@@ -59,16 +57,22 @@ body.dark-mode #ssc-boot{background:linear-gradient(135deg,#0f0d1f,#12103a,#0f0d
 @keyframes bootCardIn{0%{opacity:0;transform:translateY(30px) scale(.94);}100%{opacity:1;transform:translateY(0) scale(1);}}
 @keyframes blink{0%,100%{opacity:.4;}50%{opacity:1;}}
 #ssc-boot-card{
-  background:rgba(255,255,255,.96);
-  backdrop-filter:blur(20px);
-  border:1px solid rgba(91,78,232,.15);
+  background:rgba(255,255,255,.97);
+  backdrop-filter:blur(28px) saturate(1.6);
+  -webkit-backdrop-filter:blur(28px) saturate(1.6);
+  border:1px solid rgba(212,204,255,.7);
   border-radius:32px;
-  padding:44px 48px 40px;
+  padding:36px 32px 28px;
   text-align:center;
-  box-shadow:0 4px 6px rgba(91,78,232,.04),0 20px 50px rgba(91,78,232,.14),inset 0 1px 0 rgba(255,255,255,.9);
+  box-shadow:0 4px 6px rgba(91,78,232,.04),0 24px 60px rgba(91,78,232,.18),0 0 0 1px rgba(255,255,255,.6) inset,0 1px 0 rgba(255,255,255,.95) inset;
   position:relative;overflow:hidden;
-  min-width:300px;max-width:360px;width:90vw;
+  min-width:0;width:min(92vw,400px);
   animation:bootCardIn .8s cubic-bezier(.34,1.56,.64,1) both;
+}
+body.dark-mode #ssc-boot-card{
+  background:rgba(22,18,52,.97);
+  border-color:rgba(91,78,232,.3);
+  box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 0 1px rgba(91,78,232,.2) inset;
 }
 body.dark-mode #ssc-boot-card{background:rgba(26,18,64,.96);border-color:rgba(91,78,232,.3);}
 #ssc-boot-icon{
@@ -87,11 +91,8 @@ body.dark-mode #ssc-boot-card{background:rgba(26,18,64,.96);border-color:rgba(91
   animation:bootPulse 2s ease-in-out 1.2s infinite;
 }
 #ssc-boot-icon::after{inset:-20px;border-radius:44px;border-color:rgba(91,78,232,.1);animation-delay:1.5s;}
-.boot-step{
-  display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:10px;
-  opacity:.4;transition:opacity .3s;margin-bottom:4px;
-}
-.boot-step.active{opacity:1;background:rgba(91,78,232,.06);}
+.boot-step{opacity:.45;transition:all .35s cubic-bezier(.34,1.56,.64,1);}
+.boot-step.active{opacity:1;transform:scale(1.02);background:rgba(91,78,232,.12)!important;border:1px solid rgba(91,78,232,.2);}
 #boot-pbar-track{height:3px;background:#EBEEFF;border-radius:3px;overflow:hidden;margin:10px 0 8px;}
 #boot-pbar-fill{height:100%;width:0%;background:linear-gradient(90deg,#5B4EE8,#7C6FF0);border-radius:3px;transition:width .5s ease;}
 
@@ -148,8 +149,80 @@ body.dark-mode #ssc-boot-card{background:rgba(26,18,64,.96);border-color:rgba(91
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
 @media(max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+@media(max-width:768px){
+  .exam-grid{
+    display:flex!important;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    gap:12px;
+    padding-bottom:8px;
+    scrollbar-width:none;
+  }
+  .exam-grid::-webkit-scrollbar{display:none;}
+  .exam-grid .exam-card{
+    min-width:200px;
+    flex-shrink:0;
+    scroll-snap-align:start;
+  }
+}
 .sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
 .sec-title{font-size:14px;font-weight:800;color:var(--text);}
+/* ── CUTOFF CARD ── */
+.co-wrap{font-family:'Space Grotesk',sans-serif;border-radius:22px;overflow:hidden;border:1.5px solid rgba(124,111,240,0.3);box-shadow:0 8px 32px rgba(0,0,0,.45),0 0 0 1px rgba(124,111,240,.1) inset;}
+.co-bg{background:linear-gradient(160deg,#0e0c1e 0%,#1a1440 50%,#0a0d1f 100%);position:relative;overflow:hidden;}
+.co-bg::before{content:'';position:absolute;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(92,78,232,.18) 0%,transparent 70%);top:-80px;right:-60px;pointer-events:none;}
+.co-bg::after{content:'';position:absolute;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(124,111,240,.12) 0%,transparent 70%);bottom:-40px;left:20px;pointer-events:none;}
+.co-head{padding:16px 18px 12px;position:relative;z-index:1;}
+.co-head-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.co-title-wrap{display:flex;align-items:center;gap:8px;}
+.co-title-icon{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#5B4EE8,#7C6FF0);display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 12px rgba(91,78,232,.5);}
+.co-title{font-size:14px;font-weight:700;color:#fff;letter-spacing:-.2px;}
+.co-exam-sel{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:11px;font-weight:700;color:rgba(255,255,255,.75);transition:all .2s;}
+.co-exam-sel:hover{background:rgba(255,255,255,.12);color:#fff;}
+.co-exam-drop{position:absolute;top:calc(100% + 4px);right:0;background:#16132e;border:1.5px solid rgba(124,111,240,.4);border-radius:12px;padding:6px;z-index:100;min-width:160px;box-shadow:0 12px 40px rgba(0,0,0,.6);display:none;}
+.co-exam-drop.open{display:block;}
+.co-exam-opt{padding:8px 12px;border-radius:8px;font-size:12px;font-weight:600;color:rgba(255,255,255,.65);cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:space-between;}
+.co-exam-opt:hover{background:rgba(124,111,240,.2);color:#fff;}
+.co-exam-opt.active{background:rgba(91,78,232,.3);color:#c4b5fd;}
+.co-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.co-pill-group{display:flex;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:3px;gap:2px;}
+.co-pill{padding:5px 11px;border-radius:7px;font-size:11px;font-weight:700;color:rgba(255,255,255,.5);cursor:pointer;border:none;background:transparent;transition:all .2s;font-family:inherit;}
+.co-pill.active{background:linear-gradient(135deg,#5B4EE8,#7C6FF0);color:#fff;box-shadow:0 2px 10px rgba(91,78,232,.5);}
+.co-tier-group{display:flex;background:rgba(255,255,255,.06);border:1px solid rgba(124,111,240,.25);border-radius:10px;padding:3px;gap:2px;margin-left:auto;}
+.co-tier-pill{padding:5px 12px;border-radius:7px;font-size:11px;font-weight:700;color:rgba(255,255,255,.5);cursor:pointer;border:none;background:transparent;transition:all .2s;font-family:inherit;}
+.co-tier-pill.active{background:rgba(196,181,253,.15);color:#c4b5fd;border:1px solid rgba(196,181,253,.3);}
+.co-cats{display:flex;gap:5px;padding:10px 18px 0;position:relative;z-index:1;}
+.co-cat{flex:1;padding:6px 4px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:rgba(255,255,255,.45);font-size:10px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s;font-family:inherit;}
+.co-cat.active{background:rgba(91,78,232,.35);color:#c4b5fd;border-color:rgba(124,111,240,.5);box-shadow:0 2px 8px rgba(91,78,232,.3);}
+.co-spotlight{margin:12px 18px 0;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;position:relative;z-index:1;}
+.co-big{flex-shrink:0;}
+.co-big-num{font-size:48px;font-weight:700;color:#fff;font-family:var(--mono,monospace);letter-spacing:-2px;line-height:1;}
+.co-big-lbl{font-size:10px;color:rgba(255,255,255,.4);margin-top:4px;letter-spacing:.5px;text-transform:uppercase;}
+.co-divider{width:1px;height:52px;background:rgba(255,255,255,.1);flex-shrink:0;}
+.co-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;flex:1;}
+.co-mini{background:rgba(255,255,255,.05);border-radius:9px;padding:8px 10px;border:1px solid rgba(255,255,255,.07);}
+.co-mini-v{font-size:14px;font-weight:700;color:#fff;line-height:1;font-family:var(--mono,monospace);}
+.co-mini-l{font-size:8px;color:rgba(255,255,255,.35);margin-top:3px;text-transform:uppercase;letter-spacing:.4px;}
+.co-trend{padding:12px 18px 16px;position:relative;z-index:1;}
+.co-trend-lbl{font-size:9px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;}
+.co-spark{display:flex;align-items:flex-end;gap:4px;height:32px;}
+.co-spark-col{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;}
+.co-spark-bar{width:100%;border-radius:3px 3px 1px 1px;background:rgba(124,111,240,.25);transition:all .4s ease;}
+.co-spark-bar.cur{background:linear-gradient(180deg,#7C6FF0,#5B4EE8);box-shadow:0 0 8px rgba(91,78,232,.5);}
+.co-spark-yr{font-size:7px;font-weight:700;color:rgba(255,255,255,.3);}
+.co-body{background:#f8f7ff;padding:14px 18px 16px;}
+.co-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(91,78,232,.08);}
+.co-row:last-child{border-bottom:none;}
+.co-row-lbl{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:#4a4580;}
+.co-row-lbl i{font-size:14px;color:#7C6FF0;}
+.co-row-val{font-size:12px;font-weight:700;color:#1a1240;}
+.co-change-up{color:#16a34a;font-size:11px;font-weight:700;}
+.co-change-dn{color:#dc2626;font-size:11px;font-weight:700;}
+.co-status-pill{font-size:9px;font-weight:700;padding:3px 9px;border-radius:20px;}
+.co-status-live{background:#fef3c7;color:#92400e;}
+.co-status-final{background:#d1fae5;color:#065f46;}
+.co-status-soon{background:#ede9fe;color:#5B4EE8;}
 .sec-link{font-size:12px;color:var(--acc);font-weight:700;cursor:pointer;}
 
 /* ── BUTTONS ── */
@@ -161,24 +234,24 @@ body.dark-mode #ssc-boot-card{background:rgba(26,18,64,.96);border-color:rgba(91
 .btn-google{display:flex;align-items:center;gap:8px;padding:9px 18px;border-radius:30px;border:1.5px solid #dadce0;background:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--fn);transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.08);}
 .btn-google:hover{box-shadow:0 4px 16px rgba(0,0,0,.12);transform:translateY(-1px);}
 
-/* ── HERO CARD ── */
-.ssc-hero{background:#fff;border:1px solid #D4CCFF;border-radius:22px;overflow:hidden;box-shadow:0 2px 24px rgba(91,78,232,.08);margin-bottom:16px;}
-body.dark-mode .ssc-hero{background:#1c1838;border-color:#312c5a;}
-.ssc-hero-top{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 14px;border-bottom:1px solid #ede8ff;gap:12px;flex-wrap:wrap;}
-body.dark-mode .ssc-hero-top{border-color:#312c5a;}
-.ssc-hero-av{width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,#dc2626,#b91c1c);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0;overflow:hidden;}
-.ssc-hero-av img{width:100%;height:100%;object-fit:cover;}
-.ssc-hero-name{font-size:18px;font-weight:900;color:#1a1240;font-family:'Outfit',sans-serif;}
-body.dark-mode .ssc-hero-name{color:#f0e8e0;}
-.ssc-hero-sid{font-size:11px;color:#5B4EE8;margin-top:2px;font-weight:700;font-family:var(--mono);}
-.ssc-level-pill{display:inline-flex;align-items:center;gap:5px;background:#EBEEFF;border:1px solid #D4CCFF;border-radius:30px;padding:5px 13px;font-size:12px;font-weight:800;color:#5B4EE8;}
-.ssc-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);}
-@media(max-width:500px){.ssc-stats-grid{grid-template-columns:repeat(2,1fr);}}
-.ssc-stat-cell{padding:14px 10px;text-align:center;border-right:1px solid #fff5f5;border-bottom:1px solid #ede8ff;}
-body.dark-mode .ssc-stat-cell{border-color:#312c5a;}
-.ssc-stat-cell:nth-child(4n){border-right:none;}
-.ssc-stat-v{font-size:20px;font-weight:900;font-family:var(--mono);line-height:1;}
-.ssc-stat-l{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#9a8070;margin-top:4px;}
+/* ── HERO CARD (Glassmorphism) ── */
+.hc-wrap{background:linear-gradient(135deg,#c7d2fe 0%,#ddd6fe 30%,#c4f1e0 70%,#bae6fd 100%);padding:20px;border-radius:24px;margin-bottom:16px;}
+.hc-card{background:rgba(255,255,255,0.55);border:1.5px solid rgba(255,255,255,0.85);border-radius:20px;overflow:hidden;}
+.hc-hdr{background:linear-gradient(120deg,rgba(91,78,232,0.92),rgba(67,56,202,0.88));padding:20px 20px 0;position:relative;overflow:hidden;}
+.hc-body{padding:16px 20px;background:rgba(255,255,255,0.4);}
+.hc-footer{padding:12px 20px;background:rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.5);}
+.hc-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,0.1);margin-top:14px;}
+.hc-stat{background:rgba(255,255,255,0.07);padding:10px 6px;text-align:center;}
+.hc-subj-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.hc-subj-row{display:flex;align-items:center;gap:10px;}
+.hc-subj-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.hc-subj-track{height:5px;background:rgba(91,78,232,0.1);border-radius:5px;flex:1;overflow:hidden;}
+.hc-subj-fill{height:100%;border-radius:5px;transition:width 1.2s ease;}
+.hc-divider{height:1px;background:rgba(91,78,232,0.1);margin:14px 0;}
+.hc-badges{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.hc-badge{background:rgba(255,255,255,0.6);border:1.5px solid rgba(255,255,255,0.9);border-radius:12px;padding:10px 6px;text-align:center;}
+.hc-badge.locked{opacity:0.38;filter:grayscale(1);}
+.hc-sec-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#534AB7;margin-bottom:10px;}
 
 /* ── EXAM CARDS ── */
 .exam-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px;}
@@ -282,6 +355,19 @@ body.dark-mode .mobile-dock{background:#1a100c;border-color:#312c5a;}
 #ts-identity-banner{display:none;background:linear-gradient(135deg,rgba(220,38,38,.08),rgba(234,88,12,.06));border:1.5px solid rgba(220,38,38,.25);border-radius:16px;padding:14px 18px;margin-bottom:16px;align-items:center;gap:12px;}
 #ts-identity-banner.show{display:flex;}
 
+/* ── 3D ACTIVITY HEATMAP ── */
+.act-wrap{background:linear-gradient(135deg,#f0eeff,#e8f5e9);border-radius:20px;padding:18px 20px;margin-bottom:16px;border:1.5px solid rgba(91,78,232,.12);}
+.act-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;align-items:end;height:90px;margin:12px 0 6px;}
+.act-bar-wrap{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:3px;}
+.act-bar{width:100%;border-radius:4px 4px 2px 2px;min-height:4px;position:relative;transition:all .3s cubic-bezier(.34,1.56,.64,1);}
+.act-bar::before{content:'';position:absolute;left:0;right:0;top:0;height:40%;border-radius:4px 4px 0 0;background:rgba(255,255,255,.25);}
+.act-bar::after{content:'';position:absolute;left:2px;right:-3px;bottom:-3px;top:3px;border-radius:2px;z-index:-1;filter:blur(2px);opacity:.4;}
+.act-day-lbl{font-size:7px;font-weight:700;color:var(--text3);text-align:center;margin-top:2px;}
+.act-stats-row{display:flex;gap:14px;flex-wrap:wrap;}
+.act-stat-chip{display:flex;flex-direction:column;}
+.act-stat-val{font-size:22px;font-weight:900;font-family:var(--mono);color:var(--text);letter-spacing:-1px;line-height:1;}
+.act-stat-lbl{font-size:10px;color:var(--text3);margin-top:2px;}
+
 /* ── SCROLL ── */
 ::-webkit-scrollbar{width:6px;}
 ::-webkit-scrollbar-track{background:transparent;}
@@ -303,18 +389,7 @@ body.dark-mode .mobile-dock{background:#1a100c;border-color:#312c5a;}
 /* #19 — Line-clamp on exam descriptions */
 .exam-card-full{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 
-/* ── 1. GLASSMORPHISM HERO CARD ── */
-.ssc-hero{
-  background:rgba(255,255,255,0.55)!important;
-  backdrop-filter:blur(24px) saturate(1.4);
-  -webkit-backdrop-filter:blur(24px) saturate(1.4);
-  border:1px solid rgba(255,255,255,0.6)!important;
-  box-shadow:0 8px 40px rgba(91,78,232,.14),inset 0 1px 0 rgba(255,255,255,.8)!important;
-}
-body.dark-mode .ssc-hero{
-  background:rgba(28,24,56,0.7)!important;
-  border:1px solid rgba(91,78,232,0.25)!important;
-}
+
 /* #13 — text-shadow on hero headings */
 .ssc-hero [style*="font-size:20px"][style*="font-weight:900"],
 .ssc-hero [style*="font-size:18px"]{text-shadow:0 2px 12px rgba(91,78,232,.18);}
@@ -580,22 +655,10 @@ body.dark-mode .ssc-hero{
 }
 
 /* ── 31. FLOATING ACTION BUTTON ── */
-.fab-quick-add{
-  display:none;
-  position:fixed;bottom:80px;right:16px;z-index:200;
-  width:52px;height:52px;border-radius:50%;
-  background:linear-gradient(135deg,#5B4EE8,#4338CA);
-  color:#fff;font-size:24px;font-weight:300;
-  border:none;cursor:pointer;
-  box-shadow:0 6px 24px rgba(91,78,232,.45);
-  align-items:center;justify-content:center;
-  transition:all .25s;font-family:var(--fn);
-}
-@media(max-width:768px){.fab-quick-add{display:flex;}}
 @keyframes fabPop{0%{transform:scale(0) rotate(-90deg);}100%{transform:scale(1) rotate(0deg);}}
-.fab-quick-add{animation:fabPop .4s .5s cubic-bezier(.34,1.56,.64,1) both;}
-.fab-quick-add:hover{transform:scale(1.1);}
-.fab-quick-add:active{transform:scale(0.95);}
+@media(max-width:768px){.fab-donate{display:flex!important;}}
+.fab-donate:hover{transform:scale(1.1);}
+.fab-donate:active{transform:scale(0.95);}
 
 /* ── 32. DOCK PILL ACTIVE INDICATOR ── */
 .dock-item{position:relative;}
@@ -750,6 +813,13 @@ body.dark-mode .ssc-hero{
 /* ── MISC ── */
 .card{transition:box-shadow .2s;}
 .card:hover{box-shadow:var(--sh2);}
+
+/* ── COLLAPSIBLE SECTIONS ── */
+.sec-collapse-btn{background:none;border:none;cursor:pointer;font-size:16px;color:var(--text3);padding:2px 6px;border-radius:8px;transition:all .2s;font-family:var(--fn);}
+.sec-collapse-btn:hover{background:var(--card2);}
+.sec-collapsible{overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .3s ease;}
+.sec-collapsible.collapsed{max-height:0!important;opacity:0;pointer-events:none;}
+.sec-collapsible.expanded{max-height:2000px;opacity:1;}
 
 /* ════════════════════════════════════════
    WELCOME BACK SCREEN
@@ -964,8 +1034,6 @@ body{font-family:'Plus Jakarta Sans',system-ui,-apple-system,BlinkMacSystemFont,
 .btn-prim{border-color:transparent;}
 .btn-ghost{border-color:var(--border);}
 .ob-input{border-radius:18px;}
-.ssc-hero{background:color-mix(in srgb,var(--card) 82%,transparent)!important;border-color:var(--border)!important;}
-body.dark-mode .ssc-hero{background:color-mix(in srgb,var(--card) 82%,transparent)!important;border-color:var(--border)!important;}
 .ssc-hero-av img,.wb-avatar img{object-position:center top;}
 .ssc-hero-name{color:var(--text)!important;}
 .ssc-level-pill{background:var(--lavender2);border-color:var(--lavender);color:var(--acc);}
@@ -1049,42 +1117,110 @@ body.dark-mode .score-dist-bar{filter:brightness(1.12) saturate(1.1);}
     scroll-snap-align:start;
   }
 }
+/* ── PWA INSTALL BUTTON ── */
+#pwa-install-btn{
+  position:fixed;bottom:80px;right:16px;z-index:9000;
+  background:linear-gradient(135deg,#5B4EE8,#4338CA);
+  color:#fff;border:none;border-radius:50px;
+  padding:11px 18px;font-size:12px;font-weight:800;
+  font-family:var(--fn);cursor:pointer;
+  display:none;align-items:center;gap:8px;
+  box-shadow:0 8px 24px rgba(91,78,232,.4);
+  transition:transform .2s,box-shadow .2s;
+  animation:installBounce .6s 2s cubic-bezier(.34,1.56,.64,1) both;
+}
+#pwa-install-btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(91,78,232,.55);}
+@media(max-width:768px){
+  /* On mobile, move above the dock */
+  #pwa-install-btn{bottom:76px;}
+}
+@keyframes installBounce{
+  0%{transform:translateY(20px);opacity:0;}
+  100%{transform:translateY(0);opacity:1;}
+}
 </style>
 </head>
 <body>
 <noscript><div style="padding:18px;font:600 15px system-ui;background:#fff3cd;color:#3b2f00;">JavaScript is required to use SSC Prep. Please enable JavaScript in your browser.</div></noscript>
 
-<!-- ═══════════════ BOOT SCREEN ═══════════════ -->
+<!-- ═══════════════ BOOT SCREEN — NEW ═══════════════ -->
 <div id="ssc-boot">
-  <div class="boot-blob" style="width:600px;height:600px;background:radial-gradient(circle,rgba(91,78,232,.15),transparent 70%);top:-200px;left:-150px;animation:blobFloat1 8s ease-in-out infinite alternate;"></div>
-  <div class="boot-blob" style="width:500px;height:500px;background:radial-gradient(circle,rgba(124,58,237,.1),transparent 70%);bottom:-150px;right:-100px;animation:blobFloat2 10s ease-in-out infinite alternate;"></div>
+  <!-- Animated blobs -->
+  <div class="boot-blob" style="width:700px;height:700px;background:radial-gradient(circle,rgba(91,78,232,.22),transparent 65%);top:-260px;left:-180px;animation:blobFloat1 9s ease-in-out infinite alternate;"></div>
+  <div class="boot-blob" style="width:600px;height:600px;background:radial-gradient(circle,rgba(124,58,237,.15),transparent 65%);bottom:-200px;right:-120px;animation:blobFloat2 11s ease-in-out infinite alternate;"></div>
+  <div class="boot-blob" style="width:400px;height:400px;background:radial-gradient(circle,rgba(236,72,153,.08),transparent 70%);top:20%;right:5%;animation:blobFloat1 7s ease-in-out infinite alternate-reverse;"></div>
+  <div class="boot-blob" style="width:280px;height:280px;background:radial-gradient(circle,rgba(16,185,129,.07),transparent 70%);bottom:15%;left:5%;animation:blobFloat2 8s ease-in-out infinite alternate;"></div>
 
   <div id="ssc-boot-card">
-    <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#5B4EE8,#7C6FF0,#5B4EE8);border-radius:32px 32px 0 0;"></div>
-    <div id="ssc-boot-icon">
+    <!-- Rainbow shimmer bar -->
+    <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#5B4EE8,#818cf8,#a78bfa,#ec4899,#f59e0b,#5B4EE8);background-size:300% 100%;animation:bootShimmer 2.5s linear infinite;border-radius:32px 32px 0 0;"></div>
+
+    <!-- Floating particles -->
+    <div style="position:absolute;inset:0;overflow:hidden;border-radius:32px;pointer-events:none;">
+      <div style="position:absolute;width:6px;height:6px;background:#5B4EE8;border-radius:50%;top:18%;left:12%;opacity:.25;animation:blobFloat1 4s ease-in-out infinite;"></div>
+      <div style="position:absolute;width:4px;height:4px;background:#a78bfa;border-radius:50%;top:72%;right:14%;opacity:.2;animation:blobFloat2 5s ease-in-out infinite;"></div>
+      <div style="position:absolute;width:5px;height:5px;background:#ec4899;border-radius:50%;bottom:22%;left:72%;opacity:.18;animation:blobFloat1 6s 1s ease-in-out infinite alternate;"></div>
+    </div>
+
+    <!-- Icon -->
+    <div id="ssc-boot-icon" style="width:88px;height:88px;border-radius:24px;margin:0 auto 20px;">
       <svg width="38" height="42" viewBox="0 0 20 22" fill="none">
-        <path class="filled" d="M13 1L3 13H9L4 21L17 9H11L13 1Z" fill="none" stroke="white" stroke-width="1" stroke-dasharray="120" stroke-dashoffset="120" style="animation:lightningDraw .9s .6s cubic-bezier(.4,0,.2,1) forwards;"/>
+        <path class="filled" d="M13 1L3 13H9L4 21L17 9H11L13 1Z" fill="none" stroke="white" stroke-width="1.2" stroke-dasharray="120" stroke-dashoffset="120" style="animation:lightningDraw .9s .6s cubic-bezier(.4,0,.2,1) forwards;"/>
       </svg>
     </div>
-    <div style="font-family:'Outfit',sans-serif;font-size:28px;font-weight:900;letter-spacing:-1px;margin-bottom:4px;">
-      <span style="color:#5B4EE8;">SSC</span> <span style="color:#1a1240;">Prep</span>
-    </div>
-    <div style="font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(91,78,232,.5);margin-bottom:24px;overflow:hidden;"><span id="boot-typing-subtitle">Staff Selection Commission</span></div>
 
-    <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:14px;text-align:left;">
-      <div class="boot-step" id="bs0"><span style="font-size:13px;">📋</span><span style="font-size:11px;font-weight:700;color:#3730a3;">Loading SSC exams</span></div>
-      <div class="boot-step" id="bs1"><span style="font-size:13px;">🔑</span><span style="font-size:11px;font-weight:700;color:#3730a3;">Checking your identity</span></div>
-      <div class="boot-step" id="bs2"><span style="font-size:13px;">📊</span><span style="font-size:11px;font-weight:700;color:#3730a3;">Loading your scores</span></div>
-      <div class="boot-step" id="bs3"><span style="font-size:13px;">🚀</span><span style="font-size:11px;font-weight:700;color:#3730a3;">Ready!</span></div>
+    <!-- Brand -->
+    <div style="font-family:'Outfit',sans-serif;font-size:30px;font-weight:900;letter-spacing:-1.5px;margin-bottom:2px;background:linear-gradient(135deg,#5B4EE8 20%,#818cf8 60%,#a78bfa 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+      ThunderStudy
+    </div>
+    <div style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;color:var(--text3);margin-bottom:4px;text-transform:uppercase;">SSC Exam Prep</div>
+    <div style="overflow:hidden;height:18px;margin-bottom:18px;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(91,78,232,.5);"><span id="boot-typing-subtitle">Staff Selection Commission</span></div>
     </div>
 
-    <div id="boot-pbar-track"><div id="boot-pbar-fill"></div></div>
-    <div id="boot-label" style="font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(91,78,232,.5);animation:blink 1.8s infinite;">Initializing…</div>
+    <!-- Exam pills with icons -->
+    <div style="display:flex;gap:5px;justify-content:center;margin-bottom:24px;flex-wrap:wrap;">
+      <span style="font-size:10px;font-weight:800;background:linear-gradient(135deg,rgba(91,78,232,.15),rgba(91,78,232,.08));color:#5B4EE8;border-radius:20px;padding:4px 11px;border:1px solid rgba(91,78,232,.2);letter-spacing:.3px;">🏛️ CGL</span>
+      <span style="font-size:10px;font-weight:800;background:linear-gradient(135deg,rgba(234,88,12,.15),rgba(234,88,12,.08));color:#ea580c;border-radius:20px;padding:4px 11px;border:1px solid rgba(234,88,12,.2);">📚 CHSL</span>
+      <span style="font-size:10px;font-weight:800;background:linear-gradient(135deg,rgba(217,119,6,.15),rgba(217,119,6,.08));color:#d97706;border-radius:20px;padding:4px 11px;border:1px solid rgba(217,119,6,.2);">🔧 MTS</span>
+      <span style="font-size:10px;font-weight:800;background:linear-gradient(135deg,rgba(22,163,74,.15),rgba(22,163,74,.08));color:#16a34a;border-radius:20px;padding:4px 11px;border:1px solid rgba(22,163,74,.2);">🛡️ GD</span>
+      <span style="font-size:10px;font-weight:800;background:linear-gradient(135deg,rgba(37,99,235,.15),rgba(37,99,235,.08));color:#2563eb;border-radius:20px;padding:4px 11px;border:1px solid rgba(37,99,235,.2);">👮 CPO</span>
+    </div>
+
+    <!-- Step indicators (redesigned as icons) -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;text-align:left;">
+      <div class="boot-step" id="bs0" style="background:var(--lavender2);border-radius:12px;padding:9px 12px;display:flex;align-items:center;gap:8px;">
+        <div style="width:28px;height:28px;border-radius:8px;background:rgba(91,78,232,.15);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">📋</div>
+        <span style="font-size:11px;font-weight:700;color:var(--text2);">Loading exams</span>
+      </div>
+      <div class="boot-step" id="bs1" style="background:var(--lavender2);border-radius:12px;padding:9px 12px;display:flex;align-items:center;gap:8px;">
+        <div style="width:28px;height:28px;border-radius:8px;background:rgba(91,78,232,.15);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🔑</div>
+        <span style="font-size:11px;font-weight:700;color:var(--text2);">Verifying ID</span>
+      </div>
+      <div class="boot-step" id="bs2" style="background:var(--lavender2);border-radius:12px;padding:9px 12px;display:flex;align-items:center;gap:8px;">
+        <div style="width:28px;height:28px;border-radius:8px;background:rgba(91,78,232,.15);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">📊</div>
+        <span style="font-size:11px;font-weight:700;color:var(--text2);">Restoring scores</span>
+      </div>
+      <div class="boot-step" id="bs3" style="background:var(--lavender2);border-radius:12px;padding:9px 12px;display:flex;align-items:center;gap:8px;">
+        <div style="width:28px;height:28px;border-radius:8px;background:rgba(91,78,232,.15);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">⚡</div>
+        <span style="font-size:11px;font-weight:700;color:var(--text2);">All set!</span>
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div id="boot-pbar-track" style="height:5px;margin:0 0 8px;border-radius:10px;overflow:hidden;">
+      <div id="boot-pbar-fill" style="height:100%;width:0%;border-radius:10px;background:linear-gradient(90deg,#5B4EE8,#818cf8,#a78bfa);background-size:200% 100%;animation:bootShimmer 1.5s linear infinite;transition:width .5s ease;"></div>
+    </div>
+
+    <!-- Status label -->
+    <div id="boot-label" style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(91,78,232,.5);animation:blink 1.8s infinite;margin-bottom:4px;">Initializing…</div>
   </div>
 
+  <!-- Footer tagline -->
   <div style="margin-top:20px;opacity:0;transition:opacity .4s .8s ease;" id="boot-tagline">
-    <div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.7);backdrop-filter:blur(10px);border:1px solid rgba(91,78,232,.15);border-radius:30px;padding:8px 18px;">
-      <span style="font-size:11px;font-weight:600;color:rgba(91,78,232,.6);letter-spacing:.5px;">Made with ❤️ by Wondermayank</span>
+    <div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.8);backdrop-filter:blur(14px);border:1px solid rgba(91,78,232,.15);border-radius:30px;padding:8px 18px;box-shadow:0 4px 20px rgba(91,78,232,.1);">
+      <span style="font-size:18px;">⚡</span>
+      <span style="font-size:11px;font-weight:700;color:rgba(91,78,232,.65);letter-spacing:.2px;">Made with ❤️ by Wondermayank</span>
     </div>
   </div>
 </div>
@@ -1350,7 +1486,7 @@ body.dark-mode .score-dist-bar{filter:brightness(1.12) saturate(1.1);}
 </div>
 
 <!-- ═══════════════ MOBILE DOCK ═══════════════ -->
-<button class="fab-quick-add" onclick="openQuickAddScore()" title="Quick Add Score">+</button>
+<a href="https://commercesehoga.github.io/help" target="_blank" rel="noopener" class="fab-donate" title="Support Us ❤️" style="display:none;position:fixed;bottom:80px;right:16px;z-index:200;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#e11d48,#be123c);color:#fff;font-size:22px;border:none;cursor:pointer;box-shadow:0 6px 24px rgba(225,29,72,.45);align-items:center;justify-content:center;text-decoration:none;animation:fabPop .4s .5s cubic-bezier(.34,1.56,.64,1) both;">❤️</a>
 <div class="mobile-dock" role="navigation" aria-label="Mobile primary">
   <div class="dock-item active" id="dock-home" onclick="dockTap(this,'home')">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -1406,6 +1542,7 @@ fbAuth.onAuthStateChanged(user=>{
     const p=getProfile();if(!p.name&&user.displayName){p.name=user.displayName;saveProfile(p);localStorage.setItem('ssc_name',user.displayName);}
     if(!getStudentID()){ const id=makeStudentId();localStorage.setItem('ssc_student_id',id); }
     renderHomeTopbar();
+    if(!localStorage.getItem('ssc_joined_ts')) localStorage.setItem('ssc_joined_ts', Date.now());
   }
 });
 
@@ -1646,23 +1783,25 @@ function _showNP(){
 
       <!-- ACTIONS -->
       <div style="display:flex;gap:9px;">
-        <button onclick="npReadIt()"
+        <button onclick="npGotIt()"
           style="flex:1;padding:12px 10px;border-radius:30px;
           border:1.5px solid var(--border);background:var(--card2);
           color:var(--text2);font-size:12px;font-weight:800;
           cursor:pointer;font-family:var(--fn);transition:all .15s;"
           onmouseenter="this.style.borderColor='${tc}60';this.style.color='var(--text)'"
           onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">
-          📖 Read it
+          ✅ Got it
+          <div style="font-size:9px;font-weight:600;opacity:.6;margin-top:2px;">remind next time</div>
         </button>
-        <button onclick="npGotIt()"
+        <button onclick="npReadIt()"
           style="flex:1;padding:12px 10px;border-radius:30px;border:none;
           background:linear-gradient(135deg,${tc},${tc}bb);color:#fff;
           font-size:12px;font-weight:800;cursor:pointer;font-family:var(--fn);
           box-shadow:0 4px 14px ${tc}40;transition:all .15s;"
           onmouseenter="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 20px ${tc}55'"
           onmouseleave="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 14px ${tc}40'">
-          ✅ Got it
+          📖 Read it
+          <div style="font-size:9px;font-weight:600;opacity:.8;margin-top:2px;">don't show again</div>
         </button>
       </div>
     </div>`;
@@ -1736,10 +1875,15 @@ function _renderNoticesLoading(){
 }
 
 function updateNoticesBadge(){
+  const permRead = JSON.parse(localStorage.getItem('app_perm_read')||'[]');
+  const unread = _notices.filter(n=>!permRead.includes(String(n.id||n.title))).length;
   const b=document.getElementById('notices-nav-badge');
-  if(b){b.textContent=_notices.length;b.style.display=_notices.length>0?'inline-flex':'none';}
+  if(b){b.textContent=unread;b.style.display=unread>0?'inline-flex':'none';}
   const b2=document.getElementById('home-notices-badge');
-  if(b2){b2.textContent=_notices.length+' new';b2.style.display=_notices.length>0?'inline-flex':'none';}
+  if(b2){b2.textContent=unread+' new';b2.style.display=unread>0?'inline-flex':'none';}
+  // Red dot on notices card
+  const dot=document.getElementById('notices-unread-dot');
+  if(dot) dot.style.display = unread>0?'block':'none';
 }
 
 function openNoticesPopup(){
@@ -1747,7 +1891,7 @@ function openNoticesPopup(){
   if(ex){ex.remove();return;}
   const overlay=document.createElement('div');
   overlay.id='notices-popup-overlay';
-  overlay.style.cssText='position:fixed;inset:0;background:rgba(20,16,60,.45);z-index:9000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);padding:16px;';
+  overlay.style.cssText='position:fixed;inset:0;background:linear-gradient(135deg,rgba(196,181,253,.45),rgba(167,243,208,.3),rgba(196,181,253,.4));z-index:9000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(16px);padding:20px;';
 
   const noHTML=_notices.length===0
     ?`<div style="text-align:center;padding:40px 20px;">
@@ -1778,20 +1922,37 @@ function openNoticesPopup(){
       </div>`;
     }).join('');
 
-  overlay.innerHTML=`<div style="background:var(--card);border-radius:24px;width:100%;max-width:500px;max-height:88vh;display:flex;flex-direction:column;animation:mIn .35s cubic-bezier(.34,1.56,.64,1) both;box-shadow:0 20px 80px rgba(91,78,232,.25);border:1.5px solid #D4CCFF;">
-    <!-- Header -->
-    <div style="padding:20px 22px 16px;border-bottom:1.5px solid #EBEEFF;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:linear-gradient(135deg,#EBEEFF,#f4f2ff);border-radius:22px 22px 0 0;">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div style="width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#5B4EE8,#4338CA);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 14px rgba(91,78,232,.3);">🔔</div>
-        <div>
-          <div style="font-size:17px;font-weight:900;font-family:'Outfit',sans-serif;color:var(--text);display:flex;align-items:center;gap:8px;">Notices ${_notices.length>0?`<span style="background:linear-gradient(135deg,#5B4EE8,#4338CA);color:#fff;font-size:10px;font-weight:800;padding:2px 9px;border-radius:20px;">${_notices.length}</span>`:''}</div>
-          <div style="font-size:11px;color:var(--text3);margin-top:1px;">Latest updates & announcements</div>
+  overlay.innerHTML=`
+  <!-- Stacked card effect (back layers) -->
+  <div style="position:relative;width:100%;max-width:480px;margin:auto;">
+    <div style="position:absolute;inset:0;background:linear-gradient(135deg,#a7f3d0,#6ee7b7);border-radius:26px;transform:rotate(6deg) translateY(10px);opacity:0.5;filter:blur(1px);"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(135deg,#c4b5fd,#ddd6fe);border-radius:26px;transform:rotate(-4deg) translateY(18px);opacity:0.45;filter:blur(1px);"></div>
+
+    <!-- Main card -->
+    <div style="position:relative;z-index:2;background:rgba(255,255,255,.18);backdrop-filter:blur(28px) saturate(1.8);-webkit-backdrop-filter:blur(28px) saturate(1.8);border-radius:24px;border:1.5px solid rgba(255,255,255,.5);box-shadow:0 20px 60px rgba(91,78,232,.25),0 0 0 1px rgba(255,255,255,.3) inset;max-height:88vh;display:flex;flex-direction:column;animation:mIn .35s cubic-bezier(.34,1.56,.64,1) both;">
+
+      <!-- Header -->
+      <div style="padding:20px 22px 16px;border-bottom:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:linear-gradient(135deg,rgba(91,78,232,.25),rgba(67,56,202,.2));border-radius:22px 22px 0 0;backdrop-filter:blur(10px);">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#5B4EE8,#4338CA);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 14px rgba(91,78,232,.4);">🔔</div>
+          <div>
+            <div style="font-size:17px;font-weight:900;font-family:'Outfit',sans-serif;color:#fff;display:flex;align-items:center;gap:8px;">Notices ${_notices.length>0?`<span style="background:rgba(255,255,255,.25);color:#fff;font-size:10px;font-weight:800;padding:2px 9px;border-radius:20px;border:1px solid rgba(255,255,255,.3);">${_notices.length}</span>`:''}</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:1px;">Latest updates & announcements</div>
+          </div>
         </div>
+        <button onclick="document.getElementById('notices-popup-overlay').remove()" style="background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.35);border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;transition:all .2s;backdrop-filter:blur(8px);" onmouseenter="this.style.background='rgba(255,255,255,.3)'" onmouseleave="this.style.background='rgba(255,255,255,.2)'">×</button>
       </div>
-      <button onclick="document.getElementById('notices-popup-overlay').remove()" style="background:#fff;border:1.5px solid #D4CCFF;border-radius:50%;width:34px;height:34px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);transition:all .2s;box-shadow:0 2px 8px rgba(91,78,232,.08);" onmouseenter="this.style.background='#EBEEFF'" onmouseleave="this.style.background='#fff'">×</button>
+
+      <!-- Body -->
+      <div style="overflow-y:auto;padding:16px 20px 24px;flex:1;">${noHTML.replace(
+        /background:#fff;border:1\.5px solid #D4CCFF;border-radius:16px;padding:16px 18px;margin-bottom:10px;position:relative;overflow:hidden;transition:box-shadow .2s;/g,
+        'background:rgba(255,255,255,.55);border:1.5px solid rgba(255,255,255,.7);border-radius:16px;padding:16px 18px;margin-bottom:10px;position:relative;overflow:hidden;transition:all .2s;backdrop-filter:blur(12px);'
+      ).replace(
+        /color:var\(--text\)/g,'color:#1a1240'
+      ).replace(
+        /color:var\(--text2\)/g,'color:#3d3870'
+      )}</div>
     </div>
-    <!-- Body -->
-    <div style="overflow-y:auto;padding:16px 20px 24px;flex:1;">${noHTML}</div>
   </div>`;
 
   overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.remove();});
@@ -1814,7 +1975,7 @@ function renderNoticesPreview(el){
   const tag=n.type||n.category||'General';
   const tc=tag.toLowerCase().includes('urgent')||tag.toLowerCase().includes('important')?'#e53e3e':tag.toLowerCase().includes('exam')?'#5B4EE8':'#16a34a';
   el.innerHTML=`<div onclick="openNoticesPopup()" style="cursor:pointer;background:linear-gradient(135deg,#EBEEFF 0%,#f4f2ff 100%);border:1.5px solid #D4CCFF;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;transition:all .2s;box-shadow:0 2px 8px rgba(91,78,232,.06);" onmouseenter="this.style.boxShadow='0 6px 20px rgba(91,78,232,.15)';this.style.borderColor='rgba(91,78,232,.4)'" onmouseleave="this.style.boxShadow='0 2px 8px rgba(91,78,232,.06)';this.style.borderColor='#D4CCFF'">
-    <div style="width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#5B4EE8,#4338CA);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 4px 12px rgba(91,78,232,.3);">🔔</div>
+<div style="position:relative;width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#5B4EE8,#4338CA);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 4px 12px rgba(91,78,232,.3);">🔔<span id="notices-unread-dot" style="display:none;position:absolute;top:-3px;right:-3px;width:10px;height:10px;border-radius:50%;background:#dc2626;border:2px solid white;animation:pulseRing 1.5s ease-out infinite;"></span></div>
     <div style="flex:1;min-width:0;">
       <div style="font-size:12px;font-weight:800;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escH(n.title||n.heading||n.subject||'New Notice')}</div>
       <div style="font-size:10px;color:var(--text3);margin-top:2px;">${_notices.length} notice${_notices.length!==1?'s':''} · tap to view all</div>
@@ -2485,6 +2646,22 @@ function getAllAttempts(){
 function rClr(p){ return p>=80?'#16a34a':p>=60?'#2563eb':p>=40?'#d97706':'#dc2626'; }
 function escH(s){ const d=document.createElement('div');d.textContent=s;return d.innerHTML; }
 
+
+function toggleSection(key){
+  const stored = localStorage.getItem('ssc_sec_'+key);
+  const isNowOpen = stored !== '0'; // default open
+  localStorage.setItem('ssc_sec_'+key, isNowOpen ? '0' : '1');
+  renderHome();
+}
+function isSectionOpen(key){ return localStorage.getItem('ssc_sec_'+key) !== '0'; }
+function secHdr(title, key, extra=''){
+  const open = isSectionOpen(key);
+  return `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:${open?'12px':'0'};">
+    <div style="font-size:14px;font-weight:800;color:var(--text);">${title}</div>
+    <div style="display:flex;align-items:center;gap:6px;">${extra}<button class="sec-collapse-btn" onclick="toggleSection('${key}')" title="${open?'Collapse':'Expand'}">${open?'▲':'▼'}</button></div>
+  </div>
+  <div class="sec-collapsible ${open?'expanded':'collapsed'}">`;
+}
 /* ═══════════════════════════════════════
    TOAST
 ═══════════════════════════════════════ */
@@ -2533,6 +2710,7 @@ function renderHome(){
   const totalTests = allAtt.length;
   const avgPct = totalTests>0 ? allAtt.reduce((s,d)=>s+d.percentage,0)/totalTests : 0;
   const streak = getStreak();
+  checkStreakMilestone(streak);
   const bestPct = allAtt.length>0 ? Math.max(...allAtt.map(d=>d.percentage)) : 0;
 
   // Update greeting & sidebar
@@ -2559,79 +2737,228 @@ function renderHome(){
   }
 
   // ── HERO CARD ──
-  const avBg = gu&&gu.picture
-    ? `<img src="${escH(gu.picture)}" style="width:100%;height:100%;object-fit:cover;border-radius:13px;" onerror="this.parentNode.textContent='${name?name[0].toUpperCase():'S'}'"/>`
-    : (name?name[0].toUpperCase():'S');
+  // Check for locally saved photo first, then Google photo, then initials
+  const localPhoto = localStorage.getItem('ssc_local_avatar');
+  const initial = name ? name[0].toUpperCase() : 'S';
+  const avBg = localPhoto
+    ? `<img src="${localPhoto}" style="width:100%;height:100%;object-fit:cover;border-radius:13px;" onerror="this.parentNode.textContent='${initial}'"/>`
+    : (gu && gu.picture
+        ? `<img src="${escH(gu.picture)}" style="width:100%;height:100%;object-fit:cover;border-radius:13px;" onerror="this.parentNode.textContent='${initial}'"/>`
+        : initial);
 
-  H += `<div class="ssc-hero" style="margin-bottom:16px;">
-    <div style="background:linear-gradient(135deg,#5B4EE8 0%,#4338CA 60%,#7C6FF0 100%);padding:20px;position:relative;overflow:hidden;">
-      <div style="position:absolute;inset:0;opacity:.07;background:url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='1'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E\");"></div>
-      <div style="position:absolute;top:-20px;right:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.07);"></div>
-      <div style="position:absolute;bottom:-30px;left:60%;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05);"></div>
-      <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
-        <div style="display:flex;align-items:center;gap:13px;">
-          <div style="width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff;flex-shrink:0;overflow:hidden;backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,.3);">${avBg}</div>
-          <div>
-            <div style="font-size:20px;font-weight:900;color:#fff;font-family:'Outfit',sans-serif;letter-spacing:-.3px;">${escH(name||'Aspirant')}</div>
-            <div style="font-size:11px;color:rgba(255,255,255,.75);margin-top:2px;font-family:var(--mono);">${sid?'ID: '+sid:'Set your Student ID →'}</div>
-          </div>
+// ── GLASSMORPHISM HERO CARD ──
+const _subjectData = (()=>{
+  const examId = exams[0];
+  const exam = SSC_EXAMS.find(e=>e.id===examId);
+  if(!examId||!exam) return [];
+  return exam.subjects.map(subj=>{
+    const chs=(SSC_MOCK_CHAPTERS[examId]?.chapters||{})[subj.id]||[];
+    const done=chs.filter(m=>getCBTResult(examId,m.id));
+    const avg=done.length?done.reduce((s,m)=>{const r=getCBTResult(examId,m.id);return s+(r?r.percentage:0);},0)/done.length:0;
+    return {name:subj.name,icon:subj.icon,avg,color:subj.color||'#5B4EE8'};
+  });
+})();
+
+const _badges=[
+  {icon:'🚀',name:'First Start',sub:'Joined today',unlocked:true},
+  {icon:'🔥',name:'On Fire',sub:'7-day streak',unlocked:streak>=7},
+  {icon:'⚡',name:'Speed Run',sub:'10 mocks done',unlocked:totalTests>=10},
+  {icon:'🏆',name:'Top 10%',sub:'Leaderboard',unlocked:!!localStorage.getItem('ssc_my_rank')&&parseInt(localStorage.getItem('ssc_my_rank'))<=10},
+  {icon:'💯',name:'Perfect',sub:'100% mock',unlocked:bestPct>=100},
+  {icon:'📚',name:'Scholar',sub:'All subjects',unlocked:_subjectData.every(s=>s.avg>0)},
+  {icon:'🌙',name:'Night Owl',sub:'Late study',unlocked:new Date().getHours()>=22||new Date().getHours()<4},
+  {icon:'🎯',name:'Sharpshooter',sub:'90%+ avg',unlocked:avgPct>=90},
+];
+
+const xpDone=totalTests%5;
+const xpPct=xpDone/5*100;
+const level=Math.floor(totalTests/5)+1;
+const savedRank=localStorage.getItem('ssc_my_rank');
+
+H += `<div class="hc-wrap">
+  <div class="hc-card">
+
+    <!-- HEADER -->
+    <div class="hc-hdr">
+      <div style="position:absolute;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.07);top:-40px;right:-30px;pointer-events:none;"></div>
+      <div style="position:absolute;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.05);bottom:-20px;left:30px;pointer-events:none;"></div>
+
+      <!-- Avatar + name + badges -->
+      <div style="display:flex;align-items:center;gap:14px;position:relative;z-index:1;">
+        <div style="position:relative;flex-shrink:0;">
+          <div style="width:54px;height:54px;border-radius:16px;background:rgba(255,255,255,0.18);border:2px solid rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff;overflow:hidden;cursor:pointer;" title="Tap to change photo" onclick="triggerAvatarUpload()">${avBg}</div>
+          <div style="position:absolute;bottom:-6px;right:-6px;background:#f59e0b;color:#fff;font-size:9px;font-weight:700;padding:2px 5px;border-radius:6px;border:2px solid rgba(91,78,232,0.9);">LV${level}</div>
         </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;">
-          <div style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:30px;padding:5px 13px;font-size:12px;font-weight:800;color:#fff;backdrop-filter:blur(4px);">⚡ Level ${Math.floor(totalTests/5)+1}</div>
-          ${exams.length>0?`<div style="font-size:10px;color:rgba(255,255,255,.65);">${exams.map(e=>SSC_EXAMS.find(x=>x.id===e)?.name||e).join(' · ')}</div>`:''}
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:17px;font-weight:900;color:#fff;font-family:'Outfit',sans-serif;letter-spacing:-.3px;">${escH(name||'Aspirant')}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:2px;font-family:var(--mono);">${sid?'ID: '+sid:'Set your Student ID →'}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;">
+          <div style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:8px;padding:4px 9px;font-size:11px;font-weight:600;color:#fff;"><i class="ti ti-bolt" style="font-size:11px;margin-right:3px;"></i>Level ${level}</div>
+          ${savedRank?`<div style="background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);border-radius:8px;padding:3px 8px;font-size:10px;font-weight:600;color:#fde68a;display:flex;align-items:center;gap:4px;"><i class="ti ti-trophy" style="font-size:11px;"></i>Rank #${savedRank}</div>`:'<div style="background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);border-radius:8px;padding:3px 8px;font-size:10px;font-weight:600;color:#fde68a;">Rank —</div>'}
+          ${exams.length>0?`<div style="font-size:10px;color:rgba(255,255,255,0.6);">${exams.map(e=>SSC_EXAMS.find(x=>x.id===e)?.name||e).slice(0,1).join('')}</div>`:''}
+        </div>
+      </div>
+
+      <!-- XP Bar -->
+      <div style="padding:14px 0 0;position:relative;z-index:1;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1px;">XP Progress</span>
+          <span style="font-size:10px;color:rgba(255,255,255,0.55);">${xpDone} / 5 XP → Level ${level+1}</span>
+        </div>
+        <div style="height:6px;background:rgba(255,255,255,0.12);border-radius:6px;overflow:hidden;">
+          <div style="height:100%;width:${Math.max(xpPct,5)}%;background:linear-gradient(90deg,#a78bfa,#fff);border-radius:6px;transition:width 1s ease;"></div>
+        </div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="hc-stats">
+        <div class="hc-stat">
+          <div style="font-size:15px;font-weight:700;color:#fca5a5;">${avgPct.toFixed(1)}%</div>
+          <div style="font-size:8px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;">Avg Score</div>
+        </div>
+        <div class="hc-stat">
+          <div style="font-size:15px;font-weight:700;color:#fff;">${streak} <i class="ti ti-flame" style="font-size:13px;"></i></div>
+          <div style="font-size:8px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;">Streak</div>
+        </div>
+        <div class="hc-stat">
+          <div style="font-size:15px;font-weight:700;color:#6ee7b7;">${bestPct>0?bestPct.toFixed(0)+'%':'—'}</div>
+          <div style="font-size:8px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;">Best</div>
+        </div>
+        <div class="hc-stat">
+          <div style="font-size:15px;font-weight:700;color:#93c5fd;">${(()=>{const w=new Date();w.setHours(0,0,0,0);w.setDate(w.getDate()-w.getDay());return getAllAttempts().filter(a=>new Date(a.ts||0)>=w).length;})()}</div>
+          <div style="font-size:8px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;">This Week</div>
         </div>
       </div>
     </div>
-    <div class="ssc-stats-grid">
-      <div class="ssc-stat-cell">
-  <div class="ssc-stat-v" style="color:${rClr(avgPct)};">${avgPct.toFixed(1)}%</div>
-  <div class="ssc-stat-l">Avg Score</div>
-  ${buildSparkline(allAtt)}
-</div>
-      <div class="ssc-stat-cell"><div class="ssc-stat-v" style="color:var(--orange);">${streak}<span style="font-size:14px;">🔥</span></div><div class="ssc-stat-l">Streak</div></div>
-      <div class="ssc-stat-cell"><div class="ssc-stat-v" style="color:var(--green);">${bestPct>0?bestPct.toFixed(0)+'%':'—'}</div><div class="ssc-stat-l">Best Score</div></div>
+
+    <!-- BODY -->
+    <div class="hc-body">
+
+      <div class="hc-sec-title"><i class="ti ti-chart-bar"></i> Subject Progress</div>
+      <div class="hc-subj-list">
+        ${_subjectData.length>0?_subjectData.map(s=>`
+        <div class="hc-subj-row">
+          <div class="hc-subj-icon" style="background:${s.color}18;">${s.icon}</div>
+          <span style="font-size:12px;font-weight:600;color:#1a1240;flex:1;min-width:0;">${s.name}</span>
+          <div class="hc-subj-track"><div class="hc-subj-fill" style="width:${s.avg.toFixed(0)}%;background:${s.color};"></div></div>
+          <span style="font-size:11px;font-weight:700;min-width:32px;text-align:right;color:${s.color};">${s.avg>0?s.avg.toFixed(0)+'%':'0%'}</span>
+        </div>`).join(''):`
+        <div class="hc-subj-row"><div class="hc-subj-icon" style="background:#ede9fe;"><i class="ti ti-calculator" style="color:#5B4EE8;font-size:14px;"></i></div><span style="font-size:12px;font-weight:600;color:#1a1240;flex:1;">Quantitative Aptitude</span><div class="hc-subj-track"><div class="hc-subj-fill" style="width:0%;background:#5B4EE8;"></div></div><span style="font-size:11px;font-weight:700;min-width:32px;text-align:right;color:#5B4EE8;">0%</span></div>
+        <div class="hc-subj-row"><div class="hc-subj-icon" style="background:#dcfce7;"><i class="ti ti-book" style="color:#16a34a;font-size:14px;"></i></div><span style="font-size:12px;font-weight:600;color:#1a1240;flex:1;">English Language</span><div class="hc-subj-track"><div class="hc-subj-fill" style="width:0%;background:#16a34a;"></div></div><span style="font-size:11px;font-weight:700;min-width:32px;text-align:right;color:#16a34a;">0%</span></div>
+        <div class="hc-subj-row"><div class="hc-subj-icon" style="background:#fef3c7;"><i class="ti ti-brain" style="color:#d97706;font-size:14px;"></i></div><span style="font-size:12px;font-weight:600;color:#1a1240;flex:1;">General Intelligence</span><div class="hc-subj-track"><div class="hc-subj-fill" style="width:0%;background:#d97706;"></div></div><span style="font-size:11px;font-weight:700;min-width:32px;text-align:right;color:#d97706;">0%</span></div>
+        <div class="hc-subj-row"><div class="hc-subj-icon" style="background:#dbeafe;"><i class="ti ti-world" style="color:#2563eb;font-size:14px;"></i></div><span style="font-size:12px;font-weight:600;color:#1a1240;flex:1;">General Awareness</span><div class="hc-subj-track"><div class="hc-subj-fill" style="width:0%;background:#2563eb;"></div></div><span style="font-size:11px;font-weight:700;min-width:32px;text-align:right;color:#2563eb;">0%</span></div>
+        `}
+      </div>
+
+      <div class="hc-divider"></div>
+
+      <div class="hc-sec-title"><i class="ti ti-medal"></i> Achievements</div>
+      <div class="hc-badges">
+        ${_badges.map(b=>`
+        <div class="hc-badge${b.unlocked?'':' locked'}">
+          <span style="font-size:20px;display:block;margin-bottom:4px;">${b.icon}</span>
+          <div style="font-size:9px;font-weight:600;color:#3C3489;">${b.name}</div>
+          <div style="font-size:8px;color:#7a75b0;margin-top:1px;">${b.sub}</div>
+        </div>`).join('')}
+      </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="hc-footer">
+      <span style="font-size:11px;color:#6b65a0;"><i class="ti ti-clock" style="font-size:13px;vertical-align:-2px;margin-right:4px;"></i>Member since ${new Date(parseInt(localStorage.getItem('ssc_joined_ts')||Date.now())).toLocaleDateString('en-IN',{month:'short',year:'numeric'})}</span>
+      <button onclick="triggerPwaInstall()" style="background:#5B4EE8;color:#fff;border:none;border-radius:10px;padding:7px 14px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--fn);display:flex;align-items:center;gap:5px;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v13"/><path d="M7 11l5 5 5-5"/><rect x="3" y="18" width="18" height="3" rx="1.5"/></svg>
+        Install App
+      </button>
+    </div>
+
+  </div>
+</div>`;
+
+// ── MOTIVATIONAL BANNER ──
+  const _motBanner=(()=>{
+    if(totalTests===0) return `<div style="background:linear-gradient(135deg,#5B4EE8,#4338CA);border-radius:18px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px;"><div style="font-size:28px;">🚀</div><div><div style="font-size:14px;font-weight:900;color:#fff;">Start your journey!</div><div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;">Complete your first mock test today and build momentum.</div></div></div>`;
+    if(avgPct>=80) return `<div style="background:linear-gradient(135deg,#16a34a,#15803d);border-radius:18px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px;"><div style="font-size:28px;">🔥</div><div><div style="font-size:14px;font-weight:900;color:#fff;">You're on fire! ${avgPct.toFixed(0)}% avg</div><div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;">Exceptional performance — keep pushing to the top!</div></div></div>`;
+    if(avgPct>=60) return `<div style="background:linear-gradient(135deg,#2563eb,#1d4ed8);border-radius:18px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px;"><div style="font-size:28px;">💪</div><div><div style="font-size:14px;font-weight:900;color:#fff;">You're improving! ${avgPct.toFixed(0)}% avg</div><div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;">Good progress — focus on weak subjects to break 80%.</div></div></div>`;
+    return `<div style="background:linear-gradient(135deg,#d97706,#b45309);border-radius:18px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px;"><div style="font-size:28px;">📈</div><div><div style="font-size:14px;font-weight:900;color:#fff;">Keep going! ${totalTests} test${totalTests!==1?'s':''} done</div><div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;">Every mock you take builds your score. Don't stop now!</div></div></div>`;
+  })();
+  H += _motBanner;
+
+H += `<div style="position:relative;margin-bottom:16px;">
+  <input id="home-search" type="search" placeholder="🔍  Search mocks or exams…" oninput="homeSearch(this.value)"
+    style="width:100%;background:var(--card);border:1.5px solid var(--border);border-radius:40px;padding:11px 18px 11px 44px;font-size:13px;font-weight:600;color:var(--text);outline:none;font-family:var(--fn);transition:border-color .2s,box-shadow .2s;"
+    onfocus="this.style.borderColor='var(--acc)';this.style.boxShadow='0 0 0 3px rgba(91,78,232,.12)'"
+    onblur="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+  <svg style="position:absolute;left:15px;top:50%;transform:translateY(-50%);pointer-events:none;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+  <div id="home-search-results" style="display:none;position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--card);border:1.5px solid var(--border);border-radius:18px;box-shadow:var(--sh2);z-index:100;max-height:280px;overflow-y:auto;padding:8px;"></div>
+</div>`;
+
+// ── QUICK ACTIONS ROW ──
+  H += `<div style="margin-bottom:18px;">
+    ${secHdr('⚡ Quick Actions','quickactions')}
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+      <div onclick="goPage('mocks')" style="background:#ffffff;border:1.5px solid #D4CCFF;border-radius:16px;padding:14px 12px;text-align:center;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(91,78,232,.05);" onmouseenter="this.style.borderColor='var(--acc)';this.style.boxShadow='0 4px 16px rgba(91,78,232,.12)'" onmouseleave="this.style.borderColor='#D4CCFF';this.style.boxShadow='0 2px 8px rgba(91,78,232,.05)'">
+        <div style="font-size:24px;margin-bottom:6px;">📝</div>
+        <div style="font-size:12px;font-weight:800;color:var(--text);">Mock Tests</div>
+      </div>
+      <div onclick="openNoticesPopup()" style="background:#ffffff;border:1.5px solid #D4CCFF;border-radius:16px;padding:14px 12px;text-align:center;cursor:pointer;transition:all .2s;position:relative;box-shadow:0 2px 8px rgba(91,78,232,.05);" onmouseenter="this.style.borderColor='var(--acc)';this.style.boxShadow='0 4px 16px rgba(91,78,232,.12)'" onmouseleave="this.style.borderColor='#D4CCFF';this.style.boxShadow='0 2px 8px rgba(91,78,232,.05)'">
+        <div style="font-size:24px;margin-bottom:6px;">🔔</div>
+        <div style="font-size:12px;font-weight:800;color:var(--text);">Notices</div>
+        <span id="home-notices-badge" style="display:none;position:absolute;top:8px;right:8px;background:var(--red);color:#fff;font-size:8px;font-weight:800;padding:1px 5px;border-radius:20px;"></span>
+      </div>
+      <div onclick="goPage('analytics')" style="background:#ffffff;border:1.5px solid #D4CCFF;border-radius:16px;padding:14px 12px;text-align:center;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(91,78,232,.05);" onmouseenter="this.style.borderColor='var(--acc)';this.style.boxShadow='0 4px 16px rgba(91,78,232,.12)'" onmouseleave="this.style.borderColor='#D4CCFF';this.style.boxShadow='0 2px 8px rgba(91,78,232,.05)'">
+        <div style="font-size:24px;margin-bottom:6px;">📈</div>
+        <div style="font-size:12px;font-weight:800;color:var(--text);">Analytics</div>
+      </div>
+    </div>
     </div>
   </div>`;
 
-  // ── QUICK ACTIONS ROW ──
-  H += `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;">
-    <div onclick="goPage('mocks')" style="background:#ffffff;border:1.5px solid #D4CCFF;border-radius:16px;padding:14px 12px;text-align:center;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(91,78,232,.05);" onmouseenter="this.style.borderColor='var(--acc)';this.style.boxShadow='0 4px 16px rgba(91,78,232,.12)'" onmouseleave="this.style.borderColor='#D4CCFF';this.style.boxShadow='0 2px 8px rgba(91,78,232,.05)'">
-      <div style="font-size:24px;margin-bottom:6px;">📝</div>
-      <div style="font-size:12px;font-weight:800;color:var(--text);">Mock Tests</div>
-    </div>
-    <div onclick="openNoticesPopup()" style="background:#ffffff;border:1.5px solid #D4CCFF;border-radius:16px;padding:14px 12px;text-align:center;cursor:pointer;transition:all .2s;position:relative;box-shadow:0 2px 8px rgba(91,78,232,.05);" onmouseenter="this.style.borderColor='var(--acc)';this.style.boxShadow='0 4px 16px rgba(91,78,232,.12)'" onmouseleave="this.style.borderColor='#D4CCFF';this.style.boxShadow='0 2px 8px rgba(91,78,232,.05)'">
-      <div style="font-size:24px;margin-bottom:6px;">🔔</div>
-      <div style="font-size:12px;font-weight:800;color:var(--text);">Notices</div>
-      <span id="home-notices-badge" style="display:none;position:absolute;top:8px;right:8px;background:var(--red);color:#fff;font-size:8px;font-weight:800;padding:1px 5px;border-radius:20px;"></span>
-    </div>
-    <div onclick="goPage('analytics')" style="background:#ffffff;border:1.5px solid #D4CCFF;border-radius:16px;padding:14px 12px;text-align:center;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(91,78,232,.05);" onmouseenter="this.style.borderColor='var(--acc)';this.style.boxShadow='0 4px 16px rgba(91,78,232,.12)'" onmouseleave="this.style.borderColor='#D4CCFF';this.style.boxShadow='0 2px 8px rgba(91,78,232,.05)'">
-      <div style="font-size:24px;margin-bottom:6px;">📈</div>
-      <div style="font-size:12px;font-weight:800;color:var(--text);">Analytics</div>
-    </div>
-  </div>`;
+  // ── SUBJECT HEATMAP STRIP ──
+  H += (()=>{
+    const exs=getSelectedExams(); if(!exs.length) return '';
+    const examId=exs[0]; const exam=SSC_EXAMS.find(e=>e.id===examId);
+    if(!exam) return '';
+    const data=SSC_MOCK_CHAPTERS[examId];
+    const cells=exam.subjects.map(subj=>{
+      const chs=(data?.chapters||{})[subj.id]||[];
+      const done=chs.filter(m=>getCBTResult(examId,m.id));
+      if(!done.length) return `<div style="flex:1;background:var(--card2);border:1.5px solid var(--border);border-radius:12px;padding:10px 6px;text-align:center;" title="${subj.name}: No attempts"><div style="font-size:18px;margin-bottom:4px;">${subj.icon}</div><div style="font-size:9px;font-weight:700;color:var(--text3);">${subj.name.split(' ')[0]}</div><div style="font-size:11px;font-weight:900;color:var(--text3);margin-top:4px;">—</div></div>`;
+      const avg=done.reduce((s,m)=>{const r=getCBTResult(examId,m.id);return s+(r?r.percentage:0);},0)/done.length;
+      const clr=avg>=80?'#16a34a':avg>=60?'#2563eb':avg>=40?'#d97706':'#dc2626';
+      const bg=avg>=80?'rgba(22,163,74,.1)':avg>=60?'rgba(37,99,235,.1)':avg>=40?'rgba(217,119,6,.1)':'rgba(220,38,38,.1)';
+      return `<div style="flex:1;background:${bg};border:1.5px solid ${clr}30;border-radius:12px;padding:10px 6px;text-align:center;" title="${subj.name}: ${avg.toFixed(0)}%"><div style="font-size:18px;margin-bottom:4px;">${subj.icon}</div><div style="font-size:9px;font-weight:700;color:var(--text3);">${subj.name.split(' ')[0]}</div><div style="font-size:14px;font-weight:900;color:${clr};margin-top:4px;">${avg.toFixed(0)}%</div></div>`;
+    }).join('');
+    return `<div style="margin-bottom:16px;"><div style="font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">📊 Subject Strength — ${exam.name}</div><div style="display:flex;gap:8px;">${cells}</div></div>`;
+  })();
 
-    // 1. NEWS TICKER (notices scrolling banner — eye-catching, top of feed)
+ // ── SECTION 1: NEWS TICKER ──
   H += buildNewsTicker();
 
-  // 2. TODAY'S TARGET (daily checklist card — motivational, early placement)
+  // ── SECTION 2: TODAY'S TARGET ──
   H += buildTodayTargetCard();
 
-  // 3. DAILY STUDY GOAL (time logger with ring chart)
+  // ── SECTION 3: DAILY STUDY GOAL ──
   H += buildGoalCard();
 
-  // 4. NEXT MOCK RECOMMENDATION (weakest subject nudge)
+  // ── SECTION 4: POMODORO TIMER ──
+  H += buildPomodoroWidget();
+
+  // ── SECTION 5: NEXT MOCK RECOMMENDATION ──
   H += buildNextMockCard();
 
-  // 5. EXAM COUNTDOWN (user sets their exam dates)
+  // ── SECTION 6: EXAM COUNTDOWN ──
   H += buildCountdownCard();
 
-// ── NOTICES PREVIEW ──
+  // ── SECTION 7: NOTICES PREVIEW ──
   H += `<div id="home-notices-preview" style="margin-bottom:16px;"></div>`;
 
-  // ── QUOTE OF THE DAY ──
+  // ── SECTION 8: QUOTE OF THE DAY ──
   H += `<div id="home-quote-area" style="margin-bottom:16px;"></div>`;
 
-  // ── EXAM PROGRESS ──
+  // ── SECTION 9: EXAM PROGRESS CARDS ──
   if(exams.length===0){
     H += `<div style="background:rgba(91,78,232,.04);border:1.5px dashed rgba(91,78,232,.25);border-radius:18px;padding:28px;text-align:center;margin-bottom:16px;">
       <div style="font-size:48px;margin-bottom:10px;">📋</div>
@@ -2651,6 +2978,21 @@ function renderHome(){
       const attempted=mocks.filter(m=>lR(examId,m.id));
       const avgE=attempted.length>0?attempted.reduce((s,m)=>{const r=lR(examId,m.id);return s+(r?r.percentage:0);},0)/attempted.length:0;
       const pctBar=attempted.length>0?Math.min(100,avgE):0;
+      const data=SSC_MOCK_CHAPTERS[examId];
+      const subjBars=exam.subjects.slice(0,4).map(subj=>{
+        if(!data) return `<div style="flex:1;height:4px;background:var(--border);border-radius:4px;"></div>`;
+        const chs=(data.chapters||{})[subj.id]||[];
+        const done2=chs.filter(m=>getCBTResult(examId,m.id));
+        const avg2=done2.length?done2.reduce((s,m)=>{const r=getCBTResult(examId,m.id);return s+(r?r.percentage:0);},0)/done2.length:0;
+        const clr2=done2.length?rClr(avg2):'var(--border)';
+        return `<div style="flex:1;" title="${subj.name}: ${done2.length?avg2.toFixed(0)+'%':'No attempts'}">
+          <div style="font-size:8px;color:var(--text3);margin-bottom:2px;font-weight:700;">${subj.icon}</div>
+          <div style="height:4px;background:var(--card2);border-radius:4px;overflow:hidden;">
+            <div style="height:100%;width:${done2.length?Math.min(100,avg2).toFixed(0):0}%;background:${clr2};border-radius:4px;transition:width 1s;"></div>
+          </div>
+          ${done2.length?`<div style="font-size:8px;font-weight:700;color:${clr2};margin-top:2px;">${avg2.toFixed(0)}%</div>`:`<div style="font-size:8px;color:var(--text3);margin-top:2px;">—</div>`}
+        </div>`;
+      }).join('');
       H += `<div class="exam-card" onclick="goPage('exams');setTimeout(()=>switchExamTab('${examId}'),120);">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;">
           <div class="exam-card-icon" style="background:${exam.bg};margin-bottom:0;">${exam.icon}</div>
@@ -2658,59 +3000,74 @@ function renderHome(){
         </div>
         <div class="exam-card-name">${exam.name}</div>
         <div class="exam-card-full">${exam.full}</div>
-        <div style="height:4px;background:var(--card2);border-radius:4px;overflow:hidden;margin:8px 0 6px;">
+        <div style="height:4px;background:var(--card2);border-radius:4px;overflow:hidden;margin:8px 0 4px;">
           <div style="height:100%;width:${pctBar.toFixed(1)}%;background:${exam.color};border-radius:4px;transition:width 1s;"></div>
         </div>
+        <div style="display:flex;gap:6px;margin-bottom:8px;">${subjBars}</div>
         <div class="exam-card-attempts">${attempted.length}/${mocks.length} tests done</div>
       </div>`;
     });
     H += `</div>`;
   }
 
-  // 6. RADAR CHART
+  // ── SECTION 10: RADAR CHART ──
   H += buildRadarCard();
 
-  // ── RECENT MOCKS ──
-  const allMocks=exams.flatMap(e=>(SSC_MOCKS[e]||[]).map(m=>({...m,examId:e})));
-  const recentMocks=allMocks.slice(0,4);
-  if(recentMocks.length>0){
-    H += `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;margin-top:8px;">
-      <div style="font-size:14px;font-weight:800;color:var(--text);">📝 Recent Mocks</div>
-      <span style="font-size:12px;color:var(--acc);font-weight:700;cursor:pointer;" onclick="goPage('mocks')">All →</span>
-    </div>
-    <div class="mock-list">`;
-    recentMocks.forEach(m=>{
-      const r=lR(m.examId,m.id);
-      const exam=SSC_EXAMS.find(e=>e.id===m.examId);
-      H += `<div class="mock-item" onclick="openMock('${m.examId}','${m.id}')">
-        <div class="mock-item-icon" style="background:${exam?.bg||'var(--card2)'};">${exam?.icon||'📝'}</div>
+  // ── SECTION 11: RECENT ACTIVITY ──
+  const recentAttempts = getAllAttempts().sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,5);
+  if(recentAttempts.length>0){
+    const nowTs = Date.now();
+    function timeAgo(iso){
+      const ms = nowTs - new Date(iso).getTime();
+      const m = Math.floor(ms/60000);
+      if(m<1) return 'Just now';
+      if(m<60) return m+'m ago';
+      const h = Math.floor(m/60);
+      if(h<24) return h+'h ago';
+      return Math.floor(h/24)+'d ago';
+    }
+    H += `<div style="margin-bottom:16px;">
+      ${secHdr('🕐 Recent Activity','recentact',`<span style="font-size:10px;color:var(--acc);cursor:pointer;font-weight:700;" onclick="goPage('analytics')">All →</span>`)}
+      <div style="display:flex;flex-direction:column;gap:6px;">`;
+    recentAttempts.forEach(d=>{
+      const exam=SSC_EXAMS.find(e=>e.id===d.examId);
+      const clr=rClr(d.percentage);
+      H += `<div style="display:flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--border);border-radius:13px;padding:11px 13px;transition:all .2s;" onmouseenter="this.style.borderColor='rgba(91,78,232,.3)'" onmouseleave="this.style.borderColor='var(--border)'">
+        <div style="width:36px;height:36px;border-radius:10px;background:${exam?.bg||'var(--card2)'};display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">${exam?.icon||'📝'}</div>
         <div style="flex:1;min-width:0;">
-          <div class="mock-item-name">${escH(m.name)}</div>
-          <div class="mock-item-sub">${exam?.name||''} · ${m.questions}Q · ${m.time}min</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">✅ ${escH(exam?.name||d.examId)} — ${escH(d.mockId)}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:1px;">${timeAgo(d.date)}</div>
         </div>
-        <div class="mock-item-score">
-          ${r?`<div class="mock-item-pct" style="color:${rClr(r.percentage)};">${r.percentage.toFixed(0)}%</div><div class="mock-item-attempts">${r.score}/${r.maxScore}</div>`:'<div style="font-size:11px;color:var(--text3);">Attempt</div>'}
-        </div>
+        <div style="font-size:16px;font-weight:900;font-family:var(--mono);color:${clr};flex-shrink:0;">${d.percentage.toFixed(0)}%</div>
       </div>`;
     });
-    H += `</div>`;
+    H += `</div></div>`;
   }
 
-  // 7. REVISION REMINDERS
+  // ── SECTION 12: SUBJECT BATTLE CARD ──
+  H += buildSubjectBattleCard();
+
+  // ── SECTION 13: REVISION REMINDERS ──
   H += buildRevisionReminders();
 
-  // 8. PEER COMPARISON CHIP
+  // ── SECTION 14: PEER COMPARISON CHIP ──
   if(avgPct > 0){
     H += `<div style="margin-bottom:16px;">${buildPeerChip(avgPct)}</div>`;
   }
 
-  // 9. ACTIVITY HEATMAP
+  // ── SECTION 15: ACTIVITY HEATMAP ──
   H += buildHeatmapCard();
 
-  // 10. BADGES
+  // ── SECTION 16: STREAK BADGES ──
   H += buildBadgesCard(allAtt, streak);
 
-  // 11. PREVIOUS YEAR CUTOFFS
+  // ── SECTION 17: NOTES PINBOARD ──
+  H += buildNotesPinboard();
+
+  // ── SECTION 18: ELIGIBILITY QUICK CHECK ──
+  H += buildEligibilityCard();
+
+  // ── SECTION 19: PREVIOUS YEAR CUTOFFS ──
   H += buildCutoffCard();
 
   document.getElementById('home-content').innerHTML = H;
@@ -2719,25 +3076,173 @@ function renderHome(){
   renderQuoteCard(document.getElementById('home-quote-area'));
 }
 
+function homeSearch(q){
+  const res = document.getElementById('home-search-results');
+  if(!q || q.length < 2){ res.style.display='none'; return; }
+  q = q.toLowerCase();
+  const exams = getSelectedExams();
+  let hits = [];
+
+  // Search exams
+  SSC_EXAMS.filter(e=>exams.includes(e.id)).forEach(exam=>{
+    if(exam.name.toLowerCase().includes(q) || exam.full.toLowerCase().includes(q)){
+      hits.push({type:'exam',icon:exam.icon,name:exam.name,sub:exam.full,action:`goPage('exams');setTimeout(()=>switchExamTab('${exam.id}'),120)`});
+    }
+    // Search chapter mocks
+    const data = SSC_MOCK_CHAPTERS[exam.id];
+    if(data){
+      Object.values(data.chapters||{}).flat().forEach(m=>{
+        if(m.name.toLowerCase().includes(q)){
+          const url = mockUrl(exam.id,m.id);
+          hits.push({type:'mock',icon:'📝',name:m.name,sub:exam.name+' · Chapter Mock',action:`window.open('${url}','_blank')`});
+        }
+      });
+      (data.tier1Mocks||[]).concat(data.tier2Mocks||[]).forEach(m=>{
+        if(m.name.toLowerCase().includes(q)){
+          const url = mockUrl(exam.id,m.id);
+          hits.push({type:'mock',icon:'🎯',name:m.name,sub:exam.name+' · Full Mock',action:`window.open('${url}','_blank')`});
+        }
+      });
+    }
+  });
+
+  hits = hits.slice(0,8);
+  if(!hits.length){
+    res.innerHTML=`<div style="padding:16px;text-align:center;font-size:12px;color:var(--text3);">No results for "${escH(q)}"</div>`;
+  } else {
+    res.innerHTML = hits.map(h=>`
+      <div onclick="${h.action};document.getElementById('home-search').value='';document.getElementById('home-search-results').style.display='none';"
+        style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;cursor:pointer;transition:background .15s;"
+        onmouseenter="this.style.background='var(--card2)'" onmouseleave="this.style.background=''">
+        <span style="font-size:18px;flex-shrink:0;">${h.icon}</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escH(h.name)}</div>
+          <div style="font-size:10px;color:var(--text3);">${escH(h.sub)}</div>
+        </div>
+        <span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:${h.type==='exam'?'rgba(91,78,232,.1)':'rgba(22,163,74,.1)'};color:${h.type==='exam'?'var(--acc)':'var(--green)'};">${h.type==='exam'?'Exam':'Mock'}</span>
+      </div>`).join('');
+  }
+  res.style.display='block';
+}
+document.addEventListener('click', e=>{
+  const sr = document.getElementById('home-search-results');
+  if(sr && !e.target.closest('#home-search') && !e.target.closest('#home-search-results')) sr.style.display='none';
+});
+
+/* ═══════════════════════════════════════
+   POMODORO TIMER
+═══════════════════════════════════════ */
+let _pomoInterval = null;
+let _pomoSecsLeft = 25 * 60;
+let _pomoTotalSecs = 25 * 60;
+let _pomoMode = 'study'; // 'study' | 'break'
+let _pomoRunning = false;
+
+function pomoUpdateUI(){
+  const ring   = document.getElementById('pomo-ring');
+  const timeEl = document.getElementById('pomo-time');
+  const phase  = document.getElementById('pomo-phase');
+  if(!timeEl) return;
+  const m = Math.floor(_pomoSecsLeft/60);
+  const s = _pomoSecsLeft % 60;
+  timeEl.textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  if(ring){
+    const circ = 351.9;
+    const offset = circ - (circ * _pomoSecsLeft / _pomoTotalSecs);
+    ring.style.strokeDashoffset = offset;
+    ring.style.stroke = _pomoMode==='study'?'#5B4EE8':'#16a34a';
+  }
+  if(phase) phase.textContent = _pomoMode==='study'?'Study':'Break';
+}
+
+function pomoStart(){
+  if(_pomoRunning) return;
+  _pomoRunning = true;
+  const btn = document.getElementById('pomo-start-btn');
+  if(btn){ btn.textContent='⏳ Running…'; btn.disabled=true; }
+  _pomoInterval = setInterval(()=>{
+    _pomoSecsLeft--;
+    pomoUpdateUI();
+    if(_pomoSecsLeft <= 0){
+      clearInterval(_pomoInterval); _pomoRunning = false;
+      if(_pomoMode === 'study'){
+        // Save focus time
+        const mins = _pomoTotalSecs/60;
+        const cur  = parseInt(localStorage.getItem('ssc_pomo_total_focus')||'0');
+        localStorage.setItem('ssc_pomo_total_focus', cur+mins);
+        logStudyTime(mins);
+        showToast('🍅 Study session done! Time for a break.','success',3500);
+        launchConfetti();
+        pomoSetMode('break');
+      } else {
+        showToast('☕ Break over! Back to studying.','',3000);
+        pomoSetMode('study');
+      }
+    }
+  }, 1000);
+}
+
+function pomoPause(){
+  clearInterval(_pomoInterval); _pomoRunning=false;
+  const btn=document.getElementById('pomo-start-btn');
+  if(btn){ btn.textContent='▶ Resume'; btn.disabled=false; }
+}
+
+function pomoReset(){
+  clearInterval(_pomoInterval); _pomoRunning=false;
+  _pomoSecsLeft = _pomoTotalSecs;
+  pomoUpdateUI();
+  const btn=document.getElementById('pomo-start-btn');
+  if(btn){ btn.textContent='▶ Start'; btn.disabled=false; }
+}
+
+function pomoSetMode(mode){
+  clearInterval(_pomoInterval); _pomoRunning=false;
+  _pomoMode=mode;
+  _pomoTotalSecs = mode==='study' ? 25*60 : 5*60;
+  _pomoSecsLeft  = _pomoTotalSecs;
+  pomoUpdateUI();
+  const btn=document.getElementById('pomo-start-btn');
+  if(btn){ btn.textContent='▶ Start'; btn.disabled=false; }
+  const bs=document.getElementById('pomo-btn-study');
+  const bb=document.getElementById('pomo-btn-break');
+  if(bs){ bs.className=mode==='study'?'btn btn-prim':'btn btn-ghost'; bs.style.cssText='padding:5px 12px;font-size:11px;'; }
+  if(bb){ bb.className=mode==='break'?'btn btn-prim':'btn btn-ghost'; bb.style.cssText='padding:5px 12px;font-size:11px;'; }
+}
+
 /* ═══════════════════════════════════════
    HOME TOPBAR (Google sign-in area)
 ═══════════════════════════════════════ */
 function renderHomeTopbar(){
   const gu = getGoogleUser();
+  const name = getUserName();
   const area = document.getElementById('home-google-area');
   if(!area) return;
 
   if(gu){
+    // Show Google profile photo, fall back to initials avatar
+    const initials = (gu.name||name||'?')[0].toUpperCase();
+    const fallbackAv = `<div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#5B4EE8,#4338CA);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0;border:2px solid var(--acc);">${initials}</div>`;
     area.innerHTML = `<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-      <img src="${escH(gu.picture||'')}" width="30" height="30" style="border-radius:50%;border:2px solid var(--acc);flex-shrink:0;" onerror="this.style.display='none'">
+      <img src="${escH(gu.picture||'')}" width="30" height="30"
+        style="border-radius:50%;border:2px solid var(--acc);flex-shrink:0;"
+        onerror="this.outerHTML='${fallbackAv.replace(/'/g,"\\'")}'"
+      >
       <div style="font-size:12px;font-weight:800;">${escH(gu.name.split(' ')[0])}</div>
       <button onclick="sscGoogleLogout()" class="btn btn-ghost" style="font-size:11px;padding:5px 10px;">Sign Out</button>
       <button onclick="toggleDark()" style="background:var(--card2);border:1.5px solid var(--border);border-radius:50%;width:32px;height:32px;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;">${document.body.classList.contains('dark-mode')?'☀️':'🌙'}</button>
     </div>`;
   } else {
+    // Not logged in — show proper Google logo SVG + "Sign in with Google" text
     area.innerHTML = `<div style="display:flex;align-items:center;gap:8px;">
-      <button class="btn-google" onclick="topbarGoogleLogin()" style="padding:6px 14px;font-size:12px;gap:6px;">
-        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="15"> Sign in
+      <button class="btn-google" onclick="topbarGoogleLogin()" style="display:flex;align-items:center;gap:8px;padding:6px 14px;font-size:12px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        Sign in with Google
       </button>
       <button onclick="toggleDark()" style="background:var(--card2);border:1.5px solid var(--border);border-radius:50%;width:32px;height:32px;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;">${document.body.classList.contains('dark-mode')?'☀️':'🌙'}</button>
     </div>`;
@@ -4090,6 +4595,36 @@ function getStreak(){
   return streak;
 }
 
+function checkStreakMilestone(streak){
+  const milestones = [3,7,14,30];
+  const key = 'ssc_streak_milestone_shown';
+  let shown = [];
+  try{ shown = JSON.parse(localStorage.getItem(key)||'[]'); }catch{}
+  const hit = milestones.filter(m => streak >= m && !shown.includes(m));
+  if(hit.length){
+    const top = Math.max(...hit);
+    shown.push(...hit);
+    localStorage.setItem(key, JSON.stringify(shown));
+    const icons = {3:'🔥',7:'💥',14:'⚡',30:'👑'};
+    const msgs  = {3:'3-Day Streak! You\'re on a roll!',7:'7-Day Streak! You\'re unstoppable!',14:'14-Day Streak! Incredible dedication!',30:'30-Day Streak! SSC Champion!'};
+    setTimeout(()=>{
+      launchConfetti();
+      // Show a big modal badge
+      const m = document.createElement('div');
+      m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);';
+      m.innerHTML=`<div style="background:var(--card);border-radius:28px;padding:36px 32px 28px;max-width:320px;width:90vw;text-align:center;border:2px solid rgba(245,158,11,.4);box-shadow:0 0 60px rgba(245,158,11,.3),0 24px 60px rgba(0,0,0,.3);animation:mIn .4s cubic-bezier(.34,1.56,.64,1) both;">
+        <div style="font-size:72px;margin-bottom:10px;animation:bootIconIn .5s cubic-bezier(.34,1.56,.64,1) both;">${icons[top]}</div>
+        <div style="font-size:22px;font-weight:900;font-family:'Outfit',sans-serif;margin-bottom:6px;color:var(--text);">${msgs[top]}</div>
+        <div style="font-size:13px;color:var(--text3);line-height:1.7;margin-bottom:20px;">You've studied <strong style="color:var(--acc);">${top} days</strong> in a row. Keep the momentum going!</div>
+        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,.12);border:1.5px solid rgba(245,158,11,.3);border-radius:20px;padding:6px 16px;font-size:13px;font-weight:800;color:#d97706;margin-bottom:16px;">🏅 ${top}-Day Streak Badge Unlocked!</div>
+        <button class="btn btn-prim" style="width:100%;justify-content:center;padding:12px;" onclick="this.closest('div[style*=fixed]').remove()">Awesome! Keep Going →</button>
+      </div>`;
+      m.addEventListener('click',e=>{if(e.target===m)m.remove();});
+      document.body.appendChild(m);
+    }, 600);
+  }
+}
+
 // ── DAILY GOAL TRACKER ──
 function getTodayKey(){ return 'ssc_goal_'+new Date().toISOString().slice(0,10); }
 function getGoalMins(){ return parseInt(localStorage.getItem('ssc_goal_target')||'120'); }
@@ -4102,84 +4637,343 @@ function logStudyTime(mins){
   if(newVal >= getGoalMins()) { showToast('🎯 Daily goal reached!','success',3000); launchConfetti(); }
   else showToast('+'+mins+' min logged  (' + newVal + '/' + getGoalMins() + ' min)','success');
 }
-const SSC_CUTOFFS = {
-  cgl: {
-    year: '2023-24',
-    tiers: [
-      { tier:'Tier I + II', rows:[
-        {cat:'General', marks:'714.88'},
-        {cat:'OBC',     marks:'703.17'},
-        {cat:'EWS',     marks:'699.44'},
-        {cat:'SC',      marks:'668.99'},
-        {cat:'ST',      marks:'638.85'},
-        {cat:'PH',      marks:'632.16'},
-      ]}
-    ]
+/* ── NEW INTERACTIVE CUTOFFS DATA ── */
+const CO_DATA = {
+  'SSC CGL': {
+    I: {
+      2025: { UR:{v:'TBA',prev:'160.5',chg:'—',pct:'—',vac:'17,000+',status:'soon'},OBC:{v:'TBA',prev:'151.2',chg:'—',pct:'—',vac:'17,000+',status:'soon'},SC:{v:'TBA',prev:'136.7',chg:'—',pct:'—',vac:'17,000+',status:'soon'},ST:{v:'TBA',prev:'123.9',chg:'—',pct:'—',vac:'17,000+',status:'soon'},EWS:{v:'TBA',prev:'153.4',chg:'—',pct:'—',vac:'17,000+',status:'soon'} },
+      2024: { UR:{v:'160.5',prev:'158.0',chg:'+2.5',pct:'80.3%',vac:'17,727',status:'final'},OBC:{v:'151.2',prev:'148.5',chg:'+2.7',pct:'75.6%',vac:'17,727',status:'final'},SC:{v:'136.7',prev:'133.2',chg:'+3.5',pct:'68.4%',vac:'17,727',status:'final'},ST:{v:'123.9',prev:'120.1',chg:'+3.8',pct:'62.0%',vac:'17,727',status:'final'},EWS:{v:'153.4',prev:'150.0',chg:'+3.4',pct:'76.7%',vac:'17,727',status:'final'} },
+      2023: { UR:{v:'158.0',prev:'154.5',chg:'+3.5',pct:'79.0%',vac:'14,582',status:'final'},OBC:{v:'148.5',prev:'145.0',chg:'+3.5',pct:'74.3%',vac:'14,582',status:'final'},SC:{v:'133.2',prev:'129.5',chg:'+3.7',pct:'66.6%',vac:'14,582',status:'final'},ST:{v:'120.1',prev:'116.8',chg:'+3.3',pct:'60.1%',vac:'14,582',status:'final'},EWS:{v:'150.0',prev:'147.2',chg:'+2.8',pct:'75.0%',vac:'14,582',status:'final'} }
+    },
+    II: {
+      2025: { UR:{v:'TBA',prev:'193.8',chg:'—',pct:'—',vac:'17,000+',status:'soon'},OBC:{v:'TBA',prev:'182.4',chg:'—',pct:'—',vac:'17,000+',status:'soon'},SC:{v:'TBA',prev:'165.3',chg:'—',pct:'—',vac:'17,000+',status:'soon'},ST:{v:'TBA',prev:'149.0',chg:'—',pct:'—',vac:'17,000+',status:'soon'},EWS:{v:'TBA',prev:'184.7',chg:'—',pct:'—',vac:'17,000+',status:'soon'} },
+      2024: { UR:{v:'193.8',prev:'190.0',chg:'+3.8',pct:'64.6%',vac:'17,727',status:'final'},OBC:{v:'182.4',prev:'178.5',chg:'+3.9',pct:'60.8%',vac:'17,727',status:'final'},SC:{v:'165.3',prev:'160.0',chg:'+5.3',pct:'55.1%',vac:'17,727',status:'final'},ST:{v:'149.0',prev:'145.0',chg:'+4.0',pct:'49.7%',vac:'17,727',status:'final'},EWS:{v:'184.7',prev:'181.0',chg:'+3.7',pct:'61.6%',vac:'17,727',status:'final'} },
+      2023: { UR:{v:'190.0',prev:'185.0',chg:'+5.0',pct:'63.3%',vac:'14,582',status:'final'},OBC:{v:'178.5',prev:'174.0',chg:'+4.5',pct:'59.5%',vac:'14,582',status:'final'},SC:{v:'160.0',prev:'156.5',chg:'+3.5',pct:'53.3%',vac:'14,582',status:'final'},ST:{v:'145.0',prev:'140.0',chg:'+5.0',pct:'48.3%',vac:'14,582',status:'final'},EWS:{v:'181.0',prev:'177.5',chg:'+3.5',pct:'60.3%',vac:'14,582',status:'final'} }
+    }
   },
-  chsl: {
-    year: '2023-24',
-    tiers: [
-      { tier:'Tier I', rows:[
-        {cat:'General', marks:'183.40'},
-        {cat:'OBC',     marks:'178.71'},
-        {cat:'EWS',     marks:'178.54'},
-        {cat:'SC',      marks:'163.51'},
-        {cat:'ST',      marks:'152.25'},
-      ]}
-    ]
+  'SSC CHSL': {
+    I: {
+      2025: { UR:{v:'TBA',prev:'145.2',chg:'—',pct:'—',vac:'3,712',status:'soon'},OBC:{v:'TBA',prev:'138.5',chg:'—',pct:'—',vac:'3,712',status:'soon'},SC:{v:'TBA',prev:'120.3',chg:'—',pct:'—',vac:'3,712',status:'soon'},ST:{v:'TBA',prev:'108.7',chg:'—',pct:'—',vac:'3,712',status:'soon'},EWS:{v:'TBA',prev:'140.0',chg:'—',pct:'—',vac:'3,712',status:'soon'} },
+      2024: { UR:{v:'145.2',prev:'142.0',chg:'+3.2',pct:'72.6%',vac:'3,712',status:'final'},OBC:{v:'138.5',prev:'135.0',chg:'+3.5',pct:'69.3%',vac:'3,712',status:'final'},SC:{v:'120.3',prev:'117.5',chg:'+2.8',pct:'60.2%',vac:'3,712',status:'final'},ST:{v:'108.7',prev:'105.2',chg:'+3.5',pct:'54.4%',vac:'3,712',status:'final'},EWS:{v:'140.0',prev:'137.0',chg:'+3.0',pct:'70.0%',vac:'3,712',status:'final'} },
+      2023: { UR:{v:'142.0',prev:'138.5',chg:'+3.5',pct:'71.0%',vac:'1,600',status:'final'},OBC:{v:'135.0',prev:'131.5',chg:'+3.5',pct:'67.5%',vac:'1,600',status:'final'},SC:{v:'117.5',prev:'114.0',chg:'+3.5',pct:'58.8%',vac:'1,600',status:'final'},ST:{v:'105.2',prev:'102.0',chg:'+3.2',pct:'52.6%',vac:'1,600',status:'final'},EWS:{v:'137.0',prev:'133.5',chg:'+3.5',pct:'68.5%',vac:'1,600',status:'final'} }
+    },
+    II: {
+      2025: { UR:{v:'TBA',prev:'180.5',chg:'—',pct:'—',vac:'3,712',status:'soon'},OBC:{v:'TBA',prev:'170.2',chg:'—',pct:'—',vac:'3,712',status:'soon'},SC:{v:'TBA',prev:'152.0',chg:'—',pct:'—',vac:'3,712',status:'soon'},ST:{v:'TBA',prev:'138.0',chg:'—',pct:'—',vac:'3,712',status:'soon'},EWS:{v:'TBA',prev:'173.0',chg:'—',pct:'—',vac:'3,712',status:'soon'} },
+      2024: { UR:{v:'180.5',prev:'177.0',chg:'+3.5',pct:'60.2%',vac:'3,712',status:'final'},OBC:{v:'170.2',prev:'166.5',chg:'+3.7',pct:'56.7%',vac:'3,712',status:'final'},SC:{v:'152.0',prev:'148.0',chg:'+4.0',pct:'50.7%',vac:'3,712',status:'final'},ST:{v:'138.0',prev:'134.5',chg:'+3.5',pct:'46.0%',vac:'3,712',status:'final'},EWS:{v:'173.0',prev:'169.5',chg:'+3.5',pct:'57.7%',vac:'3,712',status:'final'} },
+      2023: { UR:{v:'177.0',prev:'173.5',chg:'+3.5',pct:'59.0%',vac:'1,600',status:'final'},OBC:{v:'166.5',prev:'163.0',chg:'+3.5',pct:'55.5%',vac:'1,600',status:'final'},SC:{v:'148.0',prev:'145.0',chg:'+3.0',pct:'49.3%',vac:'1,600',status:'final'},ST:{v:'134.5',prev:'131.0',chg:'+3.5',pct:'44.8%',vac:'1,600',status:'final'},EWS:{v:'169.5',prev:'166.0',chg:'+3.5',pct:'56.5%',vac:'1,600',status:'final'} }
+    }
   },
-  mts: {
-    year: '2023',
-    tiers: [
-      { tier:'MTS Paper I', rows:[
-        {cat:'General', marks:'148.81'},
-        {cat:'OBC',     marks:'142.00'},
-        {cat:'EWS',     marks:'140.00'},
-        {cat:'SC',      marks:'120.00'},
-        {cat:'ST',      marks:'108.00'},
-      ]}
-    ]
+  'SSC MTS': {
+    I: {
+      2025: { UR:{v:'TBA',prev:'106.5',chg:'—',pct:'—',vac:'9,583',status:'soon'},OBC:{v:'TBA',prev:'98.2',chg:'—',pct:'—',vac:'9,583',status:'soon'},SC:{v:'TBA',prev:'82.5',chg:'—',pct:'—',vac:'9,583',status:'soon'},ST:{v:'TBA',prev:'72.0',chg:'—',pct:'—',vac:'9,583',status:'soon'},EWS:{v:'TBA',prev:'100.0',chg:'—',pct:'—',vac:'9,583',status:'soon'} },
+      2024: { UR:{v:'106.5',prev:'103.0',chg:'+3.5',pct:'53.3%',vac:'9,583',status:'final'},OBC:{v:'98.2',prev:'95.0',chg:'+3.2',pct:'49.1%',vac:'9,583',status:'final'},SC:{v:'82.5',prev:'80.0',chg:'+2.5',pct:'41.3%',vac:'9,583',status:'final'},ST:{v:'72.0',prev:'70.0',chg:'+2.0',pct:'36.0%',vac:'9,583',status:'final'},EWS:{v:'100.0',prev:'97.5',chg:'+2.5',pct:'50.0%',vac:'9,583',status:'final'} },
+      2023: { UR:{v:'103.0',prev:'100.5',chg:'+2.5',pct:'51.5%',vac:'11,409',status:'final'},OBC:{v:'95.0',prev:'92.5',chg:'+2.5',pct:'47.5%',vac:'11,409',status:'final'},SC:{v:'80.0',prev:'78.0',chg:'+2.0',pct:'40.0%',vac:'11,409',status:'final'},ST:{v:'70.0',prev:'68.0',chg:'+2.0',pct:'35.0%',vac:'11,409',status:'final'},EWS:{v:'97.5',prev:'95.0',chg:'+2.5',pct:'48.8%',vac:'11,409',status:'final'} }
+    },
+    II: {
+      2025:{UR:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'soon'},OBC:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'soon'},SC:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'soon'},ST:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'soon'},EWS:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'soon'}},
+      2024:{UR:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},OBC:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},SC:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},ST:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},EWS:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'}},
+      2023:{UR:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},OBC:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},SC:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},ST:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},EWS:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'}}
+    }
   },
+  'SSC CPO': {
+    I: {
+      2025:{UR:{v:'TBA',prev:'133.5',chg:'—',pct:'—',vac:'4,187',status:'soon'},OBC:{v:'TBA',prev:'125.0',chg:'—',pct:'—',vac:'4,187',status:'soon'},SC:{v:'TBA',prev:'110.5',chg:'—',pct:'—',vac:'4,187',status:'soon'},ST:{v:'TBA',prev:'98.0',chg:'—',pct:'—',vac:'4,187',status:'soon'},EWS:{v:'TBA',prev:'127.0',chg:'—',pct:'—',vac:'4,187',status:'soon'}},
+      2024:{UR:{v:'133.5',prev:'130.0',chg:'+3.5',pct:'66.8%',vac:'4,187',status:'final'},OBC:{v:'125.0',prev:'121.5',chg:'+3.5',pct:'62.5%',vac:'4,187',status:'final'},SC:{v:'110.5',prev:'107.0',chg:'+3.5',pct:'55.3%',vac:'4,187',status:'final'},ST:{v:'98.0',prev:'95.0',chg:'+3.0',pct:'49.0%',vac:'4,187',status:'final'},EWS:{v:'127.0',prev:'123.5',chg:'+3.5',pct:'63.5%',vac:'4,187',status:'final'}},
+      2023:{UR:{v:'130.0',prev:'126.5',chg:'+3.5',pct:'65.0%',vac:'4,300',status:'final'},OBC:{v:'121.5',prev:'118.0',chg:'+3.5',pct:'60.8%',vac:'4,300',status:'final'},SC:{v:'107.0',prev:'104.0',chg:'+3.0',pct:'53.5%',vac:'4,300',status:'final'},ST:{v:'95.0',prev:'92.0',chg:'+3.0',pct:'47.5%',vac:'4,300',status:'final'},EWS:{v:'123.5',prev:'120.0',chg:'+3.5',pct:'61.8%',vac:'4,300',status:'final'}}
+    },
+    II:{
+      2025:{UR:{v:'TBA',prev:'—',chg:'—',pct:'—',vac:'—',status:'soon'},OBC:{v:'TBA',prev:'—',chg:'—',pct:'—',vac:'—',status:'soon'},SC:{v:'TBA',prev:'—',chg:'—',pct:'—',vac:'—',status:'soon'},ST:{v:'TBA',prev:'—',chg:'—',pct:'—',vac:'—',status:'soon'},EWS:{v:'TBA',prev:'—',chg:'—',pct:'—',vac:'—',status:'soon'}},
+      2024:{UR:{v:'—',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},OBC:{v:'—',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},SC:{v:'—',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},ST:{v:'—',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},EWS:{v:'—',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'}},
+      2023:{UR:{v:'—',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},OBC:{v:'—',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},SC:{v:'—',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},ST:{v:'—',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},EWS:{v:'—',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'}}
+    }
+  },
+  'SSC GD': {
+    I:{
+      2025:{UR:{v:'TBA',prev:'115.8',chg:'—',pct:'—',vac:'26,146',status:'soon'},OBC:{v:'TBA',prev:'109.2',chg:'—',pct:'—',vac:'26,146',status:'soon'},SC:{v:'TBA',prev:'94.0',chg:'—',pct:'—',vac:'26,146',status:'soon'},ST:{v:'TBA',prev:'82.5',chg:'—',pct:'—',vac:'26,146',status:'soon'},EWS:{v:'TBA',prev:'111.0',chg:'—',pct:'—',vac:'26,146',status:'soon'}},
+      2024:{UR:{v:'115.8',prev:'112.5',chg:'+3.3',pct:'57.9%',vac:'26,146',status:'final'},OBC:{v:'109.2',prev:'106.0',chg:'+3.2',pct:'54.6%',vac:'26,146',status:'final'},SC:{v:'94.0',prev:'91.5',chg:'+2.5',pct:'47.0%',vac:'26,146',status:'final'},ST:{v:'82.5',prev:'80.0',chg:'+2.5',pct:'41.3%',vac:'26,146',status:'final'},EWS:{v:'111.0',prev:'108.0',chg:'+3.0',pct:'55.5%',vac:'26,146',status:'final'}},
+      2023:{UR:{v:'112.5',prev:'109.0',chg:'+3.5',pct:'56.3%',vac:'45,284',status:'final'},OBC:{v:'106.0',prev:'103.0',chg:'+3.0',pct:'53.0%',vac:'45,284',status:'final'},SC:{v:'91.5',prev:'89.0',chg:'+2.5',pct:'45.8%',vac:'45,284',status:'final'},ST:{v:'80.0',prev:'78.0',chg:'+2.0',pct:'40.0%',vac:'45,284',status:'final'},EWS:{v:'108.0',prev:'105.5',chg:'+2.5',pct:'54.0%',vac:'45,284',status:'final'}}
+    },
+    II:{
+      2025:{UR:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'soon'},OBC:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'soon'},SC:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'soon'},ST:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'soon'},EWS:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'soon'}},
+      2024:{UR:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},OBC:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},SC:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},ST:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},EWS:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'}},
+      2023:{UR:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},OBC:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},SC:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},ST:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'},EWS:{v:'N/A',prev:'—',chg:'—',pct:'—',vac:'—',status:'final'}}
+    }
+  }
 };
 
-function buildCutoffCard(){
-  const exams = getSelectedExams();
-  const key   = 'ssc_cutoff_open';
-  const isOpen= localStorage.getItem(key)==='1';
+let coExam='SSC CGL', coTier='I', coYear=2024, coCat='UR';
 
-  const rows = exams.filter(e => SSC_CUTOFFS[e]).map(examId => {
-    const cut  = SSC_CUTOFFS[examId];
+function coUpdate(){
+  const d = (CO_DATA[coExam]?.[coTier]?.[coYear]?.[coCat]) || {};
+  const v = d.v||'—';
+  const numEl=document.getElementById('co-num'); if(numEl) numEl.textContent=v;
+  const lblEl=document.getElementById('co-lbl'); if(lblEl) lblEl.textContent=coCat+' · Tier '+coTier+' · '+coYear;
+  const prevEl=document.getElementById('co-prev'); if(prevEl) prevEl.textContent=d.prev||'—';
+  const chgEl=document.getElementById('co-chg');
+  if(chgEl){ chgEl.textContent=d.chg||'—'; const isPos=d.chg&&d.chg.startsWith('+'); chgEl.style.color=isPos?'#6ee7b7':(d.chg&&d.chg.startsWith('-')?'#fca5a5':'rgba(255,255,255,.5)'); }
+  const maxMap={'SSC CGL':{'I':200,'II':300},'SSC CHSL':{'I':200,'II':300},'SSC MTS':{'I':200,'II':200},'SSC CPO':{'I':200,'II':200},'SSC GD':{'I':200,'II':200}};
+  const mx=maxMap[coExam]?.[coTier]||200;
+  const maxEl=document.getElementById('co-max'); if(maxEl) maxEl.textContent=mx;
+  const pctEl=document.getElementById('co-pct'); if(pctEl) pctEl.textContent=d.pct||'—';
+  const vacEl=document.getElementById('co-vac'); if(vacEl) vacEl.textContent=d.vac||'—';
+  const sv=d.status||'final';
+  const sEl=document.getElementById('co-status');
+  if(sEl){ sEl.textContent=sv==='soon'?'Expected':sv==='live'?'Live':'Final'; sEl.className='co-status-pill '+(sv==='soon'?'co-status-soon':sv==='live'?'co-status-live':'co-status-final'); }
+  const chgNum=parseFloat((d.chg||'0').replace('+',''));
+  const vsEl=document.getElementById('co-vs');
+  if(vsEl){ if(d.chg==='—'||!d.chg){vsEl.textContent='— data pending';vsEl.className='co-row-val';}else if(chgNum>=0){vsEl.textContent='↑ +'+Math.abs(chgNum)+' points';vsEl.className='co-change-up';}else{vsEl.textContent='↓ '+Math.abs(chgNum)+' points';vsEl.className='co-change-dn';} }
+  const yrs=[2023,2024,2025];
+  const vals=yrs.map(y=>{const dv=CO_DATA[coExam]?.[coTier]?.[y]?.[coCat]?.v;return dv&&dv!=='TBA'&&dv!=='N/A'&&dv!=='—'?parseFloat(dv):null;});
+  const maxV=Math.max(...vals.filter(v=>v!==null),1);
+  ['sp-2023','sp-2024','sp-2025'].forEach((id,i)=>{const el=document.getElementById(id);if(!el)return;const pct=vals[i]!==null?Math.round((vals[i]/maxV)*85)+10:12;el.style.height=pct+'%';el.className='co-spark-bar'+(yrs[i]===coYear?' cur':'');el.style.opacity=vals[i]===null?'0.3':'1';});
+  const cats=['UR','OBC','SC','ST','EWS'];
+  const catClrs={UR:'#EEEDFE:#534AB7',OBC:'#E1F5EE:#0F6E56',SC:'#FAEEDA:#633806',ST:'#EAF3DE:#3B6D11',EWS:'#FCEBEB:#7f1d1d'};
+  const allHTML=cats.map(c=>{const cv=CO_DATA[coExam]?.[coTier]?.[coYear]?.[c]?.v||'—';const[bg,tc]=catClrs[c].split(':');return`<span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;background:${bg};color:${tc};">${c} ${cv}</span>`;}).join('');
+  const pEl=document.querySelector('#co-card .co-body .co-row:last-child');
+  if(pEl){const flex=pEl.querySelector('div[style]');if(flex)flex.innerHTML=allHTML;}
+}
+function coSetYear(yr,btn){coYear=parseInt(yr);document.querySelectorAll('.co-pill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');coUpdate();}
+function coSetTier(t,btn){coTier=t;document.querySelectorAll('.co-tier-pill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');coUpdate();}
+function coSetCat(c,btn){coCat=c;document.querySelectorAll('.co-cat').forEach(b=>b.classList.remove('active'));btn.classList.add('active');coUpdate();}
+function coSetExam(ex,btn){coExam=ex;const lbl=document.getElementById('co-exam-lbl');if(lbl)lbl.textContent=ex;document.querySelectorAll('.co-exam-opt').forEach(b=>{b.classList.remove('active');b.innerHTML=b.textContent.trim();});btn.classList.add('active');btn.innerHTML=ex+' <i class="ti ti-check" style="font-size:11px;"></i>';const drop=document.getElementById('co-exam-drop');if(drop)drop.classList.remove('open');coUpdate();}
+function coToggleExamDrop(){const d=document.getElementById('co-exam-drop');if(d)d.classList.toggle('open');}
+document.addEventListener('click',function(e){if(!e.target.closest('#co-exam-btn')&&!e.target.closest('#co-exam-drop')){const d=document.getElementById('co-exam-drop');if(d)d.classList.remove('open');}});
+
+function buildCutoffCard(){
+  return `<div class="co-wrap" id="co-card" style="margin-bottom:16px;">
+  <div class="co-bg">
+    <div class="co-head">
+      <div class="co-head-row">
+        <div class="co-title-wrap">
+          <div class="co-title-icon" style="font-size:18px;">📊</div>
+          <div class="co-title">Previous Year Cutoffs</div>
+        </div>
+        <div style="position:relative;">
+          <div class="co-exam-sel" id="co-exam-btn" onclick="coToggleExamDrop()">
+            <span id="co-exam-lbl">SSC CGL</span>
+            <i class="ti ti-chevron-down" style="font-size:11px;"></i>
+          </div>
+          <div class="co-exam-drop" id="co-exam-drop">
+            <div class="co-exam-opt active" onclick="coSetExam('SSC CGL',this)">SSC CGL <i class="ti ti-check" style="font-size:11px;"></i></div>
+            <div class="co-exam-opt" onclick="coSetExam('SSC CHSL',this)">SSC CHSL</div>
+            <div class="co-exam-opt" onclick="coSetExam('SSC MTS',this)">SSC MTS</div>
+            <div class="co-exam-opt" onclick="coSetExam('SSC CPO',this)">SSC CPO</div>
+            <div class="co-exam-opt" onclick="coSetExam('SSC GD',this)">SSC GD</div>
+          </div>
+        </div>
+      </div>
+      <div class="co-controls">
+        <div class="co-pill-group">
+          <button class="co-pill" onclick="coSetYear('2025',this)">2025</button>
+          <button class="co-pill active" onclick="coSetYear('2024',this)">2024</button>
+          <button class="co-pill" onclick="coSetYear('2023',this)">2023</button>
+        </div>
+        <div class="co-tier-group">
+          <button class="co-tier-pill active" onclick="coSetTier('I',this)">Tier I</button>
+          <button class="co-tier-pill" onclick="coSetTier('II',this)">Tier II</button>
+        </div>
+      </div>
+    </div>
+    <div class="co-cats">
+      <button class="co-cat active" onclick="coSetCat('UR',this)">UR</button>
+      <button class="co-cat" onclick="coSetCat('OBC',this)">OBC</button>
+      <button class="co-cat" onclick="coSetCat('SC',this)">SC</button>
+      <button class="co-cat" onclick="coSetCat('ST',this)">ST</button>
+      <button class="co-cat" onclick="coSetCat('EWS',this)">EWS</button>
+    </div>
+    <div class="co-spotlight">
+      <div class="co-big">
+        <div class="co-big-num" id="co-num">160.5</div>
+        <div class="co-big-lbl" id="co-lbl">UR · Tier I · 2024</div>
+      </div>
+      <div class="co-divider"></div>
+      <div class="co-mini-grid">
+        <div class="co-mini"><div class="co-mini-v" id="co-max">200</div><div class="co-mini-l">Out of</div></div>
+        <div class="co-mini"><div class="co-mini-v" id="co-prev">158.0</div><div class="co-mini-l">Prev year</div></div>
+        <div class="co-mini"><div class="co-mini-v" id="co-chg" style="color:#6ee7b7;">+2.5</div><div class="co-mini-l">Change</div></div>
+        <div class="co-mini"><div class="co-mini-v" id="co-pct">80.3%</div><div class="co-mini-l">% of total</div></div>
+      </div>
+    </div>
+    <div class="co-trend">
+      <div class="co-trend-lbl">3-year trend</div>
+      <div class="co-spark" id="co-spark">
+        <div class="co-spark-col"><div class="co-spark-bar" id="sp-2023" style="height:75%;"></div><div class="co-spark-yr">2023</div></div>
+        <div class="co-spark-col"><div class="co-spark-bar cur" id="sp-2024" style="height:90%;"></div><div class="co-spark-yr">2024</div></div>
+        <div class="co-spark-col"><div class="co-spark-bar" id="sp-2025" style="height:30%;opacity:.4;"></div><div class="co-spark-yr">2025</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="co-body">
+    <div class="co-row"><div class="co-row-lbl"><i class="ti ti-calendar-event"></i>Status</div><span class="co-status-pill co-status-final" id="co-status">Final</span></div>
+    <div class="co-row"><div class="co-row-lbl"><i class="ti ti-users"></i>Vacancies</div><div class="co-row-val" id="co-vac">17,727</div></div>
+    <div class="co-row"><div class="co-row-lbl"><i class="ti ti-trending-up"></i>vs Previous Year</div><div class="co-change-up" id="co-vs">↑ +2.5 points</div></div>
+    <div class="co-row"><div class="co-row-lbl"><i class="ti ti-target"></i>All categories</div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap;">
+        <span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;background:#EEEDFE;color:#534AB7;">UR 160.5</span>
+        <span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;background:#E1F5EE;color:#0F6E56;">OBC 151.2</span>
+        <span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;background:#FAEEDA;color:#633806;">SC 136.7</span>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+function buildEligibilityCard(){
+  const exams = getSelectedExams();
+  if(!exams.length) return '';
+  const eligibility = {
+    cgl:  {edu:'Graduation (any stream)',age:'18–32 yrs',relaxation:'OBC: 3y | SC/ST: 5y | PH: 10y',note:'Age relaxation applies to certain posts'},
+    chsl: {edu:'12th Pass (any board)',age:'18–27 yrs',relaxation:'OBC: 3y | SC/ST: 5y | PH: 10y',note:'No age limit for Govt employees'},
+    mts:  {edu:'10th Pass (Matric)',age:'18–25 yrs',relaxation:'OBC: 3y | SC/ST: 5y | PH: 10y',note:'Age limit higher for Havaldar posts'},
+    gd:   {edu:'10th Pass',age:'18–23 yrs',relaxation:'OBC: 3y | SC/ST: 5y | Ex-SM: 3y',note:'Physical standards also apply'},
+    cpo:  {edu:'Graduation (any stream)',age:'20–25 yrs',relaxation:'OBC: 3y | SC/ST: 5y | Ex-SM: 3y',note:'Sub-Inspector post — physical test mandatory'},
+    je:   {edu:'Diploma/Degree in Civil/Elec/Mech',age:'18–32 yrs',relaxation:'OBC: 3y | SC/ST: 5y',note:'Technical degree essential'},
+    steno:{edu:'12th Pass',age:'18–27 yrs',relaxation:'OBC: 3y | SC/ST: 5y',note:'Stenography skill test required'},
+    sel:  {edu:'10th / 12th / Graduation (varies by post)',age:'18–30 yrs (varies)',relaxation:'OBC: 3y | SC/ST: 5y',note:'Each post has different qualifications'},
+  };
+  const rows = exams.map(examId=>{
     const exam = SSC_EXAMS.find(e=>e.id===examId);
-    const table = cut.tiers.map(tier=>`
-      <div style="margin-bottom:10px;">
-        <div style="font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">${tier.tier} (${cut.year})</div>
-        <table style="width:100%;border-collapse:collapse;font-size:12px;">
-          <thead><tr style="background:var(--card2);">
-            <th style="padding:6px 10px;text-align:left;font-weight:700;border-radius:8px 0 0 8px;">Category</th>
-            <th style="padding:6px 10px;text-align:right;font-weight:700;border-radius:0 8px 8px 0;">Cutoff</th>
-          </tr></thead>
-          <tbody>${tier.rows.map(r=>`
-            <tr style="border-bottom:1px solid var(--border);">
-              <td style="padding:6px 10px;color:var(--text2);">${r.cat}</td>
-              <td style="padding:6px 10px;text-align:right;font-family:var(--mono);font-weight:700;color:var(--text);">${r.marks}</td>
-            </tr>`).join('')}
-          </tbody>
-        </table>
-      </div>`).join('');
-    return `<div style="margin-bottom:12px;"><div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:8px;">${exam?.icon} ${exam?.name}</div>${table}</div>`;
+    const elig = eligibility[examId];
+    if(!exam||!elig) return '';
+    return `<div style="background:var(--card2);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:8px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="font-size:18px;">${exam.icon}</span>
+        <div style="font-size:13px;font-weight:800;color:var(--text);">${exam.name}</div>
+        <span style="margin-left:auto;font-size:9px;font-weight:700;background:${exam.bg};color:${exam.color};border-radius:20px;padding:2px 9px;">${exam.tag}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div style="background:var(--card);border-radius:10px;padding:10px;">
+          <div style="font-size:9px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">🎓 Education</div>
+          <div style="font-size:11px;font-weight:700;color:var(--text);line-height:1.5;">${elig.edu}</div>
+        </div>
+        <div style="background:var(--card);border-radius:10px;padding:10px;">
+          <div style="font-size:9px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">📅 Age Limit</div>
+          <div style="font-size:11px;font-weight:700;color:var(--text);line-height:1.5;">${elig.age}</div>
+        </div>
+        <div style="background:var(--card);border-radius:10px;padding:10px;grid-column:1/-1;">
+          <div style="font-size:9px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">🏷️ Age Relaxation</div>
+          <div style="font-size:11px;font-weight:700;color:var(--text);">${elig.relaxation}</div>
+        </div>
+      </div>
+      <div style="margin-top:8px;font-size:10px;color:var(--acc);font-weight:600;">ℹ️ ${elig.note}</div>
+    </div>`;
   }).join('');
 
-  if(!rows) return '';
-
+  const isOpen = localStorage.getItem('ssc_elig_open')==='1';
   return `<div class="card card-p" style="margin-bottom:16px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="
-      const cur=localStorage.getItem('ssc_cutoff_open')==='1';
-      localStorage.setItem('ssc_cutoff_open',cur?'0':'1');
-      renderHome();">
-      <div class="sec-title">📊 Previous Year Cutoffs</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="localStorage.setItem('ssc_elig_open',localStorage.getItem('ssc_elig_open')==='1'?'0':'1');renderHome();">
+      <div class="sec-title">✅ Am I Eligible?</div>
       <span style="font-size:18px;color:var(--text3);transition:transform .3s;${isOpen?'transform:rotate(180deg);':''}">⌄</span>
     </div>
     ${isOpen ? `<div style="margin-top:14px;">${rows}</div>` : ''}
+  </div>`;
+}
+function buildNotesPinboard(){
+  const note = localStorage.getItem('ssc_pinned_note')||'';
+  const isEditing = window._notesEditing;
+  return `<div class="card card-p" style="margin-bottom:16px;border-left:4px solid var(--acc);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+      <div class="sec-title">📌 My Pinned Note</div>
+      <button onclick="window._notesEditing=!window._notesEditing;renderHome();" class="btn btn-ghost" style="font-size:11px;padding:5px 10px;">${isEditing?'💾 Save':'✏️ Edit'}</button>
+    </div>
+    ${isEditing
+      ? `<textarea id="notes-pinboard-ta" style="width:100%;min-height:100px;background:var(--card2);border:1.5px solid var(--acc);border-radius:12px;padding:12px 14px;font-size:13px;font-weight:600;color:var(--text);outline:none;font-family:var(--fn);resize:vertical;line-height:1.7;"
+          oninput="localStorage.setItem('ssc_pinned_note',this.value)"
+          placeholder="Write anything — exam dates, topics to revise, goals…">${escH(note)}</textarea>`
+      : note
+        ? `<div style="font-size:13px;color:var(--text2);line-height:1.8;white-space:pre-wrap;background:var(--card2);border-radius:12px;padding:12px 14px;">${escH(note)}</div>`
+        : `<div style="font-size:12px;color:var(--text3);text-align:center;padding:20px;cursor:pointer;" onclick="window._notesEditing=true;renderHome();">Tap ✏️ Edit to write your first note</div>`
+    }
+  </div>`;
+}
+function buildSubjectBattleCard(){
+  const exams = getSelectedExams();
+  if(!exams.length) return '';
+  const examId = exams[0];
+  const exam = SSC_EXAMS.find(e=>e.id===examId);
+  if(!exam) return '';
+  const data = SSC_MOCK_CHAPTERS[examId];
+  if(!data) return '';
+
+  const subjectScores = exam.subjects.map(subj=>{
+    const chs = (data.chapters||{})[subj.id]||[];
+    const done = chs.filter(m=>getCBTResult(examId,m.id));
+    const avg = done.length ? done.reduce((s,m)=>{const r=getCBTResult(examId,m.id);return s+(r?r.percentage:0);},0)/done.length : null;
+    return {subj, avg, done:done.length};
+  }).filter(s=>s.avg!==null);
+
+  if(subjectScores.length < 2) return '';
+
+  const best  = subjectScores.reduce((a,b)=>a.avg>b.avg?a:b);
+  const worst = subjectScores.reduce((a,b)=>a.avg<b.avg?a:b);
+  if(best.subj.id === worst.subj.id) return '';
+
+  const bestClr  = rClr(best.avg);
+  const worstClr = rClr(worst.avg);
+  const weakUrl  = mockUrl(examId, (data.chapters?.[worst.subj.id]||[])[0]?.id||'');
+
+  return `<div class="card card-p" style="margin-bottom:16px;background:linear-gradient(135deg,${bestClr}06,${worstClr}06);">
+    <div class="sec-title" style="margin-bottom:14px;">⚔️ Subject Battle</div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <!-- Best subject -->
+      <div style="flex:1;background:${bestClr}15;border:2px solid ${bestClr}40;border-radius:16px;padding:16px 12px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:4px;">${best.subj.icon}</div>
+        <div style="font-size:11px;font-weight:800;color:var(--text);line-height:1.3;margin-bottom:6px;">${best.subj.name}</div>
+        <div style="font-size:24px;font-weight:900;font-family:var(--mono);color:${bestClr};">${best.avg.toFixed(0)}%</div>
+        <div style="font-size:9px;font-weight:700;background:${bestClr}20;color:${bestClr};border-radius:20px;padding:2px 8px;margin-top:5px;display:inline-block;">🏆 Strongest</div>
+      </div>
+      <!-- VS -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
+        <div style="font-size:18px;font-weight:900;color:var(--text3);">VS</div>
+        <div style="width:2px;height:40px;background:linear-gradient(to bottom,${bestClr},${worstClr});border-radius:2px;"></div>
+      </div>
+      <!-- Worst subject -->
+      <div style="flex:1;background:${worstClr}12;border:2px solid ${worstClr}35;border-radius:16px;padding:16px 12px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:4px;">${worst.subj.icon}</div>
+        <div style="font-size:11px;font-weight:800;color:var(--text);line-height:1.3;margin-bottom:6px;">${worst.subj.name}</div>
+        <div style="font-size:24px;font-weight:900;font-family:var(--mono);color:${worstClr};">${worst.avg.toFixed(0)}%</div>
+        <div style="font-size:9px;font-weight:700;background:${worstClr}20;color:${worstClr};border-radius:20px;padding:2px 8px;margin-top:5px;display:inline-block;">⚠️ Weakest</div>
+      </div>
+    </div>
+    ${weakUrl ? `<a href="${weakUrl}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;padding:11px;border-radius:12px;background:${worstClr}15;border:1.5px solid ${worstClr}35;color:${worstClr};font-size:12px;font-weight:800;text-decoration:none;transition:all .2s;" onmouseenter="this.style.background='${worstClr}25'" onmouseleave="this.style.background='${worstClr}15'">
+      Practice ${worst.subj.icon} ${worst.subj.name} →
+    </a>` : ''}
+  </div>`;
+}
+function buildPomodoroWidget(){
+  const pomKey = 'ssc_pomo_total_focus';
+  const totalFocusMins = parseInt(localStorage.getItem(pomKey)||'0');
+  return `<div class="card card-p" style="margin-bottom:16px;" id="pomo-widget">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div class="sec-title">🍅 Pomodoro Focus Timer</div>
+      <div style="font-size:10px;color:var(--text3);font-weight:700;">Total: ${totalFocusMins} min focused</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+      <!-- Ring countdown -->
+      <div style="position:relative;width:130px;height:130px;">
+        <svg width="130" height="130" viewBox="0 0 130 130" style="transform:rotate(-90deg);">
+          <circle cx="65" cy="65" r="56" fill="none" stroke="var(--card2)" stroke-width="8"/>
+          <circle id="pomo-ring" cx="65" cy="65" r="56" fill="none" stroke="#5B4EE8" stroke-width="8"
+            stroke-dasharray="351.9" stroke-dashoffset="0" stroke-linecap="round"
+            style="transition:stroke-dashoffset .5s linear,stroke .3s;"/>
+        </svg>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <div id="pomo-time" style="font-size:26px;font-weight:900;font-family:var(--mono);color:var(--text);letter-spacing:-1px;">25:00</div>
+          <div id="pomo-phase" style="font-size:10px;font-weight:700;color:var(--text3);">Study</div>
+        </div>
+      </div>
+      <!-- Controls -->
+      <div style="display:flex;gap:8px;">
+        <button id="pomo-start-btn" onclick="pomoStart()" class="btn btn-prim" style="padding:9px 20px;font-size:13px;">▶ Start</button>
+        <button onclick="pomoPause()" class="btn btn-ghost" style="padding:9px 14px;">⏸</button>
+        <button onclick="pomoReset()" class="btn btn-ghost" style="padding:9px 14px;">↺</button>
+      </div>
+      <!-- Mode selector -->
+      <div style="display:flex;gap:6px;">
+        <button onclick="pomoSetMode('study')" id="pomo-btn-study" class="btn btn-prim" style="padding:5px 12px;font-size:11px;">🎯 Study 25m</button>
+        <button onclick="pomoSetMode('break')" id="pomo-btn-break" class="btn btn-ghost" style="padding:5px 12px;font-size:11px;">☕ Break 5m</button>
+      </div>
+      <div style="font-size:10px;color:var(--text3);text-align:center;line-height:1.6;">Study → take a 5-min break → repeat.<br>Each session saves to your daily focus log.</div>
+    </div>
   </div>`;
 }
 function getMilestones(allAtt, streak){
@@ -4227,30 +5021,97 @@ function buildHeatmapCard(){
     const k = d.date.slice(0,10);
     counts[k] = (counts[k]||0) + 1;
   });
+  const totalActive = Object.keys(counts).length;
+  const totalThisWeek = Object.keys(counts).filter(k=>{
+    const d=new Date(k); d.setHours(0,0,0,0);
+    return (today-d)/86400000 <= 7;
+  }).length;
+  const maxDay = Math.max(0,...Object.values(counts));
+
+const dayLabels = ['S','M','T','W','T','F','S'];
+  const busyDate = Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];
+  const busyCount = busyDate ? busyDate[1] : 0;
+  const busyLabel = busyDate ? new Date(busyDate[0]).toLocaleDateString('en-IN',{month:'short',day:'numeric'}) : '—';
+
+  // Build streak info
+  const streak = getStreak();
+  let longestStreak=0,cur=0,streakStart='',streakEnd='';
+  for(let i=days-1;i>=0;i--){
+    const d=new Date(today);d.setDate(d.getDate()-i);
+    const k=d.toISOString().slice(0,10);
+    if(counts[k]){
+      if(!cur){streakStart=k;} streakEnd=k; cur++;
+      if(cur>longestStreak){longestStreak=cur;}
+    } else { cur=0; }
+  }
 
   const cells = [];
+  const dayLabelCells = [];
   for(let i = days-1; i >= 0; i--){
     const d = new Date(today); d.setDate(d.getDate()-i);
     const k = d.toISOString().slice(0,10);
     const c = counts[k] || 0;
-    const opacity = c===0?'0.08':c===1?'0.35':c===2?'0.6':'1';
-    const bg = c===0?'var(--border)':'#5B4EE8';
-    cells.push(`<div title="${k}: ${c} test${c!==1?'s':''}" style="width:20px;height:20px;border-radius:5px;background:${bg};opacity:${opacity};cursor:default;transition:opacity .2s;"
-      onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity='${opacity}'"></div>`);
+    const isToday = i===0;
+    const dayIdx = d.getDay();
+    const intensity = maxDay>0 ? c/maxDay : 0;
+    const heightPct = c===0 ? 8 : Math.max(14, Math.round(10 + intensity*86));
+    // Color gradient: empty=border, low=light purple, high=deep purple
+    const colors = ['#e9e4ff','#c4b5fd','#8b5cf6','#5B4EE8','#3730a3'];
+    const ci = c===0?-1:Math.min(4,Math.floor(intensity*4));
+    const bg = c===0 ? 'rgba(91,78,232,.08)' : colors[ci];
+    const glow = c===0?'none':`0 ${Math.round(2+intensity*8)}px ${Math.round(6+intensity*16)}px ${bg}80`;
+    const tooltip = `${k}: ${c} test${c!==1?'s':''}${isToday?' (Today)':''}`;
+
+    cells.push(`<div class="act-bar-wrap" title="${tooltip}"
+      onmouseenter="this.querySelector('.act-bar').style.transform='scaleY(1.12)';this.querySelector('.act-bar').style.filter='brightness(1.15)'"
+      onmouseleave="this.querySelector('.act-bar').style.transform='';this.querySelector('.act-bar').style.filter=''">
+      ${c>0?`<div style="font-size:7px;font-weight:800;color:${bg};margin-bottom:2px;">${c}</div>`:''}
+      <div class="act-bar" style="height:${heightPct}%;background:${c===0?'rgba(91,78,232,.1)':bg};box-shadow:${glow};${isToday?'outline:2px solid #5B4EE8;outline-offset:1px;':''}"></div>
+      <div class="act-day-lbl">${dayLabels[dayIdx]}</div>
+    </div>`);
   }
 
-  const totalActive = Object.keys(counts).length;
-  return `<div class="card card-p" style="margin-bottom:16px;">
-    <div class="sec-hdr" style="margin-bottom:12px;">
-      <div class="sec-title">📅 Activity — Last 28 Days</div>
-      <span style="font-size:10px;color:var(--text3);">${totalActive} active days</span>
+  return `<div class="act-wrap">
+    <!-- Top stats -->
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:4px;">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--text3);margin-bottom:6px;">📅 Activity — Last 28 Days</div>
+        <div class="act-stats-row">
+          <div class="act-stat-chip">
+            <div class="act-stat-val">${allAtt.length}</div>
+            <div class="act-stat-lbl">total tests</div>
+          </div>
+          <div style="width:1px;background:rgba(91,78,232,.15);align-self:stretch;"></div>
+          <div class="act-stat-chip">
+            <div class="act-stat-val">${totalActive}</div>
+            <div class="act-stat-lbl">active days</div>
+          </div>
+          <div style="width:1px;background:rgba(91,78,232,.15);align-self:stretch;"></div>
+          <div class="act-stat-chip">
+            <div class="act-stat-val">${busyCount}</div>
+            <div class="act-stat-lbl">busiest · ${busyLabel}</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;text-align:right;">
+        <div style="background:rgba(91,78,232,.08);border:1.5px solid rgba(91,78,232,.2);border-radius:10px;padding:6px 12px;">
+          <div style="font-size:16px;font-weight:900;font-family:var(--mono);color:#5B4EE8;line-height:1;">${longestStreak} <span style="font-size:11px;font-weight:700;">days</span></div>
+          <div style="font-size:9px;color:var(--text3);margin-top:1px;">longest streak</div>
+        </div>
+        <div style="background:rgba(22,163,74,.08);border:1.5px solid rgba(22,163,74,.2);border-radius:10px;padding:6px 12px;">
+          <div style="font-size:16px;font-weight:900;font-family:var(--mono);color:#16a34a;line-height:1;">${streak} <span style="font-size:11px;font-weight:700;">days</span></div>
+          <div style="font-size:9px;color:var(--text3);margin-top:1px;">current streak</div>
+        </div>
+      </div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:5px;">
-      ${cells.join('')}
-    </div>
-    <div style="display:flex;align-items:center;gap:6px;margin-top:8px;justify-content:flex-end;">
+
+    <!-- Bar chart -->
+    <div class="act-grid">${cells.join('')}</div>
+
+    <!-- Legend -->
+    <div style="display:flex;align-items:center;gap:5px;justify-content:flex-end;margin-top:4px;">
       <span style="font-size:9px;color:var(--text3);">Less</span>
-      ${['0.08','0.35','0.6','1'].map(o=>`<div style="width:12px;height:12px;border-radius:3px;background:#5B4EE8;opacity:${o};"></div>`).join('')}
+      ${['rgba(91,78,232,.08)','#e9e4ff','#c4b5fd','#8b5cf6','#3730a3'].map(c=>`<div style="width:12px;height:12px;border-radius:3px;background:${c};"></div>`).join('')}
       <span style="font-size:9px;color:var(--text3);">More</span>
     </div>
   </div>`;
@@ -4352,32 +5213,35 @@ function buildNextMockCard(){
   </a>`;
 }
 function buildTodayTargetCard(){
-  const key   = 'ssc_target_done_'+new Date().toISOString().slice(0,10);
-  const done  = localStorage.getItem(key) === '1';
   const exams = getSelectedExams();
   if(!exams.length) return '';
-  return `<div class="card card-p" style="margin-bottom:16px;border:1.5px solid ${done?'rgba(22,163,74,.4)':'var(--border)'};background:${done?'rgba(22,163,74,.04)':'var(--card)'};">
-    <div style="display:flex;align-items:center;gap:14px;">
-      <div onclick="
-        localStorage.setItem('${key}','1');
-        launchConfetti();
-        showToast('🎯 Target complete! Great work!','success',3000);
-        renderHome();
-      " style="width:40px;height:40px;border-radius:50%;border:2.5px solid ${done?'#16a34a':'var(--border)'};
-        background:${done?'#16a34a':'transparent'};display:flex;align-items:center;justify-content:center;
-        cursor:${done?'default':'pointer'};flex-shrink:0;transition:all .25s;font-size:18px;">
-        ${done?'✅':''}
+  const today = new Date().toISOString().slice(0,10);
+  const mockTarget = parseInt(localStorage.getItem('ssc_daily_mock_target')||'2');
+  const todayAtt = getAllAttempts().filter(d=>d.date&&d.date.startsWith(today));
+  const mocksDone = todayAtt.length;
+  const allDone = mocksDone >= mockTarget;
+
+  const dots = Array.from({length:mockTarget},(_,i)=>{
+    const filled = i < mocksDone;
+    return `<div style="width:32px;height:32px;border-radius:50%;border:2.5px solid ${filled?'#16a34a':'var(--border)'};background:${filled?'#16a34a':'transparent'};display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:all .3s;">${filled?'✅':''}</div>`;
+  }).join('');
+
+  return `<div class="card card-p" style="margin-bottom:16px;border:1.5px solid ${allDone?'rgba(22,163,74,.4)':'var(--border)'};background:${allDone?'rgba(22,163,74,.04)':'var(--card)'};">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <div style="font-size:13px;font-weight:800;color:var(--text);">🎯 Today's Target</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button onclick="const v=prompt('Daily mock target:',localStorage.getItem('ssc_daily_mock_target')||'2');if(v&&!isNaN(+v)&&+v>0&&+v<=10){localStorage.setItem('ssc_daily_mock_target',+v);renderHome();}" style="background:none;border:none;font-size:14px;cursor:pointer;color:var(--text3);">⚙️</button>
+        ${allDone?`<span style="font-size:9px;font-weight:800;background:#16a34a;color:#fff;border-radius:20px;padding:2px 9px;">✓ DONE</span>`:`<span style="font-size:10px;font-weight:700;color:var(--text3);">${mocksDone}/${mockTarget}</span>`}
       </div>
-      <div style="flex:1;">
-        <div style="font-size:14px;font-weight:900;color:var(--text);${done?'text-decoration:line-through;opacity:.6;':''}">
-          Today's Target: Complete 1 Mock
-        </div>
-        <div style="font-size:11px;color:${done?'#16a34a':'var(--text3)'};margin-top:2px;">
-          ${done?'✅ Done for today! Come back tomorrow.':'Tap the circle when you complete it →'}
-        </div>
-      </div>
-      ${done?'':'<button class="btn btn-prim" onclick="goPage(\'mocks\')" style="flex-shrink:0;font-size:11px;padding:7px 14px;">Start →</button>'}
     </div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      ${dots}
+      <div style="font-size:12px;font-weight:700;color:var(--text3);margin-left:4px;">${allDone?'All done! 🎉':`${mockTarget-mocksDone} more to go`}</div>
+    </div>
+    <div style="height:5px;background:var(--card2);border-radius:5px;overflow:hidden;margin-bottom:${allDone?'0':'10px'};">
+      <div style="height:100%;width:${Math.min(100,mocksDone/mockTarget*100).toFixed(0)}%;background:linear-gradient(90deg,#16a34a,#22c55e);border-radius:5px;transition:width 1s;"></div>
+    </div>
+    ${!allDone?`<button class="btn btn-prim" onclick="goPage('mocks')" style="width:100%;justify-content:center;font-size:12px;padding:9px;">📝 Take a Mock Now →</button>`:''}
   </div>`;
 }
 function buildRevisionReminders(){
@@ -4436,29 +5300,26 @@ function buildCountdownCard(){
 
     const diff = Math.ceil((new Date(saved) - new Date()) / 86400000);
     const clr  = diff <= 7 ? '#dc2626' : diff <= 30 ? '#d97706' : diff <= 60 ? '#2563eb' : '#16a34a';
-    const label= diff < 0 ? 'Passed' : diff === 0 ? 'TODAY!' : diff+' days left';
+    const label= diff < 0 ? '✅ Exam Passed' : diff === 0 ? '🔴 TODAY!' : diff <= 7 ? `🔴 ${diff} days left — Urgent!` : diff <= 30 ? `🟡 ${diff} days left` : `🟢 ${diff} days left`;
+    const urgencyBg = diff<=7?'rgba(220,38,38,.06)':diff<=30?'rgba(217,119,6,.06)':'rgba(22,163,74,.04)';
     return `
-      <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
-        <div style="width:48px;height:48px;border-radius:13px;background:${clr}15;border:1.5px solid ${clr}30;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;">
-          <div style="font-size:16px;font-weight:900;font-family:var(--mono);color:${clr};line-height:1;">${diff<0?'✓':diff<=0?'!':diff>99?'99+':diff}</div>
-          <div style="font-size:7px;font-weight:700;color:${clr};text-transform:uppercase;">${diff<0?'done':'days'}</div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);background:${urgencyBg};border-radius:10px;margin-bottom:4px;padding-left:10px;padding-right:10px;">
+        <div style="width:56px;height:56px;border-radius:14px;background:${clr}18;border:2px solid ${clr}40;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px ${clr}25;">
+          <div style="font-size:18px;font-weight:900;font-family:var(--mono);color:${clr};line-height:1;">${diff<0?'✓':diff>99?'99+':Math.max(0,diff)}</div>
+          <div style="font-size:8px;font-weight:800;color:${clr};text-transform:uppercase;letter-spacing:.5px;">${diff<0?'done':'days'}</div>
         </div>
         <div style="flex:1;">
-          <div style="font-size:13px;font-weight:800;color:var(--text);">${exam.name} Exam</div>
-          <div style="font-size:11px;color:${clr};font-weight:700;">${label}</div>
-          <div style="font-size:10px;color:var(--text3);">${new Date(saved).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</div>
+          <div style="font-size:13px;font-weight:900;color:var(--text);font-family:'Outfit',sans-serif;">${exam.icon} ${exam.name}</div>
+          <div style="font-size:11px;color:${clr};font-weight:800;margin-top:2px;">${label}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px;">${new Date(saved).toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'})}</div>
         </div>
-        <button onclick="
-          let d={};try{d=JSON.parse(localStorage.getItem('ssc_exam_dates')||'{}')}catch{}
-          delete d['${examId}'];localStorage.setItem('ssc_exam_dates',JSON.stringify(d));renderHome();
-        " style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;padding:4px;">✕</button>
+        <button onclick="let d={};try{d=JSON.parse(localStorage.getItem('ssc_exam_dates')||'{}')}catch{}delete d['${examId}'];localStorage.setItem('ssc_exam_dates',JSON.stringify(d));renderHome();" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;padding:6px;border-radius:8px;" onmouseenter="this.style.background='var(--card2)'" onmouseleave="this.style.background='none'">✕</button>
       </div>`;
   }).join('');
-
-  return `<div class="card card-p" style="margin-bottom:16px;">
-    <div class="sec-hdr" style="margin-bottom:12px;">
-      <div class="sec-title">📅 Exam Countdown</div>
-      <span style="font-size:10px;color:var(--text3);">Set your exam dates</span>
+return `<div class="card card-p" style="margin-bottom:16px;overflow:hidden;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div class="sec-title">⏰ Exam Countdown</div>
+      <span style="font-size:10px;color:var(--text3);">Tap a date field to set your exam</span>
     </div>
     ${cards}
   </div>`;
@@ -4554,39 +5415,67 @@ function buildRadarCard(){
   </div>`;
 }
 function buildGoalCard(){
-  const target = getGoalMins();
-  const done   = getLoggedMins();
-  const pct    = Math.min(100, done / target * 100);
-  const offset = 113 - (113 * pct / 100);
-  const clr    = pct >= 100 ? '#16a34a' : pct >= 50 ? '#2563eb' : '#5B4EE8';
-  return `<div class="card card-p" style="margin-bottom:16px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-      <div style="display:flex;align-items:center;gap:14px;">
-        <div class="goal-ring-wrap">
-          <svg class="goal-ring" width="52" height="52" viewBox="0 0 40 40">
-            <circle class="goal-ring-track" cx="20" cy="20" r="18"/>
-            <circle class="goal-ring-fill" cx="20" cy="20" r="18"
-              style="stroke:${clr};stroke-dashoffset:${offset.toFixed(1)};"/>
+  const target  = getGoalMins();
+  const done    = getLoggedMins();
+  const pct     = Math.min(100, done / target * 100);
+  const r       = 28; const circ = 2 * Math.PI * r;
+  const offset  = circ - (circ * pct / 100);
+  const clr     = pct >= 100 ? '#16a34a' : pct >= 50 ? '#2563eb' : '#5B4EE8';
+  const glow    = pct >= 100 ? '0 0 20px rgba(22,163,74,.5)' : pct >= 50 ? '0 0 16px rgba(37,99,235,.4)' : '0 0 12px rgba(91,78,232,.3)';
+
+  // Mock goal
+  const mockGoalKey = 'ssc_mock_goal_'+new Date().toISOString().slice(0,10);
+  const mockTarget  = parseInt(localStorage.getItem('ssc_daily_mock_target')||'2');
+  const mockDone    = getAllAttempts().filter(d=>d.date&&d.date.startsWith(new Date().toISOString().slice(0,10))).length;
+  const mockPct     = Math.min(100, mockDone/mockTarget*100);
+  const mockClr     = mockPct>=100?'#16a34a':mockPct>=50?'#d97706':'#5B4EE8';
+
+  return `<div class="card card-p" style="margin-bottom:16px;border:1.5px solid ${pct>=100?'rgba(22,163,74,.3)':'var(--border)'};background:${pct>=100?'rgba(22,163,74,.03)':'var(--card)'};transition:border-color .4s;">
+    <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:14px;">📚 Daily Study Goal</div>
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+
+      <!-- Study time ring -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;">
+        <div style="position:relative;width:80px;height:80px;">
+          <svg width="80" height="80" viewBox="0 0 76 76" style="transform:rotate(-90deg);">
+            <circle cx="38" cy="38" r="${r}" fill="none" stroke="var(--card2)" stroke-width="7"/>
+            <circle cx="38" cy="38" r="${r}" fill="none" stroke="${clr}" stroke-width="7"
+              stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${offset.toFixed(1)}"
+              stroke-linecap="round" style="transition:stroke-dashoffset 1.2s cubic-bezier(.34,1.56,.64,1);filter:drop-shadow(${glow});"/>
           </svg>
-        </div>
-        <div>
-          <div style="font-size:14px;font-weight:900;color:var(--text);">
-            ${pct>=100?'🎯 Goal reached!':'📚 Daily Study Goal'}
-          </div>
-          <div style="font-size:11px;color:var(--text3);margin-top:2px;">
-            ${done} / ${target} min logged today
-          </div>
-          <div style="height:4px;width:120px;background:var(--card2);border-radius:4px;margin-top:6px;overflow:hidden;">
-            <div style="height:100%;width:${pct.toFixed(1)}%;background:${clr};border-radius:4px;transition:width 1s;"></div>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+            <div style="font-size:15px;font-weight:900;font-family:var(--mono);color:${clr};">${Math.round(pct)}%</div>
+            <div style="font-size:8px;color:var(--text3);font-weight:700;">mins</div>
           </div>
         </div>
+        <div style="font-size:10px;font-weight:700;color:var(--text3);">${done}/${target} min</div>
       </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;">
-        ${[15,30,60].map(m=>`<button class="btn btn-ghost" onclick="logStudyTime(${m})" style="padding:6px 10px;font-size:11px;">+${m}m</button>`).join('')}
-        <button class="btn btn-ghost" onclick="
-          const v=prompt('Set daily goal (minutes):',getGoalMins());
-          if(v&&!isNaN(+v)&&+v>0){localStorage.setItem('ssc_goal_target',+v);renderHome();}
-        " style="padding:6px 10px;font-size:11px;color:var(--text3);">⚙️</button>
+
+      <!-- Mock tests ring -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;">
+        <div style="position:relative;width:80px;height:80px;">
+          <svg width="80" height="80" viewBox="0 0 76 76" style="transform:rotate(-90deg);">
+            <circle cx="38" cy="38" r="${r}" fill="none" stroke="var(--card2)" stroke-width="7"/>
+            <circle cx="38" cy="38" r="${r}" fill="none" stroke="${mockClr}" stroke-width="7"
+              stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${(circ-(circ*mockPct/100)).toFixed(1)}"
+              stroke-linecap="round" style="transition:stroke-dashoffset 1.2s cubic-bezier(.34,1.56,.64,1);"/>
+          </svg>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+            <div style="font-size:15px;font-weight:900;font-family:var(--mono);color:${mockClr};">${mockDone}/${mockTarget}</div>
+            <div style="font-size:8px;color:var(--text3);font-weight:700;">mocks</div>
+          </div>
+        </div>
+        <div style="font-size:10px;font-weight:700;color:${mockPct>=100?'#16a34a':'var(--text3)'};">${mockPct>=100?'✅ Done!':'Today\'s mocks'}</div>
+      </div>
+
+      <!-- Log buttons -->
+      <div style="flex:1;min-width:140px;">
+        <div style="font-size:10px;font-weight:700;color:var(--text3);margin-bottom:6px;">Log study time:</div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px;">
+          ${[15,30,60].map(m=>`<button class="btn btn-ghost" onclick="logStudyTime(${m})" style="padding:5px 9px;font-size:11px;">+${m}m</button>`).join('')}
+          <button class="btn btn-ghost" onclick="const v=prompt('Set daily study goal (minutes):',getGoalMins());if(v&&!isNaN(+v)&&+v>0){localStorage.setItem('ssc_goal_target',+v);renderHome();}" style="padding:5px 9px;font-size:11px;color:var(--text3);">⚙️</button>
+        </div>
+        ${pct>=100?`<div style="font-size:11px;font-weight:800;color:#16a34a;background:rgba(22,163,74,.08);border-radius:10px;padding:6px 10px;">🎯 Daily goal reached! Great work!</div>`:`<div style="height:5px;background:var(--card2);border-radius:5px;overflow:hidden;"><div style="height:100%;width:${pct.toFixed(1)}%;background:linear-gradient(90deg,${clr},${clr}aa);border-radius:5px;transition:width 1s;"></div></div>`}
       </div>
     </div>
   </div>`;
@@ -4608,7 +5497,10 @@ function toggleDark(){
    BOOT ANIMATION + INIT
 ═══════════════════════════════════════ */
 (function initBoot(){
-  if(localStorage.getItem('ssc_dark')==='1') document.body.classList.add('dark-mode');
+  /* Default theme is LIGHT (white). Only apply dark if user explicitly chose it. */
+  const savedTheme = localStorage.getItem('ssc_dark');
+  if(savedTheme === '1') document.body.classList.add('dark-mode');
+  else document.body.classList.remove('dark-mode');
 
   const steps=[
     {id:'bs0',pct:25,label:'Loading SSC exams…'},
@@ -4969,10 +5861,7 @@ setTimeout(()=>{ initScrollTopBtn(); initAnalyticsNewBadge(); updateBreadcrumb('
     showToast('New ID generated: '+id,'success',2200);
   };
 
-  const storedTheme = localStorage.getItem('ssc_dark');
-  if(storedTheme === null && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches){
-    document.body.classList.add('dark-mode');
-  }
+  /* Theme default is LIGHT. User can toggle in Settings > Appearance. */
 
   const oldToast = window.showToast;
   window.showToast = function(msg, type='', dur){
@@ -5258,6 +6147,64 @@ if ('serviceWorker' in navigator) {
       .catch(e => console.error('[SW] Registration failed:', e));
   });
 }
+function triggerAvatarUpload(){
+  const inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = 'image/*';
+  inp.onchange = function(){
+    const file = inp.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e){
+      // Resize to max 200x200 before saving to avoid large localStorage usage
+      const img = new Image();
+      img.onload = function(){
+        const canvas = document.createElement('canvas');
+        const size = Math.min(img.width, img.height, 200);
+        canvas.width = size; canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        // Crop to square from center
+        const sx = (img.width - size) / 2;
+        const sy = (img.height - size) / 2;
+        ctx.drawImage(img, sx, sy, size, size, 0, 0, size, size);
+        localStorage.setItem('ssc_local_avatar', canvas.toDataURL('image/jpeg', 0.85));
+        showToast('Profile photo updated!', 'success');
+        renderHome();
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+  inp.click();
+}
+// PWA Install
+let _pwaPrompt = null;
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault();
+  _pwaPrompt = e;
+  const btn = document.getElementById('pwa-install-btn');
+  if(btn) btn.style.display = 'flex';
+});
+window.addEventListener('appinstalled', function(){
+  const btn = document.getElementById('pwa-install-btn');
+  if(btn) btn.style.display = 'none';
+  showToast('App installed successfully!', 'success');
+});
+function triggerPwaInstall(){
+  if(!_pwaPrompt){ showToast('Open in Chrome/Edge and use browser menu to install', '', 4000); return; }
+  _pwaPrompt.prompt();
+  _pwaPrompt.userChoice.then(function(result){
+    if(result.outcome === 'accepted'){
+      const btn = document.getElementById('pwa-install-btn');
+      if(btn) btn.style.display = 'none';
+    }
+    _pwaPrompt = null;
+  });
+}
 </script>
+<button id="pwa-install-btn" onclick="triggerPwaInstall()">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v13"/><path d="M7 11l5 5 5-5"/><rect x="3" y="18" width="18" height="3" rx="1.5"/></svg>
+  Install App
+</button>
 </body>
 </html>
