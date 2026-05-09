@@ -13,7 +13,7 @@
      user clicks → hard reload (ctrl+shift+r equivalent).
    ===================================================== */
 
-const APP_VERSION   = 'v4';           // ← bump this to trigger update popup
+const APP_VERSION   = 'v5';           // ← bump this to trigger update popup
 const CACHE_SHELL   = `ssc-shell-${APP_VERSION}`;
 const CACHE_CDN     = `ssc-cdn-${APP_VERSION}`;
 const CACHE_PAGES   = `ssc-pages-${APP_VERSION}`;
