@@ -2717,8 +2717,18 @@ function renderHome(){
   const hour = new Date().getHours();
   const greetEmoji = hour<12?'🌅':(hour<17?'☀️':'🌙');
   document.getElementById('home-greeting').textContent = name ? (greetEmoji+' Hello, '+name.split(' ')[0]+'!') : '👋 Hello, Aspirant!';
-  if(name){ document.getElementById('sb-name-disp').textContent=name; document.getElementById('sb-av-disp').textContent=name[0].toUpperCase(); }
-  if(exams.length>0) document.getElementById('sb-role-disp').textContent=exams.map(e=>SSC_EXAMS.find(x=>x.id===e)?.name||e).join(' · ');
+  if(name){
+    document.getElementById('sb-name-disp').textContent = name.split(' ')[0];
+    const avEl = document.getElementById('sb-av-disp');
+    const localPhoto = localStorage.getItem('ssc_local_avatar');
+    const pic = localPhoto || (gu && gu.picture ? gu.picture : null);
+    if(pic){
+      avEl.innerHTML = `<img src="${escH(pic)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.parentNode.textContent='${name[0].toUpperCase()}'">`;
+    } else {
+      avEl.textContent = name[0].toUpperCase();
+    }
+  }
+  if(exams.length>0) document.getElementById('sb-role-disp').textContent=exams.map(e=>SSC_EXAMS.find(x=>x.id===e)?.name||e).join(' \xb7 ');
 
   renderHomeTopbar();
 
@@ -3220,18 +3230,21 @@ function renderHomeTopbar(){
   if(!area) return;
 
   if(gu){
-    // Show Google profile photo, fall back to initials avatar
     const initials = (gu.name||name||'?')[0].toUpperCase();
-    const fallbackAv = `<div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#5B4EE8,#4338CA);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0;border:2px solid var(--acc);">${initials}</div>`;
     area.innerHTML = `<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-      <img src="${escH(gu.picture||'')}" width="30" height="30"
-        style="border-radius:50%;border:2px solid var(--acc);flex-shrink:0;"
-        onerror="this.outerHTML='${fallbackAv.replace(/'/g,"\\'")}'"
-      >
-      <div style="font-size:12px;font-weight:800;">${escH(gu.name.split(' ')[0])}</div>
+      <div id="topbar-av" style="width:30px;height:30px;border-radius:50%;border:2px solid var(--acc);flex-shrink:0;overflow:hidden;background:linear-gradient(135deg,#5B4EE8,#4338CA);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;">${initials}</div>
+      <div style="font-size:12px;font-weight:800;">${escH((gu.name||name||'').split(' ')[0])}</div>
       <button onclick="sscGoogleLogout()" class="btn btn-ghost" style="font-size:11px;padding:5px 10px;">Sign Out</button>
       <button onclick="toggleDark()" style="background:var(--card2);border:1.5px solid var(--border);border-radius:50%;width:32px;height:32px;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;">${document.body.classList.contains('dark-mode')?'☀️':'🌙'}</button>
     </div>`;
+    if(gu.picture){
+      const img = new Image();
+      img.onload = ()=>{
+        const av = document.getElementById('topbar-av');
+        if(av) av.innerHTML = `<img src="${escH(gu.picture)}" style="width:100%;height:100%;object-fit:cover;">`;
+      };
+      img.src = gu.picture;
+    }
   } else {
     // Not logged in — show proper Google logo SVG + "Sign in with Google" text
     area.innerHTML = `<div style="display:flex;align-items:center;gap:8px;">
