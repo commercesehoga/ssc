@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,7 +39,10 @@ body.dark-mode {
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;}
-body{background:var(--bg);color:var(--text);font-family:var(--fn);display:flex;}
+body{background:var(--bg);color:var(--text);font-family:var(--fn);display:flex;flex-direction:column;}
+
+/* ── BODY ROW: sidebar + right-column ── */
+.ts-body-row{display:flex;flex:1;min-height:0;overflow:hidden;}
 
 /* ── BOOT SCREEN ── */
 #ssc-boot{
@@ -97,7 +101,7 @@ body.dark-mode #ssc-boot-card{background:rgba(26,18,64,.96);border-color:rgba(91
 #boot-pbar-fill{height:100%;width:0%;background:linear-gradient(90deg,#5B4EE8,#7C6FF0);border-radius:3px;transition:width .5s ease;}
 
 /* ── SIDEBAR ── */
-.sidebar{width:var(--sidebar-w);height:100vh;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;position:relative;z-index:10;box-shadow:4px 0 24px rgba(91,78,232,.06);animation:sidebarIn .45s cubic-bezier(.34,1.56,.64,1) both;}
+.sidebar{width:var(--sidebar-w);height:100%;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;position:relative;z-index:10;box-shadow:4px 0 24px rgba(91,78,232,.06);animation:sidebarIn .45s cubic-bezier(.34,1.56,.64,1) both;}
 @keyframes sidebarIn{from{transform:translateX(-100%);opacity:0}to{transform:translateX(0);opacity:1}}
 @media(max-width:768px){.sidebar{display:none;}}
 .sb-logo{padding:22px 18px 14px;display:flex;align-items:center;gap:10px;}
@@ -122,7 +126,7 @@ body.dark-mode #ssc-boot-card{background:rgba(26,18,64,.96);border-color:rgba(91
 .sb-prole{font-size:10px;color:var(--text3);}
 
 /* ── MAIN ── */
-.main{flex:1;height:100vh;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;}
+.main{flex:1;height:100%;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;}
 .main::-webkit-scrollbar{width:6px;}
 .main::-webkit-scrollbar-track{background:transparent;}
 .main::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px;}
@@ -1120,6 +1124,24 @@ body.dark-mode .score-dist-bar{filter:brightness(1.12) saturate(1.1);}
 /* ── PWA INSTALL BUTTON ── */
   100%{transform:translateY(0);opacity:1;}
 }
+
+/* ── BANKING-STYLE FOOTER (replaced by improved footer styles) ── */
+
+/* ── FAQ SECTION ── */
+.faq-section{padding:20px 0 40px;border-top:1px solid var(--border);margin-top:16px;}
+.faq-section-title{font-size:18px;font-weight:900;color:var(--text);letter-spacing:-.4px;margin-bottom:6px;font-family:'Outfit',sans-serif;}
+.faq-section-sub{font-size:12px;color:var(--text3);margin-bottom:20px;}
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:700px){.faq-grid{grid-template-columns:1fr;}}
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:box-shadow .2s;}
+.faq-item:hover{box-shadow:var(--sh2);}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer;gap:10px;}
+.faq-q-text{font-size:13px;font-weight:700;color:var(--text);line-height:1.4;}
+.faq-arrow{font-size:16px;color:var(--text3);transition:transform .25s;flex-shrink:0;}
+.faq-item.open .faq-arrow{transform:rotate(180deg);color:var(--acc);}
+.faq-item.open .faq-q{border-bottom:1px solid var(--border);}
+.faq-a{display:none;padding:12px 16px;font-size:12px;color:var(--text2);line-height:1.7;}
+.faq-item.open .faq-a{display:block;}
 </style>
 </head>
 <body>
@@ -1308,10 +1330,10 @@ body.dark-mode .score-dist-bar{filter:brightness(1.12) saturate(1.1);}
 
     <!-- Step 2: Exam Selection -->
     <div class="ob-step" id="ob-step-2">
-      <div style="font-size:56px;margin-bottom:14px;">📋</div>
-      <div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;margin-bottom:6px;">Which exam are you preparing for?</div>
-      <div style="font-size:12px;color:var(--text3);margin-bottom:20px;">Select all that apply (up to 4)</div>
-      <div id="ob-exam-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;text-align:left;max-height:300px;overflow-y:auto;"></div>
+      <div style="font-size:52px;margin-bottom:12px;">📋</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;margin-bottom:6px;color:var(--text);">Which Exam Are You Preparing For?</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:20px;">Select all that apply — you can always change this later</div>
+      <div id="ob-exam-list" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;text-align:left;max-height:320px;overflow-y:auto;padding-right:2px;"></div>
       <button class="btn btn-prim" id="ob-next-2" onclick="obStep3()" disabled style="width:100%;justify-content:center;padding:13px;font-size:14px;opacity:.4;">Continue →</button>
     </div>
 
@@ -1359,6 +1381,9 @@ body.dark-mode .score-dist-bar{filter:brightness(1.12) saturate(1.1);}
   </div>
 </div>
 
+<!-- ═══════════════ SIDEBAR + MAIN ROW ═══════════════ -->
+<div class="ts-body-row">
+
 <nav class="sidebar" role="navigation" aria-label="Primary">
   <div class="sb-logo">
     <div class="sb-logo-icon">
@@ -1398,6 +1423,36 @@ body.dark-mode .score-dist-bar{filter:brightness(1.12) saturate(1.1);}
       <span>Settings</span>
     </div>
   </div>
+  <!-- ── SIDEBAR STAT STRIP: HP · RP · XP ── -->
+  <div id="sb-stat-strip" style="padding:10px 14px 2px;border-top:1px solid var(--border);">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+      <!-- HP -->
+      <div style="background:linear-gradient(135deg,rgba(239,68,68,0.08),rgba(239,68,68,0.03));border:1px solid rgba(239,68,68,0.18);border-radius:10px;padding:7px 6px;text-align:center;cursor:default;" title="Health Points — based on your streak">
+        <div style="font-size:13px;font-weight:900;font-family:'DM Mono',monospace;color:#ef4444;line-height:1;" id="sb-hp-val">0</div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:2px;margin-top:3px;">
+          <svg width="7" height="7" viewBox="0 0 24 24" fill="#ef4444"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          <span style="font-size:8px;font-weight:700;color:rgba(239,68,68,0.65);letter-spacing:.5px;">HP</span>
+        </div>
+      </div>
+      <!-- RP -->
+      <div style="background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(245,158,11,0.03));border:1px solid rgba(245,158,11,0.18);border-radius:10px;padding:7px 6px;text-align:center;cursor:default;" title="Rank Points — based on avg score + tests">
+        <div style="font-size:13px;font-weight:900;font-family:'DM Mono',monospace;color:#f59e0b;line-height:1;" id="sb-rp-val">0</div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:2px;margin-top:3px;">
+          <svg width="7" height="7" viewBox="0 0 24 24" fill="#f59e0b"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span style="font-size:8px;font-weight:700;color:rgba(245,158,11,0.65);letter-spacing:.5px;">RP</span>
+        </div>
+      </div>
+      <!-- XP -->
+      <div style="background:linear-gradient(135deg,rgba(139,92,246,0.08),rgba(139,92,246,0.03));border:1px solid rgba(139,92,246,0.18);border-radius:10px;padding:7px 6px;text-align:center;cursor:default;" title="Experience Points — earn by completing mocks">
+        <div style="font-size:13px;font-weight:900;font-family:'DM Mono',monospace;color:#8b5cf6;line-height:1;" id="sb-xp-val">0</div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:2px;margin-top:3px;">
+          <svg width="7" height="7" viewBox="0 0 24 24" fill="#8b5cf6"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span style="font-size:8px;font-weight:700;color:rgba(139,92,246,0.65);letter-spacing:.5px;">XP</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="sb-profile" onclick="openProfileModal()">
     <div class="sb-av" id="sb-av-disp">S</div>
     <div>
@@ -1406,6 +1461,28 @@ body.dark-mode .score-dist-bar{filter:brightness(1.12) saturate(1.1);}
     </div>
   </div>
 </nav>
+<script>
+(function(){
+  function updateSidebarStats(){
+    const allAtt = typeof getAllAttempts==='function' ? getAllAttempts() : [];
+    const totalTests = allAtt.length;
+    const avgPct = totalTests>0 ? allAtt.reduce((s,d)=>s+d.percentage,0)/totalTests : 0;
+    const streak = typeof getStreak==='function' ? getStreak() : 0;
+    const xp = totalTests*10 + streak*5;
+    const hp = Math.min(100, Math.max(0, streak*10));
+    const rp = Math.floor(avgPct*2.5 + totalTests*3);
+    const hpEl=document.getElementById('sb-hp-val'); if(hpEl) hpEl.textContent=hp;
+    const rpEl=document.getElementById('sb-rp-val'); if(rpEl) rpEl.textContent=rp;
+    const xpEl=document.getElementById('sb-xp-val'); if(xpEl) xpEl.textContent=xp;
+    // also update hero card rt elements
+    const hcXP=document.querySelector('[data-rt="xp"]'); if(hcXP) hcXP.textContent=xp;
+    const hcHP=document.querySelector('[data-rt="hp"]'); if(hcHP) hcHP.textContent=hp;
+    const hcRP=document.querySelector('[data-rt="rp"]'); if(hcRP) hcRP.textContent=rp;
+  }
+  setTimeout(updateSidebarStats, 2200);
+  setInterval(updateSidebarStats, 5000);
+})();
+</script>
 
 <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
 <div class="main">
@@ -1465,7 +1542,8 @@ body.dark-mode .score-dist-bar{filter:brightness(1.12) saturate(1.1);}
     </div>
     <div id="settings-content"></div>
   </div>
-</div>
+</div><!-- /main -->
+</div><!-- /ts-body-row -->
 
 <!-- ═══════════════ MOBILE DOCK ═══════════════ -->
 <a href="https://commercesehoga.github.io/help" target="_blank" rel="noopener" class="fab-donate" title="Support Us ❤️" style="display:none;position:fixed;bottom:80px;right:16px;z-index:200;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#e11d48,#be123c);color:#fff;font-size:22px;border:none;cursor:pointer;box-shadow:0 6px 24px rgba(225,29,72,.45);align-items:center;justify-content:center;text-decoration:none;animation:fabPop .4s .5s cubic-bezier(.34,1.56,.64,1) both;">❤️</a>
@@ -1491,6 +1569,7 @@ body.dark-mode .score-dist-bar{filter:brightness(1.12) saturate(1.1);}
     <span class="dock-label">Settings</span>
   </div>
 </div>
+
 <!-- SCROLL TO TOP -->
 <button id="scroll-top-btn" onclick="document.querySelector('.main').scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
 
@@ -2903,23 +2982,65 @@ H += `<div class="hc-wrap">
         </div>
       </div>
 
-      <!-- Stats row -->
+      <!-- Stats row — 4 main stats -->
       <div class="hc-stats">
         <div class="hc-stat">
-          <div style="font-size:15px;font-weight:700;color:#fca5a5;">${avgPct.toFixed(1)}%</div>
+          <div style="font-size:15px;font-weight:700;color:#fca5a5;font-family:var(--mono);">${avgPct.toFixed(1)}%</div>
           <div style="font-size:8px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;">Avg Score</div>
         </div>
         <div class="hc-stat">
-          <div style="font-size:15px;font-weight:700;color:#fff;">${streak} <i class="ti ti-flame" style="font-size:13px;"></i></div>
+          <div style="font-size:15px;font-weight:700;color:#fff;font-family:var(--mono);">${streak} <i class="ti ti-flame" style="font-size:13px;"></i></div>
           <div style="font-size:8px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;">Streak</div>
         </div>
         <div class="hc-stat">
-          <div style="font-size:15px;font-weight:700;color:#6ee7b7;">${bestPct>0?bestPct.toFixed(0)+'%':'—'}</div>
+          <div style="font-size:15px;font-weight:700;color:#6ee7b7;font-family:var(--mono);">${bestPct>0?bestPct.toFixed(0)+'%':'—'}</div>
           <div style="font-size:8px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;">Best</div>
         </div>
         <div class="hc-stat">
-          <div style="font-size:15px;font-weight:700;color:#93c5fd;">${(()=>{const w=new Date();w.setHours(0,0,0,0);w.setDate(w.getDate()-w.getDay());return getAllAttempts().filter(a=>{ try{ const d=new Date(a.date||a.ts||0); return d>=w; }catch{return false;} }).length;})()}</div>
+          <div style="font-size:15px;font-weight:700;color:#93c5fd;font-family:var(--mono);">${(()=>{const w=new Date();w.setHours(0,0,0,0);w.setDate(w.getDate()-w.getDay());return getAllAttempts().filter(a=>{ try{ const d=new Date(a.date||a.ts||0); return d>=w; }catch{return false;} }).length;})()}</div>
           <div style="font-size:8px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;">This Week</div>
+        </div>
+      </div>
+
+      <!-- XP · HP · RP stat bar -->
+      <div style="display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;gap:0;background:rgba(255,255,255,0.06);border-top:1px solid rgba(255,255,255,0.08);position:relative;z-index:1;">
+        <!-- HP -->
+        <div style="padding:10px 8px;text-align:center;position:relative;overflow:hidden;">
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(239,68,68,0.15),transparent);pointer-events:none;"></div>
+          <div style="font-size:16px;font-weight:900;font-family:var(--mono);color:#fca5a5;letter-spacing:-0.5px;" data-rt="hp">${Math.min(100,Math.max(0,streak*10))}</div>
+          <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:rgba(255,255,255,0.4);margin-top:2px;display:flex;align-items:center;justify-content:center;gap:3px;">
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="#fca5a5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            HP
+          </div>
+          <div style="height:2px;background:rgba(255,255,255,0.08);border-radius:2px;margin-top:5px;overflow:hidden;">
+            <div style="height:100%;width:${Math.min(100,Math.max(0,streak*10))}%;background:linear-gradient(90deg,#fca5a5,#f87171);border-radius:2px;transition:width 1s;"></div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.1);"></div>
+        <!-- RP -->
+        <div style="padding:10px 8px;text-align:center;position:relative;overflow:hidden;">
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(250,204,21,0.1),transparent);pointer-events:none;"></div>
+          <div style="font-size:16px;font-weight:900;font-family:var(--mono);color:#fde68a;letter-spacing:-0.5px;" data-rt="rp">${Math.floor(avgPct*2.5+totalTests*3)}</div>
+          <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:rgba(255,255,255,0.4);margin-top:2px;display:flex;align-items:center;justify-content:center;gap:3px;">
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="#fde68a"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            RP
+          </div>
+          <div style="height:2px;background:rgba(255,255,255,0.08);border-radius:2px;margin-top:5px;overflow:hidden;">
+            <div style="height:100%;width:${Math.min(100,Math.floor(avgPct*2.5+totalTests*3)/500*100)}%;background:linear-gradient(90deg,#fde68a,#fbbf24);border-radius:2px;transition:width 1s;"></div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.1);"></div>
+        <!-- XP -->
+        <div style="padding:10px 8px;text-align:center;position:relative;overflow:hidden;">
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(167,139,250,0.15),transparent);pointer-events:none;"></div>
+          <div style="font-size:16px;font-weight:900;font-family:var(--mono);color:#c4b5fd;letter-spacing:-0.5px;" data-rt="xp">${totalTests*10+streak*5}</div>
+          <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:rgba(255,255,255,0.4);margin-top:2px;display:flex;align-items:center;justify-content:center;gap:3px;">
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="#c4b5fd"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            XP
+          </div>
+          <div style="height:2px;background:rgba(255,255,255,0.08);border-radius:2px;margin-top:5px;overflow:hidden;">
+            <div style="height:100%;width:${xpPct}%;background:linear-gradient(90deg,#c4b5fd,#a78bfa);border-radius:2px;transition:width 1s;"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -3158,6 +3279,9 @@ H += `<div style="position:relative;margin-bottom:16px;">
 
   // ── SECTION 19: PREVIOUS YEAR CUTOFFS ──
   H += buildCutoffCard();
+
+  // ── SECTION 20: FAQ ──
+  H += buildFAQSection();
 
   document.getElementById('home-content').innerHTML = H;
   updateNoticesBadge();
@@ -4060,6 +4184,11 @@ function renderSettings(){
   </div>
   <div style="text-align:center;padding:12px 0 24px;">
     <div class="build-tag">ThunderStudy SSC v2.1.0 · Build 20250503 · Made with ⚡ by Wondermayank</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px;">
+      <a href="https://commercesehoga.github.io/dashboard" target="_blank" rel="noopener" class="btn btn-prim" style="font-size:11px;padding:7px 14px;">📊 ThunderStudy Dashboard</a>
+      <a href="https://commercesehoga.github.io/banking" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:11px;padding:7px 14px;">🏦 Banking Mocks</a>
+      <a href="https://t.me/THUNDERSTUDY" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:11px;padding:7px 14px;">💬 Telegram</a>
+    </div>
   </div>`;
 
   cont.innerHTML = H;
@@ -4080,7 +4209,7 @@ function editName(){
 function editStudentID(){
   const n = prompt('Enter Student ID (e.g. TS00123):', getStudentID());
   if(n===null) return;
-  localStorage.setItem('ssc_student_id', n.trim());
+  localStorage.setItem('ts_student_id', n.trim());
   showToast('✅ Student ID updated!', 'success');
   renderSettings();
   renderHome();
@@ -4331,7 +4460,7 @@ function generateOnceID(){
   if(existing) return existing;
   const newId = makeStudentId();
   localStorage.setItem('ts_student_id', newId);
-  localStorage.setItem('ssc_student_id', newId);
+  localStorage.setItem('ts_student_id', newId);
   return newId;
 }
 
@@ -4388,7 +4517,10 @@ function startOnboarding(){
     if(regenBtn && storedID){
       regenBtn.style.display = 'none';
       const lockNote = document.getElementById('ob-sid-lock-note');
-      if(lockNote) lockNote.style.display = 'block';
+      if(lockNote){ lockNote.style.display = 'flex'; }
+      // Mark input as locked visually
+      sidInp.style.background = 'rgba(91,78,232,.06)';
+      sidInp.style.borderColor = 'rgba(91,78,232,.3)';
     }
   }
 
@@ -4413,13 +4545,12 @@ function renderObExamList(){
   const list = document.getElementById('ob-exam-list');
   if(!list) return;
   list.innerHTML = SSC_EXAMS.map(e=>`
-    <div onclick="toggleObExam(this,'${e.id}')" data-selected="false" style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--card2);cursor:pointer;transition:all .2s;">
-      <span style="font-size:20px;">${e.icon}</span>
-      <div style="flex:1;">
-        <div style="font-size:13px;font-weight:800;">${e.name}</div>
-        <div style="font-size:10px;color:var(--text3);">${e.full}</div>
-      </div>
-      <span class="ob-check" style="font-size:18px;">○</span>
+    <div onclick="toggleObExam(this,'${e.id}')" data-selected="false"
+      style="position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 10px;border-radius:14px;border:2px solid var(--border);background:var(--card2);cursor:pointer;transition:all .22s;text-align:center;">
+      <div style="font-size:28px;line-height:1;">${e.icon}</div>
+      <div style="font-size:12px;font-weight:800;color:var(--text);line-height:1.2;">${e.name}</div>
+      <div style="font-size:9px;color:var(--text3);line-height:1.3;">${e.tag||e.full}</div>
+      <div class="ob-check" style="position:absolute;top:7px;right:8px;font-size:14px;color:var(--text3);">○</div>
     </div>`).join('');
 }
 
@@ -4431,7 +4562,10 @@ function toggleObExam(el, id){
   el.dataset.selected = String(!isSel);
   el.style.borderColor = !isSel ? exam.color : 'var(--border)';
   el.style.background = !isSel ? exam.bg : 'var(--card2)';
-  el.querySelector('.ob-check').textContent = !isSel?'✅':'○';
+  el.style.transform = !isSel ? 'scale(1.03)' : 'scale(1)';
+  el.style.boxShadow = !isSel ? `0 4px 16px ${exam.color}33` : '';
+  const ck = el.querySelector('.ob-check');
+  if(ck){ ck.textContent = !isSel?'✅':'○'; ck.style.color = !isSel?exam.color:'var(--text3)'; }
   const btn2 = document.getElementById('ob-next-2');
   const count = document.querySelectorAll('#ob-exam-list [data-selected="true"]').length;
   btn2.style.opacity = count>0?'1':'.4';
@@ -4549,7 +4683,7 @@ async function obGoogleLogin(){
         // Fill ID — only if no ID exists yet
         if(tsSID && !getStoredID()){
           localStorage.setItem('ts_student_id', tsSID);
-          localStorage.setItem('ssc_student_id', tsSID);
+          localStorage.setItem('ts_student_id', tsSID);
           const sidInp=document.getElementById('ob-sid');
           if(sidInp){ sidInp.value=tsSID; sidInp.style.color='var(--acc)';
             // Lock regenerate since this ID is from cloud
@@ -4597,7 +4731,7 @@ function obFinish(){
   const sid = document.getElementById('ob-sid')?.value || getStoredID();
   if(sid){
     localStorage.setItem('ts_student_id', sid);
-    localStorage.setItem('ssc_student_id', sid);
+    localStorage.setItem('ts_student_id', sid);
   }
   const name = document.getElementById('ob-name')?.value.trim() || getStoredName();
   if(name) persistName(name);
@@ -4658,7 +4792,7 @@ async function fetchIdentityFromCloud(uid){
     const tsSID=data.ts_student_id||'';
     let changed=false;
     if(tsName&&!getUserName()){ const p=getProfile();p.name=tsName;saveProfile(p);localStorage.setItem('cbtUserName',tsName);localStorage.setItem('cbtUserName',tsName);changed=true; }
-    if(tsSID&&!getStudentID()){ localStorage.setItem('ssc_student_id',tsSID);localStorage.setItem('ts_student_id',tsSID);changed=true; }
+    if(tsSID&&!getStudentID()){ localStorage.setItem('ts_student_id',tsSID);localStorage.setItem('ts_student_id',tsSID);changed=true; }
     if(changed){
       showToast('✅ Identity fetched: '+escH(tsName||'')+(tsSID?' | ID: '+tsSID:''),'success',3500);
       renderHome();
@@ -4968,6 +5102,46 @@ function buildEligibilityCard(){
     ${isOpen ? `<div style="margin-top:14px;">${rows}</div>` : ''}
   </div>`;
 }
+
+function buildFAQSection(){
+  const faqs=[
+    {q:'Is ThunderStudy SSC free to use?',a:'Yes, ThunderStudy SSC is completely free. You can access mock tests for SSC CGL, CHSL, MTS, GD Constable, CPO and more without any subscription or payment.'},
+    {q:'Which SSC exams are covered on ThunderStudy?',a:'ThunderStudy SSC covers SSC CGL, SSC CHSL, SSC MTS, SSC GD Constable, SSC CPO, SSC JE, SSC Stenographer and SSC Selection Post with chapter-wise mocks and full tests.'},
+    {q:'How does the leaderboard work?',a:'After completing mock tests, your score is automatically tracked and ranked against other aspirants. The live leaderboard updates in real time so you always know your class standing.'},
+    {q:'Can I track my progress?',a:'Yes. The Analytics section provides subject-wise score breakdown, accuracy trends, activity heatmap, XP-based level system, and daily goal tracking to monitor long-term progress.'},
+    {q:'Do I need to create an account?',a:'No account or sign-up is required. You can continue with Google to sync data across devices, or skip it — your progress is saved locally on your device.'},
+    {q:'What is SSC CGL eligibility?',a:'SSC CGL requires a Graduation degree from any recognised university, age between 18–32 years (with relaxation for OBC, SC/ST, PwD). The exam has Tier I (CBT), Tier II (CBT + Descriptive).'},
+    {q:'How many mock tests are available?',a:'ThunderStudy SSC provides chapter-wise mocks, Tier I full mocks, Tier II full mocks, and PYQs for each SSC exam, with new mocks added regularly covering all subjects.'},
+    {q:'What is XP, HP, and RP?',a:'XP (Experience Points) are earned by completing mocks and represent your level. HP (Health Points) track your streak energy. RP (Rank Points) determine your leaderboard tier — all update in real time on your dashboard.'},
+  ];
+  return `<div class="faq-section" id="home-faq">
+    <div class="faq-section-title">❓ Frequently Asked Questions</div>
+    <div class="faq-section-sub">Quick answers to common questions about ThunderStudy SSC</div>
+    <div class="faq-grid">
+      ${faqs.map((f,i)=>`<div class="faq-item" id="faq-${i}">
+        <div class="faq-q" onclick="toggleFaq(this)" role="button" aria-expanded="false" aria-controls="faq-a-${i}">
+          <div class="faq-q-text">${f.q}</div>
+          <div class="faq-arrow">▼</div>
+        </div>
+        <div class="faq-a" id="faq-a-${i}">${f.a}</div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function toggleFaq(el){
+  const item=el.closest('.faq-item');
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>{
+    i.classList.remove('open');
+    i.querySelector('.faq-q').setAttribute('aria-expanded','false');
+  });
+  if(!isOpen){
+    item.classList.add('open');
+    el.setAttribute('aria-expanded','true');
+  }
+}
+
 function buildNotesPinboard(){
   const note = localStorage.getItem('ssc_pinned_note')||'';
   const isEditing = window._notesEditing;
@@ -5926,7 +6100,7 @@ setTimeout(()=>{ initScrollTopBtn(); initAnalyticsNewBadge(); updateBreadcrumb('
     catch(e){ showToast('Storage is full. Clear some browser data and try again.','error',4200); return false; }
   }
 
-  window.saveProfile = function(p){ safeSet('ssc_profile', JSON.stringify(p)); };
+  window.saveProfile = function(p){ safeSet('ts_profile', JSON.stringify(p)); };
   window.saveSelectedExams = function(e){ safeSet('ssc_exams', JSON.stringify(e)); };
   window.sR = function(examId, mockId, data){ safeSet(rKey(examId,mockId), JSON.stringify(data)); };
 
@@ -5940,7 +6114,7 @@ setTimeout(()=>{ initScrollTopBtn(); initAnalyticsNewBadge(); updateBreadcrumb('
     if(existing) return existing;
     const id = makeStudentId();
     safeSet('ts_student_id', id);
-    safeSet('ssc_student_id', id);
+    safeSet('ts_student_id', id);
     return id;
   };
   window.obGenID = function(){
@@ -5948,14 +6122,14 @@ setTimeout(()=>{ initScrollTopBtn(); initAnalyticsNewBadge(); updateBreadcrumb('
     if(getStoredID() && sidInp && sidInp.dataset.locked === '1') return;
     const id = makeStudentId();
     safeSet('ts_student_id', id);
-    safeSet('ssc_student_id', id);
+    safeSet('ts_student_id', id);
     if(sidInp){ sidInp.value=id; sidInp.style.color='var(--green)'; }
   };
   window.obRegenID = function(){
     if(!confirm('This will create a new Student ID. Your current ID will be lost from the leaderboard. Continue?')) return;
     const id = makeStudentId();
     safeSet('ts_student_id', id);
-    safeSet('ssc_student_id', id);
+    safeSet('ts_student_id', id);
     const sidInp = $('#ob-sid');
     if(sidInp){ sidInp.value=id; sidInp.style.color='var(--green)'; }
     showToast('New ID generated: '+id,'success',2200);
@@ -6282,8 +6456,583 @@ function triggerAvatarUpload(){
   inp.click();
 }
 // PWA install removed
+
+/* ── FOOTER TOGGLE ── */
+let _footerOpen = false;
+function toggleFooter() {
+  _footerOpen = !_footerOpen;
+  const panel = document.getElementById('ts-footer-panel');
+  const chevron = document.getElementById('ts-footer-chevron');
+  const bar = document.getElementById('ts-footer-bar');
+  if(panel) panel.classList.toggle('open', _footerOpen);
+  if(chevron) chevron.classList.toggle('open', _footerOpen);
+  if(bar) bar.setAttribute('aria-expanded', _footerOpen);
+}
+
+/* ── REAL-TIME XP / HP / RP AUTO-FETCH ── */
+(function startRealtimeStats(){
+  function updateRealtimeStats(){
+    const allAtt = getAllAttempts ? getAllAttempts() : [];
+    const totalTests = allAtt.length;
+    const avgPct = totalTests>0 ? allAtt.reduce((s,d)=>s+d.percentage,0)/totalTests : 0;
+    const streak = getStreak ? getStreak() : 0;
+
+    // XP = 10 per test + 5 bonus per streak day
+    const xp = totalTests * 10 + streak * 5;
+    // HP = streak health (max 100, loses 10 per missed day, min 0)
+    const hp = Math.min(100, Math.max(0, streak * 10));
+    // RP = rank points based on avg
+    const rp = Math.floor(avgPct * 2.5 + totalTests * 3);
+
+    // Update sidebar profile XP/RP if elements exist
+    const xpEl = document.getElementById('rt-xp'); if(xpEl) xpEl.textContent = xp;
+    const hpEl = document.getElementById('rt-hp'); if(hpEl) hpEl.textContent = hp;
+    const rpEl = document.getElementById('rt-rp'); if(rpEl) rpEl.textContent = rp;
+
+    // Update hero card stats if rendered
+    const hcXP = document.querySelector('[data-rt="xp"]'); if(hcXP) hcXP.textContent = xp;
+    const hcHP = document.querySelector('[data-rt="hp"]'); if(hcHP) hcHP.textContent = hp;
+    const hcRP = document.querySelector('[data-rt="rp"]'); if(hcRP) hcRP.textContent = rp;
+
+    // Update stat cards (home page)
+    const statCards = document.querySelectorAll('#home-content .stat-card .stat-val');
+    if(statCards.length >= 4){
+      statCards[0].textContent = totalTests;
+      statCards[1].textContent = avgPct.toFixed(1)+'%';
+      statCards[2].textContent = xp;
+      statCards[3].textContent = streak+'🔥';
+    }
+  }
+  // Run every 5 seconds when home page is active
+  setInterval(()=>{
+    if(document.getElementById('page-home')?.classList.contains('active')){
+      updateRealtimeStats();
+    }
+  }, 5000);
+  // Also run once on load
+  setTimeout(updateRealtimeStats, 2000);
+})();
 </script>
 
+
+<!-- ═══════════════════════════════════════════════
+     FOOTER — Redesigned premium pull-up panel
+═══════════════════════════════════════════════ -->
+<style>
+/* ── IMPROVED FOOTER ── */
+#ts-footer {
+  position: relative;
+  flex-shrink: 0;
+  z-index: 50;
+}
+
+/* Collapsed trigger bar */
+.ts-footer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--card);
+  cursor: pointer;
+  user-select: none;
+  transition: background .2s;
+  flex-shrink: 0;
+}
+.ts-footer-bar:hover { background: var(--card2); }
+
+.ts-footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text2);
+}
+.ts-footer-brand .heart { color: #f43f5e; animation: hbeat 1.4s ease infinite; }
+
+/* Rainbow shimmer line at top of footer bar */
+.ts-footer-bar::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #5B4EE8, #818cf8, #a78bfa, #ec4899, #f59e0b, #5B4EE8);
+  background-size: 300% 100%;
+  animation: footerShimmer 4s linear infinite;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.ts-footer-bar:hover::before,
+.ts-footer-panel.open ~ * .ts-footer-bar::before,
+#ts-footer:has(.ts-footer-panel.open) .ts-footer-bar::before {
+  opacity: 1;
+}
+@keyframes footerShimmer { 0%{background-position:0% 0} 100%{background-position:300% 0} }
+
+.ts-footer-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ts-footer-bar-pill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text3);
+}
+.ts-footer-chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  font-size: 10px;
+  color: var(--text3);
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1), background .2s;
+  flex-shrink: 0;
+}
+.ts-footer-chevron.open {
+  transform: rotate(180deg);
+  background: var(--acc);
+  border-color: var(--acc);
+  color: #fff;
+}
+
+/* Panel */
+.ts-footer-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .45s cubic-bezier(.4,0,.2,1);
+  background: var(--card);
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  z-index: 49;
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -12px 40px rgba(0,0,0,.08), 0 -2px 8px rgba(91,78,232,.05);
+}
+.ts-footer-panel.open { max-height: 600px; }
+
+/* Panel header gradient bar */
+.ts-footer-panel-header {
+  background: linear-gradient(135deg, #5B4EE8 0%, #4338CA 60%, #7C6FF0 100%);
+  padding: 20px 24px 18px;
+  position: relative;
+  overflow: hidden;
+}
+.ts-footer-panel-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='.04'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.ts-footer-panel-header-blob1 {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.06);
+  top: -80px;
+  right: -60px;
+  pointer-events: none;
+}
+
+/* Inner grid */
+.ts-footer-inner {
+  padding: 22px 24px 20px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr;
+  gap: 24px;
+}
+@media(max-width:900px){.ts-footer-inner{grid-template-columns:1fr 1fr;gap:18px;padding:18px 18px;}}
+@media(max-width:500px){.ts-footer-inner{grid-template-columns:1fr;gap:14px;padding:14px 16px;}}
+
+.ts-footer-col-title {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text3);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.ts-footer-col-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  margin-left: 4px;
+}
+
+.ts-footer-links { display: flex; flex-direction: column; gap: 2px; }
+.ts-footer-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  text-decoration: none;
+  padding: 5px 8px;
+  border-radius: 9px;
+  transition: all .18s;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--fn);
+}
+.ts-footer-link:hover {
+  background: var(--card2);
+  color: var(--acc);
+  transform: translateX(3px);
+}
+.ts-footer-link .fl-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.ts-footer-link-active {
+  background: rgba(91,78,232,.08);
+  color: var(--acc);
+}
+.ts-footer-link-active .fl-icon {
+  background: rgba(91,78,232,.15) !important;
+}
+
+/* Social */
+.ts-footer-social { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 8px; }
+.ts-footer-soc-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: transform .2s, box-shadow .2s;
+  border: none;
+  flex-shrink: 0;
+}
+.ts-footer-soc-btn:hover {
+  transform: translateY(-3px) scale(1.08);
+  box-shadow: 0 6px 16px rgba(0,0,0,.2);
+}
+
+/* Donate card */
+.ts-footer-donate {
+  background: linear-gradient(135deg, rgba(244,63,94,.07), rgba(251,113,133,.04));
+  border: 1.5px solid rgba(244,63,94,.18);
+  border-radius: 14px;
+  padding: 14px;
+  margin-top: 2px;
+  position: relative;
+  overflow: hidden;
+}
+.ts-footer-donate::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #f43f5e, #fb7185);
+  border-radius: 14px 14px 0 0;
+}
+.ts-footer-donate-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: #e11d48;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.ts-footer-donate-sub {
+  font-size: 10px;
+  color: var(--text3);
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+.ts-footer-donate-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #f43f5e, #e11d48);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 7px 16px;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: var(--fn);
+  transition: transform .18s, box-shadow .18s;
+  box-shadow: 0 4px 12px rgba(244,63,94,.3);
+}
+.ts-footer-donate-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(244,63,94,.45);
+}
+
+/* Version pill */
+.ts-ver-pill {
+  background: linear-gradient(135deg, #5B4EE8, #7C6FF0);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 20px;
+  letter-spacing: .5px;
+}
+
+/* Bottom strip */
+.ts-footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 24px;
+  border-top: 1px solid var(--border);
+  background: var(--card2);
+  font-size: 10px;
+  color: var(--text3);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ts-footer-bottom a { color: var(--text3); text-decoration: none; font-weight: 600; }
+.ts-footer-bottom a:hover { color: var(--acc); }
+
+/* Stat badges in footer panel header */
+.ts-footer-stat-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.ts-footer-stat-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+}
+</style>
+
+<footer id="ts-footer">
+  <!-- Collapsed bar — always visible -->
+  <div class="ts-footer-bar" onclick="toggleFooter()" id="ts-footer-bar" role="button" aria-expanded="false" aria-controls="ts-footer-panel">
+    <div class="ts-footer-bar-left">
+      <div class="ts-footer-brand">
+        <svg width="14" height="16" viewBox="0 0 20 22" fill="none"><path d="M13 1L3 13H9L4 21L17 9H11L13 1Z" fill="#5B4EE8"/></svg>
+        Made with <span class="heart">❤️</span> by
+        <a href="https://wondermayank.github.io" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:var(--acc);font-weight:800;text-decoration:none;">Wondermayank</a>
+      </div>
+      <div class="ts-footer-bar-pill">
+        <span style="color:var(--acc);">⚡</span> ThunderStudy SSC
+      </div>
+      <span class="ts-ver-pill" style="display:none;" id="ts-footer-ver-pill-bar">v2.1.0</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="font-size:10px;color:var(--text3);font-weight:600;">Resources</span>
+      <span class="ts-footer-chevron" id="ts-footer-chevron">▲</span>
+    </div>
+  </div>
+
+  <!-- Expandable panel -->
+  <div class="ts-footer-panel" id="ts-footer-panel">
+
+    <!-- Panel gradient header -->
+    <div class="ts-footer-panel-header">
+      <div class="ts-footer-panel-header-blob1"></div>
+      <div style="position:relative;z-index:1;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:18px;">⚡</div>
+          <div>
+            <div style="font-size:15px;font-weight:900;color:#fff;font-family:'Outfit',sans-serif;letter-spacing:-.3px;">ThunderStudy SSC</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.6);margin-top:1px;">Free mock tests &amp; analytics for SSC aspirants</div>
+          </div>
+          <a href="https://commercesehoga.github.io/help" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="margin-left:auto;display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:700;color:#fff;text-decoration:none;transition:background .2s;" onmouseenter="this.style.background='rgba(255,255,255,.25)'" onmouseleave="this.style.background='rgba(255,255,255,.15)'">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Help
+          </a>
+        </div>
+        <div class="ts-footer-stat-row">
+          <div class="ts-footer-stat-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="#fca5a5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            <span id="footer-hp-val">0</span> HP
+          </div>
+          <div class="ts-footer-stat-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="#fde68a"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span id="footer-rp-val">0</span> RP
+          </div>
+          <div class="ts-footer-stat-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="#c4b5fd"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span id="footer-xp-val">0</span> XP
+          </div>
+          <div class="ts-footer-stat-badge" style="margin-left:auto;">
+            <span>v2.1.0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inner columns -->
+    <div class="ts-footer-inner">
+
+      <!-- Col 1: About + Social -->
+      <div>
+        <div class="ts-footer-col-title">Follow Us</div>
+        <div class="ts-footer-social">
+          <a href="https://instagram.com/wondermayank" target="_blank" rel="noopener" class="ts-footer-soc-btn" title="Instagram" style="background:linear-gradient(135deg,#f09433,#dc2743,#bc1888);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://t.me/wondermayank" target="_blank" rel="noopener" class="ts-footer-soc-btn" title="Telegram" style="background:#2AABEE;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          </a>
+          <a href="https://x.com/wondermayank" target="_blank" rel="noopener" class="ts-footer-soc-btn" title="X / Twitter" style="background:#000;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://youtube.com/@wondermayank" target="_blank" rel="noopener" class="ts-footer-soc-btn" title="YouTube" style="background:#ff0000;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+        </div>
+
+        <div class="ts-footer-col-title" style="margin-top:16px;">Developer</div>
+        <div class="ts-footer-links">
+          <a href="https://wondermayank.github.io" target="_blank" rel="noopener" class="ts-footer-link">
+            <span class="fl-icon" style="background:linear-gradient(135deg,rgba(91,78,232,.15),rgba(124,58,237,.15));">⚡</span> Wondermayank
+          </a>
+          <a href="https://commercesehoga.github.io/help" target="_blank" rel="noopener" class="ts-footer-link">
+            <span class="fl-icon" style="background:rgba(16,185,129,.1);">🆘</span> Help &amp; Support
+          </a>
+        </div>
+      </div>
+
+      <!-- Col 2: Our Sites -->
+      <div>
+        <div class="ts-footer-col-title">Our Sites</div>
+        <div class="ts-footer-links">
+          <a href="https://commercesehoga.github.io" target="_blank" rel="noopener" class="ts-footer-link">
+            <span class="fl-icon" style="background:rgba(91,78,232,.1);">🏠</span> Main Site
+          </a>
+          <a href="https://commercesehoga.github.io/studyhub" target="_blank" rel="noopener" class="ts-footer-link">
+            <span class="fl-icon" style="background:rgba(124,58,237,.1);">📚</span> StudyHub
+          </a>
+          <a href="https://commercesehoga.github.io/jee-neet" target="_blank" rel="noopener" class="ts-footer-link">
+            <span class="fl-icon" style="background:rgba(14,165,233,.1);">🔬</span> JEE &amp; NEET Mocks
+          </a>
+          <a href="https://commercesehoga.github.io/ssc" target="_blank" rel="noopener" class="ts-footer-link ts-footer-link-active">
+            <span class="fl-icon" style="background:rgba(91,78,232,.15);">📋</span> SSC Mocks
+          </a>
+          <a href="https://commercesehoga.github.io/banking" target="_blank" rel="noopener" class="ts-footer-link">
+            <span class="fl-icon" style="background:rgba(37,99,235,.1);">🏦</span> Banking Mocks
+          </a>
+          <a href="https://commercesehoga.github.io/cuet" target="_blank" rel="noopener" class="ts-footer-link">
+            <span class="fl-icon" style="background:rgba(124,58,237,.1);">🎓</span> CUET Dashboard
+          </a>
+          <a href="https://commercesehoga.github.io/dashboard" target="_blank" rel="noopener" class="ts-footer-link">
+            <span class="fl-icon" style="background:rgba(16,185,129,.1);">📊</span> Dashboard
+          </a>
+          <a href="https://commercesehoga.blogspot.com" target="_blank" rel="noopener" class="ts-footer-link">
+            <span class="fl-icon" style="background:rgba(239,68,68,.1);">✍️</span> Blog
+          </a>
+        </div>
+      </div>
+
+      <!-- Col 3: Legal -->
+      <div>
+        <div class="ts-footer-col-title">Legal</div>
+        <div class="ts-footer-links">
+          <a href="https://wondermayank.github.io/privacy-policy" target="_blank" rel="noopener" class="ts-footer-link">
+            <span class="fl-icon" style="background:rgba(91,78,232,.08);">🔒</span> Privacy Policy
+          </a>
+          <a href="https://wondermayank.github.io/terms" target="_blank" rel="noopener" class="ts-footer-link">
+            <span class="fl-icon" style="background:rgba(124,58,237,.08);">📄</span> Terms of Use
+          </a>
+        </div>
+
+        <div class="ts-footer-col-title" style="margin-top:16px;">App Info</div>
+        <div style="display:flex;flex-direction:column;gap:6px;padding:0 2px;">
+          <div style="display:flex;align-items:center;gap:7px;">
+            <span class="ts-ver-pill">v2.1.0</span>
+            <span style="font-size:11px;color:var(--text3);">ThunderStudy SSC</span>
+          </div>
+          <div style="font-size:10px;color:var(--text3);">© 2026 Wondermayank</div>
+        </div>
+      </div>
+
+      <!-- Col 4: Donate -->
+      <div>
+        <div class="ts-footer-col-title">Support Us</div>
+        <div class="ts-footer-donate">
+          <div class="ts-footer-donate-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#e11d48"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            Donate
+          </div>
+          <div class="ts-footer-donate-sub">ThunderStudy is free forever. If it helped your preparation, consider supporting the server &amp; dev costs.</div>
+          <a href="https://commercesehoga.github.io/help#donate" target="_blank" rel="noopener" class="ts-footer-donate-btn">☕ Support Us</a>
+        </div>
+      </div>
+
+    </div><!-- /inner -->
+
+    <!-- Bottom strip -->
+    <div class="ts-footer-bottom">
+      <span>© 2026 <strong>Wondermayank</strong>. All rights reserved.</span>
+      <span style="display:flex;align-items:center;gap:10px;">
+        <a href="https://wondermayank.github.io/privacy-policy" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://wondermayank.github.io/terms" target="_blank" rel="noopener">Terms</a>
+        <a href="https://commercesehoga.github.io/help" target="_blank" rel="noopener">Help</a>
+        <span class="ts-ver-pill">v2.1.0</span>
+      </span>
+    </div>
+
+  </div><!-- /panel -->
+</footer>
+
+<script>
+// Sync footer HP/RP/XP from sidebar values
+(function(){
+  function syncFooterStats(){
+    const hpEl=document.getElementById('sb-hp-val');
+    const rpEl=document.getElementById('sb-rp-val');
+    const xpEl=document.getElementById('sb-xp-val');
+    const fhp=document.getElementById('footer-hp-val');
+    const frp=document.getElementById('footer-rp-val');
+    const fxp=document.getElementById('footer-xp-val');
+    if(fhp&&hpEl) fhp.textContent=hpEl.textContent;
+    if(frp&&rpEl) frp.textContent=rpEl.textContent;
+    if(fxp&&xpEl) fxp.textContent=xpEl.textContent;
+  }
+  setTimeout(syncFooterStats,3000);
+  setInterval(syncFooterStats,6000);
+})();
+</script>
 
 <!-- ⚡ SW UPDATE POPUP -->
 <style>
