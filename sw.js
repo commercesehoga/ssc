@@ -1,5 +1,5 @@
 
-const APP_VERSION   = 'v7';           // ← bump this to trigger update popup
+const APP_VERSION   = 'v7.1';           // ← bump this to trigger update popup
 const CACHE_SHELL   = `ssc-shell-${APP_VERSION}`;
 const CACHE_CDN     = `ssc-cdn-${APP_VERSION}`;
 const CACHE_PAGES   = `ssc-pages-${APP_VERSION}`;
