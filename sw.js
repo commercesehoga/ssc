@@ -1,19 +1,5 @@
-/* =====================================================
-   SSC Prep – ThunderStudy  |  Service Worker
-   Scope: /ssc/
-   Strategy:
-     • Shell / static assets  → Cache-first
-     • Google Fonts / CDN     → Stale-while-revalidate
-     • Firebase API calls     → Network-only  (auth / Firestore)
-     • Everything else        → Network-first, fallback to cache
 
-   ⚡ UPDATE DETECTION:
-     Bump APP_VERSION → SW activates → posts 'SW_UPDATED' to all
-     clients → dashboard shows "Update Available" popup →
-     user clicks → hard reload (ctrl+shift+r equivalent).
-   ===================================================== */
-
-const APP_VERSION   = 'v5';           // ← bump this to trigger update popup
+const APP_VERSION   = 'v6';           // ← bump this to trigger update popup
 const CACHE_SHELL   = `ssc-shell-${APP_VERSION}`;
 const CACHE_CDN     = `ssc-cdn-${APP_VERSION}`;
 const CACHE_PAGES   = `ssc-pages-${APP_VERSION}`;
