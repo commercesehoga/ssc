@@ -1521,8 +1521,8 @@ fbAuth.onAuthStateChanged(user=>{
     const gu={name:user.displayName,email:user.email,picture:user.photoURL,googleId:user.uid};
     localStorage.setItem('ts_google_user',JSON.stringify(gu));
     localStorage.setItem('cbtUserName',user.displayName||'');
-    const p=getProfile();if(!p.name&&user.displayName){p.name=user.displayName;saveProfile(p);localStorage.setItem('ssc_name',user.displayName);}
-    if(!getStudentID()){ const id=makeStudentId();localStorage.setItem('ssc_student_id',id); }
+    const p=getProfile();if(!p.name&&user.displayName){p.name=user.displayName;saveProfile(p);localStorage.setItem('cbtUserName',user.displayName);}
+    if(!getStudentID()){ const id=makeStudentId();localStorage.setItem('ts_student_id',id); }
     renderHomeTopbar();
     if(!localStorage.getItem('ssc_joined_ts')) localStorage.setItem('ssc_joined_ts', Date.now());
   }
@@ -2608,17 +2608,17 @@ function getAllMocksForExam(examId){
 /* ═══════════════════════════════════════
    LOCAL STORAGE HELPERS
 ═══════════════════════════════════════ */
-function getProfile(){ try{return JSON.parse(localStorage.getItem('ssc_profile')||'{}')}catch{return {};} }
-function saveProfile(p){ localStorage.setItem('ssc_profile', JSON.stringify(p)); }
+function getProfile(){ try{return JSON.parse(localStorage.getItem('ts_profile')||'{}')}catch{return {};} }
+function saveProfile(p){ localStorage.setItem('ts_profile', JSON.stringify(p)); }
 function getStudentID(){
   return localStorage.getItem('ts_student_id')
-    || localStorage.getItem('ssc_student_id')
+    || localStorage.getItem('ts_student_id')
     || '';
 }
 function getUserName(){
   const p = getProfile();
   return p.name
-    || localStorage.getItem('ssc_name')
+    || localStorage.getItem('cbtUserName')
     || localStorage.getItem('cbtUserName')
     || (() => { try{ return JSON.parse(localStorage.getItem('ts_profile')||'{}').name||''; }catch{return '';} })()
     || '';
@@ -4071,7 +4071,7 @@ function editName(){
   const p = getProfile();
   p.name = n.trim();
   saveProfile(p);
-  localStorage.setItem('ssc_name', n.trim());
+  localStorage.setItem('cbtUserName', n.trim());
   showToast('✅ Name updated!', 'success');
   renderSettings();
   renderHome();
@@ -4310,7 +4310,7 @@ function getStoredName(){
   try {
     const p = getProfile();
     return p.name
-      || localStorage.getItem('ssc_name')
+      || localStorage.getItem('cbtUserName')
       || localStorage.getItem('cbtUserName')
       || (() => {
            try{ return JSON.parse(localStorage.getItem('ts_profile')||'{}').name||''; }catch{return '';}
@@ -4321,7 +4321,7 @@ function getStoredName(){
 
 function getStoredID(){
   return localStorage.getItem('ts_student_id')
-    || localStorage.getItem('ssc_student_id')
+    || localStorage.getItem('ts_student_id')
     || '';
 }
 
@@ -4338,7 +4338,7 @@ function generateOnceID(){
 /* Save name to ALL keys so other ThunderStudy pages pick it up */
 function persistName(name){
   const p = getProfile(); p.name = name; saveProfile(p);
-  localStorage.setItem('ssc_name', name);
+  localStorage.setItem('cbtUserName', name);
   localStorage.setItem('cbtUserName', name);
 }
 
@@ -4503,7 +4503,7 @@ function obGenID(){
   if(storedID && sidInp && sidInp.dataset.locked === '1') return;
   const id = makeStudentId();
   localStorage.setItem('ts_student_id', id);
-  localStorage.setItem('ssc_student_id', id);
+  localStorage.setItem('ts_student_id', id);
   if(sidInp){ sidInp.value=id; sidInp.style.color='var(--green)'; }
 }
 
@@ -4512,7 +4512,7 @@ function obRegenID(){
   if(!confirm('⚠️ This will create a new Student ID. Your current ID will be lost from the leaderboard. Continue?')) return;
   const id = makeStudentId();
   localStorage.setItem('ts_student_id', id);
-  localStorage.setItem('ssc_student_id', id);
+  localStorage.setItem('ts_student_id', id);
   const sidInp = document.getElementById('ob-sid');
   if(sidInp){ sidInp.value=id; sidInp.style.color='var(--green)'; }
   showToast('🎲 New ID generated: '+id,'success');
@@ -4623,7 +4623,7 @@ async function topbarGoogleLogin(){
     if(!getStudentID()){
       const id=makeStudentId();
       localStorage.setItem('ts_student_id',id);
-      localStorage.setItem('ssc_student_id',id);
+      localStorage.setItem('ts_student_id',id);
     }
     showToast('✅ Signed in as '+gu.name.split(' ')[0],'success');
     renderHomeTopbar();
@@ -4657,7 +4657,7 @@ async function fetchIdentityFromCloud(uid){
     tsName=tsName||data.cbtUserName||'';
     const tsSID=data.ts_student_id||'';
     let changed=false;
-    if(tsName&&!getUserName()){ const p=getProfile();p.name=tsName;saveProfile(p);localStorage.setItem('ssc_name',tsName);localStorage.setItem('cbtUserName',tsName);changed=true; }
+    if(tsName&&!getUserName()){ const p=getProfile();p.name=tsName;saveProfile(p);localStorage.setItem('cbtUserName',tsName);localStorage.setItem('cbtUserName',tsName);changed=true; }
     if(tsSID&&!getStudentID()){ localStorage.setItem('ssc_student_id',tsSID);localStorage.setItem('ts_student_id',tsSID);changed=true; }
     if(changed){
       showToast('✅ Identity fetched: '+escH(tsName||'')+(tsSID?' | ID: '+tsSID:''),'success',3500);
