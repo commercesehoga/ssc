@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +7,7 @@
 <meta name="theme-color" content="#5B4EE8">
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>SSC CGL · cgl full mock 3 — ThunderStudy</title>
+<title>SSC CGL · cgl full mock 2 (full1) — ThunderStudy</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <script>
@@ -19,7 +18,7 @@
    Dashboard key: thunderstudy_result_cgl_full1
    ══════════════════════════════════════════════════ */
 const SUBJECT_ID  = "cgl";     /* was "eng"       */
-const CHAPTER_ID  = "full3";   /* was "eng-full1" */
+const CHAPTER_ID  = "full2";   /* was "eng-full1" */
 
 /* ══════════════════════════════════════════════════
    SSC PLATFORM — name / student-ID auto-fetch
@@ -245,6 +244,7 @@ body.dark-mode #start-screen { background: var(--dm-bg); }
     box-shadow: 0 8px 28px rgba(26,111,196,0.35);
     margin-bottom: 20px;
     animation: floatLogo 3s ease-in-out infinite;
+    overflow: visible;
 }
 
 @keyframes floatLogo {
@@ -379,6 +379,12 @@ body.dark-mode .name-input { background: var(--dm-surface); color: var(--dm-text
 }
 .dark-toggle:hover { transform: scale(1.05); }
 body.dark-mode .dark-toggle { background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 4px 14px rgba(245,158,11,0.4); }
+
+/* Language selector on start screen */
+#lang-select-wrap { transition: background 0.3s; }
+body.dark-mode #lang-select-wrap { background: var(--dm-surface); border-color: var(--dm-border); }
+body.dark-mode #lang-hi-btn { color: var(--dm-muted); }
+body.dark-mode #lang-en-btn { color: white; }
 
 /* ===== INSTRUCTION SCREEN ===== */
 #instruction-screen {
@@ -849,6 +855,29 @@ body.dark-mode .analysis { color: var(--dm-text); }
     body > * { display: none !important; }
     #pdf-print-area { display: block !important; font-family: Arial, sans-serif; color: #111; padding: 20px; }
 }
+
+/* ── Attempt Review Overlay ── */
+#attempt-review-overlay {
+    background: var(--off-white);
+}
+body.dark-mode #attempt-review-overlay {
+    background: var(--dm-bg);
+}
+body.dark-mode #attempt-review-overlay [style*="background:white"] {
+    background: var(--dm-surface) !important;
+    border-color: var(--dm-border) !important;
+}
+body.dark-mode #attempt-review-overlay [style*="color:var(--text-dark)"] {
+    color: var(--dm-text) !important;
+}
+/* Prev Results panel dark mode */
+body.dark-mode #prev-results-panel [style*="background:white"] {
+    background: var(--dm-surface) !important;
+}
+body.dark-mode #hist-cards-wrap > div {
+    background: var(--dm-surface) !important;
+    border-color: var(--dm-border) !important;
+}
 </style>
 </head>
 <body>
@@ -862,9 +891,9 @@ body.dark-mode .analysis { color: var(--dm-text); }
 </button>
 
 <div class="start-hero">
-    <div class="start-logo">📖</div>
+    <div class="start-logo" style="background:none;box-shadow:none;padding:0;overflow:visible;"><img src="https://wondermayank.github.io/favicon.svg" alt="ThunderStudy" style="width:68px;height:68px;border-radius:20px;box-shadow:0 8px 28px rgba(26,111,196,0.35);display:block;" onerror="this.outerHTML='⚡';"></div>
     <div class="start-brand">SSC CGL · ThunderStudy</div>
-    <h1 class="start-title">cgl full mock 3</h1>
+    <h1 class="start-title">cgl full mock 2</h1>
     <p class="start-sub">Exam: <strong>SSC CGL</strong> &nbsp;|&nbsp; Subject: <strong>CGL</strong> &nbsp;|&nbsp; Mock ID: <strong>full1</strong></p>
 
     <a href="https://t.me/thunderstudy_official" target="_blank" class="tg-btn">
@@ -892,11 +921,35 @@ body.dark-mode .analysis { color: var(--dm-text); }
         🪪 ID: <span id="sid-value">---</span>
     </div>
     
+    <!-- Language toggle -->
+    <div id="lang-select-wrap" style="display:flex;align-items:center;gap:0;background:var(--light-blue);border:1.5px solid var(--mid-blue);border-radius:50px;padding:3px;margin-bottom:4px;width:100%;max-width:220px;">
+        <button id="lang-en-btn" onclick="setStartLang('en')"
+            style="flex:1;padding:9px 0;border:none;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.18s;background:var(--primary);color:white;box-shadow:0 3px 10px rgba(26,111,196,0.3);">
+            🇬🇧 English
+        </button>
+        <button id="lang-hi-btn" onclick="setStartLang('hi')"
+            style="flex:1;padding:9px 0;border:none;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.18s;background:transparent;color:var(--text-muted);">
+            🇮🇳 Hindi
+        </button>
+    </div>
+
     <div class="start-btns">
         <button class="s-btn s-btn-primary" onclick="startMock()">🚀 Start Mock Test</button>
-        <button class="s-btn s-btn-green" onclick="window.location.href='https://commercesehoga.github.io/commerce/bst/result.html'">📊 Previous Results</button>
-        <button class="s-btn s-btn-purple" onclick="window.open('https://commercesehoga.blogspot.com/2026/03/business-studies-cuet-cbt-mock-test-free.html','_blank')">📚 More Mock Tests</button>
+        <button class="s-btn s-btn-green" onclick="showPrevResults()">📊 Previous Results</button>
+        <button class="s-btn s-btn-purple" onclick="window.open('https://commercesehoga.github.io/ssc','_blank')">📚 More Mock Tests</button>
     </div>
+
+    <!-- Previous Results Panel -->
+    <div id="prev-results-panel" style="display:none;width:100%;max-width:500px;margin-top:20px;">
+        <div style="background:white;border:1.5px solid var(--mid-blue);border-radius:16px;overflow:hidden;">
+            <div style="background:linear-gradient(135deg,var(--primary),var(--accent));padding:14px 20px;display:flex;justify-content:space-between;align-items:center;">
+                <span style="color:white;font-weight:700;font-size:15px;">📊 Previous Results — <span id="hist-mock-label"></span></span>
+                <button onclick="document.getElementById('prev-results-panel').style.display='none'" style="background:rgba(255,255,255,0.2);border:none;color:white;border-radius:20px;padding:3px 12px;cursor:pointer;font-size:13px;font-weight:700;">✕ Close</button>
+            </div>
+            <div id="hist-cards-wrap" style="padding:16px;display:flex;flex-direction:column;gap:12px;"></div>
+        </div>
+    </div>
+
 </div>
 </div>
 
@@ -1015,23 +1068,22 @@ body.dark-mode .analysis { color: var(--dm-text); }
         <button class="fancy-btn fancy-result" id="result-action-btn" style="flex:1;max-width:180px;">📊 Result</button>
     </div>
 
-    <!-- Stream Picker Popup -->
     <div id="stream-picker-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999998;justify-content:center;align-items:center;">
         <div id="stream-picker-box" style="background:white;border-radius:20px;padding:32px 28px;width:90%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,0.25);animation:modalIn 0.3s ease;text-align:center;position:relative;">
             <button onclick="document.getElementById('stream-picker-overlay').style.display='none'" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:24px;cursor:pointer;color:#6b8ab5;">×</button>
             <div style="font-size:36px;margin-bottom:10px;">📊</div>
-            <h3 style="font-family:'Playfair Display',serif;font-size:20px;color:#1a6fc4;margin-bottom:6px;">View Previous Results</h3>
-            <p style="font-size:13px;color:#6b8ab5;margin-bottom:22px;">Select your stream to view results</p>
+            <h3 style="font-family:'Playfair Display',serif;font-size:20px;color:#1a6fc4;margin-bottom:6px;">View Results</h3>
+            <p style="font-size:13px;color:#6b8ab5;margin-bottom:22px;">Your result has been saved. View full dashboard below.</p>
             <div style="display:flex;flex-direction:column;gap:12px;">
-                <a href="https://commercesehoga.github.io/commerce/bst/result.html" target="_blank" class="stream-btn" style="background:linear-gradient(135deg,#1a6fc4,#0ea5e9);">
-                    🏪 Commerce
+                <a href="https://commercesehoga.github.io/dashboard/" target="_blank" class="stream-btn" style="background:linear-gradient(135deg,#1a6fc4,#0ea5e9);">
+                    📊 Open SSC Dashboard
                 </a>
-                <a href="https://commercesehoga.github.io/commerce/bst/result.html" target="_blank" class="stream-btn" style="background:linear-gradient(135deg,#059669,#0d9488);">
-                    🔬 Science
+                <a href="https://commercesehoga.github.io/ssc" target="_blank" class="stream-btn" style="background:linear-gradient(135deg,#059669,#0d9488);">
+                    📚 More SSC Mocks
                 </a>
-                <a href="https://commercesehoga.github.io/commerce/bst/result.html" target="_blank" class="stream-btn" style="background:linear-gradient(135deg,#7c3aed,#a855f7);">
-                    📚 Humanities
-                </a>
+                <button onclick="showPrevResults();document.getElementById('stream-picker-overlay').style.display='none'" class="stream-btn" style="background:linear-gradient(135deg,#7c3aed,#a855f7);border:none;cursor:pointer;">
+                    🕑 This Mock — Previous Results
+                </button>
             </div>
         </div>
     </div>
@@ -1039,7 +1091,7 @@ body.dark-mode .analysis { color: var(--dm-text); }
     <footer class="test-footer">
         <p>© 2025 Thunderstudy. All Rights Reserved.</p>
         <div class="footer-links">
-            <a href="https://commercesehoga.blogspot.com/2026/03/business-studies-cuet-cbt-mock-test-free.html" target="_blank" class="footer-link fl-purple">📚 More Mocks</a>
+            <a href="https://commercesehoga.github.io/ssc" target="_blank" class="footer-link fl-purple">📚 More Mocks</a>
             <a href="https://commercesehoga.blogspot.com/" target="_blank" class="footer-link fl-green">🌐 Website</a>
             <a href="https://t.me/mindmaster_robot" target="_blank" class="footer-link fl-red">🚨 Report Error</a>
         </div>
@@ -3505,6 +3557,12 @@ let timerEl, questionTextEl, optionsEl, qNumEl, curQNumEl,
     prevBtn, nextBtn, markBtn, submitBtn, modal, closeModal, reviewBtn;
 
 
+function mergeQuestionsIntoMockTest() {
+    if (_pushedQuestions.length > 0 && mockTest.questions.length === 0) {
+        _pushedQuestions.forEach(q => mockTest.questions.push(q));
+    }
+}
+
 function initTest() {
     /* Resolve DOM elements (deferred until DOM is ready) */
     timerEl         = document.querySelector('.timer');
@@ -3621,7 +3679,7 @@ function renderQuestion() {
         div.className = 'option';
         if (testSubmitted) {
             if (key === q.correctAnswer) div.classList.add('correct');
-            else if (key === q.userAnswer) div.classList.add('incorrect');
+            else if (q.userAnswer && q.userAnswer !== '__correct__' && key === q.userAnswer) div.classList.add('incorrect');
         } else {
             if (key === q.userAnswer) div.classList.add('selected');
         }
@@ -3654,7 +3712,7 @@ function renderQuestion() {
                 ind.className += ' correct-indicator';
                 ind.textContent = ' \u2713 Correct';
                 text.appendChild(ind);
-            } else if (key === q.userAnswer) {
+            } else if (q.userAnswer && q.userAnswer !== '__correct__' && key === q.userAnswer) {
                 ind.className += ' incorrect-indicator';
                 ind.textContent = ' \u2717 Your Answer';
                 text.appendChild(ind);
@@ -3665,7 +3723,7 @@ function renderQuestion() {
         radio.type = 'radio';
         radio.name = 'q-opt';
         radio.value = key;
-        radio.checked = q.userAnswer === key;
+        radio.checked = (q.userAnswer && q.userAnswer !== '__correct__') ? (q.userAnswer === key) : false;
         div.appendChild(radio);
         div.appendChild(letter);
         div.appendChild(text);
@@ -3733,16 +3791,17 @@ function updatePalette() {
         const btn = btns[i];
         btn.className = 'palette-btn';
         if (testSubmitted) {
-            if (!q.userAnswer) btn.classList.add('review-unanswered');
-            else if (q.userAnswer === q.correctAnswer) btn.classList.add('review-correct');
-            else btn.classList.add('review-wrong');
+            const ua = q.userAnswer;
+            if (!ua || ua === '') btn.classList.add('review-unanswered');          // skipped → blue
+            else if (ua === '__correct__' || ua === q.correctAnswer) btn.classList.add('review-correct'); // correct → green
+            else btn.classList.add('review-wrong');                                // wrong → red
         } else {
             if (q.userAnswer) btn.classList.add('answered');
             if (q.marked) btn.classList.add('marked');
         }
         if (i === currentQuestionIndex) btn.classList.add('current');
     });
-    const ans = mockTest.questions.filter(q => q.userAnswer).length;
+    const ans = mockTest.questions.filter(q => q.userAnswer && q.userAnswer !== '__correct__').length;
     answeredCountEl.textContent = `${ans}/${mockTest.questions.length}`;
 }
 
@@ -3809,15 +3868,71 @@ function submitTest() {
     const key = `thunderstudy_result_${SUBJECT_ID}_${CHAPTER_ID}`;
     localStorage.setItem(key, JSON.stringify(resultData));
 
-    const GS_URL = "https://script.google.com/macros/s/AKfycbyEsrvdSuRh06TIKPK0ozP-jQNjqHO8PaIeBcW5r45aGdr4H3ZVFHpKMm3xaDHrYmqX/exec";
-    fetch(GS_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(resultData)
-    }).then(() => {
-        localStorage.setItem(`synced_${SUBJECT_ID}_${CHAPTER_ID}`, "true");
-    }).catch(err => console.error("Sync failed", err));
+    // ── Save to history (last 3 attempts, scoped per mock) ──
+    const LS_HIST = `ts_hist_${SUBJECT_ID}_${CHAPTER_ID}`;
+    let hist = [];
+    try { hist = JSON.parse(localStorage.getItem(LS_HIST) || '[]'); } catch(e) {}
+    const now = new Date();
+
+    // Capture wrong-answer details for per-attempt review
+    const wrongQuestions = mockTest.questions
+        .filter(q => q.userAnswer && q.userAnswer !== q.correctAnswer)
+        .map(q => ({
+            id: q.id,
+            text: q._html || q.text || '',
+            options: q._optsHTML || q.options || {},
+            userAnswer: q.userAnswer,
+            correctAnswer: q.correctAnswer,
+            section: q.section || '',
+            explanation: q._explHTML || q.explanation || ''
+        }));
+
+    // Also capture correctly-answered IDs for palette colouring in review
+    const answeredCorrect = mockTest.questions
+        .filter(q => q.userAnswer && q.userAnswer === q.correctAnswer)
+        .map(q => String(q.id));
+
+    hist.unshift({
+        date: now.toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'}),
+        time: now.toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit'}),
+        correct, wrong: incorrect, skipped: unanswered,
+        score, maxScore, pct: parseFloat(pct), acc: parseFloat(acc),
+        timeTaken: mockTest.duration - timeLeft,
+        wrongQuestions,
+        answeredCorrect
+    });
+    if (hist.length > 3) hist = hist.slice(0, 3);
+    localStorage.setItem(LS_HIST, JSON.stringify(hist));
+
+    const GS_URL = "https://script.google.com/macros/s/AKfycbwVaIxzj68FRcLDfamz1iAVdHT-r3eqld0kOBOLu4DWGkuM4pq82cFVTGS112VSOG4h/exec";
+
+    // ── Send to Sheet: try cors first (follows GAS 302), fall back to no-cors ──
+    function sendToSheet(attempt) {
+        const body = 'data=' + encodeURIComponent(JSON.stringify(resultData));
+        fetch(GS_URL, {
+            method: 'POST',
+            redirect: 'follow',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: body
+        })
+        .then(res => {
+            if (res.ok || res.type === 'opaque') {
+                localStorage.setItem(`synced_${SUBJECT_ID}_${CHAPTER_ID}`, "true");
+            } else { throw new Error('HTTP ' + res.status); }
+        })
+        .catch(err => {
+            if (attempt < 3) {
+                fetch(GS_URL, {
+                    method: 'POST', mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: body
+                }).then(() => {
+                    localStorage.setItem(`synced_${SUBJECT_ID}_${CHAPTER_ID}`, "true");
+                }).catch(() => { setTimeout(() => sendToSheet(attempt + 1), 2000 * attempt); });
+            }
+        });
+    }
+    sendToSheet(1);
 
     const idxKey = `thunderstudy_index_${SUBJECT_ID}`;
     let idx = [];
@@ -3857,9 +3972,298 @@ document.addEventListener('keydown', e => {
 </script>
 
 <script>
+/* ── Start-screen language toggle ── */
+var _startLang = localStorage.getItem('ts_start_lang') || 'en';
+function setStartLang(lang) {
+    _startLang = lang;
+    localStorage.setItem('ts_start_lang', lang);
+    // Also set the in-test Hindi toggle default
+    if (typeof _langHindi !== 'undefined') _langHindi = (lang === 'hi');
+    // Update button styles
+    var enBtn = document.getElementById('lang-en-btn');
+    var hiBtn = document.getElementById('lang-hi-btn');
+    if (!enBtn || !hiBtn) return;
+    if (lang === 'hi') {
+        hiBtn.style.background = 'var(--primary)';
+        hiBtn.style.color = 'white';
+        hiBtn.style.boxShadow = '0 3px 10px rgba(26,111,196,0.3)';
+        enBtn.style.background = 'transparent';
+        enBtn.style.color = 'var(--text-muted)';
+        enBtn.style.boxShadow = 'none';
+    } else {
+        enBtn.style.background = 'var(--primary)';
+        enBtn.style.color = 'white';
+        enBtn.style.boxShadow = '0 3px 10px rgba(26,111,196,0.3)';
+        hiBtn.style.background = 'transparent';
+        hiBtn.style.color = 'var(--text-muted)';
+        hiBtn.style.boxShadow = 'none';
+    }
+}
+
+function showPrevResults() {
+    const LS_HIST = `ts_hist_${SUBJECT_ID}_${CHAPTER_ID}`;
+    let hist = [];
+    try { hist = JSON.parse(localStorage.getItem(LS_HIST) || '[]'); } catch(e) {}
+
+    const wrap = document.getElementById('hist-cards-wrap');
+    const panel = document.getElementById('prev-results-panel');
+
+    if (!hist.length) {
+        wrap.innerHTML = `<div style="text-align:center;padding:28px 16px;color:var(--text-muted);">
+            <div style="font-size:36px;margin-bottom:10px;">📭</div>
+            <div style="font-size:14px;font-weight:600;">No attempts yet</div>
+            <div style="font-size:12px;margin-top:4px;">Complete a test to see your history here.</div>
+        </div>`;
+        panel.style.display = 'block';
+        panel.scrollIntoView({behavior:'smooth'});
+        return;
+    }
+
+    const gradeInfo = pct => {
+        if (pct >= 90) return {g:'A+',c:'#059669'};
+        if (pct >= 75) return {g:'A', c:'#16a34a'};
+        if (pct >= 60) return {g:'B+',c:'#1a6fc4'};
+        if (pct >= 45) return {g:'B', c:'#1d4ed8'};
+        if (pct >= 33) return {g:'C', c:'#d97706'};
+        return {g:'F',c:'#dc2626'};
+    };
+
+    // Show last 3 attempts
+    const displayHist = hist.slice(0, 3);
+
+    wrap.innerHTML = `
+        <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:4px;padding:0 2px;">
+            Last ${displayHist.length} attempt${displayHist.length !== 1 ? 's' : ''} — tap any card to review wrong answers
+        </div>
+        ${displayHist.map((h, i) => {
+            const {g, c} = gradeInfo(h.pct);
+            const mins = Math.floor((h.timeTaken||0)/60);
+            const secs = (h.timeTaken||0) % 60;
+            const pctColor = h.pct >= 60 ? '#059669' : h.pct >= 33 ? '#d97706' : '#dc2626';
+            const hasWrong = h.wrongQuestions && h.wrongQuestions.length > 0;
+            const wrongCount = hasWrong ? h.wrongQuestions.length : (h.wrong || 0);
+            return `<div
+                onclick="showAttemptReview(${i})"
+                style="background:var(--off-white);border:1.5px solid var(--mid-blue);border-radius:12px;padding:14px 16px;cursor:pointer;transition:box-shadow 0.18s,transform 0.15s;position:relative;"
+                onmouseover="this.style.boxShadow='0 6px 24px rgba(26,111,196,0.18)';this.style.transform='translateY(-2px)'"
+                onmouseout="this.style.boxShadow='none';this.style.transform='none'"
+            >
+                <div style="position:absolute;top:12px;right:12px;background:linear-gradient(135deg,var(--primary),var(--accent));color:white;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:0.5px;">
+                    👁 VIEW DETAILS
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-right:90px;">
+                    <div>
+                        <span style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Attempt ${displayHist.length - i}</span>
+                        <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">📅 ${h.date} · ${h.time}</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span style="font-size:18px;font-weight:800;color:${pctColor};">${h.pct}%</span>
+                        <span style="font-size:13px;font-weight:800;color:${c};background:${c}22;padding:3px 10px;border-radius:20px;">${g}</span>
+                    </div>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px;">
+                    <div style="text-align:center;background:#dcfce7;border-radius:8px;padding:6px 4px;">
+                        <div style="font-size:16px;font-weight:800;color:#059669;">${h.correct}</div>
+                        <div style="font-size:10px;color:#059669;font-weight:600;">Correct</div>
+                    </div>
+                    <div style="text-align:center;background:#fee2e2;border-radius:8px;padding:6px 4px;">
+                        <div style="font-size:16px;font-weight:800;color:#dc2626;">${wrongCount}</div>
+                        <div style="font-size:10px;color:#dc2626;font-weight:600;">Wrong</div>
+                    </div>
+                    <div style="text-align:center;background:#f1f5f9;border-radius:8px;padding:6px 4px;">
+                        <div style="font-size:16px;font-weight:800;color:#6b7280;">${h.skipped}</div>
+                        <div style="font-size:10px;color:#6b7280;font-weight:600;">Skipped</div>
+                    </div>
+                    <div style="text-align:center;background:#dbeafe;border-radius:8px;padding:6px 4px;">
+                        <div style="font-size:16px;font-weight:800;color:#1a6fc4;">${h.score}</div>
+                        <div style="font-size:10px;color:#1a6fc4;font-weight:600;">Score</div>
+                    </div>
+                </div>
+                <div style="height:6px;background:#e2e8f0;border-radius:10px;overflow:hidden;">
+                    <div style="height:100%;width:${Math.max(0,Math.min(100,h.pct))}%;background:${pctColor};border-radius:10px;"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:5px;">
+                    <div style="font-size:11px;color:var(--text-muted);">⏱ ${mins}m ${String(secs).padStart(2,'0')}s &nbsp;|&nbsp; Accuracy: ${h.acc}%</div>
+                    ${hasWrong ? `<div style="font-size:11px;font-weight:700;color:#dc2626;">❌ ${wrongCount} wrong answer${wrongCount !== 1 ? 's' : ''} to review</div>` : `<div style="font-size:11px;font-weight:700;color:#059669;">✅ No wrong answers!</div>`}
+                </div>
+            </div>`;
+        }).join('')}
+    `;
+
+    panel.style.display = 'block';
+    panel.scrollIntoView({behavior:'smooth'});
+}
+
+/* ── Attempt Review Screen: shows wrong answers only ── */
+/* ─────────────────────────────────────────────────────────────────
+   showAttemptReview(attemptIndex)
+   Opens the REAL test-screen in read-only review mode for a past
+   attempt.  Wrong answers auto-loaded; palette buttons are red for
+   wrong, green for correct, blue for skipped.  A "← Back" banner
+   at the top lets the user return to the start screen.
+───────────────────────────────────────────────────────────────── */
+function showAttemptReview(attemptIndex) {
+    const LS_HIST = `ts_hist_${SUBJECT_ID}_${CHAPTER_ID}`;
+    let hist = [];
+    try { hist = JSON.parse(localStorage.getItem(LS_HIST) || '[]'); } catch(e) {}
+    const h = hist[attemptIndex];
+    if (!h) return;
+
+    // ── 0. Make sure questions are loaded into mockTest ──
+    mergeQuestionsIntoMockTest();
+
+    // ── 1. Restore per-question answers from history ──
+    const wrongMap = {};
+    (h.wrongQuestions || []).forEach(wq => { wrongMap[String(wq.id)] = wq.userAnswer; });
+
+    mockTest.questions.forEach(q => {
+        if (wrongMap[String(q.id)]) {
+            q.userAnswer = wrongMap[String(q.id)];   // wrong answer → restored
+        } else {
+            q.userAnswer = (h.answeredCorrect && h.answeredCorrect.includes(String(q.id)))
+                ? '__correct__'   // correctly answered placeholder
+                : '';             // skipped / unanswered
+        }
+        q.marked = false;
+    });
+
+    // ── 2. Initialise engine (no timer) if not already running ──
+    if (!testStarted) {
+        document.getElementById('start-screen').style.display = 'none';
+        document.getElementById('test-screen').style.display = 'block';
+        const _real = startTimer;
+        window.startTimer = () => {};
+        initTest();
+        window.startTimer = _real;
+    }
+
+    testSubmitted = true;
+    clearInterval(timer);
+
+    // ── 3. Inject history banner into the test screen ──
+    const mins = Math.floor((h.timeTaken||0)/60);
+    const secs = (h.timeTaken||0) % 60;
+    const pctColor = h.pct >= 60 ? '#059669' : h.pct >= 33 ? '#d97706' : '#dc2626';
+
+    // Remove any prior banner
+    const oldBanner = document.getElementById('hist-review-banner');
+    if (oldBanner) oldBanner.remove();
+
+    const banner = document.createElement('div');
+    banner.id = 'hist-review-banner';
+    banner.style.cssText = `
+        position:sticky;top:0;z-index:9000;
+        background:linear-gradient(135deg,var(--primary),var(--accent));
+        color:white;padding:10px 18px;
+        display:flex;align-items:center;justify-content:space-between;
+        flex-wrap:wrap;gap:8px;
+        box-shadow:0 2px 12px rgba(26,111,196,0.3);
+    `;
+    banner.innerHTML = `
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+            <button onclick="exitHistoryReview()"
+                style="background:rgba(255,255,255,0.22);border:1.5px solid rgba(255,255,255,0.5);
+                       color:white;padding:6px 16px;border-radius:50px;font-size:13px;font-weight:700;
+                       cursor:pointer;font-family:inherit;transition:background 0.15s;"
+                onmouseover="this.style.background='rgba(255,255,255,0.35)'"
+                onmouseout="this.style.background='rgba(255,255,255,0.22)'">
+                ← Back
+            </button>
+            <span style="font-size:13px;font-weight:700;opacity:0.92;">
+                📋 Reviewing Attempt ${hist.length - attemptIndex} &nbsp;·&nbsp; ${h.date} ${h.time}
+            </span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <span style="background:rgba(255,255,255,0.18);border-radius:8px;padding:4px 12px;font-size:12px;font-weight:700;">
+                Score: <strong style="font-size:15px;color:#fde68a;">${h.score}/${h.maxScore}</strong>
+            </span>
+            <span style="background:rgba(255,255,255,0.18);border-radius:8px;padding:4px 12px;font-size:12px;font-weight:700;color:${h.pct>=60?'#86efac':h.pct>=33?'#fde68a':'#fca5a5'};">
+                ${h.pct}%
+            </span>
+            <span style="background:#fef2f2;border-radius:8px;padding:4px 12px;font-size:12px;font-weight:700;color:#dc2626;">
+                ❌ ${h.wrong} wrong
+            </span>
+            <span style="background:#ecfdf5;border-radius:8px;padding:4px 12px;font-size:12px;font-weight:700;color:#059669;">
+                ✓ ${h.correct} correct
+            </span>
+        </div>
+    `;
+
+    // Prepend inside .main-content so it scrolls with content
+    const mainContent = document.querySelector('.main-content');
+    mainContent.insertBefore(banner, mainContent.firstChild);
+
+    // ── 4. Update palette legend to history-review mode ──
+    const leg = document.getElementById('palette-legend');
+    if (leg) {
+        leg.innerHTML = `
+            <div class="leg-label"><div class="leg-dot" style="background:#ef4444;"></div><span>Wrong</span></div>
+            <div class="leg-label"><div class="leg-dot" style="background:#22c55e;"></div><span>Correct</span></div>
+            <div class="leg-label"><div class="leg-dot" style="background:#60a5fa;"></div><span>Skipped</span></div>`;
+    }
+
+    // ── 5. Re-colour palette: wrong = RED, correct = GREEN, skipped = BLUE ──
+    const paletteEl = document.getElementById('question-palette-grid');
+    if (paletteEl) {
+        const btns = paletteEl.querySelectorAll('.palette-btn');
+        mockTest.questions.forEach((q, i) => {
+            const btn = btns[i];
+            if (!btn) return;
+            btn.className = 'palette-btn';
+            const isWrong = wrongMap[String(q.id)];
+            if (isWrong) {
+                btn.classList.add('review-wrong');           // red
+            } else if (!q.userAnswer || q.userAnswer === '') {
+                btn.classList.add('review-unanswered');      // blue
+            } else {
+                btn.classList.add('review-correct');         // green
+            }
+        });
+    }
+
+    // ── 6. Jump straight to first wrong question ──
+    const firstWrongIdx = mockTest.questions.findIndex(q => wrongMap[String(q.id)]);
+    currentQuestionIndex = firstWrongIdx >= 0 ? firstWrongIdx : 0;
+
+    // Show the test screen, hide start screen
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('instruction-screen').style.display = 'none';
+    document.getElementById('test-screen').style.display = 'block';
+
+    // Hide submit rows, show nothing extra
+    document.getElementById('submit-row-before').style.display = 'none';
+    document.getElementById('submit-row-after').style.display = 'none';
+
+    renderQuestion();
+    window.scrollTo(0, 0);
+}
+
+/* ── Exit history review mode → back to start screen ── */
+function exitHistoryReview() {
+    const banner = document.getElementById('hist-review-banner');
+    if (banner) banner.remove();
+
+    document.getElementById('test-screen').style.display = 'none';
+    document.getElementById('start-screen').style.display = 'flex';
+
+    // Reset flags so a new test can be started
+    testSubmitted = false;
+    testStarted   = false;
+    currentQuestionIndex = 0;
+
+    // Clear temp userAnswers so palette is clean for a fresh start
+    mockTest.questions.forEach(q => { q.userAnswer = ''; q.marked = false; });
+
+    // Scroll back to prev results panel
+    const panel = document.getElementById('prev-results-panel');
+    if (panel && panel.style.display !== 'none') {
+        setTimeout(() => panel.scrollIntoView({behavior:'smooth'}), 100);
+    }
+}
+
 function startMock() {
-    const savedName = localStorage.getItem('cbtUserName') || '';
-    const savedSID = localStorage.getItem('ts_student_id') || '';
+    const savedName = sscGetName();
+    const savedSID  = sscGetID();
     const inputName = document.getElementById('username-input').value.trim();
 
     if (!savedName && !inputName) {
@@ -3869,14 +4273,12 @@ function startMock() {
     }
 
     if (!savedName && inputName) {
-        sscSaveName(inputName);   /* writes cbtUserName + ssc_name + ssc_profile */
+        sscSaveName(inputName);
     }
 
     if (!savedSID) {
         const goToDash = confirm("⚠️ Student ID not found!\n\nYou must have a Student ID to start the mock.\n\nClick OK to open Dashboard to generate one, or Cancel to stay here.");
-        if (goToDash) {
-            window.open('https://commercesehoga.github.io/dashboard/', '_blank');
-        }
+        if (goToDash) window.open('https://commercesehoga.github.io/dashboard/', '_blank');
         return;
     }
 
@@ -3886,34 +4288,42 @@ function startMock() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    const savedName = localStorage.getItem('cbtUserName') || '';
-    const savedSID = localStorage.getItem('ts_student_id') || '';
+    const savedName = sscGetName();
+    const savedSID  = sscGetID();
 
-    if (savedName) {
-        const inp = document.getElementById('username-input');
-        if (inp) {
-            inp.value = savedName;
-            inp.style.background = 'rgba(79,110,247,.07)';
-            inp.style.borderColor = '#4f6ef7';
-            inp.style.color = '#4f6ef7';
-            inp.style.fontWeight = 'bold';
-            inp.setAttribute('readonly', true);
-            inp.insertAdjacentHTML('afterend',
-                `<div style="font-size:11px; color:#4f6ef7; font-weight:700; margin-top:5px;">
-                    ✅ Verified Dashboard Profile
-                </div>`
-            );
-        }
+    const inp = document.getElementById('username-input');
+    const tag = document.getElementById('name-autofill-tag');
+
+    if (savedName && inp) {
+        inp.value = savedName;
+        inp.style.background = 'rgba(79,110,247,.07)';
+        inp.style.borderColor = '#4f6ef7';
+        inp.style.color = '#4f6ef7';
+        inp.style.fontWeight = 'bold';
+        inp.setAttribute('readonly', true);
+        if (tag) tag.style.display = 'inline-block';
     }
 
     if (savedSID) {
         const sidArea = document.getElementById('sid-display-area');
-        const sidVal = document.getElementById('sid-value');
-        if (sidArea && sidVal) {
-            sidArea.style.display = 'block';
-            sidVal.textContent = savedSID;
-        }
+        const sidVal  = document.getElementById('sid-value');
+        if (sidArea && sidVal) { sidArea.style.display = 'block'; sidVal.textContent = savedSID; }
     }
+
+    // Show history badge on button if results exist
+    const LS_HIST = `ts_hist_${SUBJECT_ID}_${CHAPTER_ID}`;
+    try {
+        const h = JSON.parse(localStorage.getItem(LS_HIST) || '[]');
+        if (h.length) {
+            const btn = document.querySelector('.s-btn-green');
+            if (btn) btn.textContent = `📊 Previous Results (${h.length})`;
+        }
+    } catch(e) {}
+
+    document.getElementById('hist-mock-label').textContent = `${SUBJECT_ID.toUpperCase()} · ${CHAPTER_ID}`;
+
+    // Restore language selection
+    setStartLang(_startLang);
 });
     
 document.getElementById('dark-toggle').addEventListener('click', () => {
@@ -3940,16 +4350,10 @@ startTestBtn.addEventListener('click', () => {
     const mob = document.getElementById('mobile-name-display');
     if (mob) mob.textContent = '👤 ' + name + ' | ' + sid;
     testStarted = true;
+    // Apply language chosen on start screen
+    if (typeof _langHindi !== 'undefined') _langHindi = (_startLang === 'hi');
     enterFullscreen();
-    /* Merge questions.push() questions into mockTest before engine starts */
-    if (_pushedQuestions.length > 0) {
-      /* Replace mockTest.questions entirely if it was empty, else append */
-      if (mockTest.questions.length === 0) {
-        _pushedQuestions.forEach((q, i) => { mockTest.questions.push(q); });
-      } else {
-        _pushedQuestions.forEach((q, i) => { mockTest.questions.push(q); });
-      }
-    }
+    mergeQuestionsIntoMockTest();
     initTest();
 });
 
