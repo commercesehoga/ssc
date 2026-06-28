@@ -1,11 +1,27 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- ╔══════════════════════════════════════════════════════════════════════╗
+     ║  ⚡ THUNDER CBT — EASY EDIT ZONE  (change these two values only)    ║
+     ║  SUBJECT_ID: cgl | chsl | mts | gd | cpo | je | steno | sp         ║
+     ║  CHAPTER_ID: mock identifier, e.g. full1, mock2, set3              ║
+     ╚══════════════════════════════════════════════════════════════════════╝ -->
+<script>
+const SUBJECT_ID = "cgl";
+const CHAPTER_ID = "full1";
+const GS_URL = "https://script.google.com/macros/s/AKfycbwVaIxzj68FRcLDfamz1iAVdHT-r3eqld0kOBOLu4DWGkuM4pq82cFVTGS112VSOG4h/exec";
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Thunder⚡ CBT – ssc cgl Mock Test</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- Fonts: preconnect first so DNS resolves in parallel, then non-blocking load -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" onload="this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Rajdhani:wght@500;600;700&display=swap"></noscript>
+<!-- jsPDF: loaded async at end of body — NOT here -->
 <style>
   :root {
     --pink-primary: #e91e8c;
@@ -442,12 +458,42 @@
   @keyframes toastOut { from{opacity:1} to{opacity:0;transform:translateX(100%)} }
 
   @media(max-width:768px) {
-    .test-layout { grid-template-columns:1fr; }
-    .right-panel { max-height:none; border-left:none; border-top:2px solid var(--jee-border); }
-    .jee-header { flex-direction:column; align-items:flex-start; }
+    .test-layout { grid-template-columns:1fr !important; display:flex !important; flex-direction:column; }
+    .right-panel { display:none !important; }
+    .question-panel { order:2; }
+    /* Mobile horizontal question number strip */
+    .mobile-palette-strip {
+      display:flex; overflow-x:auto; gap:5px; padding:8px 10px;
+      background:white; border-bottom:2px solid var(--jee-border);
+      flex-shrink:0; order:1; -webkit-overflow-scrolling:touch;
+      scrollbar-width:none; align-items:center;
+    }
+    .mobile-palette-strip::-webkit-scrollbar { display:none; }
+    .mobile-palette-strip .q-palette-btn {
+      min-width:28px; width:28px; height:28px; font-size:10px; flex-shrink:0;
+    }
+    .jee-header { flex-direction:column; align-items:flex-start; padding:8px 12px; gap:6px; }
+    .jee-action-row { flex-wrap:wrap; }
+    .jee-action-left, .jee-action-right { width:100%; justify-content:flex-start; }
+    .jee-action-right { justify-content:space-between !important; }
     .jbtn { font-size:11px; padding:7px 10px; }
   }
+  .mobile-palette-strip { display:none; }
 
+  /* ===== LANGUAGE TOGGLE ===== */
+  .lang-toggle-wrap { display:flex; align-items:center; gap:6px; }
+  .lang-btn { padding:5px 11px; border:1.5px solid #bbb; border-radius:20px; font-size:12px; font-weight:700; cursor:pointer; background:white; color:#555; transition:all 0.15s; font-family:Arial,sans-serif; }
+  .lang-btn.active { background:#1976d2; color:white; border-color:#1976d2; }
+  .lang-btn:hover:not(.active) { background:#e3f2fd; border-color:#1976d2; }
+  /* Hide Google's default gadget UI, we control it via JS */
+  #google_translate_element { display:none !important; }
+  .goog-te-banner-frame, .skiptranslate { display:none !important; }
+  body { top:0 !important; }
+</style>
+
+<!-- Google Translate loaded on-demand (see setLang in JS) -->
+
+<style>
   /* ===== LOGIN SCREEN ===== */
   #screen-login { min-height:100vh; background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%); display:none; flex-direction:column; align-items:center; justify-content:center; padding:20px; }
   #screen-login.active { display:flex; }
@@ -543,9 +589,46 @@
   .ht-grade   { font-weight:800; font-size:16px; }
   .history-summary-bar { display:flex; gap:16px; flex-wrap:wrap; padding:11px 18px; background:#eff6ff; border-top:1px solid #bfdbfe; font-size:12px; font-weight:700; color:var(--gray-mid); }
   .history-summary-bar span { color:#1976d2; }
+
+  /* ===== HISTORY CARDS (2-attempt view) ===== */
+  .hist-cards-wrap { padding:12px 16px; display:flex; flex-direction:column; gap:12px; }
+  .hist-card { background:white; border:1px solid #bfdbfe; border-radius:14px; padding:14px 16px; box-shadow:0 2px 8px rgba(233,30,140,0.06); }
+  .hist-card-top { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
+  .hist-attempt-num { font-weight:800; font-size:14px; color:#1976d2; }
+  .hist-date { font-size:11.5px; color:#999; margin-left:8px; }
+  .btn-view-hist { background:linear-gradient(135deg,#1976d2,#0d47a1); color:white; border:none; border-radius:20px; padding:5px 16px; font-size:12px; font-weight:700; cursor:pointer; font-family:Arial,sans-serif; transition:all 0.2s; }
+  .btn-view-hist:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(25,118,210,0.4); }
+  .hist-chips { display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-bottom:8px; }
+  .hchip { padding:3px 10px; border-radius:20px; font-size:11.5px; font-weight:700; }
+  .hchip-ok   { background:#e8f5e9; color:#2e7d32; }
+  .hchip-err  { background:#ffebee; color:#c62828; }
+  .hchip-skip { background:#e3f2fd; color:#1565c0; }
+  .hchip-time { background:#f3e5f5; color:#7b1fa2; }
+  .hist-grade { font-weight:800; font-size:16px; }
+  .hist-correct-nums { font-size:12px; color:#555; background:#f9fbe7; border:1px solid #dce775; border-radius:8px; padding:7px 11px; margin-bottom:8px; line-height:1.5; }
+  .hcn-list { color:#2e7d32; font-weight:700; font-family: monospace; }
+  .hist-score-bar-wrap { height:5px; background:#e0e0e0; border-radius:3px; overflow:hidden; }
+  .hist-score-bar { height:100%; border-radius:3px; transition:width 0.6s ease; }
 </style>
 </head>
 <body>
+<!-- Required by Google Translate widget (hidden, injected on-demand) -->
+<div id="google_translate_element" style="display:none"></div>
+
+<!-- ===== INSTANT LOADING SPLASH — shown on first paint, removed by JS init ===== -->
+<div id="splash" style="position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99999;transition:opacity 0.25s ease;">
+  <div style="font-size:52px;margin-bottom:16px;animation:splashPulse 1s ease-in-out infinite;">⚡</div>
+  <div style="font-size:22px;font-weight:800;color:white;letter-spacing:2px;margin-bottom:6px;font-family:Arial,sans-serif;">THUNDER CBT</div>
+  <div style="font-size:13px;color:rgba(255,255,255,0.6);letter-spacing:1px;font-family:Arial,sans-serif;">Loading test…</div>
+  <div style="margin-top:22px;width:140px;height:3px;background:rgba(255,255,255,0.15);border-radius:3px;overflow:hidden;">
+    <div style="height:100%;background:#1976d2;border-radius:3px;animation:splashBar 0.9s ease-in-out infinite alternate;"></div>
+  </div>
+</div>
+<style>
+@keyframes splashPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+@keyframes splashBar{from{width:15%}to{width:100%}}
+</style>
+
 <!-- ==================== TOAST ==================== -->
 <div class="toast-container" id="toastContainer"></div>
 
@@ -797,11 +880,9 @@
         <div class="jee-info-row"><span class="jee-info-label">Remaining Time</span><span class="jee-info-value time-val" id="timerDisplay">60:00:00</span></div>
       </div>
     </div>
-    <div class="jee-lang-block">
-      <select class="jee-lang-select" onchange="showToast('Language: '+this.value,'info')">
-        <option>English</option>
-        <option>Hindi</option>
-      </select>
+    <div class="lang-toggle-wrap">
+      <button class="lang-btn active" id="langBtnEn" onclick="setLang('en')">🇬🇧 EN</button>
+      <button class="lang-btn" id="langBtnHi" onclick="setLang('hi')">🇮🇳 हिं</button>
     </div>
   </div>
 
@@ -825,6 +906,9 @@
 
   <!-- Main two-column layout -->
   <div class="test-layout">
+
+    <!-- Mobile question number strip (visible only on phones) -->
+    <div class="mobile-palette-strip" id="mobilePalette"></div>
 
     <!-- LEFT: Question panel -->
     <div class="question-panel">
@@ -989,9 +1073,8 @@
 </div>
 
 <script>
-  const SUBJECT_ID  = "cgl";
-const CHAPTER_ID  = "full1";
-const GS_URL = "https://script.google.com/macros/s/AKfycbyEsrvdSuRh06TIKPK0ozP-jQNjqHO8PaIeBcW5r45aGdr4H3ZVFHpKMm3xaDHrYmqX/exec";
+  // SUBJECT_ID, CHAPTER_ID, and GS_URL are defined at the very top of <head> for easy editing.
+  // Edit them there — NOT here.
 
 // ===== SET 1: 10 REAL + 40 PLACEHOLDERS =====
 const questions = [
@@ -2311,7 +2394,8 @@ let candidateName = 'Candidate';
 
 // ===== LOGIN & NAVIGATION =====
 const LS_CRED = 'thunderCBT_creds';
-const LS_KEY  = 'thunderCBT_lastAttempts';
+// Scoped per subject+chapter so different CBT files never collide
+const LS_KEY  = 'thunderCBT_lastAttempts_' + SUBJECT_ID + '_' + CHAPTER_ID;
 
 function unlockNextBtn() {
   const btn = document.getElementById('step1NextBtn');
@@ -2328,8 +2412,7 @@ function populateStartScreen(name, pass) {
   if (ih) ih.textContent = name;
   if (ir) ir.textContent = 'Roll No: ' + pass;
   unlockNextBtn();
-  loadLastAttempts();
-  renderHistory();
+  setTimeout(function() { loadLastAttempts(); renderHistory(); }, 0);
 }
 
 function doLogin() {
@@ -2417,23 +2500,58 @@ function goToInstructions() {
   showScreen('instructions');
 }
 
-// Run after DOM is fully loaded
-window.addEventListener('DOMContentLoaded', function() {
+// ===== INSTANT INIT — runs the moment this script tag is reached =====
+// By placing this at the bottom of <body> (after all HTML), DOM is already ready.
+// No DOMContentLoaded wait needed at all.
+(function() {
+  // Remove splash screen immediately
+  const splash = document.getElementById('splash');
+  if (splash) {
+    splash.style.opacity = '0';
+    setTimeout(function() { splash.style.display = 'none'; }, 250);
+  }
+
   const savedName = localStorage.getItem('cbtUserName') || '';
   const savedSID  = localStorage.getItem('ts_student_id') || '';
 
   if (savedName && savedSID) {
-    // Auto-login silently
     candidateName = savedName;
     populateStartScreen(savedName, savedSID);
     showScreen('start');
     showToast('✅ Welcome back, ' + savedName + '!', 'success');
   } else {
-    // Show the no-data message immediately without waiting for button click
     showScreen('login');
-    doLogin(); // This will render the "go to dashboard" card
+    const loginCard = document.querySelector('.login-card');
+    if (loginCard) {
+      loginCard.innerHTML = `
+        <div class="login-header">
+          <div class="login-logo">⚡</div>
+          <h2>Thunder CBT</h2>
+          <p>ssc cgl — Mock Test Series</p>
+        </div>
+        <div class="login-body" style="text-align:center;padding:32px 28px;">
+          <div style="font-size:48px;margin-bottom:14px;">🔐</div>
+          <div style="font-size:17px;font-weight:800;color:#1a1d2e;margin-bottom:8px;">Dashboard Login Required</div>
+          <div style="font-size:13px;color:#666;line-height:1.7;margin-bottom:22px;">
+            You need to log in via the <strong>Thunderstudy Dashboard</strong> first to generate your Student ID before taking this test.
+          </div>
+          <a href="https://commercesehoga.github.io/dashboard/" target="_blank"
+            style="display:block;width:100%;padding:14px;background:linear-gradient(135deg,#1976d2,#0d47a1);
+            color:white;border:none;border-radius:8px;font-size:15px;font-weight:700;
+            cursor:pointer;text-decoration:none;letter-spacing:1px;margin-bottom:12px;box-sizing:border-box;">
+            🌐 Open Thunderstudy Dashboard
+          </a>
+          <button onclick="checkAndRetry()"
+            style="width:100%;padding:12px;background:white;color:#1976d2;
+            border:2px solid #1976d2;border-radius:8px;font-size:14px;font-weight:700;
+            cursor:pointer;letter-spacing:0.5px;">
+            ✅ I've Logged In — Retry
+          </button>
+          <p style="font-size:11px;color:#aaa;margin-top:14px;">After logging in on the dashboard, come back here and click Retry.</p>
+        </div>`;
+    }
   }
-});
+})();
 
 
 // ===== FULLSCREEN =====
@@ -2561,10 +2679,10 @@ function goToStep(step) {
   if (panel) { panel.classList.add('active'); window.scrollTo(0, 0); }
 }
 
-// ===== HISTORY (localStorage) =====
-const LS_HIST = 'thunderCBT_history';
+// ===== HISTORY (localStorage) — scoped per subject+chapter, last 2 only =====
+const LS_HIST = 'thunderCBT_hist_' + SUBJECT_ID + '_' + CHAPTER_ID;
 
-function saveToHistory(setNum, correct, wrong, unattempted, score, maxScore, pct, name) {
+function saveToHistory(setNum, correct, wrong, unattempted, score, maxScore, pct, name, correctQNums, timeTaken) {
   let hist = [];
   try { hist = JSON.parse(localStorage.getItem(LS_HIST) || '[]'); } catch(e) {}
   const now = new Date();
@@ -2576,10 +2694,12 @@ function saveToHistory(setNum, correct, wrong, unattempted, score, maxScore, pct
     name: name || 'Candidate',
     correct, wrong, unattempted,
     score, maxScore, pct,
-    date: dateStr, time: timeStr
+    timeTaken: timeTaken || 0,
+    date: dateStr, time: timeStr,
+    correctQNums: correctQNums || []   // 0-based indices of correct answers — compact storage
   });
-  // Keep only last 50 records
-  if (hist.length > 50) hist = hist.slice(0, 50);
+  // Keep only last 2 records per chapter
+  if (hist.length > 2) hist = hist.slice(0, 2);
   try { localStorage.setItem(LS_HIST, JSON.stringify(hist)); } catch(e) {}
 }
 
@@ -2601,53 +2721,113 @@ function renderHistory() {
     el.innerHTML = `<div class="history-empty"><div class="he-icon">📭</div><p>No attempts yet — complete a test to see your history here.</p></div>`;
     return;
   }
-  // Summary bar stats
-  const totalAttempts = hist.length;
-  const bestPct = Math.max(...hist.map(h => h.pct));
-  const avgPct  = Math.round(hist.reduce((a,h) => a + h.pct, 0) / hist.length);
 
-  let rows = hist.map((h, i) => {
-    const pctCls = h.pct >= 60 ? 'high' : h.pct >= 33 ? 'mid' : 'low';
+  const cards = hist.slice(0, 2).map((h, i) => {
+    const pctCls  = h.pct >= 60 ? 'high' : h.pct >= 33 ? 'mid' : 'low';
     const { g, c } = getGrade(h.pct);
-    const isBest = h.pct === bestPct && hist.filter(x => x.pct === bestPct)[0].id === h.id;
-    return `<tr>
-      <td style="font-weight:700;color:#888;font-size:12px;">${i+1}</td>
-      <td class="ht-set">⚗️ Set ${h.set}</td>
-      <td style="font-size:12px;color:#555;">${h.name}</td>
-      <td class="ht-score">${h.score}<span style="font-size:11px;color:#aaa;">/${h.maxScore}</span></td>
-      <td><span class="ht-pct ${pctCls}">${h.pct}%</span>${isBest ? ' 🏆' : ''}</td>
-      <td class="ht-grade" style="color:${c};">${g}</td>
-      <td class="ht-correct">✓ ${h.correct}</td>
-      <td class="ht-wrong">✗ ${h.wrong}</td>
-      <td class="ht-skip">— ${h.unattempted}</td>
-      <td class="ht-date">${h.date}<br><span style="font-size:10.5px;">${h.time}</span></td>
-    </tr>`;
+    const nums    = (h.correctQNums || []).map(n => n + 1).join(', ') || '—';
+    const mins    = h.timeTaken ? Math.floor(h.timeTaken/60) + 'm ' + (h.timeTaken%60) + 's' : '—';
+    const attempt = hist.length - i;
+    return `
+      <div class="hist-card">
+        <div class="hist-card-top">
+          <div>
+            <span class="hist-attempt-num">Attempt ${attempt}</span>
+            <span class="hist-date">${h.date} · ${h.time}</span>
+          </div>
+          <button class="btn-view-hist" onclick="viewHistoryResult(${i})">👁 View Result</button>
+        </div>
+        <div class="hist-chips">
+          <span class="hchip hchip-ok">✓ ${h.correct} Correct</span>
+          <span class="hchip hchip-err">✗ ${h.wrong} Wrong</span>
+          <span class="hchip hchip-skip">— ${h.unattempted} Skip</span>
+          <span class="ht-pct ${pctCls}">${h.pct}%</span>
+          <span class="hist-grade" style="color:${c};">${g}</span>
+          <span class="hchip hchip-time">⏱ ${mins}</span>
+        </div>
+        <div class="hist-correct-nums">
+          ✅ <strong>Correct Q#:</strong> <span class="hcn-list">${nums}</span>
+        </div>
+        <div class="hist-score-bar-wrap">
+          <div class="hist-score-bar" style="width:${h.pct}%;background:${h.pct>=60?'#2e7d32':h.pct>=33?'#e65100':'#c62828'};"></div>
+        </div>
+      </div>`;
   }).join('');
 
-  el.innerHTML = `
-    <div class="history-wrap">
-      <table class="history-table">
-        <thead>
-          <tr>
-            <th>#</th><th>Set</th><th>Name</th><th>Score</th><th>Percent</th>
-            <th>Grade</th><th>Correct</th><th>Wrong</th><th>Skipped</th><th>Date & Time</th>
-          </tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>
-    </div>
+  const best = Math.max(...hist.map(h => h.pct));
+  el.innerHTML = `<div class="hist-cards-wrap">${cards}</div>
     <div class="history-summary-bar">
-      Total Attempts: <span>${totalAttempts}</span>
-      &nbsp;·&nbsp; Best Score: <span>${bestPct}%</span>
-      &nbsp;·&nbsp; Average: <span>${avgPct}%</span>
+      Attempts: <span>${hist.length}</span>
+      &nbsp;·&nbsp; Best: <span>${best}%</span>
+      &nbsp;·&nbsp; Chapter: <span>${CHAPTER_ID}</span>
     </div>`;
 }
 
-function clearHistory() {
-  if (!confirm('Clear all test history? This cannot be undone.')) return;
-  try { localStorage.removeItem(LS_HIST); } catch(e) {}
-  renderHistory();
-  showToast('🗑 History cleared', 'info');
+// ===== VIEW HISTORY RESULT — reconstruct result screen from saved data =====
+function viewHistoryResult(histIdx) {
+  let hist = [];
+  try { hist = JSON.parse(localStorage.getItem(LS_HIST) || '[]'); } catch(e) {}
+  const h = hist[histIdx];
+  if (!h) return;
+
+  const corrSet = new Set(h.correctQNums || []);
+
+  // Update stat displays
+  document.getElementById('res-correct').textContent    = h.correct;
+  document.getElementById('res-wrong').textContent      = h.wrong;
+  document.getElementById('res-unattempted').textContent = h.unattempted;
+  document.getElementById('res-score').textContent      = h.score;
+  document.getElementById('resultScoreNum').textContent = h.score;
+  document.querySelector('.score-total').textContent    = `/ ${h.maxScore}`;
+
+  const ring = document.getElementById('scoreRing');
+  if (ring) ring.style.setProperty('--score-pct', h.pct + '%');
+
+  // Trophy / title
+  const trophy   = document.getElementById('resultTrophy');
+  const title    = document.getElementById('resultTitle');
+  const subtitle = document.getElementById('resultSubtitle');
+  if (h.pct >= 80)  { trophy.textContent = '🏆'; title.textContent = 'Outstanding Performance!'; }
+  else if (h.pct >= 60) { trophy.textContent = '🥈'; title.textContent = 'Good Performance!'; }
+  else if (h.pct >= 40) { trophy.textContent = '🥉'; title.textContent = 'Average Performance'; }
+  else                  { trophy.textContent = '📚'; title.textContent = 'Needs Improvement'; }
+  subtitle.textContent = `History View — ${h.date} · ${h.time}`;
+
+  // Result palette: correct=green, rest=wrong (red) — we only saved correctQNums
+  const rp = document.getElementById('resultPalette');
+  rp.innerHTML = '';
+  questions.forEach((_, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'q-palette-btn';
+    btn.textContent = i + 1;
+    btn.classList.add(corrSet.has(i) ? 'qb-result-correct' : 'qb-result-wrong');
+    btn.title = corrSet.has(i) ? `Q${i+1}: Correct (+2)` : `Q${i+1}: Wrong`;
+    rp.appendChild(btn);
+  });
+
+  // Answer review: only show correct answer for each question
+  const optLabels    = ['A','B','C','D'];
+  const optKeysList  = ['a','b','c','d'];
+  let reviewHTML = '';
+  questions.forEach((q, i) => {
+    const res          = corrSet.has(i) ? 'correct' : 'wrong';
+    const correctLabel = (q.correctAnswer || '').toUpperCase();
+    const correctText  = q.options[q.correctAnswer] || '';
+    const marksChip    = res === 'correct'
+      ? `<span class="review-q-marks rqm-correct">+2</span>`
+      : `<span class="review-q-marks rqm-wrong">−0.5</span>`;
+    reviewHTML += `
+      <div class="review-q rq-${res}">
+        <div class="review-q-num">Q${i+1} · ${q.section||''} ${marksChip}</div>
+        <div class="review-q-text">${q.text.substring(0,120)}${q.text.length>120?'…':''}</div>
+        <div class="review-answers">
+          <span class="ra-chip ra-correct">✓ Correct: ${correctLabel}. ${String(correctText).substring(0,40)}</span>
+        </div>
+      </div>`;
+  });
+  document.getElementById('answerReviewBody').innerHTML = reviewHTML;
+
+  showScreen('result');
 }
 
 function loadLastAttempts() {
@@ -2742,6 +2922,26 @@ function startTimer() {
 }
 
 // ===== RENDER QUESTION =====
+// Supports 3 media types in text OR options:
+//   image: https://...  → <img> tag (URL)
+//   svg: <svg>...</svg> → inline SVG block
+//   raw <svg ...>       → same as above, auto-detected
+function renderMedia(str) {
+  if (!str) return '';
+  str = str.trim();
+  // URL image
+  if (/^image:\s*https?:\/\//i.test(str)) {
+    const url = str.replace(/^image:\s*/i, '').trim();
+    return `<div class="q-media-wrap"><img src="${url}" alt="Question figure" class="q-media-img" style="max-width:100%;max-height:320px;border-radius:8px;border:1.5px solid #c8d8f0;display:block;margin:8px auto;"></div>`;
+  }
+  // Inline SVG (svg: prefix OR raw <svg tag)
+  if (/^svg:\s*</i.test(str) || /^<svg[\s>]/i.test(str)) {
+    const svgCode = str.replace(/^svg:\s*/i, '').trim();
+    return `<div class="q-media-wrap" style="text-align:center;margin:10px 0;overflow-x:auto;">${svgCode}</div>`;
+  }
+  return null; // not media
+}
+
 function renderQuestion(idx) {
   currentQ = idx;
   const q = questions[idx];
@@ -2750,6 +2950,14 @@ function renderQuestion(idx) {
   document.getElementById('qNumBadge').textContent = `Question ${idx + 1}:`;
   const topicEl = document.getElementById('qTopicTag');
   if (topicEl) topicEl.textContent = q.section || '';
+
+  // ── Check for question-level image or SVG (q.image / q.svg fields) ─
+  let qMediaHTML = '';
+  if (q.image) {
+    qMediaHTML = renderMedia('image: ' + q.image) || '';
+  } else if (q.svg) {
+    qMediaHTML = renderMedia('svg: ' + q.svg) || '';
+  }
 
   // ── Split passage from question ──────────────────────────
   let passageHTML = '';
@@ -2765,7 +2973,6 @@ function renderQuestion(idx) {
   );
 
   if (hasPassage) {
-    // Try to split at Q-number pattern like "\nQ1." or "\nQ21." or "(Refer to"
     const splitMatch = rawText.match(/(\n)(Q\d+\.|Refer to the (?:case study|passage))/i);
     if (splitMatch) {
       const splitIdx = rawText.indexOf(splitMatch[0]);
@@ -2774,19 +2981,18 @@ function renderQuestion(idx) {
       passageHTML = passage;
       questionHTML = question;
     } else {
-    questionHTML = rawText;
-    // Auto-fetch passage from the nearest earlier question that has one
-    for (let pi = idx - 1; pi >= 0; pi--) {
-      const prev = questions[pi];
-      if (prev.text.includes('READ THE FOLLOWING') || prev.text.includes('PASSAGE')) {
-        const prevSplit = prev.text.match(/(\n)(Q\d+\.)/i);
-        passageHTML = prevSplit
-          ? prev.text.substring(0, prev.text.indexOf(prevSplit[0])).trim()
-          : prev.text;
-        break;
+      questionHTML = rawText;
+      for (let pi = idx - 1; pi >= 0; pi--) {
+        const prev = questions[pi];
+        if (prev.text.includes('READ THE FOLLOWING') || prev.text.includes('PASSAGE')) {
+          const prevSplit = prev.text.match(/(\n)(Q\d+\.)/i);
+          passageHTML = prevSplit
+            ? prev.text.substring(0, prev.text.indexOf(prevSplit[0])).trim()
+            : prev.text;
+          break;
+        }
       }
     }
-  }
   } else {
     questionHTML = rawText;
   }
@@ -2812,14 +3018,13 @@ function renderQuestion(idx) {
         const l1 = parseAlpha(list1);
         const l2 = parseRoman(list2);
         const rows = Math.max(l1.length, l2.length);
-        // REPLACE the entire let tableHTML = ... loop ... tableHTML += </tbody></table> block with:
-let tableHTML = `<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px;"><thead><tr><th style="background:#1565c0;color:white;padding:9px 12px;text-align:left;border:1px solid #90caf9;width:50%;">List-I</th><th style="background:#1565c0;color:white;padding:9px 12px;text-align:left;border:1px solid #90caf9;width:50%;">List-II</th></tr></thead><tbody>`;
-for (let i = 0; i < rows; i++) {
-  const bg = i % 2 === 0 ? '#e3f2fd' : '#ffffff';
-  tableHTML += `<tr style="background:${bg};"><td style="padding:9px 12px;border:1px solid #90caf9;">${l1[i] || ''}</td><td style="padding:9px 12px;border:1px solid #90caf9;">${l2[i] || ''}</td></tr>`;
-}
-tableHTML += `</tbody></table>`;
-return tableHTML;
+        let tableHTML = `<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px;"><thead><tr><th style="background:#1565c0;color:white;padding:9px 12px;text-align:left;border:1px solid #90caf9;width:50%;">List-I</th><th style="background:#1565c0;color:white;padding:9px 12px;text-align:left;border:1px solid #90caf9;width:50%;">List-II</th></tr></thead><tbody>`;
+        for (let i = 0; i < rows; i++) {
+          const bg = i % 2 === 0 ? '#e3f2fd' : '#ffffff';
+          tableHTML += `<tr style="background:${bg};"><td style="padding:9px 12px;border:1px solid #90caf9;">${l1[i] || ''}</td><td style="padding:9px 12px;border:1px solid #90caf9;">${l2[i] || ''}</td></tr>`;
+        }
+        tableHTML += `</tbody></table>`;
+        return tableHTML;
       }
     );
   }
@@ -2828,43 +3033,40 @@ return tableHTML;
   let html = '';
 
   if (passageHTML) {
-    // NTA-style: passage on left, question on right in two-column layout
     html += `<div style="display:flex;flex-direction:column;gap:12px;">
-  <div style="
-    width:100%;
-    background:#fffde7;
-    border:1.5px solid #f9a825;
-    border-left:5px solid #f9a825;
-    border-radius:8px;padding:14px;
-    font-size:13px;line-height:1.75;
-    color:#1a1a1a;
-    max-height:260px;overflow-y:auto;
-  ">
+  <div style="width:100%;background:#fffde7;border:1.5px solid #f9a825;border-left:5px solid #f9a825;border-radius:8px;padding:14px;font-size:13px;line-height:1.75;color:#1a1a1a;max-height:260px;overflow-y:auto;">
     <div style="font-size:10.5px;font-weight:800;color:#f57f17;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;border-bottom:1px solid #ffe082;padding-bottom:5px;">📄 Passage / Case Study</div>
     ${applyLineBreaks(formatText(passageHTML))}
   </div>
   <div style="width:100%;">
+    ${qMediaHTML}
     <div class="q-text">${applyLineBreaks(formatText(formattedQuestion))}</div>
   </div>
 </div>`;
   } else {
+    html += qMediaHTML;
     html += `<div class="q-text">${formatText(formattedQuestion).replace(/\n/g,'<br>')}</div>`;
   }
 
   html += `<div class="options-label" style="margin-top:14px;">Options :</div>`;
 
-const optKeys = ['a','b','c','d'];
+  const optKeys = ['a','b','c','d'];
   const optLabels = ['A','B','C','D'];
   html += `<ul class="options-list">`;
   optKeys.forEach((key, i) => {
     const opt = q.options[key];
     if (!opt) return;
     const sel = answers[idx] === i ? 'selected' : '';
+    // Check if option itself is a media string
+    const optMedia = renderMedia(opt);
+    const optContent = optMedia
+      ? optMedia
+      : `<div class="opt-content">${formatText(opt)}</div>`;
     html += `
-      <li class="opt-item ${sel}" onclick="selectOption(${i})">
-        <div class="opt-radio"><div class="opt-radio-dot"></div></div>
+      <li class="opt-item ${sel}" onclick="selectOption(${i})" style="${optMedia ? 'align-items:flex-start;' : ''}">
+        <div class="opt-radio" style="${optMedia ? 'margin-top:6px;' : ''}"><div class="opt-radio-dot"></div></div>
         <span class="opt-key">${optLabels[i]}.</span>
-        <div class="opt-content">${formatText(opt)}</div>
+        ${optContent}
       </li>`;
   });
   html += `</ul>`;
@@ -2947,31 +3149,58 @@ function clearResponse() {
 }
 
 // ===== PALETTE =====
+function makePaletteBtn(i) {
+  const btn = document.createElement('button');
+  btn.className = 'q-palette-btn';
+  btn.textContent = String(i + 1).padStart(2, '0');
+  btn.onclick = () => {
+    renderQuestion(i);
+    // Scroll mobile strip to show current
+    const mstrip = document.getElementById('mobilePalette');
+    if (mstrip) {
+      const mb = mstrip.children[i];
+      if (mb) mb.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
+    }
+  };
+  return btn;
+}
+
 function buildPalette() {
   const palette = document.getElementById('questionPalette');
-  palette.innerHTML = '';
+  const mstrip  = document.getElementById('mobilePalette');
+  if (palette) palette.innerHTML = '';
+  if (mstrip)  mstrip.innerHTML  = '';
+
   questions.forEach((_, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'q-palette-btn';
-    btn.textContent = String(i + 1).padStart(2, '0');
-    btn.onclick = () => renderQuestion(i);
-    palette.appendChild(btn);
+    if (palette) palette.appendChild(makePaletteBtn(i));
+    if (mstrip)  mstrip.appendChild(makePaletteBtn(i));
   });
   updatePalette();
 }
 
 function updatePalette() {
-  const btns = document.querySelectorAll('.q-palette-btn');
-  btns.forEach((btn, i) => {
-    btn.className = 'q-palette-btn';
-    const s = status[i];
-    if      (s === 'not-visited')     btn.classList.add('qb-not-visited');
-    else if (s === 'not-answered')    btn.classList.add('qb-not-answered');
-    else if (s === 'answered')        btn.classList.add('qb-answered');
-    else if (s === 'marked')          btn.classList.add('qb-marked');
-    else if (s === 'answered-marked') btn.classList.add('qb-answered-marked');
-    if (i === currentQ) btn.classList.add('qb-current');
+  // Update both main palette and mobile strip — selector covers both
+  const allGroups = [
+    document.querySelectorAll('#questionPalette .q-palette-btn'),
+    document.querySelectorAll('#mobilePalette .q-palette-btn')
+  ];
+  allGroups.forEach(btns => {
+    btns.forEach((btn, i) => {
+      btn.className = 'q-palette-btn';
+      const s = status[i];
+      if      (s === 'not-visited')     btn.classList.add('qb-not-visited');
+      else if (s === 'not-answered')    btn.classList.add('qb-not-answered');
+      else if (s === 'answered')        btn.classList.add('qb-answered');
+      else if (s === 'marked')          btn.classList.add('qb-marked');
+      else if (s === 'answered-marked') btn.classList.add('qb-answered-marked');
+      if (i === currentQ) btn.classList.add('qb-current');
+    });
   });
+  // Auto-scroll mobile strip to current question
+  const mstrip = document.getElementById('mobilePalette');
+  if (mstrip && mstrip.children[currentQ]) {
+    mstrip.children[currentQ].scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
+  }
 }
 
 function updateStats() {
@@ -3022,6 +3251,7 @@ let questionResults = []; // 'correct' | 'wrong' | 'skip'
 
 function calculateResult() {
   let correct = 0, wrong = 0, unattempted = 0;
+  const correctQNums = [];   // 0-based indices of correct questions
   questionResults = [];
 
   questions.forEach((q, i) => {
@@ -3030,6 +3260,7 @@ function calculateResult() {
       questionResults.push('skip');
     } else if (answers[i] !== null && ['a','b','c','d'][answers[i]] === q.correctAnswer) {
       correct++;
+      correctQNums.push(i);
       questionResults.push('correct');
     } else {
       wrong++;
@@ -3040,11 +3271,12 @@ function calculateResult() {
   const score = (correct * 2) - (wrong * 0.5);
   const maxScore = questions.length * 2;
   const pct = Math.max(0, Math.round((score / maxScore) * 100));
+  const timeTaken = (60 * 60) - timeLeft;
 
   // Save last attempt to localStorage
   saveLastAttempt(selectedSet, pct);
-  // Save to full history
-  saveToHistory(selectedSet, correct, wrong, unattempted, score, maxScore, pct, candidateName);
+  // Save compact history (only correctQNums, not full answer array)
+  saveToHistory(selectedSet, correct, wrong, unattempted, score, maxScore, pct, candidateName, correctQNums, timeTaken);
 
   document.getElementById('res-correct').textContent = correct;
   document.getElementById('res-wrong').textContent = wrong;
@@ -3117,6 +3349,7 @@ const optKeysList = ['a','b','c','d'];
     name: candidateName,
     subject: SUBJECT_ID,
     chapter: CHAPTER_ID,
+    sheetName: SUBJECT_ID,   // routes to the matching tab in Google Sheet
     set: selectedSet,
     date: new Date().toISOString(),
     score: score,
@@ -3126,16 +3359,55 @@ const optKeysList = ['a','b','c','d'];
     skipped: unattempted,
     totalQ: questions.length,
     percentage: pct,
-    timeTaken: (60 * 60) - timeLeft
+    timeTaken: timeTaken
   };
   const lsKey = `thunderstudy_result_${SUBJECT_ID}_${CHAPTER_ID}`;
   try { localStorage.setItem(lsKey, JSON.stringify(resultData)); } catch(e) {}
-  fetch(GS_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify(resultData)
-  }).catch(err => console.error('Sheet sync failed', err));
+
+  // ── Send to Google Sheet ─────────────────────────────────────────
+  // Strategy: try fetch with redirect:follow (handles GAS 302 redirect),
+  // fall back to no-cors POST on network error. no-cors always "succeeds"
+  // silently so we treat it as best-effort and show success immediately.
+  function sendToSheet(attempt) {
+    const body = 'data=' + encodeURIComponent(JSON.stringify(resultData));
+
+    // Primary: fetch with redirect follow — works when GAS deployed as "Anyone"
+    fetch(GS_URL, {
+      method: 'POST',
+      redirect: 'follow',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body
+    })
+    .then(res => {
+      if (res.ok || res.type === 'opaque') {
+        showToast('📊 Result saved to sheet!', 'success');
+      } else {
+        throw new Error('HTTP ' + res.status);
+      }
+    })
+    .catch(err => {
+      console.warn('Sheet sync attempt ' + attempt + ' failed (cors):', err);
+      if (attempt < 3) {
+        // Retry with no-cors as fallback — GAS will still receive the POST
+        // even though we cannot read the response
+        fetch(GS_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: body
+        })
+        .then(() => { showToast('📊 Result saved to sheet!', 'success'); })
+        .catch(() => {
+          setTimeout(() => sendToSheet(attempt + 1), 2000 * attempt);
+        });
+      } else {
+        showToast('⚠️ Sheet sync failed — result saved locally.', 'warning');
+      }
+    });
+  }
+  sendToSheet(1);
+  // ────────────────────────────────────────────────────────────────
+
   const idxKey = `thunderstudy_index_${SUBJECT_ID}`;
   let idx = [];
   try { idx = JSON.parse(localStorage.getItem(idxKey) || '[]'); } catch(e) {}
@@ -3145,8 +3417,23 @@ const optKeysList = ['a','b','c','d'];
   showScreen('result');
 }
 
-// ===== PDF DOWNLOAD =====
+// ===== PDF DOWNLOAD — jsPDF loaded on-demand, not at page start =====
+let _jspdfLoaded = false;
+
 function downloadPDF() {
+  if (!_jspdfLoaded || typeof window.jspdf === 'undefined') {
+    showToast('📄 Loading PDF engine…', 'info');
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    s.onload = function() { _jspdfLoaded = true; _runPDF(); };
+    s.onerror = function() { showToast('❌ PDF library failed to load. Check your connection.', 'warning'); };
+    document.head.appendChild(s);
+    return;
+  }
+  _runPDF();
+}
+
+function _runPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
@@ -3361,9 +3648,58 @@ function retryTest() {
   currentQ = 0;
   const ag = document.getElementById('agreeCheck');
   if (ag) { ag.checked = false; toggleStartBtn(); }
-  loadLastAttempts();
-  renderHistory();
   showScreen('start');
+  setTimeout(function() { loadLastAttempts(); renderHistory(); }, 0);
+}
+
+// ===== LANGUAGE TOGGLE (Hindi / English) =====
+// Google Translate script is injected ONLY when user clicks Hindi — zero loading cost on start
+let _translateLoaded = false;
+
+function setLang(lang) {
+  const enBtn = document.getElementById('langBtnEn');
+  const hiBtn = document.getElementById('langBtnHi');
+
+  if (lang === 'hi') {
+    document.cookie = 'googtrans=/en/hi; path=/';
+    document.cookie = 'googtrans=/en/hi; path=/; domain=.' + location.hostname;
+    if (enBtn) enBtn.classList.remove('active');
+    if (hiBtn) hiBtn.classList.add('active');
+    showToast('🌐 Translating to Hindi…', 'info');
+
+    if (!_translateLoaded) {
+      // Inject the translate script now — first time only
+      _translateLoaded = true;
+      window.googleTranslateElementInit = function() {
+        new google.translate.TranslateElement({
+          pageLanguage: 'en',
+          includedLanguages: 'hi,en',
+          autoDisplay: false
+        }, 'google_translate_element');
+      };
+      const s = document.createElement('script');
+      s.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      s.onload = function() { setTimeout(() => location.reload(), 300); };
+      s.onerror = function() { setTimeout(() => location.reload(), 300); };
+      document.head.appendChild(s);
+    } else {
+      setTimeout(() => location.reload(), 400);
+    }
+  } else {
+    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:01 UTC; path=/';
+    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:01 UTC; path=/; domain=.' + location.hostname;
+    if (hiBtn) hiBtn.classList.remove('active');
+    if (enBtn) enBtn.classList.add('active');
+    showToast('🇬🇧 English restored', 'info');
+    setTimeout(() => location.reload(), 400);
+  }
+}
+
+function clearHistory() {
+  if (!confirm('Clear all test history for this chapter? This cannot be undone.')) return;
+  try { localStorage.removeItem(LS_HIST); } catch(e) {}
+  renderHistory();
+  showToast('🗑 History cleared', 'info');
 }
 
 // ===== KEYBOARD NAVIGATION =====
